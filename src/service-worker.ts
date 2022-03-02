@@ -74,53 +74,39 @@ registerRoute(
   })
 );
 
-// This allows the web app to trigger skipWaiting via
-registerRoute(
-    ({url}) => url.pathname.startsWith('https://srf-group-be.herokuapp.com/api/'),
-    new StaleWhileRevalidate({
-        cacheName: 'api-cache',
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200, 404],
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-        ]
-    })
-);
+// Fetch from network and save response to cache
+const RUNTIME_CACHE = 'api-cache';
+self.addEventListener('fetch', async (event: any) => {
+    if (event.request.url.startsWith('https://srf-group-be.herokuapp.com/api/')) {
+        console.log('event.request ', event.request);
+        const networkResponse = await fetch(event.request);
+        const runtimeCache = await caches.open(RUNTIME_CACHE);
 
-// self.addEventListener('fetch', function (event: any) {
-//     console.log('event ', event);
+        runtimeCache.put(event.request.url, networkResponse);
+    }
+});
+
+
+// Respond from cache, otherwise fetch from network
+// self.addEventListener('fetch', (event: any) => {
 //     event.respondWith(
-//         fetch(event.request).catch(function () {
-//             return caches.match(event.request);
-//         }),
+//         // look in the cache for the resource
+//         caches.match(event.request).then(async response => {
+//             if (response) {
+//                 // is in cache, respond with the cached resource
+//                 return response;
+//             }
+//             // if not found fetch it from the network
+//             const networkResponse = await fetch(event.request);
+//             // response needs to be cloned if going to be used more than once
+//             const clonedResponse = networkResponse.clone();
+//
+//             // save response to runtime cache for later use
+//             const runtimeCache = await caches.open('runtime-cache');
+//             runtimeCache.put(event.request, networkResponse);
+//
+//             // respond with the cloned network response
+//             return Promise.resolve(clonedResponse);
+//         })
 //     );
-// });
-
-// self.addEventListener('fetch', (event) => {
-//     console.log('event.request.url ', event.request.url);
-//     if (event.request.url.endsWith('/offer/public')) {
-//         event.respondWith((async () => {
-//             // Configure the strategy in advance.
-//             const strategy = new StaleWhileRevalidate({cacheName: 'api-cache'});
-//
-//             // Make two requests using the strategy.
-//             // Because we're passing in event, event.waitUntil() will be called automatically.
-//             const firstPromise: any = strategy.handle({event, request: 'https://srf-group-be.herokuapp.com/api'});
-//             // const secondPromise = strategy.handle({event, request: 'https://example.com/api2'});
-//
-//             const [firstResponse, secondResponse] = await Promise.all(firstPromise);
-//             const [firstBody, secondBody] = await Promise.all(firstResponse.text());
-//
-//             // Assume that we just want to concatenate the first API response with the second to create the
-//             // final response HTML.
-//             const compositeResponse = new Response(firstBody + secondBody, {
-//                 headers: {'content-type': 'text/html'},
-//             });
-//
-//             return compositeResponse;
-//         })());
-//     }
 // });

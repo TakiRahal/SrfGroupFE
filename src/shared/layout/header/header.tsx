@@ -264,6 +264,13 @@ export default function Header(props: any){
     const handlePopoverCloseSupport = () => {
         setAnchorElSupport(null);
     };
+    const handlePopoverLeaveSupport = () => {
+        setTimeout(() => {
+            if( anchorElSupport!=null ){
+                // setAnchorElSupport(null);
+            }
+        }, 1000)
+    };
 
 
     return (
@@ -427,6 +434,7 @@ export default function Header(props: any){
                             to="#"
                             style={{ marginRight: 30, display: 'flex', color: 'rgb(60 60 60)', fontWeight: '600' }}
                             onMouseEnter={handlePopoverOpenSupport}
+                            onMouseLeave={handlePopoverLeaveSupport}
                             onClick={handlePopoverOpenSupport}
                             aria-owns={anchorElSupport ? 'simple-menu' : undefined} >
                             <ExpandMoreIcon sx={{ marginRight: 1 }}/>

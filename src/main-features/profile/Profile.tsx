@@ -24,6 +24,9 @@ import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import IconButton from "@mui/material/IconButton/IconButton";
+import {getPublicEntitiesForUser} from "../../shared/reducers/offer.reducer";
+import {IOffer} from "../../shared/model/offer.model";
+import {ListOffersProfile} from "./ui-segments/ListOffersProfile";
 
 export interface IProfileProps extends StateProps, DispatchProps{}
 
@@ -33,11 +36,16 @@ export const Profile = (props: IProfileProps) => {
 
     const {id} = useParams<{ id: string }>();
 
-    const {profileLoading,
+    const {
+        profileLoading,
         profile,
         getProfile,
         currentUser,
-        isAuthenticated} = props;
+        isAuthenticated,
+        getPublicEntitiesForUser,
+        entitiesForUser,
+        loadingEntitiesForUser
+    } = props;
 
     React.useEffect(() => {
         setStartAnimation(true);
@@ -47,6 +55,7 @@ export const Profile = (props: IProfileProps) => {
         console.log('props.match.params ', id);
         if(id){
             getProfile(Number(id));
+            getPublicEntitiesForUser(1, 10, '', Number(id));
         }
     }, [id]);
 
@@ -140,7 +149,7 @@ export const Profile = (props: IProfileProps) => {
                 <Grid item xs={12} sm={8}>
                     <Slide direction="right" in={startAnimation}>
                         <div>
-                            <Paper elevation={3} sx={{ p: 2 }}>
+                            <Paper elevation={3} sx={{ p: 2, mb: 3 }}>
                                 <Box sx={{ mt: 2 }}>
                                     <h5>Personal Details</h5>
                                     <List sx={{ bgcolor: 'background.paper' }}>
@@ -253,7 +262,7 @@ export const Profile = (props: IProfileProps) => {
                                 </Box>
                             </Paper>
 
-                            {/*<ListOffersProfile offerList={offerList} />*/}
+                            <ListOffersProfile listOffers={entitiesForUser.slice()} loading={loadingEntitiesForUser} />
                         </div>
                     </Slide>
                 </Grid>
@@ -262,16 +271,20 @@ export const Profile = (props: IProfileProps) => {
     )
 }
 
-const mapStateToProps = ({user}: IRootState) => ({
+const mapStateToProps = ({user, offer}: IRootState) => ({
     profileLoading: user.profileLoading,
     profile: user.profileEntity,
 
     isAuthenticated: user.isAuthenticated,
-    currentUser: user.currentUser
+    currentUser: user.currentUser,
+
+    entitiesForUser: offer.entitiesForUser,
+    loadingEntitiesForUser: offer.loadingEntitiesForUser,
 });
 
 const mapDispatchToProps = {
-    getProfile
+    getProfile,
+    getPublicEntitiesForUser
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

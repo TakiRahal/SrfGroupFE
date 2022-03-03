@@ -27,6 +27,9 @@ const initialState = {
     loadingEntities: false,
     errorMessage: null,
     totalItems: 0,
+
+    entitiesForUser: [] as ReadonlyArray<IOffer>,
+    loadingEntitiesForUser: false,
 };
 
 export type OfferState = Readonly<typeof initialState>;
@@ -77,6 +80,25 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entity: action.payload.data,
             };
 
+
+        case REQUEST(ACTION_TYPES.FETCH_OFFER_LIST_FOR_USER):
+            return {
+                ...state,
+                loadingEntitiesForUser: true,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_OFFER_LIST_FOR_USER):
+            return {
+                ...state,
+                loadingEntitiesForUser: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_OFFER_LIST_FOR_USER): {
+            return {
+                ...state,
+                loadingEntitiesForUser: false,
+                entitiesForUser: action.payload.data.content,
+            };
+        }
 
         default:
             return state;
@@ -129,6 +151,13 @@ export const getEntitywithFavorite = (id: string) => {
     };
 };
 
+export const getPublicEntitiesForUser = (page: number, size: number, sort: string, userId: number) => {
+    const requestUrl = `${apiUrl + '/public'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    return {
+        type: ACTION_TYPES.FETCH_OFFER_LIST_FOR_USER,
+        payload: axios.get<any>(`${getPathApi(requestUrl)}?user.id=${userId}`),
+    };
+};
 
 export const createEntity = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({

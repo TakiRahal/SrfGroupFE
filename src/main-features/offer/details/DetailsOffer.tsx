@@ -1,7 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {IRootState} from "../../../shared/reducers";
-import { getEntitiesByOffer as getListCommentsByOffer} from "../../../shared/reducers/comment-offer.reducer";
+import {
+    addCommentOffer,
+    getEntitiesByOffer as getListCommentsByOffer
+} from "../../../shared/reducers/comment-offer.reducer";
 
 import {getEntitywithFavorite, uploadFiles} from "../../../shared/reducers/offer.reducer";
 import {useParams} from "react-router";
@@ -29,6 +32,8 @@ import SwiperDetailsOffer from "./ui-segments/SwiperDetailsOffer";
 import './DetailsOffer.scss';
 import CommentDetailsOffer from "./ui-segments/CommentDetailsOffer";
 import RightDetailsOffer from './ui-segments/RightDetailsOffer';
+import {ICommentOffer} from "../../../shared/model/comment-offer.model";
+import {convertDateTimeToServer} from "../../../shared/utils/utils-functions";
 
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
@@ -48,7 +53,8 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         loadingCommentsByOffer,
         listCommentsByOffer,
         account,
-        loadingUpdateEntity
+        loadingUpdateEntity,
+        addSuccessEntity
     } = props;
 
     React.useEffect(() => {
@@ -63,7 +69,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     }, [id])
 
     React.useEffect(() => {
-        console.log('entityFavoriteUser ', entityFavoriteUser);
         const idOffer = entityFavoriteUser?.offer?.id || -1;
         if (entityFavoriteUser && entityFavoriteUser.offer && isAuthenticated && !loadingEntity) {
             setIsFavoriteUser(entityFavoriteUser?.myFavoriteUser || false);
@@ -71,8 +76,28 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     }, [entityFavoriteUser]);
 
-    const handleCallbackAddComment = (commentId: number) => {
+    React.useEffect(() => {
+        const idOffer = entityFavoriteUser?.offer?.id || -1;
+        getListCommentsByOffer(idOffer, 0, 20, '');
+    }, [addSuccessEntity])
 
+    const handleCallbackAddComment = (content: string) => {
+        console.log('commentContent ', content);
+        if (content) {
+            const entity: ICommentOffer = {
+                createdDate: null,
+                content: content,
+                offer: {
+                    id: entityFavoriteUser?.offer?.id,
+                    user: {
+                        id: entityFavoriteUser?.offer?.user?.id,
+                        username: entityFavoriteUser?.offer?.user?.username,
+                    },
+                },
+                user: {},
+            };
+            props.addCommentOffer(entity);
+        }
     }
 
     const handleCallbackDeleteComment = () => {
@@ -228,12 +253,14 @@ const mapStateToProps = ({ user, offer, comment }: IRootState) => ({
 
     loadingCommentsByOffer: comment.loadingEntitiesByOffer,
     listCommentsByOffer: comment.entitiesByOffer,
-    loadingUpdateEntity: comment.loadingUpdateEntity
+    loadingUpdateEntity: comment.loadingUpdateEntity,
+    addSuccessEntity: comment.addSuccess
 });
 
 const mapDispatchToProps = {
     getEntitywithFavorite,
-    getListCommentsByOffer
+    getListCommentsByOffer,
+    addCommentOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

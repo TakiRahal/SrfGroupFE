@@ -84,12 +84,12 @@ export default (state: OfferState = initialState, action: any): OfferState => {
 }
 
 
-const apiUrl = 'api/offer/';
+const apiUrl = 'api/offer';
 
 // Actions
 
 export const getEntities = (page: number, size: number, sort: string) => {
-    const requestUrl = `${apiUrl + 'public'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    const requestUrl = `${apiUrl + '/public'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER_LIST,
         payload: axios.get<IOffer>(`${getPathApi(requestUrl)}`),
@@ -122,7 +122,7 @@ export const getEntity = (id: number) => {
 
 
 export const getEntitywithFavorite = (id: string) => {
-    const requestUrl = `${apiUrl}public/${id}`;
+    const requestUrl = `${apiUrl}/public/${id}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER,
         payload: axios.get<IOfferFavoriteUser>(`${getPathApi(requestUrl)}`),

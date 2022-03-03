@@ -9,6 +9,7 @@ import Search from "../../main-features/search/Search";
 import {IAppProps} from "../../App";
 import AddUpdateOffer from "../../main-features/offer/add-update/AddUpdateOffer";
 import DetailsOffer from "../../main-features/offer/details/DetailsOffer";
+import Profile from "../../main-features/profile/Profile";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -36,6 +37,9 @@ export default function AllRoutes(props: IAppProps){
             </Route>
             <Route path={ALL_APP_ROUTES.DETAILS_OFFER + '/:id'}>
                 <DetailsOffer/>
+            </Route>
+            <Route path={ALL_APP_ROUTES.PROFILE + '/:id'}>
+                <Profile/>
             </Route>
 
             <Route path="*">

@@ -4,12 +4,15 @@ import {getPathApi} from "../utils/utils-functions";
 import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
 import {async} from "q";
+import {ICommentOffer} from "../model/comment-offer.model";
+import {IUser} from "../model/user.model";
 
 export const ACTION_TYPES = {
     CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
     ACTIVATE_ACCOUNT: 'activate/ACTIVATE_ACCOUNT',
     LOGIN: 'authentication/LOGIN',
     GET_SESSION: 'authentication/GET_SESSION',
+    GET_PROFILE: 'authentication/GET_PROFILE',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -30,6 +33,10 @@ const initialState = {
     sessionLoading: false,
     sessionSuccess: false,
     sessionErrorMessage: null,
+
+    profileLoading: false,
+    profileEntity: {} as IUser,
+    profileErrorMessage: null,
 
     activationAccountSuccess: false,
 
@@ -92,6 +99,28 @@ export default (state: UserState = initialState, action: any): UserState => {
                 isAuthenticated: true,
                 currentUser: action.payload.data
             };
+
+
+        case REQUEST(ACTION_TYPES.GET_PROFILE):
+            return {
+                ...state,
+                profileLoading: true,
+            };
+        case FAILURE(ACTION_TYPES.GET_PROFILE):
+            console.log('action ', action);
+            return {
+                ...state,
+                profileLoading: false,
+                profileErrorMessage: action.payload.response.data.message,
+            };
+        case SUCCESS(ACTION_TYPES.GET_PROFILE): {
+            return {
+                ...state,
+                profileLoading: false,
+                profileEntity: action.payload.data,
+            };
+        }
+
 
         case ACTION_TYPES.LOGOUT:
             return {
@@ -177,6 +206,15 @@ export const getSession: () => void = () => async (dispatch: any, getState: any)
     //     const langKey = Storage.session.get('locale', account.langKey);
     //     await dispatch(setLocale(langKey));
     // }
+    return result;
+};
+
+
+export const getProfile: (userId: number) => void = (userId: number) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.GET_PROFILE,
+        payload: axios.get<IUser>(`${getPathApi(apiUrl)}public/profile/${userId}`),
+    });
     return result;
 };
 

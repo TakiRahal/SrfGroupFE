@@ -44,7 +44,6 @@ export const Search = (props: ISearchProps) => {
     const { listOffers, loadingListOffers, getEntitiesOffers } = props;
 
     React.useEffect(() => {
-        console.log('process.env.REACT_APP_BASE_URL_FE ', process.env.PUBLIC_URL);
         props.getEntitiesOffers(1, 10, '');
     }, [])
 

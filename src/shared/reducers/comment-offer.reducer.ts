@@ -22,6 +22,7 @@ const initialState = {
     loadingEntities: false,
     entity: defaultValue,
     totalItems: 0,
+    addSuccess: false,
     updateSuccess: false,
     entitiesByOffer: [] as ReadonlyArray<ICommentOffer>,
     loadingEntitiesByOffer: false,
@@ -53,6 +54,29 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
                 totalItems: action.payload.data.totalElements
             };
         }
+
+
+        case REQUEST(ACTION_TYPES.CREATE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingEntity: true,
+                addSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.CREATE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingEntity: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.CREATE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingEntity: false,
+                addSuccess: true,
+                entity: action.payload.data,
+            };
+
+
         case ACTION_TYPES.SET_BLOB: {
             const {name, data, contentType} = action.payload;
             return {
@@ -64,6 +88,8 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
                 },
             };
         }
+
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -84,6 +110,14 @@ export const getEntitiesByOffer = (offerId: number, page: number, size: number, 
         type: ACTION_TYPES.FETCH_COMMENTOFFER_LIST_BY_OFFER,
         payload: axios.get<ICommentOffer>(`${getPathApi(requestUrl)}`),
     };
+};
+
+export const addCommentOffer: (entity: ICommentOffer) => void = (entity: ICommentOffer) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.CREATE_COMMENTOFFER,
+        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity),
+    });
+    return result;
 };
 
 export const reset = () => ({

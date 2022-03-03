@@ -392,6 +392,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                         <FormControl fullWidth sx={{mt: 3}}
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
                                             <CKEditor
+                                                config={{placeholder: "Write your description..."}}
                                                 editor={ClassicEditor}
                                                 data=""
                                                 onReady={(editor: any) => {

@@ -13,6 +13,7 @@ export const ACTION_TYPES = {
     LOGIN: 'authentication/LOGIN',
     GET_SESSION: 'authentication/GET_SESSION',
     GET_PROFILE: 'authentication/GET_PROFILE',
+    GET_CURRENT_USER: 'authentication/GET_CURRENT_USER',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -40,7 +41,8 @@ const initialState = {
 
     activationAccountSuccess: false,
 
-
+    account: {} as any,
+    loadingAccount: false,
 }
 
 export type UserState = Readonly<typeof initialState>;
@@ -107,7 +109,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 profileLoading: true,
             };
         case FAILURE(ACTION_TYPES.GET_PROFILE):
-            console.log('action ', action);
             return {
                 ...state,
                 profileLoading: false,
@@ -120,6 +121,24 @@ export default (state: UserState = initialState, action: any): UserState => {
                 profileEntity: action.payload.data,
             };
         }
+
+
+        case REQUEST(ACTION_TYPES.GET_CURRENT_USER):
+            return {
+                ...state,
+                loadingAccount: true,
+            };
+        case FAILURE(ACTION_TYPES.GET_PROFILE):
+            return {
+                ...state,
+                loadingAccount: false,
+            };
+        case SUCCESS(ACTION_TYPES.GET_CURRENT_USER):
+            return {
+                ...state,
+                account: action.payload.data,
+                loadingAccount: false,
+            };
 
 
         case ACTION_TYPES.LOGOUT:
@@ -214,6 +233,14 @@ export const getProfile: (userId: number) => void = (userId: number) => async (d
     const result = await dispatch({
         type: ACTION_TYPES.GET_PROFILE,
         payload: axios.get<IUser>(`${getPathApi(apiUrl)}public/profile/${userId}`),
+    });
+    return result;
+};
+
+export const getCurrentUser: () => void = () => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.GET_CURRENT_USER,
+        payload: axios.get(`${getPathApi(apiUrl)}current-user`),
     });
     return result;
 };

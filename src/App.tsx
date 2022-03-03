@@ -297,7 +297,7 @@ function App(props: IAppProps) {
                     alignItems="flex-start"
                     button
                     component={Link}
-                    to={''}
+                    to={ALL_APP_ROUTES.ACCOUNT}
                     onClick={() => handleDrawerToggleRight(false)}
                 >
                     <ListItemAvatar>

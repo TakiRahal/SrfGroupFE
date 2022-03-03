@@ -10,6 +10,7 @@ import {IAppProps} from "../../App";
 import AddUpdateOffer from "../../main-features/offer/add-update/AddUpdateOffer";
 import DetailsOffer from "../../main-features/offer/details/DetailsOffer";
 import Profile from "../../main-features/profile/Profile";
+import Account from "../../main-features/account/Account";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -40,6 +41,9 @@ export default function AllRoutes(props: IAppProps){
             </Route>
             <Route path={ALL_APP_ROUTES.PROFILE + '/:id'}>
                 <Profile/>
+            </Route>
+            <Route path={ALL_APP_ROUTES.ACCOUNT}>
+                <Account/>
             </Route>
 
             <Route path="*">

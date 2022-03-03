@@ -11,3 +11,7 @@
 .bg-brown {
   background-color: #e2c498 !important;
 }
+
+.float-right{
+  float: right;
+}

@@ -71,11 +71,11 @@ export default function Header(props: any){
     const handleMenuClose = () => {
         setAnchorEl(null);
         handleMobileMenuClose();
-        // history.push(ALL_APP_ROUTES.CLIENT.ACCOUNT);
+        history.push(ALL_APP_ROUTES.ACCOUNT);
     };
 
     const redirectToMuAccount = () => {
-        // history.push(ALL_APP_ROUTES.CLIENT.ACCOUNT);
+        history.push(ALL_APP_ROUTES.ACCOUNT);
     };
 
     const redirectToMyFavorite = () => {

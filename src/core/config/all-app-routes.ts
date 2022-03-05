@@ -9,6 +9,8 @@ export const ALL_APP_ROUTES = {
     PROFILE: process.env.PUBLIC_URL+'/profile',
     ACCOUNT: process.env.PUBLIC_URL+'/account',
     SUPPORT: {
-        FAQ: process.env.PUBLIC_URL+'/cms/faq'
+        FAQ: process.env.PUBLIC_URL+'/cms/faq',
+        ABOUT_US: process.env.PUBLIC_URL+'/cms/about-us',
+        CONTACT_US: process.env.PUBLIC_URL+'/cms/contact-us'
     }
 }

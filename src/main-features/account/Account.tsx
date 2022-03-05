@@ -49,12 +49,10 @@ export const Account = (props: IAccountClientProps) => {
         initialValues,
         validationSchema: validationSchemaAccount,
         onSubmit: values => {
-            window.console.log('values ', values);
             const account = {
                 ...props.account,
                 ...values,
             };
-            console.log('account ', account);
             // props.saveAccountSettings(account);
         },
     });

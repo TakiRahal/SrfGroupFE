@@ -12,6 +12,8 @@ import DetailsOffer from "../../main-features/offer/details/DetailsOffer";
 import Profile from "../../main-features/profile/Profile";
 import Account from "../../main-features/account/Account";
 import Faq from "../../main-features/faq/Faq";
+import AboutUs from "../../main-features/about-us/AboutUs";
+import ContactUs from "../../main-features/contact-us/ContactUs";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -46,7 +48,12 @@ export default function AllRoutes(props: IAppProps){
             <Route path={ALL_APP_ROUTES.ACCOUNT}>
                 <Account/>
             </Route>
-
+            <Route path={ALL_APP_ROUTES.SUPPORT.CONTACT_US}>
+                <ContactUs />
+            </Route>
+            <Route path={ALL_APP_ROUTES.SUPPORT.ABOUT_US}>
+                <AboutUs />
+            </Route>
             <Route path={ALL_APP_ROUTES.SUPPORT.FAQ}>
                 <Faq />
             </Route>

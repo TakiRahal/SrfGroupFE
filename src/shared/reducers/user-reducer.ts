@@ -192,6 +192,7 @@ export const login: (email: string, password: string, rememberMe?: boolean) => v
             rememberMe: rememberMe
         }),
         meta: {
+            successMessage: 'Welcome',
             errorMessage: 'User not activated yet !'
         }
     })

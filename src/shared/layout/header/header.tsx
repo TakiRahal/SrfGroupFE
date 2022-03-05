@@ -93,7 +93,7 @@ export default function Header(props: any){
     const logout = () => {
         setAnchorEl(null);
         props.parentCallbackLogout(true);
-        // history.push(ALL_APP_ROUTES.ADMIN.LOGOUT);
+        history.push(ALL_APP_ROUTES.HOME);
     };
 
     const handlePartAdmin = () => {
@@ -447,13 +447,13 @@ export default function Header(props: any){
                             onClose={handlePopoverCloseSupport}
                             MenuListProps={{ onMouseLeave: handlePopoverCloseSupport }}
                         >
-                            <MenuItem onClick={event => redirectSupport("")}>
+                            <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.CONTACT_US)}>
                                 <ListItemIcon>
                                     <MarkunreadIcon fontSize="small" />
                                 </ListItemIcon>
                                 Contactez-nous
                             </MenuItem>
-                            <MenuItem onClick={event => redirectSupport("")}>
+                            <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.ABOUT_US)}>
                                 <ListItemIcon>
                                     <InfoIcon fontSize="small" />
                                 </ListItemIcon>

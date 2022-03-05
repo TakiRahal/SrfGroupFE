@@ -246,21 +246,21 @@ function App(props: IAppProps) {
                 </ListItemButton>
                 <Collapse in={openSubMenuSupport} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }} component={Link} to={''} onClick={() => handleDrawerToggle(false)}>
+                        <ListItemButton sx={{ pl: 4 }} component={Link} to={ALL_APP_ROUTES.SUPPORT.CONTACT_US} onClick={() => handleDrawerToggle(false)}>
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
                             <ListItemText primary="Contactez-nous" />
                         </ListItemButton>
 
-                        <ListItemButton sx={{ pl: 4 }} component={Link} to={''} onClick={() => handleDrawerToggle(false)}>
+                        <ListItemButton sx={{ pl: 4 }} component={Link} to={ALL_APP_ROUTES.SUPPORT.ABOUT_US} onClick={() => handleDrawerToggle(false)}>
                             <ListItemIcon>
                                 <InfoIcon />
                             </ListItemIcon>
                             <ListItemText primary="À propos" />
                         </ListItemButton>
 
-                        <ListItemButton sx={{ pl: 4 }} component={Link} to={''} onClick={() => handleDrawerToggle(false)}>
+                        <ListItemButton sx={{ pl: 4 }} component={Link} to={ALL_APP_ROUTES.SUPPORT.FAQ} onClick={() => handleDrawerToggle(false)}>
                             <ListItemIcon>
                                 <InfoIcon />
                             </ListItemIcon>

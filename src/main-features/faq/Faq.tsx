@@ -77,10 +77,6 @@ export const FaqClient = (props: IFaqClientProps) => {
         getEntitiesFaq(1, 20, '');
     }, []);
 
-    React.useEffect(() => {
-        console.log('listFaq ', listFaq);
-    }, [listFaq])
-
     return (
         <Container maxWidth="xl">
             <Grid

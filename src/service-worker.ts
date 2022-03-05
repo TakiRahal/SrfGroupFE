@@ -13,7 +13,6 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import {CacheableResponsePlugin} from 'workbox-cacheable-response';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -78,7 +77,6 @@ registerRoute(
 const RUNTIME_CACHE = 'api-cache';
 self.addEventListener('fetch', async (event: any) => {
     if (event.request.url.startsWith('https://srf-group-be.herokuapp.com/api/')) {
-        console.log('event.request ', event.request);
         const networkResponse = await fetch(event.request);
         const runtimeCache = await caches.open(RUNTIME_CACHE);
 

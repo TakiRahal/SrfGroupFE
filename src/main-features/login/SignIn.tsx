@@ -14,7 +14,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useFormik } from 'formik';
 import {connect, useDispatch} from 'react-redux';
-import Alert from '@mui/material/Alert/Alert';
 import { useHistory } from 'react-router';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
@@ -161,7 +160,7 @@ export const SignIn = (props: ISignInProps) => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">email</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">Email</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"

@@ -252,7 +252,7 @@ export default function Header(props: any){
     );
 
     const redirectSupport = (url: string) => {
-        // history.push(url);
+        history.push(url);
         handlePopoverCloseSupport();
     };
 
@@ -459,7 +459,7 @@ export default function Header(props: any){
                                 </ListItemIcon>
                                 À propos
                             </MenuItem>
-                            <MenuItem onClick={event => redirectSupport('')}>
+                            <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.FAQ)}>
                                 <ListItemIcon>
                                     <AccountCircle fontSize="small" />
                                 </ListItemIcon>

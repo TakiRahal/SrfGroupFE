@@ -23,18 +23,9 @@ const setupAxiosInterceptors = (onUnauthenticated: any) => {
     };
 
     const onResponseSuccess = (response: any) => {
-        if( response ){
-
-            // Hide
-            // BackDropService.toggleLoading(false);
-        }
-
         return response;
     };
     const onResponseError = (err: any) => {
-        // Hide
-        BackDropService.toggleLoading(false);
-
         const status = err.status || (err.response ? err.response.status : 0);
         if (status === 403 || status === 401) {
             onUnauthenticated();

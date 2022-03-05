@@ -7,5 +7,8 @@ export const ALL_APP_ROUTES = {
     ADD_UPDATE_OFFER: process.env.PUBLIC_URL+'/add-update',
     DETAILS_OFFER: process.env.PUBLIC_URL+'/details',
     PROFILE: process.env.PUBLIC_URL+'/profile',
-    ACCOUNT: process.env.PUBLIC_URL+'/account'
+    ACCOUNT: process.env.PUBLIC_URL+'/account',
+    SUPPORT: {
+        FAQ: process.env.PUBLIC_URL+'/cms/faq'
+    }
 }

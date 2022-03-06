@@ -14,6 +14,7 @@ import Account from "../../main-features/account/Account";
 import Faq from "../../main-features/faq/Faq";
 import AboutUs from "../../main-features/about-us/AboutUs";
 import ContactUs from "../../main-features/contact-us/ContactUs";
+import MyOffers from "../../main-features/offer/my-offers/MyOffers";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -56,6 +57,9 @@ export default function AllRoutes(props: IAppProps){
             </Route>
             <Route path={ALL_APP_ROUTES.SUPPORT.FAQ}>
                 <Faq />
+            </Route>
+            <Route path={ALL_APP_ROUTES.OFFER.MY_OFFERS}>
+                <MyOffers />
             </Route>
 
         </Switch>

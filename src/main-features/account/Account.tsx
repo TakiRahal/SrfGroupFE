@@ -62,7 +62,6 @@ export const Account = (props: IAccountClientProps) => {
     }, [])
 
     React.useEffect(() => {
-        console.log('account ', account);
         if (account) {
             formik.setValues({
                 login: account.username ? account.username : '',

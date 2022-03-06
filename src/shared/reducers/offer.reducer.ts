@@ -11,6 +11,7 @@ export const ACTION_TYPES = {
     FETCH_OFFER_LIST_FOR_USER: 'offer/FETCH_OFFER_LIST_FOR_USER',
     FETCH_OFFER_LIST_ADDED_RECENTLY: 'offer/FETCH_OFFER_LIST_ADDED_RECENTLY',
     FETCH_OFFER: 'offer/FETCH_OFFER',
+    FETCH_OFFER_STRICT: 'offer/FETCH_OFFER_STRICT',
     CREATE_OFFER: 'offer/CREATE_OFFER',
     UPDATE_OFFER: 'offer/UPDATE_OFFER',
     PARTIAL_UPDATE_OFFER: 'offer/PARTIAL_UPDATE_OFFER',
@@ -23,6 +24,7 @@ const initialState = {
     loadingEntity: false,
     entity: defaultValueOFU,
     updateSuccess: false,
+    deleteSuccess: false,
     entities: [] as ReadonlyArray<IOffer>,
     loadingEntities: false,
     errorMessage: null,
@@ -30,6 +32,10 @@ const initialState = {
 
     entitiesForUser: [] as ReadonlyArray<IOffer>,
     loadingEntitiesForUser: false,
+
+    loadingMyOffers: false,
+    entitiesMyOffers: [] as ReadonlyArray<IOffer>,
+    totalItemsMyOffers: 0,
 };
 
 export type OfferState = Readonly<typeof initialState>;
@@ -63,17 +69,20 @@ export default (state: OfferState = initialState, action: any): OfferState => {
 
 
         case REQUEST(ACTION_TYPES.FETCH_OFFER):
+        case REQUEST(ACTION_TYPES.FETCH_OFFER_STRICT):
             return {
                 ...state,
                 loadingEntity: true,
             };
         case FAILURE(ACTION_TYPES.FETCH_OFFER):
+        case FAILURE(ACTION_TYPES.FETCH_OFFER_STRICT):
             return {
                 ...state,
                 loadingEntity: false,
                 errorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.FETCH_OFFER):
+        case SUCCESS(ACTION_TYPES.FETCH_OFFER_STRICT):
             return {
                 ...state,
                 loadingEntity: false,
@@ -100,6 +109,45 @@ export default (state: OfferState = initialState, action: any): OfferState => {
             };
         }
 
+
+        case REQUEST(ACTION_TYPES.FETCH_MY_OFFER_LIST):
+            return {
+                ...state,
+                loadingMyOffers: true,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_MY_OFFER_LIST):
+            return {
+                ...state,
+                loadingMyOffers: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_MY_OFFER_LIST):
+            return {
+                ...state,
+                loadingMyOffers: false,
+                entitiesMyOffers: action.payload.data.content,
+                totalItemsMyOffers: action.payload.data.totalElements,
+            };
+
+
+        case REQUEST(ACTION_TYPES.DELETE_OFFER):
+            return {
+                ...state,
+                deleteSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.DELETE_OFFER):
+            return {
+                ...state,
+                deleteSuccess: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.DELETE_OFFER):
+            return {
+                ...state,
+                deleteSuccess: true,
+                entity: {},
+            };
+
         default:
             return state;
     }
@@ -122,7 +170,7 @@ export const getEntitiesForCurrentUser = (page: number, size: number, sort: stri
     const requestUrl = `${apiUrl + '/current-user'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_MY_OFFER_LIST,
-        payload: axios.get<IOffer>(`${requestUrl}`),
+        payload: axios.get<IOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 
@@ -135,10 +183,10 @@ export const getEntitiesRecentlyAdded = (page: number, size: number, sort: strin
 };
 
 export const getEntity = (id: number) => {
-    const requestUrl = `${apiUrl}/${id}`;
+    const requestUrl = `${apiUrl}/public/entity/${id}`;
     return {
-        type: ACTION_TYPES.FETCH_OFFER,
-        payload: axios.get<IOffer>(requestUrl),
+        type: ACTION_TYPES.FETCH_OFFER_STRICT,
+        payload: axios.get<IOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 
@@ -183,11 +231,11 @@ export const partialUpdate = (entity: any) => async (dispatch: any) => {
     return result;
 };
 
-export const deleteEntity = (id: number) => async (dispatch: any) => {
+export const deleteEntity: (id: number) => void = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;
     const result = await dispatch({
         type: ACTION_TYPES.DELETE_OFFER,
-        payload: axios.delete(requestUrl),
+        payload: axios.delete(`${getPathApi(requestUrl)}`),
     });
     return result;
 };
@@ -205,7 +253,7 @@ export const setBlob = (name: string, data: string, contentType?: string) => ({
 export const uploadFiles: (entity: FormData) => void = (entity: FormData) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPLOAD_FILE_OFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}upload-images`, entity),
+        payload: axios.post(`${getPathApi(apiUrl)}/upload-images`, entity),
     });
     return result;
 };

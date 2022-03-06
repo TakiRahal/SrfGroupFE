@@ -208,9 +208,6 @@ const mapStateToProps = ({ user, offer }: IRootState) => ({
     listOffers: offer.entities,
     loadingListOffers: offer.loadingEntities,
     totalItems: offer.totalItems,
-    // links: null,
-    // entity: offer.entity,
-    // updateSuccess: offer.updateSuccess,
 });
 
 const mapDispatchToProps = {

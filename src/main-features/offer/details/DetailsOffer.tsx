@@ -7,7 +7,7 @@ import {
 } from "../../../shared/reducers/comment-offer.reducer";
 
 import {getEntitywithFavorite, uploadFiles} from "../../../shared/reducers/offer.reducer";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import Zoom from "@mui/material/Zoom/Zoom";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
@@ -28,11 +28,12 @@ import parse from 'html-react-parser';
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
 import SwiperDetailsOffer from "./ui-segments/SwiperDetailsOffer";
-
-import './DetailsOffer.scss';
 import CommentDetailsOffer from "./ui-segments/CommentDetailsOffer";
 import RightDetailsOffer from './ui-segments/RightDetailsOffer';
 import {ICommentOffer} from "../../../shared/model/comment-offer.model";
+import { createEntity as createEntityFavoriteUser } from '../../../shared/reducers/favorite-user.reducer';
+
+import './DetailsOffer.scss';
 import {convertDateTimeToServer} from "../../../shared/utils/utils-functions";
 
 
@@ -44,6 +45,8 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     const {id} = useParams<{ id: string }>();
 
+    const history = useHistory();
+
     const {
         getEntitywithFavorite,
         favoriteUserEntity,
@@ -54,7 +57,12 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         listCommentsByOffer,
         account,
         loadingUpdateEntity,
-        addSuccessEntity
+        addSuccessEntity,
+
+        loadingEntityFavoriteUser,
+        entityFavoriteUser,
+        addSuccessFavoriteUser,
+        createEntityFavoriteUser
     } = props;
 
     React.useEffect(() => {
@@ -111,22 +119,31 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     };
 
     const handleCallbackFavorite = (userId: number) => {
-        // if (isAuthenticated) {
-        //     if (entityOfferFavoriteUser?.offer?.user?.id !== account?.id) {
-        //         const entity = {
-        //             favoriteUser: {
-        //                 id: entityOfferFavoriteUser?.offer?.user?.id,
-        //                 login: entityOfferFavoriteUser?.offer?.user?.login,
-        //             },
-        //             favoriteDate: Moment().toISOString(),
-        //         };
-        //         props.addFavoriteUser(entity);
-        //     }
-        // } else {
-        //     history.push(ALL_APP_ROUTES.CLIENT.LOGIN);
-        // }
+        if (isAuthenticated) {
+            if (favoriteUserEntity?.offer?.user?.id !== account?.id) {
+                const entity = {
+                    favoriteUser: {
+                        id: favoriteUserEntity?.offer?.user?.id,
+                        username: favoriteUserEntity?.offer?.user?.username,
+                    },
+                    favoriteDate: convertDateTimeToServer(new Date()),
+                };
+                createEntityFavoriteUser(entity);
+            }
+        } else {
+            history.push(ALL_APP_ROUTES.LOGIN);
+        }
     };
 
+    React.useEffect(() => {
+        if(addSuccessFavoriteUser){
+            setIsFavoriteUser(true);
+        }
+    }, [addSuccessFavoriteUser])
+
+    const getDescriptionHtml = (): string => {
+        return favoriteUserEntity?.offer?.description ? favoriteUserEntity?.offer?.description : '';
+    }
     return (
         <Zoom in={startAnimation}>
             <Container maxWidth="xl" className="details-offer-client">
@@ -204,7 +221,8 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             {favoriteUserEntity?.offer?.address?.city}, {favoriteUserEntity?.offer?.address?.country}
                                         </Typography>
 
-                                        <div>{parse(favoriteUserEntity?.offer?.description ? favoriteUserEntity?.offer?.description : '')}</div>
+                                        <div dangerouslySetInnerHTML={{ __html: getDescriptionHtml() }}></div>
+                                        {/*<div>{parse(favoriteUserEntity?.offer?.description ? favoriteUserEntity?.offer?.description : '')}</div>*/}
                                     </CardContent>
                                     <CardActions>
                                         <Button size="small">Learn More</Button>
@@ -235,7 +253,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                 />
                             </Grid>
                         </Grid>
-
                 }
 
             </Container>
@@ -244,7 +261,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 }
 
 
-const mapStateToProps = ({ user, offer, comment }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -254,13 +271,18 @@ const mapStateToProps = ({ user, offer, comment }: IRootState) => ({
     loadingCommentsByOffer: comment.loadingEntitiesByOffer,
     listCommentsByOffer: comment.entitiesByOffer,
     loadingUpdateEntity: comment.loadingUpdateEntity,
-    addSuccessEntity: comment.addSuccess
+    addSuccessEntity: comment.addSuccess,
+
+    loadingEntityFavoriteUser: favoriteUser.loadingEntity,
+    entityFavoriteUser: favoriteUser.entity,
+    addSuccessFavoriteUser: favoriteUser.addSuccess,
 });
 
 const mapDispatchToProps = {
     getEntitywithFavorite,
     getListCommentsByOffer,
-    addCommentOffer
+    addCommentOffer,
+    createEntityFavoriteUser
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

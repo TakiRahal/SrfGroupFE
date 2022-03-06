@@ -51,7 +51,9 @@ export default function Header(props: any){
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
     const [anchorElSupport, setAnchorElSupport] = React.useState<HTMLElement | null>(null);
+
     const history = useHistory();
+
     const { currentUser, isAuthenticated } = props;
 
     const isMenuOpen = Boolean(anchorEl);
@@ -71,7 +73,6 @@ export default function Header(props: any){
     const handleMenuClose = () => {
         setAnchorEl(null);
         handleMobileMenuClose();
-        history.push(ALL_APP_ROUTES.ACCOUNT);
     };
 
     const redirectToMuAccount = () => {
@@ -170,6 +171,8 @@ export default function Header(props: any){
             onClose={handleMenuClose}
         >
             <MenuItem
+                component={Link}
+                to={ALL_APP_ROUTES.ACCOUNT}
                 onClick={() => {
                     redirectToMuAccount();
                     handleMenuClose();
@@ -196,6 +199,8 @@ export default function Header(props: any){
             </MenuItem>
 
             <MenuItem
+                component={Link}
+                to={ALL_APP_ROUTES.OFFER.MY_OFFERS}
                 onClick={() => {
                     redirectToMyoffers();
                     handleMenuClose();
@@ -208,8 +213,9 @@ export default function Header(props: any){
             </MenuItem>
 
             <MenuItem
+                component={Link}
+                to={ALL_APP_ROUTES.OFFER.MY_OFFERS}
                 onClick={() => {
-                    redirectToMyFavorite();
                     handleMenuClose();
                 }}
             >

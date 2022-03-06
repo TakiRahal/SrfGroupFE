@@ -12,5 +12,10 @@ export const ALL_APP_ROUTES = {
         FAQ: process.env.PUBLIC_URL+'/cms/faq',
         ABOUT_US: process.env.PUBLIC_URL+'/cms/about-us',
         CONTACT_US: process.env.PUBLIC_URL+'/cms/contact-us'
+    },
+    OFFER: {
+        MY_OFFERS: process.env.PUBLIC_URL+'/my-offers',
+        DEAILS_OFFER: process.env.PUBLIC_URL+'/details',
+        ADD_UPDATE_OFFER: process.env.PUBLIC_URL+'/add-update',
     }
 }

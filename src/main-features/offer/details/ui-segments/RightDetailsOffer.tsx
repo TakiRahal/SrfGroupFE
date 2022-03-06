@@ -113,7 +113,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Description
+                        Add this user to your favorite list
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

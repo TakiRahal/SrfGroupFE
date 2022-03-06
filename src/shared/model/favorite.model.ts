@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import {IUser} from "./user.model";
 
-export interface IFavorite {
+export interface IFavoriteUser {
   id?: number;
-  favoriteDate?: string | null;
+  favoriteDate?: Date | null;
   currentUser?: IUser | null;
   favoriteUser?: IUser | null;
 }
 
-export const defaultValue: Readonly<IFavorite> = {};
+export const defaultValue: Readonly<IFavoriteUser> = {};

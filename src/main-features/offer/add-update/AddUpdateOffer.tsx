@@ -19,24 +19,20 @@ import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
 import ImageList from "@mui/material/ImageList/ImageList";
 import ImageListItem from "@mui/material/ImageListItem/ImageListItem";
 import IconButton from "@mui/material/IconButton/IconButton";
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import CKEditor from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ClearIcon from '@mui/icons-material/Clear';
 import Accordion from "@mui/material/Accordion/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails/AccordionDetails";
-import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import OptionsSellAddOffer from "./ui-segments/OptionsSellAddOffer";
 import OptionsRentAddOffer from "./ui-segments/OptionsRentAddOffer";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import OptionsFindAddOffer from "./ui-segments/OptionsFindAddOffer";
-import Box from "@mui/material/Box/Box";
-import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import parse from 'html-react-parser';
 import {useFormik} from "formik";
-import {convertDateTimeToServer, getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
-import { isEmpty } from 'lodash';
+import {convertDateTimeToServer, getBaseImageUrl} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -53,9 +49,9 @@ import { createEntity as createEntityRentOffer } from '../../../shared/reducers/
 import { reset as resetRentOffer } from '../../../shared/reducers/rent-offer.reducer';
 import { createEntity as createEntityFindOffer } from '../../../shared/reducers/find-offer.reducer';
 import { reset as resetFindOffer } from '../../../shared/reducers/find-offer.reducer';
-import {IOfferImages} from "../../../shared/model/offer-images.model";
-import {uploadFiles} from "../../../shared/reducers/offer.reducer";
-import findOffer from "../../../shared/reducers/find-offer.reducer";
+import {uploadFiles, getEntity as getEntityOffer} from "../../../shared/reducers/offer.reducer";
+import EditorConvertToHTML from "../../../shared/components/editor-convert-to-html/EditorConvertToHTML";
+import { isEmpty } from 'lodash';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -106,9 +102,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         isAuthenticated,
         currentUser,
         entityOffer,
-        entitiesAddress,
-        updateSuccessFindOffer,
-        entityFindOffer
+        getEntityOffer
     } = props;
 
     const formik = useFormik({
@@ -127,6 +121,9 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
     React.useEffect(() => {
         console.log('props.match.params ', id);
+        if(id){
+            getEntityOffer(Number(id) || -1);
+        }
     }, [id])
 
     React.useEffect(() => {
@@ -136,27 +133,23 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         // }
     }, []);
 
-    React.useEffect(() => {
-        // if (!isNew) {
-        //     props.getEntityoffer(props.match.params.id);
-        // }
-    }, []);
 
-    // React.useEffect(() => {
-    //     if (!isEmpty(entityOffer)) {
-    //         // Defult values
-    //         setDefaultsValues(formik, entityOffer);
-    //
-    //         setFileState({
-    //             ...fileState,
-    //             selectedFiles: entityOffer.offerImages && entityOffer.offerImages.length > 0
-    //                     ? entityOffer.offerImages.map((imgOffer: IOfferImages) => {
-    //                         return (imgOffer.path = getImageForOffer(entityOffer.id, imgOffer?.path));
-    //                     })
-    //                     : [], // event.target.files
-    //         });
-    //     }
-    // }, [entityOffer]);
+    React.useEffect(() => {
+        console.log('entityOffer ', entityOffer);
+        if (!isEmpty(entityOffer)) {
+            // Defult values
+            setDefaultsValues(formik, entityOffer);
+
+            // setFileState({
+            //     ...fileState,
+            //     selectedFiles: entityOffer.offerImages && entityOffer.offerImages.length > 0
+            //             ? entityOffer.offerImages.map((imgOffer: IOfferImages) => {
+            //                 return (imgOffer.path = getImageForOffer(entityOffer.id, imgOffer?.path));
+            //             })
+            //             : [], // event.target.files
+            // });
+        }
+    }, [entityOffer]);
 
     React.useEffect(() => {
         if (props.updateSuccessSellerOffer) {
@@ -312,6 +305,11 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         );
     };
 
+    const onEditorStateChange = (editorState: any) => {
+        console.log('editorState ', editorState);
+        formik.setFieldValue('description', editorState ? editorState : '');
+    };
+
     return (
         <Slide direction="up" in={startAnimation} mountOnEnter unmountOnExit>
             <Container maxWidth="xl" className="page-add-offer">
@@ -391,28 +389,29 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                     <Grid item xs={12} md={12}>
                                         <FormControl fullWidth sx={{mt: 3}}
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
-                                            <CKEditor
-                                                config={{placeholder: "Write your description..."}}
-                                                editor={ClassicEditor}
-                                                data=""
-                                                onReady={(editor: any) => {
-                                                    // You can store the "editor" and use when it is needed.
-                                                    window.console.log('Editor is ready to use!', editor);
-                                                }}
-                                                onChange={(event: any, editor: any) => {
-                                                    const data = editor.getData();
-                                                    // setDescription(data);
-                                                    formik.setFieldValue('description', data ? data : '');
-                                                    // window.console.log('onChange ', {event, editor, data});
-                                                }}
-                                                onBlur={(event: any, editor: any) => {
-                                                    // window.console.log('Blur.', editor);
-                                                }}
-                                                onFocus={(event: any, editor: any) => {
-                                                    // window.console.log('Focus.', editor);
-                                                }}
-                                                required
-                                            />
+                                            <EditorConvertToHTML callBackParent={onEditorStateChange} placeholder="Write your description..."/>
+                                            {/*<CKEditor*/}
+                                                {/*config={{placeholder: "Write your description..."}}*/}
+                                                {/*editor={ClassicEditor}*/}
+                                                {/*data=""*/}
+                                                {/*onReady={(editor: any) => {*/}
+                                                    {/*// You can store the "editor" and use when it is needed.*/}
+                                                    {/*window.console.log('Editor is ready to use!', editor);*/}
+                                                {/*}}*/}
+                                                {/*onChange={(event: any, editor: any) => {*/}
+                                                    {/*const data = editor.getData();*/}
+                                                    {/*// setDescription(data);*/}
+                                                    {/*formik.setFieldValue('description', data ? data : '');*/}
+                                                    {/*// window.console.log('onChange ', {event, editor, data});*/}
+                                                {/*}}*/}
+                                                {/*onBlur={(event: any, editor: any) => {*/}
+                                                    {/*// window.console.log('Blur.', editor);*/}
+                                                {/*}}*/}
+                                                {/*onFocus={(event: any, editor: any) => {*/}
+                                                    {/*// window.console.log('Focus.', editor);*/}
+                                                {/*}}*/}
+                                                {/*required*/}
+                                            {/*/>*/}
                                             <FormHelperText
                                                 id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
                                         </FormControl>
@@ -578,7 +577,8 @@ const mapDispatchToProps = {
     createEntityRentOffer,
     resetRentOffer,
     createEntityFindOffer,
-    resetFindOffer
+    resetFindOffer,
+    getEntityOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

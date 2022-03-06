@@ -9,6 +9,7 @@ import comment, {CommentOfferState} from "./comment-offer.reducer";
 import faq, {FaqState} from "./faq.reducer";
 import aboutUs, {AboutUsState} from "./about-us.reducer";
 import contactUs, {ContactUsState} from "./contact-us.reducer";
+import favoriteUser, {FavoriteUserState} from "./favorite-user.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -21,6 +22,7 @@ export interface IRootState {
     readonly faq: FaqState;
     readonly aboutUs: AboutUsState;
     readonly contactUs: ContactUsState;
+    readonly favoriteUser: FavoriteUserState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -33,7 +35,8 @@ const rootReducer = combineReducers<IRootState>({
     comment,
     faq,
     aboutUs,
-    contactUs
+    contactUs,
+    favoriteUser
 });
 
 export default rootReducer;

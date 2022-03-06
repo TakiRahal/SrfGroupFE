@@ -6,8 +6,8 @@ export const initialValuesAddOffer = {
   title: '',
   description: '',
   amount: '',
-  startDate: null,
-  endDate: null,
+  startDate: '',
+  endDate: '',
   periodRent: '',
   address: null,
   category: null,
@@ -29,16 +29,16 @@ export const setDefaultsValues = (formik: any, offerEntity: any) => {
   formik.setFieldValue('typeOffer', offerEntity.typeOffer ? offerEntity.typeOffer : '');
   formik.setFieldValue('title', offerEntity.title ? offerEntity.title : '');
   formik.setFieldValue('description', offerEntity.description ? offerEntity.description : '');
-
-  if (offerEntity.typeOffer === TypeOfferEnum.Sell) {
-    formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
-  } else if (offerEntity.typeOffer === TypeOfferEnum.Rent) {
-    formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
-    formik.setFieldValue('startDate', offerEntity.title ? offerEntity.startDate : null);
-    formik.setFieldValue('endDate', offerEntity.title ? offerEntity.endDate : null);
-  } else if (offerEntity.typeOffer === TypeOfferEnum.Find) {
-    formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
-  }
+  //
+  // if (offerEntity.typeOffer === TypeOfferEnum.Sell) {
+  //   formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
+  // } else if (offerEntity.typeOffer === TypeOfferEnum.Rent) {
+  //   formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
+  //   formik.setFieldValue('startDate', offerEntity.title ? offerEntity.startDate : null);
+  //   formik.setFieldValue('endDate', offerEntity.title ? offerEntity.endDate : null);
+  // } else if (offerEntity.typeOffer === TypeOfferEnum.Find) {
+  //   formik.setFieldValue('amount', offerEntity.title ? offerEntity.amount : null);
+  // }
 
   return formik;
 };

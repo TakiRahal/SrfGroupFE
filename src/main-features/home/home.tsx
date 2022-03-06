@@ -7,6 +7,8 @@ import SecondHorizentalListHomeClient from "./ui-segments/SecondHorizentalListHo
 import ThirdHorizentalListHomeClient from "./ui-segments/ThirdHorizentalListHomeClient";
 import RecentlyAddedHomeClient from "./ui-segments/RecentlyAddedHomeClient";
 import HomeFullOffer from "./ui-segments/HomeFullOffer";
+import ForRentHomeClient from "./ui-segments/ForRentHomeClient";
+import ForFindHomeClient from "./ui-segments/ForFindHomeClient";
 
 export default function Home(props: any){
     return (
@@ -18,7 +20,11 @@ export default function Home(props: any){
 
             <FirstHorizentalListHomeClient />
 
+            <ForRentHomeClient {...props} />
+
             <SecondHorizentalListHomeClient />
+
+            <ForFindHomeClient {...props} />
 
             <ThirdHorizentalListHomeClient />
 

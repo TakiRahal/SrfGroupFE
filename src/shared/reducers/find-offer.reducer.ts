@@ -23,6 +23,8 @@ const initialState = {
     entities: [] as ReadonlyArray<IRentOffer>,
     loadingEntities: false,
     errorMessage: null,
+
+    entitiesFindOffers: [] as ReadonlyArray<IRentOffer>,
 };
 
 
@@ -50,13 +52,19 @@ export default (state: FindOfferState = initialState, action: any): FindOfferSta
                 updateSuccess: true,
                 entity: action.payload.data,
             };
+
+        case SUCCESS(ACTION_TYPES.FETCH_OFFERS_FOR_FIND):
+            return {
+                ...state,
+                entitiesFindOffers: action.payload.data.content,
+            };
         default:
             return state;
     }
 }
 
 
-const apiUrl = 'api/find-offer/';
+const apiUrl = 'api/find-offer';
 
 // Actions
 
@@ -72,7 +80,7 @@ export const getEntitiesForFind = (page: number, size: number, sort: string) => 
     const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFERS_FOR_FIND,
-        payload: axios.get<IFindOffer>(`${requestUrl}`),
+        payload: axios.get<IFindOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 
@@ -87,7 +95,7 @@ export const getEntity = (id: number) => {
 export const createEntity: (entity: any) => void = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_FINDOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}create`, entity)
+        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity)
     });
     return result;
 };

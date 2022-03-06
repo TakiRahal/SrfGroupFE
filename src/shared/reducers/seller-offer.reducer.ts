@@ -3,6 +3,7 @@ import {defaultValue, ISellOffer} from "../model/sell-offer.model";
 import {clearAuthToken} from "./user-reducer";
 import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
+import {IOffer} from "../model/offer.model";
 
 export const ACTION_TYPES = {
     FETCH_SELLOFFER_LIST: 'sellOffer/FETCH_SELLOFFER_LIST',
@@ -22,6 +23,10 @@ const initialState = {
     entities: [] as ReadonlyArray<ISellOffer>,
     loadingEntities: false,
     errorMessage: null,
+
+    loadingSellOffers: false,
+    entitiesSellOffers: [] as ReadonlyArray<ISellOffer>,
+    totalItemsSellOffers: 0,
 };
 
 export type SellOfferState = Readonly<typeof initialState>;
@@ -48,6 +53,15 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
                 updateSuccess: true,
                 entity: action.payload.data,
             };
+
+
+        case SUCCESS(ACTION_TYPES.FETCH_OFFERS_FOR_SELL):
+            return {
+                ...state,
+                entitiesSellOffers: action.payload.data.content,
+            };
+
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -56,14 +70,14 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
     return state;
 }
 
-const apiUrl = 'api/sell-offer/';
+const apiUrl = 'api/sell-offer';
 
 // Actions
 
 export const createEntity: (entity: any) => void = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_SELLOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}create`, entity),
+        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity),
     });
     return result;
 };
@@ -80,7 +94,7 @@ export const getEntitiesForSell = (page: number, size: number, sort: string) => 
     const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFERS_FOR_SELL,
-        payload: axios.get<ISellOffer>(`${requestUrl}`),
+        payload: axios.get<ISellOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 

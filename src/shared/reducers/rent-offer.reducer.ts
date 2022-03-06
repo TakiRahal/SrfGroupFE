@@ -2,6 +2,7 @@ import axios from 'axios';
 import {defaultValue, IRentOffer} from "../model/rent-offer.model";
 import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
+import {IOffer} from "../model/offer.model";
 
 
 export const ACTION_TYPES = {
@@ -22,6 +23,10 @@ const initialState = {
     entities: [] as ReadonlyArray<IRentOffer>,
     loadingEntities: false,
     errorMessage: null,
+
+    loadingRentOffers: false,
+    entitiesRentOffers: [] as ReadonlyArray<IRentOffer>,
+    totalItemsRentOffers: 0,
 };
 
 export type RentOfferState = Readonly<typeof initialState>;
@@ -35,6 +40,7 @@ export default (state: RentOfferState = initialState, action: any): RentOfferSta
                 ...state,
                 loadingEntity: true,
             };
+
 
         case FAILURE(ACTION_TYPES.CREATE_RENTOFFER):
             return {
@@ -53,13 +59,22 @@ export default (state: RentOfferState = initialState, action: any): RentOfferSta
             return {
                 ...initialState,
             };
+
+
+        case SUCCESS(ACTION_TYPES.FETCH_RENTOFFER_LIST):
+            return {
+                ...state,
+                entitiesRentOffers: action.payload.data.content,
+            };
+
+
         default:
             return state;
     }
 }
 
 
-const apiUrl = 'api/rent-offer/';
+const apiUrl = 'api/rent-offer';
 
 // Actions
 
@@ -68,6 +83,15 @@ export const getEntities = (page: number, size: number, sort: string) => {
     return {
         type: ACTION_TYPES.FETCH_RENTOFFER_LIST,
         payload: axios.get<IRentOffer>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+    };
+};
+
+
+export const getEntitiesForRent = (page: number, size: number, sort: string) => {
+    const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    return {
+        type: ACTION_TYPES.FETCH_RENTOFFER_LIST,
+        payload: axios.get<IRentOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 
@@ -82,7 +106,7 @@ export const getEntity = (id: number) => {
 export const createEntity: (entity: any) => void = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_RENTOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}create`, entity)
+        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity)
     });
     return result;
 };

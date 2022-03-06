@@ -62,6 +62,9 @@ export default function AllRoutes(props: IAppProps){
                 <MyOffers />
             </Route>
 
+            <Route path="*">
+                <Home />
+            </Route>
         </Switch>
     );
 }

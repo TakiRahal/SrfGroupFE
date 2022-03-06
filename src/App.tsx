@@ -326,7 +326,7 @@ function App(props: IAppProps) {
                     <ListItemText primary="Chat" />
                 </ListItem>
 
-                <ListItem button component={Link} to={''} onClick={() => handleDrawerToggleRight(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.MY_OFFERS} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <PostAddIcon />
                     </ListItemIcon>

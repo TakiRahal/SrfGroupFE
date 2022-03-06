@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Container from '@mui/material/Container/Container';
 import Grid from '@mui/material/Grid/Grid';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
@@ -11,16 +11,29 @@ import Box from '@mui/material/Box/Box';
 import {LazyImage} from "../../../shared/pages/lazy-image";
 import {getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {useHistory} from "react-router";
+import {IRootState} from "../../../shared/reducers";
+import {getEntitiesForFind} from "../../../shared/reducers/find-offer.reducer";
+import {connect} from "react-redux";
 
-export default function ForFindHomeClient(props: any){
+export interface IForFindClientProp extends StateProps, DispatchProps {}
+
+export const ForFindHomeClient = (props: IForFindClientProp) => {
+
+    const history = useHistory();
+
+    const { listFindOffers, getEntitiesForFind } = props;
+
+    React.useEffect(() => {
+        getEntitiesForFind(1, 4, '');
+    }, [])
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
-            // history.push(ALL_APP_ROUTES.CLIENT.OFFER.DEAILS_OFFER + '/' + offerId);
+            history.push(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
         }, 300);
     };
-
-    const { listFindOffers } = props;
 
     return (
         <Container maxWidth="xl">
@@ -84,3 +97,16 @@ export default function ForFindHomeClient(props: any){
         </Container>
     );
 }
+
+const mapStateToProps = ({ findOffer }: IRootState) => ({
+    listFindOffers: findOffer.entitiesFindOffers,
+});
+
+const mapDispatchToProps = {
+    getEntitiesForFind,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForFindHomeClient);

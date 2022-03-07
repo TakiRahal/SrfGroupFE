@@ -167,8 +167,8 @@ export const Search = (props: ISearchProps) => {
                     )}
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={2}>
-                    <Card sx={{ maxWidth: 345 }} className="mb-5">
+                <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <Card  className="mb-5">
                         <CardContent>
                             <iframe
                                 width="100%"
@@ -182,7 +182,7 @@ export const Search = (props: ISearchProps) => {
                         </CardContent>
                     </Card>
 
-                    <Card sx={{ maxWidth: 345 }}>
+                    <Card>
                         <CardMedia component="img" alt="green iguana" height="140" image="https://source.unsplash.com/random" />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">

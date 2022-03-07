@@ -9,6 +9,8 @@ import RecentlyAddedHomeClient from "./ui-segments/RecentlyAddedHomeClient";
 import HomeFullOffer from "./ui-segments/HomeFullOffer";
 import ForRentHomeClient from "./ui-segments/ForRentHomeClient";
 import ForFindHomeClient from "./ui-segments/ForFindHomeClient";
+import BottomHomeSlides from "./ui-segments/BottomHomeSlides";
+import './home.scss';
 
 export default function Home(props: any){
     return (
@@ -31,6 +33,8 @@ export default function Home(props: any){
             <RecentlyAddedHomeClient />
 
             <HomeFullOffer />
+
+            <BottomHomeSlides {...props}/>
         </Box>
     );
 }

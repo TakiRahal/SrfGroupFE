@@ -47,7 +47,7 @@ export default function LeftSearchClient() {
 
   return (
     <Box>
-      <Box sx={{ mb: 2 }}>
+      <Box>
         <div style={{ width: '100%' }}>
           <div
             className="fb-page"
@@ -62,12 +62,6 @@ export default function LeftSearchClient() {
           ></div>
         </div>
 
-        {/*<div style={{width: '100%'}}>*/}
-        {/*<div className="fb-group"*/}
-        {/*data-href="https://www.facebook.com/groups/2263583753956936"*/}
-        {/*data-width="400"*/}
-        {/*data-show-metadata="false"></div>*/}
-        {/*</div>*/}
       </Box>
       <Card sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardHeader

@@ -140,7 +140,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     return(
         <Box>
             <Container maxWidth="xl" className="details-offer-client">
-                <Grid container sx={{ pt: 1, pl: { xs: 1, md: 0 } }}>
+                <Grid container sx={{ pt: 1 }}>
                     <Grid item xs={12} sm={6} md={1}></Grid>
 
                     <Grid item xs={12} sm={6} md={2}>
@@ -164,7 +164,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                 <div>dqsd</div>
                             ) : listMyOffers && listMyOffers.length > 0 ? (
                                 listMyOffers.map((offer: IOffer, index: number) => (
-                                    <CardActionArea component="div" onClick={() => rediretTo(offer.id)} className="mt-5" key={`entity-${index}`}>
+                                    <CardActionArea component="div" onClick={() => rediretTo(offer.id)} sx={{mt: 5}} key={`entity-${index}`}>
                                         <Card sx={{ display: 'flex' }}>
                                             <CardMedia sx={{ width: 250, height: 200, display: { xs: 'none', sm: 'block' }, backgroundColor: '#0000004f' }}>
                                                 {offer.offerImages && offer.offerImages.length ? (
@@ -256,7 +256,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                             )}
                         </Grid>
                     </Grid>
-                    
+
                 </Grid>
             </Container>
             {renderDialogDeleteOffer()}

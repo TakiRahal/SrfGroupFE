@@ -1,0 +1,47 @@
+.bottom-home-slides {
+  .swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+  }
+}
+
+.truncate-string-two-lines {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.card-content-offer {
+  min-height: 70px;
+}
+
+.container-full-slide {
+  display: flex;
+  overflow-x: auto;
+  .grid-full-slide {
+    color: #fff;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    .item-full-slide {
+      margin: 0 50px;
+    }
+  }
+}

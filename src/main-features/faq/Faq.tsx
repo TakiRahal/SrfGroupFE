@@ -96,17 +96,20 @@ export const FaqClient = (props: IFaqClientProps) => {
             </Grid>
 
             <Grid container spacing={4} sx={{ mt: 3 }}>
-                {listFaq && listFaq.length > 0
+                {
+                    listFaq && listFaq.length > 0
                     ? listFaq.map((faq, i) => (
                         <Grid item xs={12} md={6} key={`entity-${i}`}>
                             <GetCardList faq={faq} currentLocale='fr' />
                         </Grid>
                     ))
                     : !loadingEntitiesFaq && (
-                    <div className="alert alert-warning">
-                        No Faqs found
-                    </div>
-                )}
+                    <Grid item xs={12} md={6}>
+                        <div className="alert alert-warning">
+                            No Faqs found
+                        </div>
+                    </Grid>)
+                }
             </Grid>
         </Container>
     );

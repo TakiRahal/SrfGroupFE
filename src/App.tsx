@@ -54,7 +54,7 @@ import {StarBorder} from "@mui/icons-material";
 import InfoIcon from '@mui/icons-material/Info';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
-import OneSignal from 'react-onesignal';
+// import OneSignal from 'react-onesignal';
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import { styled } from '@mui/material/styles';
@@ -169,9 +169,9 @@ function App(props: IAppProps) {
     useEffect(() => {
 
         // Init OneSignal Platform
-        OneSignal.init({
-            appId: AllAppConfig.APP_ID_ONESIGNAL
-        });
+        // OneSignal.init({
+        //     appId: AllAppConfig.APP_ID_ONESIGNAL
+        // });
 
         props.getEntitiesAddresses(0, 40, '');
 

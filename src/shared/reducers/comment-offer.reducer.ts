@@ -22,6 +22,7 @@ const initialState = {
     loadingEntities: false,
     entity: defaultValue,
     totalItems: 0,
+    loadingAddEntity: false,
     addSuccess: false,
     updateSuccess: false,
     entitiesByOffer: [] as ReadonlyArray<ICommentOffer>,
@@ -59,19 +60,19 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
         case REQUEST(ACTION_TYPES.CREATE_COMMENTOFFER):
             return {
                 ...state,
-                loadingEntity: true,
+                loadingAddEntity: true,
                 addSuccess: false,
             };
         case FAILURE(ACTION_TYPES.CREATE_COMMENTOFFER):
             return {
                 ...state,
-                loadingEntity: false,
+                loadingAddEntity: false,
                 errorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.CREATE_COMMENTOFFER):
             return {
                 ...state,
-                loadingEntity: false,
+                loadingAddEntity: false,
                 addSuccess: true,
                 entity: action.payload.data,
             };

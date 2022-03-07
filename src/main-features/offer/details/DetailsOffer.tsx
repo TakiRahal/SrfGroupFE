@@ -62,7 +62,8 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         loadingEntityFavoriteUser,
         entityFavoriteUser,
         addSuccessFavoriteUser,
-        createEntityFavoriteUser
+        createEntityFavoriteUser,
+        loadingAddComment
     } = props;
 
     React.useEffect(() => {
@@ -230,17 +231,20 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                 </Card>
 
                                 {isAuthenticated ? (
-                                    <CommentDetailsOffer
-                                        offerEntity={favoriteUserEntity?.offer}
-                                        listCommentsByOffer={listCommentsByOffer}
-                                        account={account}
-                                        isAuthenticated={isAuthenticated}
-                                        loadingListComments={loadingCommentsByOffer}
-                                        loadingUpdateEntity={loadingUpdateEntity}
-                                        parentCallbackAddComment={handleCallbackAddComment}
-                                        parentCallbackDeleteComment={handleCallbackDeleteComment}
-                                        parentCallbackUpdateComment={parentCallbackUpdateComment}
-                                    />
+                                    <Box sx={{mb: 3}}>
+                                        <CommentDetailsOffer
+                                            offerEntity={favoriteUserEntity?.offer}
+                                            listCommentsByOffer={listCommentsByOffer}
+                                            account={account}
+                                            isAuthenticated={isAuthenticated}
+                                            loadingListComments={loadingCommentsByOffer}
+                                            loadingUpdateEntity={loadingUpdateEntity}
+                                            loadingAddEntity={loadingAddComment}
+                                            parentCallbackAddComment={handleCallbackAddComment}
+                                            parentCallbackDeleteComment={handleCallbackDeleteComment}
+                                            parentCallbackUpdateComment={parentCallbackUpdateComment}
+                                        />
+                                    </Box>
                                 ) : null}
                             </Grid>
 
@@ -271,6 +275,7 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser }: IRootState) => 
     loadingCommentsByOffer: comment.loadingEntitiesByOffer,
     listCommentsByOffer: comment.entitiesByOffer,
     loadingUpdateEntity: comment.loadingUpdateEntity,
+    loadingAddComment: comment.loadingAddEntity,
     addSuccessEntity: comment.addSuccess,
 
     loadingEntityFavoriteUser: favoriteUser.loadingEntity,

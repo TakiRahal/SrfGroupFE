@@ -51,6 +51,7 @@ export default function CommentDetailsOffer({
   isAuthenticated,
   loadingListComments,
   loadingUpdateEntity,
+  loadingAddEntity,
   parentCallbackAddComment,
   parentCallbackDeleteComment,
   parentCallbackUpdateComment,
@@ -61,6 +62,7 @@ export default function CommentDetailsOffer({
     isAuthenticated: boolean,
     loadingListComments: boolean,
     loadingUpdateEntity: boolean,
+    loadingAddEntity: boolean,
     parentCallbackAddComment: any,
     parentCallbackDeleteComment: any,
     parentCallbackUpdateComment: any,
@@ -196,7 +198,7 @@ export default function CommentDetailsOffer({
             <Avatar alt={account.imageUrl} src={getUserAvatar(account.id, account.imageUrl, account?.sourceProvider)} />
           </ListItemAvatar>
           <ListItemText>
-            <AddComment parentCallbackAddComment={handleCallbackAddComment} />
+            <AddComment parentCallbackAddComment={handleCallbackAddComment} loadingAddEntity={loadingAddEntity} />
           </ListItemText>
         </ListItem>
       </List>
@@ -205,7 +207,7 @@ export default function CommentDetailsOffer({
   );
 }
 
-function AddComment({ parentCallbackAddComment }: { parentCallbackAddComment: any }) {
+function AddComment({ parentCallbackAddComment, loadingAddEntity }: { parentCallbackAddComment: any, loadingAddEntity: boolean }) {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchemaAddCommentOffer,
@@ -229,7 +231,7 @@ function AddComment({ parentCallbackAddComment }: { parentCallbackAddComment: an
           maxRows={4}
         />
         <LoadingButton
-          loading={false}
+          loading={loadingAddEntity}
           variant="outlined"
           size="small"
           type="submit"

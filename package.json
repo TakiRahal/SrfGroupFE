@@ -83,10 +83,10 @@
     "predeploy": "npm run build:prod",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "taki": "set HOST=0.0.0.0 && react-scripts start",
     "start:dev": "env-cmd -f ./environments/.dev.env react-scripts start",
     "build": "react-scripts build",
-    "build:prod": "env-cmd -f ./environments/.prod.env react-scripts build",
+    "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
+    "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build"

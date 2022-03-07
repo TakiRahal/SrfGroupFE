@@ -45,7 +45,6 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
         initialValues,
         validationSchema: validationSchemaContactUs,
         onSubmit: values => {
-            window.console.log('values ', values);
             createEntityContactUs(values);
         },
     });

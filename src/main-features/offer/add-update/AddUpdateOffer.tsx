@@ -120,7 +120,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const {id} = useParams<{ id: string }>();
 
     React.useEffect(() => {
-        console.log('props.match.params ', id);
         if(id){
             getEntityOffer(Number(id) || -1);
         }
@@ -135,7 +134,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
 
     React.useEffect(() => {
-        console.log('entityOffer ', entityOffer);
         if (!isEmpty(entityOffer)) {
             // Defult values
             setDefaultsValues(formik, entityOffer);
@@ -198,7 +196,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             entity.endDate = convertDateTimeToServer(entity.endDate);
         }
 
-        console.log('entity ', entity);
         if (isNew) {
           if (formik.values.typeOffer === TypeOfferEnum.Sell) {
             props.createEntitySellerOffer(entity);
@@ -306,7 +303,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     };
 
     const onEditorStateChange = (editorState: any) => {
-        console.log('editorState ', editorState);
         formik.setFieldValue('description', editorState ? editorState : '');
     };
 

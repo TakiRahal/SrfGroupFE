@@ -39,6 +39,7 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
+import LoadingSearchOffers from "../../search/ui-segments/LoadingSearchOffers";
 
 
 const Transition = React.forwardRef(function Transition(
@@ -161,7 +162,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                         <Grid item xs={12} sm={3}></Grid>
                         <Grid item xs={12} sm={6}>
                             {loadingListMyOffers ? (
-                                <div>dqsd</div>
+                                <LoadingSearchOffers />
                             ) : listMyOffers && listMyOffers.length > 0 ? (
                                 listMyOffers.map((offer: IOffer, index: number) => (
                                     <CardActionArea component="div" onClick={() => rediretTo(offer.id)} sx={{mt: 5}} key={`entity-${index}`}>

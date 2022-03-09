@@ -31,6 +31,7 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import {TransitionProps} from "@mui/material/transitions";
 import Container from "@mui/material/Container/Container";
+import {SourceProvider} from "../../shared/enums/source-provider";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -74,7 +75,7 @@ export const SignUp = (props: ISignUpProps) => {
         validationSchema: validationSchemaSignUp,
         onSubmit: (values: ISignUP) => {
             window.console.log('values ', values);
-            props.handleRegister(values.email, values.firstPassword);
+            props.handleRegister(values.email, values.firstPassword, SourceProvider.WEB);
             // props.handleRegister(username, values.email, values.firstPassword, props.currentLocale, SourceProvider.WEB);
         },
     });

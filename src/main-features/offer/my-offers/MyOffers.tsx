@@ -202,7 +202,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                         <ListItemAvatar>
                                                             <Avatar
                                                                 alt={offer.user?.imageUrl}
-                                                                src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceProvider)}
+                                                                src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
                                                             ></Avatar>
                                                         </ListItemAvatar>
                                                         <ListItemText

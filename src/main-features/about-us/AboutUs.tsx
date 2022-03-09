@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import {IRootState} from "../../shared/reducers";
 import { getEntity as getEntitiyAboutUs } from '../../shared/reducers/about-us.reducer';
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import Box from "@mui/material/Box/Box";
 
 
 export interface IAboutUsClientProps extends StateProps, DispatchProps{}
@@ -46,6 +48,16 @@ export const AboutUs = (props: IAboutUsClientProps) => {
                     paddingTop: 50,
                 }}
             >
+
+                {
+                    loadingEntity ? <Grid item xs={12}>
+                        <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
+                            <CircularProgress color="inherit"  />
+                        </Box>
+                    </Grid> : null
+                }
+
+
                 <Grid item xs={12}>
                     {aboutUsEntity && aboutUsEntity.contentEn ? <div dangerouslySetInnerHTML={{ __html: aboutUsEntity.contentEn }}></div> : 'No About Us found'}
                 </Grid>

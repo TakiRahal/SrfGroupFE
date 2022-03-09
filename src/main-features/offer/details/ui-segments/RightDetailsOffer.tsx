@@ -141,7 +141,8 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                 <Avatar
                                     aria-label="recipe"
                                     alt={offerEntity.user?.imageUrl}
-                                    src={getUserAvatar(offerEntity.user?.id, offerEntity.user?.imageUrl, offerEntity.user?.sourceProvider)}
+                                    src={getUserAvatar(offerEntity.user?.id, offerEntity.user?.imageUrl, offerEntity.user?.sourceRegister)}
+                                    sx={{border: '1px solid #b9b9b9'}}
                                 ></Avatar>
                             ) : null
                         }

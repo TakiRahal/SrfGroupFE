@@ -14,6 +14,7 @@ export const ACTION_TYPES = {
     GET_SESSION: 'authentication/GET_SESSION',
     GET_PROFILE: 'authentication/GET_PROFILE',
     GET_CURRENT_USER: 'authentication/GET_CURRENT_USER',
+    UPLOAD_AVATAR: 'account/UPLOAD_AVATAR',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -43,6 +44,10 @@ const initialState = {
 
     account: {} as any,
     loadingAccount: false,
+
+    accountUploadAvatar: null,
+    loadingUploadAvatar: false,
+    uploadAvatarSuccess: false
 }
 
 export type UserState = Readonly<typeof initialState>;
@@ -140,6 +145,29 @@ export default (state: UserState = initialState, action: any): UserState => {
                 loadingAccount: false,
             };
 
+        case REQUEST(ACTION_TYPES.UPLOAD_AVATAR):
+            return {
+                ...state,
+                loadingUploadAvatar: true,
+            };
+        case FAILURE(ACTION_TYPES.UPLOAD_AVATAR):
+            return {
+                ...state,
+                loadingUploadAvatar: false,
+            };
+        case SUCCESS(ACTION_TYPES.UPLOAD_AVATAR):
+            console.log('...state ', state);
+            console.log('...action ', action, action.payload.data.imageUrl);
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    imageUrl: action.payload.data.imageUrl
+                },
+                loadingUploadAvatar: false,
+                uploadAvatarSuccess: true
+            };
+
 
         case ACTION_TYPES.LOGOUT:
             return {
@@ -156,12 +184,14 @@ export default (state: UserState = initialState, action: any): UserState => {
 const apiUrl = 'api/user/';
 
 // Actions
-export const handleRegister = (email: string, password: string) => {
+export const handleRegister = (email: string, password: string, sourceRegister: string) => {
     const result = ({
         type: ACTION_TYPES.CREATE_ACCOUNT,
         payload: axios.post(`${getPathApi(apiUrl)}public/signup`, {
             email: email,
-            password: password
+            password: password,
+            sourceRegister: sourceRegister
+
         }),
         meta: {
             successMessage: 'register.messages.success',
@@ -243,6 +273,23 @@ export const getCurrentUser: () => void = () => async (dispatch: any) => {
         type: ACTION_TYPES.GET_CURRENT_USER,
         payload: axios.get(`${getPathApi(apiUrl)}current-user`),
     });
+    return result;
+};
+
+export const uploadAvatar: (avatar: FormData) => void = entity => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.UPLOAD_AVATAR,
+        payload: axios.post(`${getPathApi(apiUrl)}avatar`, entity),
+        meta: {
+            successMessage: 'Changed avatar succefully',
+        },
+    });
+
+    const account  = result?.value?.data;
+    if (account) {
+        StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
+    }
+
     return result;
 };
 

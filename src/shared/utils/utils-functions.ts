@@ -2,6 +2,7 @@ import React from 'react';
 import {AllAppConfig, APP_LOCAL_DATETIME_FORMAT} from "../../core/config/all-config";
 import {useLocation} from "react-router-dom";
 import dayjs from 'dayjs';
+import {SourceProvider} from "../enums/source-provider";
 
 export const isPromise = (value: any): boolean => {
     if (value !== null && typeof value === 'object') {
@@ -51,7 +52,13 @@ export const getImageForOffer = (offerId?: number, path?: string) => {
  * @param {string} imageUrl user
  * @returns {string}
  */
-export const getUserAvatar = (userId: number, imageUrl?: string, souorceProvider?: string) => {
+export const getUserAvatar = (userId: number, imageUrl?: string, sourceRegister?: string): string => {
+    if (sourceRegister === SourceProvider.WEB || sourceRegister === SourceProvider.MOBILE) {
+        if (!imageUrl) {
+            return AllAppConfig.DEFAULT_AVATAR;
+        }
+        return `${process.env.REACT_APP_API_END_POINT}api/user/public/avatar/${userId}/${imageUrl}`;
+    }
     // if (!souorceProvider) {
     //     if (!imageUrl) {
     //         return config.DEFAULT_AVATAR;
@@ -65,7 +72,7 @@ export const getUserAvatar = (userId: number, imageUrl?: string, souorceProvider
     // }
 
     // GooglePlus or Facebook
-    return imageUrl;
+    return imageUrl || '';
 };
 
 /**

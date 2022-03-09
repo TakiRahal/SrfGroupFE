@@ -26,10 +26,10 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Button from "@mui/material/Button/Button";
 import {Link, useHistory} from "react-router-dom";
-import {useEffect} from "react";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import Avatar from "@mui/material/Avatar/Avatar";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {getUserAvatar} from "../../utils/utils-functions";
 
 
 const sections = [
@@ -59,9 +59,6 @@ export default function Header(props: any){
     const isMenuOpen = Boolean(anchorEl);
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
 
-    useEffect(() => {
-    }, [isAuthenticated]);
-
     const handleProfileMenuOpen = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -79,13 +76,13 @@ export default function Header(props: any){
         history.push(ALL_APP_ROUTES.ACCOUNT);
     };
 
-    const redirectToMyFavorite = () => {
-        // history.push(ALL_APP_ROUTES.CLIENT.FAVORITE);
-    };
+    // const redirectToMyFavoriteUsers = () => {
+    //     history.push(ALL_APP_ROUTES.FAVORITE.USER);
+    // };
 
-    const redirectToMyoffers = () => {
-        // history.push(ALL_APP_ROUTES.CLIENT.OFFER.MY_LIST);
-    };
+    // const redirectToMyoffers = () => {
+    //     history.push(ALL_APP_ROUTES.CLIENT.OFFER.MY_LIST);
+    // };
 
     // const handleMobileMenuOpen = event => {
     //   setMobileMoreAnchorEl(event.currentTarget);
@@ -174,7 +171,6 @@ export default function Header(props: any){
                 component={Link}
                 to={ALL_APP_ROUTES.ACCOUNT}
                 onClick={() => {
-                    redirectToMuAccount();
                     handleMenuClose();
                 }}
             >
@@ -202,7 +198,6 @@ export default function Header(props: any){
                 component={Link}
                 to={ALL_APP_ROUTES.OFFER.MY_OFFERS}
                 onClick={() => {
-                    redirectToMyoffers();
                     handleMenuClose();
                 }}
             >
@@ -214,7 +209,7 @@ export default function Header(props: any){
 
             <MenuItem
                 component={Link}
-                to={ALL_APP_ROUTES.OFFER.MY_OFFERS}
+                to={ALL_APP_ROUTES.FAVORITE.USER}
                 onClick={() => {
                     handleMenuClose();
                 }}
@@ -222,7 +217,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <FavoriteIcon fontSize="small" />
                 </ListItemIcon>
-                My favorites
+                My favorite users
             </MenuItem>
 
             <MenuItem
@@ -348,8 +343,8 @@ export default function Header(props: any){
                                 >
                                     <Avatar
                                         alt="Avatar"
-                                        src=""
-                                        sx={{ width: 24, height: 24, mr: 0.6 }}
+                                        src={getUserAvatar(currentUser.id, currentUser.imageUrl, currentUser.sourceRegister)}
+                                        sx={{ width: 24, height: 24, mr: 0.6, border: '1px solid #b9b9b9' }}
                                     />
                                     <Typography component="span" variant="body2" color="text.primary">
                                         {(currentUser?.firstName ? currentUser.firstName : '') + ' ' + (currentUser?.lastName ? currentUser.lastName : '')}

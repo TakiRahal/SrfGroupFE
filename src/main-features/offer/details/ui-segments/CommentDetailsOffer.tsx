@@ -163,7 +163,7 @@ export default function CommentDetailsOffer({
                 }
               >
                 <ListItemAvatar>
-                  <Avatar alt="Avatar" src={getUserAvatar(comment.user?.id, comment.user?.imageUrl, comment.user?.sourceProvider)} />
+                  <Avatar alt="Avatar" src={getUserAvatar(comment.user?.id, comment.user?.imageUrl, comment.user?.sourceRegister)} sx={{border: '1px solid #b9b9b9'}}/>
                 </ListItemAvatar>
                 <ListItemText
                   primary={
@@ -195,7 +195,7 @@ export default function CommentDetailsOffer({
         )}
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt={account.imageUrl} src={getUserAvatar(account.id, account.imageUrl, account?.sourceProvider)} />
+            <Avatar alt={account.imageUrl} src={getUserAvatar(account.id, account.imageUrl, account?.sourceRegister)} sx={{border: '1px solid #b9b9b9'}}/>
           </ListItemAvatar>
           <ListItemText>
             <AddComment parentCallbackAddComment={handleCallbackAddComment} loadingAddEntity={loadingAddEntity} />

@@ -114,7 +114,8 @@ export const Search = (props: ISearchProps) => {
                                                 <ListItemAvatar>
                                                     <Avatar
                                                         alt={offer.user?.imageUrl}
-                                                        src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceProvider)}
+                                                        src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
+                                                        sx={{border: '1px solid #b9b9b9'}}
                                                     ></Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText

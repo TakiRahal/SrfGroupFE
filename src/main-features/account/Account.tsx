@@ -2,7 +2,7 @@ import React from 'react';
 import Container from "@mui/material/Container/Container";
 import {IRootState} from "../../shared/reducers";
 import {connect} from "react-redux";
-import {getCurrentUser} from "../../shared/reducers/user-reducer";
+import {getCurrentUser, uploadAvatar} from "../../shared/reducers/user-reducer";
 import Box from "@mui/material/Box/Box";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Grid from "@mui/material/Grid/Grid";
@@ -37,12 +37,15 @@ export interface IAccountClientProps extends StateProps, DispatchProps {}
 export const Account = (props: IAccountClientProps) => {
     const [fileState, setFileState] = React.useState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
     const [showEditInfos, setShowEditInfos] = React.useState(false);
+    const [imageAvatar, setImageAvatar] = React.useState(null);
 
     const {
         getCurrentUser,
         account,
         loadingAccount,
-        listAddress
+        listAddress,
+        uploadAvatar,
+        uploadAvatarSuccess
     } = props;
 
     const formik = useFormik({
@@ -63,6 +66,10 @@ export const Account = (props: IAccountClientProps) => {
 
     React.useEffect(() => {
         if (account) {
+
+            // Set avatar
+            setFileState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
+
             formik.setValues({
                 login: account.username ? account.username : '',
                 firstName: account.firstName ? account.firstName : '',
@@ -74,9 +81,17 @@ export const Account = (props: IAccountClientProps) => {
         }
     }, [account]);
 
+    React.useEffect(() => {
+        if (imageAvatar) {
+            const formData = new FormData();
+            formData.append('avatar', imageAvatar);
+            uploadAvatar(formData);
+        }
+    }, [imageAvatar]);
+
     const selectFile = (event: any) => {
-        // setImageAvatar(event.target.files[0]);
-        // setFileState(URL.createObjectURL(event.target.files[0]));
+        setImageAvatar(event.target.files[0]);
+        setFileState(URL.createObjectURL(event.target.files[0]));
     };
 
     return (
@@ -101,7 +116,7 @@ export const Account = (props: IAccountClientProps) => {
 
             {loadingAccount ? (
                 <Box sx={{ textAlign: 'center' }}>
-                    <CircularProgress color="primary" />
+                    <CircularProgress color="inherit" />
                 </Box>
             ) : (
                 <Grid container spacing={4} style={{
@@ -128,12 +143,6 @@ export const Account = (props: IAccountClientProps) => {
                                         <CameraAltIcon />
                                     </Box>
                                 </Box>
-
-                                {/*{loadingAvatar ? (*/}
-                                    {/*<Box sx={{ position: 'absolute', top: '10%', left: 0, right: 0 }}>*/}
-                                        {/*<CircularProgress />*/}
-                                    {/*</Box>*/}
-                                {/*) : null}*/}
 
                                 <Box>
                                     <input
@@ -328,11 +337,14 @@ const mapStateToProps = ({ user, address }: IRootState) => ({
     loadingAccount: user.loadingAccount,
     account: user.account,
 
-    listAddress: address.entities
+    listAddress: address.entities,
+
+    uploadAvatarSuccess: user.uploadAvatarSuccess
 });
 
 const mapDispatchToProps = {
-    getCurrentUser
+    getCurrentUser,
+    uploadAvatar
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

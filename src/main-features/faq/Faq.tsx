@@ -15,6 +15,8 @@ import Divider from "@mui/material/Divider/Divider";
 import Collapse from "@mui/material/Collapse/Collapse";
 import CardContent from "@mui/material/CardContent/CardContent";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import Box from "@mui/material/Box/Box";
 
 
 export const GetCardList = (props: any) => {
@@ -93,9 +95,18 @@ export const FaqClient = (props: IFaqClientProps) => {
                         <Typography color="text.primary">FAQ</Typography>
                     </Breadcrumbs>
                 </Grid>
+
             </Grid>
 
             <Grid container spacing={4} sx={{ mt: 3 }}>
+                {
+                    loadingEntitiesFaq ? <Grid item xs={12}>
+                        <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
+                            <CircularProgress color="inherit"  />
+                        </Box>
+                    </Grid> : null
+                }
+
                 {
                     listFaq && listFaq.length > 0
                     ? listFaq.map((faq, i) => (

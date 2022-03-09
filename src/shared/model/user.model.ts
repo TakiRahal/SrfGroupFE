@@ -15,7 +15,7 @@ export interface IUser {
     lastModifiedBy?: string;
     lastModifiedDate?: Date | null;
     password?: string;
-    sourceProvider?: string;
+    sourceRegister?: string;
     address?: IAddress;
     phone?: string;
 }

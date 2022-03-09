@@ -91,13 +91,13 @@ export const Profile = (props: IProfileProps) => {
             <Grid container spacing={4} style={{
                 paddingTop: 50,
             }}>
-                <Grid item xs={12} sm={3} className="text-center">
+                <Grid item xs={12} sm={3} sx={{ textAlign: 'center' }}>
                     <Slide direction="left" in={startAnimation}>
                         <div>
                             <Paper elevation={3} sx={{ p: 1 }}>
                                 <Avatar
                                     alt={profile.imageUrl}
-                                    src={getUserAvatar(profile.id, profile.imageUrl, profile?.sourceProvider)}
+                                    src={getUserAvatar(profile.id, profile.imageUrl, profile?.sourceRegister)}
                                     sx={{
                                         width: 80,
                                         height: 80,
@@ -105,6 +105,7 @@ export const Profile = (props: IProfileProps) => {
                                         marginRight: 'auto',
                                         marginBottom: 2,
                                         mt: 2,
+                                        border: '1px solid #b9b9b9'
                                     }}
                                 />
                                 <h4>

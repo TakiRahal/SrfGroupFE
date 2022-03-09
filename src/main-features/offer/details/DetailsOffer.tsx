@@ -66,9 +66,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         loadingAddComment
     } = props;
 
-    React.useEffect(() => {
-        setStartAnimation(true);
-    }, []);
 
     React.useEffect(() => {
         console.log('props.match.params ', id);
@@ -79,6 +76,13 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     React.useEffect(() => {
         const idOffer = favoriteUserEntity?.offer?.id || -1;
+
+        if (favoriteUserEntity && favoriteUserEntity.offer && !loadingEntity) {
+            setTimeout(() => {
+                setStartAnimation(true);
+            }, 300);
+        }
+
         if (favoriteUserEntity && favoriteUserEntity.offer && isAuthenticated && !loadingEntity) {
             setIsFavoriteUser(favoriteUserEntity?.myFavoriteUser || false);
             getListCommentsByOffer(idOffer, 0, 20, '');
@@ -169,7 +173,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                 {
                     loadingEntity ?
                         <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
-                            <CircularProgress />
+                            <CircularProgress color="inherit"  />
                         </Box> :
 
                         <Grid

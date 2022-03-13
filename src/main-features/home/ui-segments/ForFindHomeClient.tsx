@@ -26,7 +26,7 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
     const { listFindOffers, getEntitiesForFind } = props;
 
     React.useEffect(() => {
-        getEntitiesForFind(1, 4, '');
+        getEntitiesForFind(0, 4, 'id,asc');
     }, [])
 
     const rediretTo = (offerId: number) => {

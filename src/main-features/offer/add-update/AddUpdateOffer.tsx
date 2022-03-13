@@ -126,10 +126,9 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     }, [id])
 
     React.useEffect(() => {
-        setStartAnimation(true);
-        // if (!descriptionAddOfferEntity || !descriptionAddOfferEntity.id) {
-        //     props.getDescriptionAddOffer(null);
-        // }
+        setTimeout(() => {
+            setStartAnimation(true);
+        }, 300);
     }, []);
 
 

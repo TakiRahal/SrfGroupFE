@@ -3,7 +3,7 @@ import {IUser} from "./user.model";
 
 export interface IFavoriteUser {
   id?: number;
-  favoriteDate?: Date | null;
+  favoriteDate?: string | null;
   currentUser?: IUser | null;
   favoriteUser?: IUser | null;
 }

@@ -32,7 +32,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     const { listSellOffers, getEntitiesForSell } = props;
 
     React.useEffect(() => {
-        getEntitiesForSell(1, 4, '');
+        getEntitiesForSell(0, 4, 'id,asc');
     }, [])
 
     return(

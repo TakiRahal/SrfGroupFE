@@ -12,17 +12,23 @@ import Grid from '@mui/material/Grid/Grid';
 import Avatar from '@mui/material/Avatar/Avatar';
 import Stack from '@mui/material/Stack/Stack';
 import {getBaseImageUrl} from "../../utils/utils-functions";
+import packageJson from '../../../../package.json';
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 3 }}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://www.linkedin.com/in/rahal-taki-eddine-51952ba4/" target="_blank">
-                Taki Eddine Rahal
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
+        <Box>
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ pt: 3 }}>
+                {'Copyright © '}
+                <Link color="inherit" href="https://www.linkedin.com/in/rahal-taki-eddine-51952ba4/" target="_blank">
+                    Taki Eddine Rahal
+                </Link>{' '}
+                {new Date().getFullYear()}
+                {'.'}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 1 }}>
+                V {packageJson.version}
+            </Typography>
+        </Box>
     );
 }
 
@@ -122,8 +128,8 @@ export default function Footer(){
                             Apps mobile
                         </Typography>
                         <Typography component="p" align="center">
-                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')} className="mr-2" width="100" />
-                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')} className="mr-2" width="100" />
+                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')} style={{marginRight: '2px'}} width="100" />
+                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')} style={{marginLeft: '2px'}} width="100" />
                         </Typography>
                     </Grid>
                 </Grid>

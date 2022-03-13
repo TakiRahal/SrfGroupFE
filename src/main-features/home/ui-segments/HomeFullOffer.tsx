@@ -30,7 +30,7 @@ export default function HomeFullOffer (props: any){
     }, [cmsHomeMedium]);
 
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" sx={{ mt: 5 }}>
             <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
                     {/*<LazyImage className="img-fluid" src={defaultImage} alt={defaultImage}/>*/}

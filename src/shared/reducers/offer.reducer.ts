@@ -36,6 +36,10 @@ const initialState = {
     loadingMyOffers: false,
     entitiesMyOffers: [] as ReadonlyArray<IOffer>,
     totalItemsMyOffers: 0,
+
+    loadingRecentlyAddedOffers: false,
+    entitiesRecentlyAddedOffers: [] as ReadonlyArray<IOffer>,
+    totalItemsRecentlyAddedOffers: 0,
 };
 
 export type OfferState = Readonly<typeof initialState>;
@@ -148,6 +152,26 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entity: {},
             };
 
+
+        case REQUEST(ACTION_TYPES.FETCH_OFFER_LIST_ADDED_RECENTLY):
+            return {
+                ...state,
+                loadingMyOffers: true,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_OFFER_LIST_ADDED_RECENTLY):
+            return {
+                ...state,
+                loadingMyOffers: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_OFFER_LIST_ADDED_RECENTLY):
+            return {
+                ...state,
+                loadingRecentlyAddedOffers: false,
+                entitiesRecentlyAddedOffers: action.payload.data.content,
+                totalItemsRecentlyAddedOffers: action.payload.data.totalElements,
+            };
+
         default:
             return state;
     }
@@ -178,7 +202,7 @@ export const getEntitiesRecentlyAdded = (page: number, size: number, sort: strin
     const requestUrl = `${apiUrl + '/public'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER_LIST_ADDED_RECENTLY,
-        payload: axios.get<IOffer>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+        payload: axios.get<IOffer>(`${getPathApi(requestUrl)}`),
     };
 };
 

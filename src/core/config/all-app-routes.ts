@@ -20,5 +20,8 @@ export const ALL_APP_ROUTES = {
     },
     FAVORITE: {
         USER: process.env.PUBLIC_URL+'/favorite/favorite-users',
+    },
+    CHAT: {
+        LIST: process.env.PUBLIC_URL+'/chat/conversations',
     }
 }

@@ -30,7 +30,7 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
   const {getEntitiesForRent, listRentOffers} = props;
 
   React.useEffect(() => {
-      getEntitiesForRent(1, 4, '');
+      getEntitiesForRent(0, 4, 'id,asc');
   }, []);
 
   const rediretTo = (offerId?: number) => {

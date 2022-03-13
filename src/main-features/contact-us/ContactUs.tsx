@@ -27,7 +27,6 @@ import { reset as resetContactUs } from '../../shared/reducers/contact-us.reduce
 import {getBaseImageUrl} from "../../shared/utils/utils-functions";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
-
 const initialValues = initialValuesContactUs;
 
 export interface IContactUsUpdateProps extends StateProps, DispatchProps {}
@@ -177,6 +176,12 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                                     <Avatar alt="Location" src={`${getBaseImageUrl('/assets/images/contact-us/location.png')}`} />
                                 </ListItemAvatar>
                                 <ListItemText primary="Address" secondary="Rue Montreal Skanes ElMechref, 5000, Monastir, Tunisia" />
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar alt="Location" src={`${getBaseImageUrl('/assets/images/contact-us/location.png')}`} />
+                                </ListItemAvatar>
+                                <ListItemText primary="Google Maps" secondary="Tunis, Tunisia" />
                             </ListItem>
                         </List>
                     </Grid>

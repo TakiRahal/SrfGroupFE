@@ -33,7 +33,7 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
     const {listExistOfferImages, loadingExistOfferImages, getEntitiesExistOfferImages} = props;
 
     React.useEffect(() => {
-        getEntitiesExistOfferImages(1, 5, '')
+        getEntitiesExistOfferImages(0, 5, 'id,asc')
     }, []);
 
     React.useEffect(() => {

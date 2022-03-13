@@ -182,7 +182,7 @@ export default function Header(props: any){
 
             <MenuItem
                 component={Link}
-                to=""
+                to={ALL_APP_ROUTES.CHAT.LIST}
                 onClick={() => {
                     handleMenuClose();
                 }}
@@ -316,7 +316,8 @@ export default function Header(props: any){
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {isAuthenticated ? (
                             <div>
-                                <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link} to="">
+                                <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
+                                            to={ALL_APP_ROUTES.CHAT.LIST}>
                                     <Badge badgeContent={4} color="error">
                                         <MailIcon />
                                     </Badge>
@@ -397,8 +398,8 @@ export default function Header(props: any){
                             >
                                 <Avatar
                                     alt={currentUser?.imageUrl}
-                                    src=""
-                                    sx={{ width: 30, height: 30, mr: 0.6 }}
+                                    src={getUserAvatar(currentUser.id, currentUser.imageUrl, currentUser.sourceRegister)}
+                                    sx={{ width: 30, height: 30, mr: 0.6, border: '1px solid #b9b9b9' }}
                                 />
                             </IconButton>
                         ) : (

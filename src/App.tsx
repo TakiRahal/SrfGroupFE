@@ -317,7 +317,7 @@ function App(props: IAppProps) {
                 </ListItem>
                 <Divider />
 
-                <ListItem button component={Link} to={''} onClick={() => handleDrawerToggleRight(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.CHAT.LIST} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <Badge badgeContent={4} color="error">
                             <MailIcon />
@@ -333,11 +333,11 @@ function App(props: IAppProps) {
                     <ListItemText primary="My offers" />
                 </ListItem>
 
-                <ListItem button component={Link} to={''} onClick={() => handleDrawerToggleRight(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.FAVORITE.USER} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My favorites" />
+                    <ListItemText primary="My favorite users" />
                 </ListItem>
 
                 <ListItem button component={Link} to={''} onClick={() => handleDrawerToggleRight(false)}>

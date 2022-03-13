@@ -66,7 +66,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         loadingAddComment
     } = props;
 
-
     React.useEffect(() => {
         console.log('props.match.params ', id);
         if(id){
@@ -80,7 +79,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         if (favoriteUserEntity && favoriteUserEntity.offer && !loadingEntity) {
             setTimeout(() => {
                 setStartAnimation(true);
-            }, 300);
+            }, 100)
         }
 
         if (favoriteUserEntity && favoriteUserEntity.offer && isAuthenticated && !loadingEntity) {

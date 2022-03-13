@@ -10,6 +10,8 @@ import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
 import {IFavoriteUser} from "../../../shared/model/favorite.model";
 import ListFavoriteUsers from "./ui-segments/ListFavoriteUsers";
+import Box from "@mui/material/Box/Box";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 
 
 export interface IFavoriteUserProps extends StateProps, DispatchProps {}
@@ -45,7 +47,14 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
                     </Breadcrumbs>
                 </Grid>
             </Grid>
-            <Grid container spacing={4} className="mt-5">
+            <Grid container spacing={4} sx={{ mt: 3 }}>
+                {
+                    loadingEntitiesFavoriteUsers ? <Grid item xs={12}>
+                        <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
+                            <CircularProgress color="inherit"  />
+                        </Box>
+                    </Grid> : null
+                }
 
                 {listFavoriteUsers && listFavoriteUsers.length > 0
                     ? listFavoriteUsers.map((favorite: IFavoriteUser, index: number) => (

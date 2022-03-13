@@ -30,7 +30,6 @@ export const getBaseImageUrl = (path?: string) => {
  * @returns {string}
  */
 export const getPathApi = (pathApi: string) => {
-    // const path = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : 'https://srf-group-be.herokuapp.com/';
     return process.env.REACT_APP_API_END_POINT + pathApi;
 }
 
@@ -41,7 +40,7 @@ export const getPathApi = (pathApi: string) => {
  */
 export const getImageForOffer = (offerId?: number, path?: string) => {
     if (!path) {
-        return AllAppConfig.DEFAULT_LAZY_IMAGE;
+        return `${process.env.REACT_APP_BASE_URL_FE +  (process.env?.REACT_APP_PUBLIC_URL || '')}` + AllAppConfig.DEFAULT_LAZY_IMAGE;
     }
     return `${process.env.REACT_APP_API_END_POINT}api/offer/public/files/${offerId}/${path}`;
 };
@@ -55,7 +54,7 @@ export const getImageForOffer = (offerId?: number, path?: string) => {
 export const getUserAvatar = (userId: number, imageUrl?: string, sourceRegister?: string): string => {
     if (sourceRegister === SourceProvider.WEB || sourceRegister === SourceProvider.MOBILE) {
         if (!imageUrl) {
-            return AllAppConfig.DEFAULT_AVATAR;
+            return `${process.env.REACT_APP_BASE_URL_FE +  (process.env?.REACT_APP_PUBLIC_URL || '')}` + AllAppConfig.DEFAULT_AVATAR;
         }
         return `${process.env.REACT_APP_API_END_POINT}api/user/public/avatar/${userId}/${imageUrl}`;
     }
@@ -88,6 +87,6 @@ export function useQuery() {
 
 export const convertDateTimeFromServer = (date: Date) => (date ? dayjs(date).format(APP_LOCAL_DATETIME_FORMAT) : null);
 
-export const convertDateTimeToServer = (date: Date) => (date ? dayjs(date).toDate() : null);
+export const convertDateTimeToServer = (date: Date) => (date ? dayjs(date).toISOString() : '');
 
 export const displayDefaultDateTime = () => dayjs().startOf('day').format(APP_LOCAL_DATETIME_FORMAT);

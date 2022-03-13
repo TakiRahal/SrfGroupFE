@@ -23,5 +23,8 @@ export const ALL_APP_ROUTES = {
     },
     CHAT: {
         LIST: process.env.PUBLIC_URL+'/chat/conversations',
+    },
+    NOTIFICATION: {
+        LIST: process.env.PUBLIC_URL+'/notifications',
     }
 }

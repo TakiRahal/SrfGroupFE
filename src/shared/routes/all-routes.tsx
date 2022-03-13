@@ -17,6 +17,7 @@ import ContactUs from "../../main-features/contact-us/ContactUs";
 import MyOffers from "../../main-features/offer/my-offers/MyOffers";
 import FavoriteUser from "../../main-features/favorite/user/FavoriteUser";
 import Chat from "../../main-features/chat/Chat";
+import Notification from "../../main-features/notification/Notification";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -68,6 +69,9 @@ export default function AllRoutes(props: IAppProps){
             </Route>
             <Route path={ALL_APP_ROUTES.CHAT.LIST}>
                 <Chat />
+            </Route>
+            <Route path={ALL_APP_ROUTES.NOTIFICATION.LIST}>
+                <Notification />
             </Route>
 
             <Route path="*">

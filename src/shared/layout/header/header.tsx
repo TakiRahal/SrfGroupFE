@@ -29,7 +29,7 @@ import {Link, useHistory} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import Avatar from "@mui/material/Avatar/Avatar";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {getUserAvatar} from "../../utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 
 
 const sections = [
@@ -327,7 +327,7 @@ export default function Header(props: any){
                                     aria-label="show 17 new notifications"
                                     color="inherit"
                                     component={Link}
-                                    to=""
+                                    to={ALL_APP_ROUTES.NOTIFICATION.LIST}
                                 >
                                     <Badge badgeContent={props.numberNotReadNotifications > 0 ? props.numberNotReadNotifications : null} color="error">
                                         <NotificationsIcon />
@@ -348,7 +348,7 @@ export default function Header(props: any){
                                         sx={{ width: 24, height: 24, mr: 0.6, border: '1px solid #b9b9b9' }}
                                     />
                                     <Typography component="span" variant="body2" color="text.primary">
-                                        {(currentUser?.firstName ? currentUser.firstName : '') + ' ' + (currentUser?.lastName ? currentUser.lastName : '')}
+                                        {getFullnameUser(currentUser)}
                                     </Typography>
                                     <ArrowDropDownIcon />
                                 </IconButton>

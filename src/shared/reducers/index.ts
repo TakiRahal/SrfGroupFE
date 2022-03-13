@@ -12,6 +12,7 @@ import contactUs, {ContactUsState} from "./contact-us.reducer";
 import favoriteUser, {FavoriteUserState} from "./favorite-user.reducer";
 import offerImages, {OfferImagesState} from "./offer-images.reducer";
 import conversation, {ConversationState} from "./conversation.reducer";
+import notification, {NotificationState} from "./notification.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -27,6 +28,7 @@ export interface IRootState {
     readonly favoriteUser: FavoriteUserState;
     readonly offerImages: OfferImagesState;
     readonly conversation: ConversationState;
+    readonly notification: NotificationState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -42,7 +44,8 @@ const rootReducer = combineReducers<IRootState>({
     contactUs,
     favoriteUser,
     offerImages,
-    conversation
+    conversation,
+    notification
 });
 
 export default rootReducer;

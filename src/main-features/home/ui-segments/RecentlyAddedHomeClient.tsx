@@ -20,7 +20,7 @@ import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesRecentlyAdded} from "../../../shared/reducers/offer.reducer";
 import {connect} from "react-redux";
-import {getImageForOffer} from "../../../shared/utils/utils-functions";
+import {getFullnameUser, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useHistory} from "react-router-dom";
 
@@ -86,7 +86,7 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
                                             <MoreVertIcon />
                                         </IconButton>
                                     }
-                                    title={offer.user?.firstName + ' ' + offer.user?.lastName}
+                                    title={getFullnameUser(offer?.user)}
                                     subheader={offer.dateCreated}
                                 />
                                 <CardMedia component="img" height="194" image={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} alt="Paella dish" />

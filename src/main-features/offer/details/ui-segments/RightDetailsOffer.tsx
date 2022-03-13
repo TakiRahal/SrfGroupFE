@@ -32,7 +32,7 @@ import DialogContentText from '@mui/material/DialogContentText/DialogContentText
 import {FacebookShareButton} from 'react-share';
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
-import {getBaseImageUrl, getUserAvatar} from "../../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {LazyImage} from "../../../../shared/pages/lazy-image";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
@@ -153,8 +153,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                         }
                         title={
                             <React.Fragment>
-                                {offerEntity?.user?.firstName ? offerEntity?.user?.firstName : ''}
-                                {offerEntity?.user?.lastName ? ' ' + offerEntity?.user?.lastName : ''}
+                                {getFullnameUser(offerEntity?.user)}
                             </React.Fragment>
                         }
                         subheader={offerEntity?.user?.email}

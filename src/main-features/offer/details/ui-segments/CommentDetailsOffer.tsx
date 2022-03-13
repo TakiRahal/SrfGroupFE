@@ -29,7 +29,7 @@ import {
     validationSchemaAddCommentOffer
 } from "../validation/initial-values-add-comment-offer";
 import {ICommentOffer} from "../../../../shared/model/comment-offer.model";
-import {getUserAvatar} from "../../../../shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
 
@@ -69,10 +69,6 @@ export default function CommentDetailsOffer({
 }) {
     const [commentDeleteId, setCommentDeleteId] = useState(-1);
     const [commentUpdateId, setCommentUpdateId] = useState(-1);
-
-    React.useEffect(() => {
-        console.log('DetailsOffer');
-    }, [])
 
     const handleCallbackAddComment = (content: string) => {
         parentCallbackAddComment(content);
@@ -173,9 +169,7 @@ export default function CommentDetailsOffer({
                                             sx={{border: '1px solid #b9b9b9'}}/>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={
-                                        (comment?.user?.firstName ? comment?.user?.firstName : '') + ' ' + (comment?.user?.lastName ? comment?.user?.lastName : '')
-                                    }
+                                    primary={getFullnameUser(comment?.user)}
                                     secondary={
                                         <React.Fragment>
                                             <Typography sx={{display: 'block'}} component="span" variant="body2"

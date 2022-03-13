@@ -340,7 +340,7 @@ function App(props: IAppProps) {
                     <ListItemText primary="My favorite users" />
                 </ListItem>
 
-                <ListItem button component={Link} to={''} onClick={() => handleDrawerToggleRight(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.NOTIFICATION.LIST} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <Badge badgeContent={4} color="error">
                             <NotificationsIcon />

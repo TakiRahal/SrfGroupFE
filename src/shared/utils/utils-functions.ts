@@ -3,6 +3,7 @@ import {AllAppConfig, APP_LOCAL_DATETIME_FORMAT} from "../../core/config/all-con
 import {useLocation} from "react-router-dom";
 import dayjs from 'dayjs';
 import {SourceProvider} from "../enums/source-provider";
+import {IUser} from "../model/user.model";
 
 export const isPromise = (value: any): boolean => {
     if (value !== null && typeof value === 'object') {
@@ -12,9 +13,9 @@ export const isPromise = (value: any): boolean => {
 };
 
 
-// export const getPathAbsolute = () => {
-//     return '/SrfGroupFE';
-// }
+export const getFullnameUser = (user?: IUser | null | undefined) => {
+    return (user?.firstName || user?.lastName) ? user?.firstName+' '+user?.lastName : user?.email;
+}
 
 /**
  *
@@ -58,17 +59,6 @@ export const getUserAvatar = (userId: number, imageUrl?: string, sourceRegister?
         }
         return `${process.env.REACT_APP_API_END_POINT}api/user/public/avatar/${userId}/${imageUrl}`;
     }
-    // if (!souorceProvider) {
-    //     if (!imageUrl) {
-    //         return config.DEFAULT_AVATAR;
-    //     }
-    //     return `${config.BASE_URL}api/user/public/avatar/${userId}/${imageUrl}`;
-    // } else if (souorceProvider === SourceProvider.WEB || souorceProvider === SourceProvider.MOBILE) {
-    //     if (!imageUrl) {
-    //         return config.DEFAULT_AVATAR;
-    //     }
-    //     return `${config.BASE_URL}api/user/public/avatar/${userId}/${imageUrl}`;
-    // }
 
     // GooglePlus or Facebook
     return imageUrl || '';

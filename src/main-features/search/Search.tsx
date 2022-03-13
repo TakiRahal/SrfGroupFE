@@ -19,7 +19,7 @@ import {TypeOfferEnum} from "../../shared/enums/type-offer.enum";
 import {IOffer} from "../../shared/model/offer.model";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import {LazyImage} from "../../shared/pages/lazy-image";
-import {getBaseImageUrl, getImageForOffer, getUserAvatar} from "../../shared/utils/utils-functions";
+import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";
@@ -119,9 +119,7 @@ export const Search = (props: ISearchProps) => {
                                                     ></Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText
-                                                    primary={
-                                                        (offer.user?.firstName ? offer.user?.firstName : '') + ' ' + (offer.user?.lastName ? offer.user?.lastName : '')
-                                                    }
+                                                    primary={getFullnameUser(offer?.user)}
                                                     secondary={
                                                         <React.Fragment>
                                                             <AccessTimeFilledIcon className="mr-1" />

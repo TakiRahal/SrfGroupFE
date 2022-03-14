@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import List from '@mui/material/List/List';
 import ListItem from '@mui/material/ListItem/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar/ListItemAvatar';
@@ -55,6 +55,7 @@ export default function CommentDetailsOffer({
                                                 parentCallbackAddComment,
                                                 parentCallbackDeleteComment,
                                                 parentCallbackUpdateComment,
+                                                totalItems
                                             }: {
     offerEntity: IOffer | undefined,
     listCommentsByOffer: ReadonlyArray<ICommentOffer>,
@@ -66,9 +67,11 @@ export default function CommentDetailsOffer({
     parentCallbackAddComment: any,
     parentCallbackDeleteComment: any,
     parentCallbackUpdateComment: any,
+    totalItems: number
 }) {
-    const [commentDeleteId, setCommentDeleteId] = useState(-1);
-    const [commentUpdateId, setCommentUpdateId] = useState(-1);
+    const [commentDeleteId, setCommentDeleteId] = React.useState(-1);
+    const [commentUpdateId, setCommentUpdateId] = React.useState(-1);
+    const [showComments, setShowComments] = React.useState<boolean>(false);
 
     const handleCallbackAddComment = (content: string) => {
         parentCallbackAddComment(content);
@@ -131,69 +134,91 @@ export default function CommentDetailsOffer({
     };
 
     return (
-        <div>
+        <Box>
             <List sx={{bgcolor: 'background.paper', mt: 2}}>
                 {loadingListComments && listCommentsByOffer.length === 0 ? (
                     <Box sx={{display: 'flex', justifyContent: 'center'}}>
                         <CircularProgress color="inherit"/>
                     </Box>
                 ) : (
-                    listCommentsByOffer.map((comment: ICommentOffer, index: number) => (
-                        <div key={`comment-${index}`}>
-                            <ListItem
-                                alignItems="flex-start"
-                                secondaryAction={
-                                    <div>
-                                        {isAuthenticated && comment?.user?.id === account.id ? (
-                                            <IconButton edge="end" aria-label="edit" color="success"
-                                                        onClick={() => setUpdateComment(comment.id || -1)}>
-                                                <ModeEditIcon/>
-                                            </IconButton>
-                                        ) : null}
-                                        {isAuthenticated && (offerEntity?.user?.id === account.id || comment?.user?.id === account.id) ? (
-                                            <IconButton
-                                                edge="end"
-                                                aria-label="delete"
-                                                color="error"
-                                                onClick={() => handleClickOpenDeleteCommentModal(comment.id || -1)}
-                                            >
-                                                <DeleteIcon/>
-                                            </IconButton>
-                                        ) : null}
-                                    </div>
-                                }
-                            >
-                                <ListItemAvatar>
-                                    <Avatar alt="Avatar"
-                                            src={getUserAvatar(comment.user?.id, comment.user?.imageUrl, comment.user?.sourceRegister)}
-                                            sx={{border: '1px solid #b9b9b9'}}/>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={getFullnameUser(comment?.user)}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography sx={{display: 'block'}} component="span" variant="body2"
-                                                        color="text.primary">
-                                                {comment.createdDate}
-                                            </Typography>
-                                            {commentUpdateId !== comment.id ? comment.content : null}
-                                        </React.Fragment>
+                    <Box>
+
+                        {
+                            showComments ?
+                                <Box>
+                                    {
+                                        listCommentsByOffer.map((comment: ICommentOffer, index: number) => (
+                                            <div key={`comment-${index}`}>
+                                                <ListItem
+                                                    alignItems="flex-start"
+                                                    secondaryAction={
+                                                        <div>
+                                                            {isAuthenticated && comment?.user?.id === account.id ? (
+                                                                <IconButton edge="end" aria-label="edit" color="success"
+                                                                            onClick={() => setUpdateComment(comment.id || -1)}
+                                                                            sx={{mr: 0.5}}>
+                                                                    <ModeEditIcon/>
+                                                                </IconButton>
+                                                            ) : null}
+                                                            {isAuthenticated && (offerEntity?.user?.id === account.id || comment?.user?.id === account.id) ? (
+                                                                <IconButton
+                                                                    edge="end"
+                                                                    aria-label="delete"
+                                                                    color="error"
+                                                                    onClick={() => handleClickOpenDeleteCommentModal(comment.id || -1)}
+                                                                >
+                                                                    <DeleteIcon/>
+                                                                </IconButton>
+                                                            ) : null}
+                                                        </div>
+                                                    }
+                                                >
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Avatar"
+                                                                src={getUserAvatar(comment.user?.id, comment.user?.imageUrl, comment.user?.sourceRegister)}
+                                                                sx={{border: '1px solid #b9b9b9'}}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={getFullnameUser(comment?.user)}
+                                                        secondary={
+                                                            <React.Fragment>
+                                                                <Typography sx={{display: 'block'}} component="span" variant="body2"
+                                                                            color="text.primary">
+                                                                    {comment.createdDate}
+                                                                </Typography>
+                                                                {commentUpdateId !== comment.id ? comment.content : null}
+                                                            </React.Fragment>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                                {commentUpdateId === comment.id ? (
+                                                    <Box sx={{mr: 2, ml: 9}}>
+                                                        <UpdateComment
+                                                            parentCallbackUpdateComment={(content: string) => handleCallbackUpdateComment(content, (comment.id || -1))}
+                                                            parentCallbackCancelUpdateComment={parentCallbackCancelUpdateComment}
+                                                            defaultValueUpdate={comment.content}
+                                                            loadingUpdateEntity={loadingUpdateEntity}
+                                                        />
+                                                    </Box>
+                                                ) : null}
+                                                <Divider variant="inset" component="li"/>
+                                            </div>
+                                        ))
                                     }
-                                />
-                            </ListItem>
-                            {commentUpdateId === comment.id ? (
-                                <Box sx={{mr: 2, ml: 9}}>
-                                    <UpdateComment
-                                        parentCallbackUpdateComment={(content: string) => handleCallbackUpdateComment(content, (comment.id || -1))}
-                                        parentCallbackCancelUpdateComment={parentCallbackCancelUpdateComment}
-                                        defaultValueUpdate={comment.content}
-                                        loadingUpdateEntity={loadingUpdateEntity}
-                                    />
-                                </Box>
-                            ) : null}
-                            <Divider variant="inset" component="li"/>
-                        </div>
-                    ))
+                                </Box> : null
+                        }
+
+                        {
+                            totalItems > 0 ? <ListItem alignItems="flex-start" button onClick={() => setShowComments(true)}>
+                                <ListItemText>
+                                    <Typography variant="subtitle1" component="a" color="text.secondary" sx={{ mt: 1 }}>
+                                        <u>Show comments ({totalItems})</u>
+                                    </Typography>
+                                </ListItemText>
+                            </ListItem> : null
+                        }
+
+                    </Box>
                 )}
                 <ListItem alignItems="flex-start">
                     <ListItemAvatar>
@@ -208,7 +233,7 @@ export default function CommentDetailsOffer({
                 </ListItem>
             </List>
             <div>{renderDialogDeleteComment()}</div>
-        </div>
+        </Box>
     );
 }
 
@@ -253,6 +278,10 @@ function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallba
 
 function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateComment, defaultValueUpdate, loadingUpdateEntity}:
                            { parentCallbackUpdateComment: any, parentCallbackCancelUpdateComment: any, defaultValueUpdate: any, loadingUpdateEntity: boolean }) {
+
+    const [valueBeforCancelUpdate, setValueBeforCancelUpdate] = React.useState(defaultValueUpdate);
+
+
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddCommentOffer,
@@ -266,7 +295,7 @@ function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateC
     }, []);
 
     const cancelUpdate = () => {
-        parentCallbackCancelUpdateComment(null);
+        parentCallbackCancelUpdateComment(valueBeforCancelUpdate);
     };
 
     return (
@@ -300,7 +329,7 @@ function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateC
                         size="small"
                         type="submit"
                         disabled={!formik.values.content}
-                        color="neutral"
+                        color="success"
                     >
                         Update
                     </LoadingButton>

@@ -177,6 +177,7 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                                 </ListItemAvatar>
                                 <ListItemText primary="Address" secondary="Rue Montreal Skanes ElMechref, 5000, Monastir, Tunisia" />
                             </ListItem>
+                            <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     <Avatar alt="Location" src={`${getBaseImageUrl('/assets/images/contact-us/location.png')}`} />

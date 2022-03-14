@@ -61,7 +61,6 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
                 entitiesSellOffers: action.payload.data.content,
             };
 
-
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,

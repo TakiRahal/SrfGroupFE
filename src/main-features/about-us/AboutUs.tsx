@@ -10,6 +10,7 @@ import { getEntity as getEntitiyAboutUs } from '../../shared/reducers/about-us.r
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
+import Alert from "@mui/material/Alert/Alert";
 
 
 export interface IAboutUsClientProps extends StateProps, DispatchProps{}
@@ -59,7 +60,9 @@ export const AboutUs = (props: IAboutUsClientProps) => {
 
 
                 <Grid item xs={12}>
-                    {aboutUsEntity && aboutUsEntity.contentEn ? <div dangerouslySetInnerHTML={{ __html: aboutUsEntity.contentEn }}></div> : 'No About Us found'}
+                    {aboutUsEntity && aboutUsEntity.contentEn ?
+                        <div dangerouslySetInnerHTML={{ __html: aboutUsEntity.contentEn }}></div> :
+                        <Alert severity="warning">No About Us found</Alert>}
                 </Grid>
             </Grid>
         </Container>

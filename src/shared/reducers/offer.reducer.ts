@@ -10,8 +10,8 @@ export const ACTION_TYPES = {
     FETCH_MY_OFFER_LIST: 'offer/FETCH_MY_OFFER_LIST',
     FETCH_OFFER_LIST_FOR_USER: 'offer/FETCH_OFFER_LIST_FOR_USER',
     FETCH_OFFER_LIST_ADDED_RECENTLY: 'offer/FETCH_OFFER_LIST_ADDED_RECENTLY',
+    FETCH_OFFER_WITH_FAVORITE_USER: 'offer/FETCH_OFFER_WITH_FAVORITE_USER',
     FETCH_OFFER: 'offer/FETCH_OFFER',
-    FETCH_OFFER_STRICT: 'offer/FETCH_OFFER_STRICT',
     CREATE_OFFER: 'offer/CREATE_OFFER',
     UPDATE_OFFER: 'offer/UPDATE_OFFER',
     PARTIAL_UPDATE_OFFER: 'offer/PARTIAL_UPDATE_OFFER',
@@ -22,7 +22,8 @@ export const ACTION_TYPES = {
 
 const initialState = {
     loadingEntity: false,
-    entity: defaultValueOFU,
+    entityWithFavoriteUser: defaultValueOFU,
+    entity: defaultValue,
     updateSuccess: false,
     deleteSuccess: false,
     entities: [] as ReadonlyArray<IOffer>,
@@ -66,31 +67,24 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entities: action.payload.data.content,
                 totalItems: action.payload.data.totalElements
             };
-        case ACTION_TYPES.RESET:
-            return {
-                ...initialState,
-            };
 
 
-        case REQUEST(ACTION_TYPES.FETCH_OFFER):
-        case REQUEST(ACTION_TYPES.FETCH_OFFER_STRICT):
+        case REQUEST(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
                 loadingEntity: true,
             };
-        case FAILURE(ACTION_TYPES.FETCH_OFFER):
-        case FAILURE(ACTION_TYPES.FETCH_OFFER_STRICT):
+        case FAILURE(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
                 loadingEntity: false,
                 errorMessage: action.payload,
             };
-        case SUCCESS(ACTION_TYPES.FETCH_OFFER):
-        case SUCCESS(ACTION_TYPES.FETCH_OFFER_STRICT):
+        case SUCCESS(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
                 loadingEntity: false,
-                entity: action.payload.data,
+                entityWithFavoriteUser: action.payload.data,
             };
 
 
@@ -149,7 +143,7 @@ export default (state: OfferState = initialState, action: any): OfferState => {
             return {
                 ...state,
                 deleteSuccess: true,
-                entity: {},
+                // entity: {},
             };
 
 
@@ -170,6 +164,30 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 loadingRecentlyAddedOffers: false,
                 entitiesRecentlyAddedOffers: action.payload.data.content,
                 totalItemsRecentlyAddedOffers: action.payload.data.totalElements,
+            };
+
+
+        case REQUEST(ACTION_TYPES.FETCH_OFFER):
+            return {
+                ...state,
+                loadingEntity: false,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_OFFER):
+            return {
+                ...state,
+                loadingEntity: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_OFFER):
+            return {
+                ...state,
+                loadingEntity: false,
+                entity: action.payload.data,
+            };
+
+        case ACTION_TYPES.RESET:
+            return {
+                ...initialState,
             };
 
         default:
@@ -207,9 +225,9 @@ export const getEntitiesRecentlyAdded = (page: number, size: number, sort: strin
 };
 
 export const getEntity = (id: number) => {
-    const requestUrl = `${apiUrl}/public/entity/${id}`;
+    const requestUrl = `${apiUrl}/${id}`;
     return {
-        type: ACTION_TYPES.FETCH_OFFER_STRICT,
+        type: ACTION_TYPES.FETCH_OFFER,
         payload: axios.get<IOffer>(`${getPathApi(requestUrl)}`),
     };
 };
@@ -218,7 +236,7 @@ export const getEntity = (id: number) => {
 export const getEntitywithFavorite = (id: string) => {
     const requestUrl = `${apiUrl}/public/${id}`;
     return {
-        type: ACTION_TYPES.FETCH_OFFER,
+        type: ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER,
         payload: axios.get<IOfferFavoriteUser>(`${getPathApi(requestUrl)}`),
     };
 };
@@ -260,6 +278,9 @@ export const deleteEntity: (id: number) => void = (id: number) => async (dispatc
     const result = await dispatch({
         type: ACTION_TYPES.DELETE_OFFER,
         payload: axios.delete(`${getPathApi(requestUrl)}`),
+        meta: {
+            successMessage: 'Offer delete succefully',
+        },
     });
     return result;
 };

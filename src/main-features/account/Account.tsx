@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Grid from "@mui/material/Grid/Grid";
 import Paper from "@mui/material/Paper/Paper";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getUserAvatar} from "../../shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "../../shared/utils/utils-functions";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import {useFormik} from "formik";
 import {initialValuesAccount, validationSchemaAccount} from "./validation/validation-account";
@@ -122,7 +122,7 @@ export const Account = (props: IAccountClientProps) => {
                 <Grid container spacing={4} style={{
                     paddingTop: 50,
                 }}>
-                    <Grid item xs={12} sm={3} className="text-center">
+                    <Grid item xs={12} sm={3} sx={{ textAlign: 'center' }}>
                         <Paper elevation={3} sx={{ p: 1 }}>
                             <Box sx={{ position: 'relative' }}>
                                 <Box sx={{ position: 'relative', width: '80px', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -152,10 +152,7 @@ export const Account = (props: IAccountClientProps) => {
                                     />
                                 </Box>
                             </Box>
-                            <h3>
-                                {props.account.firstName ? props.account.firstName : ''}
-                                {props.account.lastName ? props.account.lastName : ''}
-                            </h3>
+                            <h3>{getFullnameUser(props.account)}</h3>
                             <p>{props.account.email}</p>
                         </Paper>
                     </Grid>

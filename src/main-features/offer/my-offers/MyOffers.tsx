@@ -24,7 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
@@ -40,6 +40,7 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import LoadingSearchOffers from "../../search/ui-segments/LoadingSearchOffers";
+import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 
 
 const Transition = React.forwardRef(function Transition(
@@ -185,6 +186,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                                     aria-label="edit"
                                                                     color="success"
                                                                     onClick={event => handleClickOpenUpdateOffert(event, offer.id)}
+                                                                    sx={{mr: 0.5}}
                                                                 >
                                                                     <ModeEditIcon />
                                                                 </IconButton>
@@ -206,14 +208,12 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                             ></Avatar>
                                                         </ListItemAvatar>
                                                         <ListItemText
-                                                            primary={
-                                                                (offer.user?.firstName ? offer.user?.firstName : '') + ' ' + (offer.user?.lastName ? offer.user?.lastName : '')
-                                                            }
+                                                            primary={getFullnameUser(offer?.user)}
                                                             secondary={
-                                                                <React.Fragment>
-                                                                    <AccessTimeFilledIcon className="mr-1" />
-                                                                    {offer.dateCreated}
-                                                                </React.Fragment>
+                                                                <Typography  variant="subtitle2" color="text.secondary" display="flex">
+                                                                    <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                                    <ConvertReactTimeAgo convertDate={offer.dateCreated} />
+                                                                </Typography>
                                                             }
                                                         />
                                                     </ListItem>
@@ -224,11 +224,15 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                         <Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>
                                                             {offer.title}
                                                         </Typography>
-                                                        <Typography variant="subtitle2" color="text.secondary">
-                                                            <AddLocationAltIcon /> Tunisie, Sousse
-                                                        </Typography>
 
-                                                        <Typography variant="subtitle2" color="text.secondary">
+                                                        {
+                                                            offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>
+                                                                <AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                                {offer.address.city+', '+offer.address.country}
+                                                            </Typography> : null
+                                                        }
+
+                                                        <Typography variant="subtitle2" color="text.secondary" display="flex">
                                                             <CheckIcon />
                                                             {offer.typeOffer === TypeOfferEnum.Sell
                                                                 ? 'À vendre'
@@ -240,7 +244,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                                                        <Typography variant="subtitle1" color="text.secondary">
+                                                        <Typography variant="subtitle1" color="text.secondary" display="flex">
                                                             <AttachMoneyIcon />
                                                             {offer.amount} 10 TND
                                                         </Typography>

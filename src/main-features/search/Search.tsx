@@ -33,6 +33,7 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
+import Stack from "@mui/material/Stack/Stack";
 
 
 export interface ISearchProps extends StateProps, DispatchProps {}
@@ -121,10 +122,10 @@ export const Search = (props: ISearchProps) => {
                                                 <ListItemText
                                                     primary={getFullnameUser(offer?.user)}
                                                     secondary={
-                                                        <React.Fragment>
-                                                            <AccessTimeFilledIcon className="mr-1" />
+                                                        <Typography  variant="subtitle2" color="text.secondary" display="flex">
+                                                            <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>
                                                             <ConvertReactTimeAgo convertDate={offer.dateCreated} />
-                                                        </React.Fragment>
+                                                        </Typography>
                                                     }
                                                 />
                                             </ListItem>
@@ -135,12 +136,16 @@ export const Search = (props: ISearchProps) => {
                                                 <Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>
                                                     {offer.title}
                                                 </Typography>
-                                                <Typography variant="subtitle2" color="text.secondary">
-                                                    <AddLocationAltIcon /> Tunisie, Sousse
-                                                </Typography>
 
-                                                <Typography variant="subtitle2" color="text.secondary">
-                                                    <CheckIcon />
+                                                {
+                                                    offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>
+                                                        <AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                            {offer.address.city+', '+offer.address.country}
+                                                    </Typography> : null
+                                                }
+
+                                                <Typography variant="subtitle2" color="text.secondary" display="flex">
+                                                    <CheckIcon fontSize="small" sx={{mr: 0.9}}/>
                                                     {offer.typeOffer === TypeOfferEnum.Sell
                                                         ? 'À vendre'
                                                         : offer.typeOffer === TypeOfferEnum.Rent
@@ -151,8 +156,8 @@ export const Search = (props: ISearchProps) => {
                                                 </Typography>
                                             </Grid>
                                             {offer.amount ? (
-                                                <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                                                    <Typography variant="subtitle1" color="text.secondary">
+                                                <Grid item xs={4}>
+                                                    <Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>
                                                         <AttachMoneyIcon />
                                                         {offer.amount} TND
                                                     </Typography>

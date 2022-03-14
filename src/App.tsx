@@ -54,6 +54,8 @@ import {StarBorder} from "@mui/icons-material";
 import InfoIcon from '@mui/icons-material/Info';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
+import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
+
 // import OneSignal from 'react-onesignal';
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
@@ -164,7 +166,7 @@ function App(props: IAppProps) {
 
     const { t, i18n } = useTranslation();
 
-    const { currentUser } = props;
+    const { currentUser, getEntitiesAddresses, getCategories } = props;
 
     useEffect(() => {
 
@@ -173,8 +175,8 @@ function App(props: IAppProps) {
         //     appId: AllAppConfig.APP_ID_ONESIGNAL
         // });
 
-        props.getEntitiesAddresses(0, 40, '');
-
+        getEntitiesAddresses(0, 40, '');
+        getCategories(0, 1, '');
     }, [])
 
     const handleLogout = (event: any) => {
@@ -421,7 +423,11 @@ const mapStateToProps = ({user, address}: IRootState) => ({
     // numberNotReadNotifications: null,
 });
 
-const mapDispatchToProps = {  logout, getEntitiesAddresses };
+const mapDispatchToProps = {
+    logout,
+    getEntitiesAddresses,
+    getCategories
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

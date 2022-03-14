@@ -28,6 +28,9 @@ const initialState = {
     entitiesByOffer: [] as ReadonlyArray<ICommentOffer>,
     loadingEntitiesByOffer: false,
     loadingUpdateEntity: false,
+    totalItemsEntitiesByOffer: 0,
+    loadingDeleteEntity: false,
+    deleteSuccess: false,
 };
 
 export type CommentOfferState = Readonly<typeof initialState>;
@@ -52,7 +55,7 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
                 ...state,
                 loadingEntitiesByOffer: false,
                 entitiesByOffer: action.payload.data.content,
-                totalItems: action.payload.data.totalElements
+                totalItemsEntitiesByOffer: action.payload.data.totalElements
             };
         }
 
@@ -75,6 +78,46 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
                 loadingAddEntity: false,
                 addSuccess: true,
                 entity: action.payload.data,
+            };
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_COMMENTOFFER):
+            return {
+                ...state,
+                updateSuccess: false,
+                loadingUpdateEntity: true,
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                updateSuccess: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                updateSuccess: true,
+                entity: action.payload.data,
+            };
+
+        case REQUEST(ACTION_TYPES.DELETE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingDeleteEntity: true,
+                deleteSuccess: false
+            };
+        case FAILURE(ACTION_TYPES.DELETE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingDeleteEntity: false,
+            };
+        case SUCCESS(ACTION_TYPES.DELETE_COMMENTOFFER):
+            return {
+                ...state,
+                loadingDeleteEntity: false,
+                deleteSuccess: true
             };
 
 
@@ -117,6 +160,29 @@ export const addCommentOffer: (entity: ICommentOffer) => void = (entity: ICommen
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_COMMENTOFFER,
         payload: axios.post(`${getPathApi(apiUrl)}/create`, entity),
+    });
+    return result;
+};
+
+export const updateEntity: (entity: ICommentOffer) => void = (entity: ICommentOffer) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.UPDATE_COMMENTOFFER,
+        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
+        meta: {
+            successMessage: 'Comment update succefully',
+        },
+    });
+    return result;
+};
+
+export const deleteEntity: (id: number) => void = (id: number) => async (dispatch: any) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    const result = await dispatch({
+        type: ACTION_TYPES.DELETE_COMMENTOFFER,
+        payload: axios.delete(getPathApi(requestUrl)),
+        meta: {
+            successMessage: 'Comment delete succefully',
+        },
     });
     return result;
 };

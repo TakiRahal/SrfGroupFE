@@ -21,8 +21,8 @@ export const validationSchemaAddOffer = Yup.object({
   startDate: Yup.date().nullable().notRequired(),
   endDate: Yup.date().nullable().notRequired(),
   periodRent: Yup.string().nullable().notRequired(),
-  address: Yup.object().nullable().notRequired(),
-  category: Yup.object().nullable().notRequired(),
+  address: Yup.object().nullable().notRequired().default(null),
+  category: Yup.object().nullable().notRequired().default(null),
 });
 
 export const setDefaultsValues = (formik: any, offerEntity: any) => {

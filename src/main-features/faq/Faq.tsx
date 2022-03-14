@@ -17,6 +17,7 @@ import CardContent from "@mui/material/CardContent/CardContent";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
+import Alert from "@mui/material/Alert/Alert";
 
 
 export const GetCardList = (props: any) => {
@@ -117,7 +118,7 @@ export const FaqClient = (props: IFaqClientProps) => {
                     : !loadingEntitiesFaq && (
                     <Grid item xs={12} md={6}>
                         <div className="alert alert-warning">
-                            No Faqs found
+                            <Alert severity="warning">No Faqs found</Alert>
                         </div>
                     </Grid>)
                 }

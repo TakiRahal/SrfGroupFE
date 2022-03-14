@@ -6,7 +6,9 @@ import {
     getEntitiesByOffer as getListCommentsByOffer
 } from "../../../shared/reducers/comment-offer.reducer";
 
-import {getEntitywithFavorite, uploadFiles} from "../../../shared/reducers/offer.reducer";
+import {getEntitywithFavorite} from "../../../shared/reducers/offer.reducer";
+import { reset as resetAllFavoriteOfferUser } from '../../../shared/reducers/offer.reducer';
+import { reset as resetCommentOffer } from '../../../shared/reducers/comment-offer.reducer';
 import {useHistory, useParams} from "react-router";
 import Zoom from "@mui/material/Zoom/Zoom";
 import Container from "@mui/material/Container/Container";
@@ -24,7 +26,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddLocation from '@mui/icons-material/AddLocation';
-import parse from 'html-react-parser';
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
 import SwiperDetailsOffer from "./ui-segments/SwiperDetailsOffer";
@@ -32,6 +33,9 @@ import CommentDetailsOffer from "./ui-segments/CommentDetailsOffer";
 import RightDetailsOffer from './ui-segments/RightDetailsOffer';
 import {ICommentOffer} from "../../../shared/model/comment-offer.model";
 import { createEntity as createEntityFavoriteUser } from '../../../shared/reducers/favorite-user.reducer';
+import { updateEntity as updateComment } from '../../../shared/reducers/comment-offer.reducer';
+import { deleteEntity as deleteComment } from '../../../shared/reducers/comment-offer.reducer';
+
 
 import './DetailsOffer.scss';
 import {convertDateTimeToServer} from "../../../shared/utils/utils-functions";
@@ -48,8 +52,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const history = useHistory();
 
     const {
+        resetAllFavoriteOfferUser,
+        resetCommentOffer,
         getEntitywithFavorite,
-        favoriteUserEntity,
+        updateComment,
+        favoriteUserOffer,
         loadingEntity,
         isAuthenticated,
         getListCommentsByOffer,
@@ -57,41 +64,47 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         listCommentsByOffer,
         account,
         loadingUpdateEntity,
-        addSuccessEntity,
+        addSuccessComment,
+        updateSuccessComment,
 
         loadingEntityFavoriteUser,
         entityFavoriteUser,
         addSuccessFavoriteUser,
         createEntityFavoriteUser,
-        loadingAddComment
+        loadingAddComment,
+        totalItemsCommentsByOffer,
+        loadingDeleteComment,
+        deleteSuccessComment,
+        deleteComment
     } = props;
 
     React.useEffect(() => {
-        console.log('props.match.params ', id);
-        if(id){
-            getEntitywithFavorite(id);
-        }
-    }, [id])
+        resetAllFavoriteOfferUser();
+    }, [])
 
     React.useEffect(() => {
-        const idOffer = favoriteUserEntity?.offer?.id || -1;
+        if(!favoriteUserOffer?.offer?.id && id){
+            console.log('favoriteUserOffer ', favoriteUserOffer?.offer?.id);
+            getEntitywithFavorite(id);
+            getListCommentsByOffer(Number(id), 0, 20, '');
+        }
+    }, [favoriteUserOffer])
 
-        if (favoriteUserEntity && favoriteUserEntity.offer && !loadingEntity) {
+    React.useEffect(() => {
+        if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntity) {
             setTimeout(() => {
                 setStartAnimation(true);
             }, 100)
         }
-
-        if (favoriteUserEntity && favoriteUserEntity.offer && isAuthenticated && !loadingEntity) {
-            setIsFavoriteUser(favoriteUserEntity?.myFavoriteUser || false);
-            getListCommentsByOffer(idOffer, 0, 20, '');
-        }
-    }, [favoriteUserEntity]);
+    }, [favoriteUserOffer]);
 
     React.useEffect(() => {
-        const idOffer = favoriteUserEntity?.offer?.id || -1;
-        getListCommentsByOffer(idOffer, 0, 20, '');
-    }, [addSuccessEntity])
+        if(addSuccessComment || updateSuccessComment || deleteSuccessComment){
+            resetCommentOffer();
+            const idOffer = favoriteUserOffer?.offer?.id || -1;
+            getListCommentsByOffer(idOffer, 0, 20, '');
+        }
+    }, [addSuccessComment, updateSuccessComment, deleteSuccessComment])
 
     const handleCallbackAddComment = (content: string) => {
         console.log('commentContent ', content);
@@ -100,10 +113,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                 createdDate: null,
                 content: content,
                 offer: {
-                    id: favoriteUserEntity?.offer?.id,
+                    id: favoriteUserOffer?.offer?.id,
                     user: {
-                        id: favoriteUserEntity?.offer?.user?.id,
-                        username: favoriteUserEntity?.offer?.user?.username,
+                        id: favoriteUserOffer?.offer?.user?.id,
+                        username: favoriteUserOffer?.offer?.user?.username,
                     },
                 },
                 user: {},
@@ -112,23 +125,26 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     }
 
-    const handleCallbackDeleteComment = () => {
-
+    const handleCallbackDeleteComment = (commentId: number) => {
+        deleteComment(commentId);
     }
 
     const parentCallbackUpdateComment = (content: string, commentid: number) => {
-        // const commentUpdate = listCommentsByOffer.find(comment => comment.id === commentid);
-        // commentUpdate.content = content;
-        // props.updateComment(commentUpdate);
+        let commentUpdate = listCommentsByOffer.find(comment => comment.id === commentid);
+        commentUpdate = {
+            ...commentUpdate,
+            content: content
+        }
+        updateComment(commentUpdate);
     };
 
     const handleCallbackFavorite = (userId: number) => {
         if (isAuthenticated) {
-            if (favoriteUserEntity?.offer?.user?.id !== account?.id) {
+            if (favoriteUserOffer?.offer?.user?.id !== account?.id) {
                 const entity = {
                     favoriteUser: {
-                        id: favoriteUserEntity?.offer?.user?.id,
-                        username: favoriteUserEntity?.offer?.user?.username,
+                        id: favoriteUserOffer?.offer?.user?.id,
+                        username: favoriteUserOffer?.offer?.user?.username,
                     },
                     favoriteDate: convertDateTimeToServer(new Date()),
                 };
@@ -139,14 +155,14 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     };
 
-    React.useEffect(() => {
-        if(addSuccessFavoriteUser){
-            setIsFavoriteUser(true);
-        }
-    }, [addSuccessFavoriteUser])
+    // React.useEffect(() => {
+    //     if(addSuccessFavoriteUser){
+    //         setIsFavoriteUser(true);
+    //     }
+    // }, [addSuccessFavoriteUser])
 
     const getDescriptionHtml = (): string => {
-        return favoriteUserEntity?.offer?.description ? favoriteUserEntity?.offer?.description : '';
+        return favoriteUserOffer?.offer?.description ? favoriteUserOffer?.offer?.description : '';
     }
     return (
         <Zoom in={startAnimation}>
@@ -164,7 +180,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                             <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
                                 Search
                             </Link>
-                            <Typography color="text.primary">{favoriteUserEntity?.offer?.title}</Typography>
+                            <Typography color="text.primary">{favoriteUserOffer?.offer?.title}</Typography>
                         </Breadcrumbs>
                     </Grid>
                 </Grid>
@@ -182,51 +198,58 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                             }}
                         >
                             <Grid item xs={12} sm={6}>
-                                <SwiperDetailsOffer {...favoriteUserEntity?.offer} />
-                                <Card>
+                                <SwiperDetailsOffer {...favoriteUserOffer?.offer} />
+                                <Card  sx={{mb: 3}}>
                                     <CardContent>
-                                        {favoriteUserEntity?.offer?.amount ? (
-                                            <Typography variant="h4" className="text-center" sx={{ color: 'red', fontWeight: 600 }}>
-                                                $ {favoriteUserEntity?.offer?.amount} DT
+                                        {favoriteUserOffer?.offer?.amount ? (
+                                            <Typography variant="h4" sx={{ textAlign: 'center', color: 'red', fontWeight: 600 }}>
+                                                $ {favoriteUserOffer?.offer?.amount} DT
                                             </Typography>
                                         ) : null}
 
-                                        <Typography variant="subtitle2" color="text.secondary">
-                                            <InfoOutlinedIcon />{' '}
-                                            {favoriteUserEntity?.offer?.typeOffer === TypeOfferEnum.Sell ? (
+                                        <Typography variant="subtitle2" color="text.secondary" display="flex">
+                                            <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
+                                            {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
                                                 'For Sell'
-                                            ) : favoriteUserEntity?.offer?.typeOffer === TypeOfferEnum.Rent ? (
+                                            ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
                                                 'For Rent'
-                                            ) : favoriteUserEntity?.offer?.typeOffer === TypeOfferEnum.Find ? (
+                                            ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
                                                 'For Find'
                                             ) : null}
                                         </Typography>
 
-                                        {favoriteUserEntity?.offer?.startDate && favoriteUserEntity?.offer?.endDate ? (
-                                            <Typography color="text.secondary" gutterBottom>
-                                                from_rent_periode
-                                                &nbsp;
-                                                <strong>{favoriteUserEntity?.offer?.startDate}</strong>&nbsp;
-                                                to_rent_periode
-                                                &nbsp;
-                                                <strong>{favoriteUserEntity?.offer?.endDate}</strong>
-                                            </Typography>
+                                        {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
+                                            <Box>
+                                                <Typography color="text.secondary" gutterBottom display="flex">
+                                                    from_rent_periode
+                                                    &nbsp;
+                                                    <strong>{favoriteUserOffer?.offer?.startDate}</strong>&nbsp;
+                                                </Typography>
+                                                <Typography color="text.secondary" gutterBottom display="flex">
+                                                    to_rent_periode
+                                                    &nbsp;
+                                                    <strong>{favoriteUserOffer?.offer?.endDate}</strong>
+                                                </Typography>
+                                            </Box>
                                         ) : null}
 
                                         <Typography variant="h5" component="div" sx={{ mt: 2 }}>
-                                            {favoriteUserEntity?.offer?.title}
+                                            {favoriteUserOffer?.offer?.title}
                                         </Typography>
 
-                                        <Typography sx={{ fontSize: '0.8rem' }} color="text.secondary">
-                                            <AccessTimeIcon fontSize="small" /> <ConvertReactTimeAgo convertDate={favoriteUserEntity?.offer?.dateCreated} />
+                                        <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                            <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
                                         </Typography>
-                                        <Typography sx={{ mb: 1.8, fontSize: '0.8rem' }} color="text.secondary">
-                                            <AddLocation fontSize="small" />
-                                            {favoriteUserEntity?.offer?.address?.city}, {favoriteUserEntity?.offer?.address?.country}
-                                        </Typography>
+
+                                        {
+                                            favoriteUserOffer?.offer?.address ?
+                                                <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                    <AddLocation fontSize="small" sx={{mr: 0.9}}/>
+                                                    {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
+                                                </Typography> : null
+                                        }
 
                                         <div dangerouslySetInnerHTML={{ __html: getDescriptionHtml() }}></div>
-                                        {/*<div>{parse(favoriteUserEntity?.offer?.description ? favoriteUserEntity?.offer?.description : '')}</div>*/}
                                     </CardContent>
                                     <CardActions>
                                         <Button size="small">Learn More</Button>
@@ -234,9 +257,9 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                 </Card>
 
                                 {isAuthenticated ? (
-                                    <Box sx={{mb: 3}}>
+                                    <Box>
                                         <CommentDetailsOffer
-                                            offerEntity={favoriteUserEntity?.offer}
+                                            offerEntity={favoriteUserOffer?.offer}
                                             listCommentsByOffer={listCommentsByOffer}
                                             account={account}
                                             isAuthenticated={isAuthenticated}
@@ -246,6 +269,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             parentCallbackAddComment={handleCallbackAddComment}
                                             parentCallbackDeleteComment={handleCallbackDeleteComment}
                                             parentCallbackUpdateComment={parentCallbackUpdateComment}
+                                            totalItems={totalItemsCommentsByOffer}
                                         />
                                     </Box>
                                 ) : null}
@@ -254,7 +278,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                             <Grid container item xs={12} sm={6} sx={{ pl: { xs: 0, sm: 4 } }} spacing={2}>
                                 <RightDetailsOffer
                                     parentCallback={handleCallbackFavorite}
-                                    offerEntity={favoriteUserEntity?.offer}
+                                    offerEntity={favoriteUserOffer?.offer}
                                     currentUser={account}
                                     myFavoriteUser={isFavoriteUser}
                                 />
@@ -273,13 +297,17 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser }: IRootState) => 
     account: user.currentUser,
 
     loadingEntity: offer.loadingEntity,
-    favoriteUserEntity: offer.entity,
+    favoriteUserOffer: offer.entityWithFavoriteUser,
 
     loadingCommentsByOffer: comment.loadingEntitiesByOffer,
     listCommentsByOffer: comment.entitiesByOffer,
     loadingUpdateEntity: comment.loadingUpdateEntity,
     loadingAddComment: comment.loadingAddEntity,
-    addSuccessEntity: comment.addSuccess,
+    addSuccessComment: comment.addSuccess,
+    updateSuccessComment: comment.updateSuccess,
+    totalItemsCommentsByOffer: comment.totalItemsEntitiesByOffer,
+    loadingDeleteComment: comment.loadingDeleteEntity,
+    deleteSuccessComment: comment.deleteSuccess,
 
     loadingEntityFavoriteUser: favoriteUser.loadingEntity,
     entityFavoriteUser: favoriteUser.entity,
@@ -290,7 +318,11 @@ const mapDispatchToProps = {
     getEntitywithFavorite,
     getListCommentsByOffer,
     addCommentOffer,
-    createEntityFavoriteUser
+    createEntityFavoriteUser,
+    resetAllFavoriteOfferUser,
+    resetCommentOffer,
+    updateComment,
+    deleteComment
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

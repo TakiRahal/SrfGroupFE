@@ -3,8 +3,6 @@ import {REQUEST, FAILURE, SUCCESS} from "./action-type.util";
 import {getPathApi} from "../utils/utils-functions";
 import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
-import {async} from "q";
-import {ICommentOffer} from "../model/comment-offer.model";
 import {IUser} from "../model/user.model";
 
 export const ACTION_TYPES = {

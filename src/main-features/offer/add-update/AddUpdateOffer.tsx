@@ -41,11 +41,15 @@ import Button from "@mui/material/Button/Button";
 import Slide from "@mui/material/Slide/Slide";
 import {TransitionProps} from "@mui/material/transitions";
 import {IRootState} from "../../../shared/reducers";
+import { reset as resetOffer } from '../../../shared/reducers/offer.reducer';
 import { createEntity as createEntitySellerOffer } from '../../../shared/reducers/seller-offer.reducer';
+import { updateEntity as updateEntitySell } from '../../../shared/reducers/seller-offer.reducer';
 import { reset as resetSellerOffer } from '../../../shared/reducers/seller-offer.reducer';
 import { createEntity as createEntityRentOffer } from '../../../shared/reducers/rent-offer.reducer';
+import { updateEntity as updateEntityRent } from '../../../shared/reducers/rent-offer.reducer';
 import { reset as resetRentOffer } from '../../../shared/reducers/rent-offer.reducer';
 import { createEntity as createEntityFindOffer } from '../../../shared/reducers/find-offer.reducer';
+import { updateEntity as updateEntityFind } from '../../../shared/reducers/find-offer.reducer';
 import { reset as resetFindOffer } from '../../../shared/reducers/find-offer.reducer';
 import {uploadFiles, getEntity as getEntityOffer} from "../../../shared/reducers/offer.reducer";
 import EditorConvertToHTML from "../../../shared/components/editor-convert-to-html/EditorConvertToHTML";
@@ -86,12 +90,10 @@ export interface IAddUpdateOfferProps extends StateProps, DispatchProps {}
 export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
     const [startAnimation, setStartAnimation] = React.useState(false);
-    const [isNew] = React.useState(true);
     const [fileState, setFileState] = React.useState(defaultValueFiles);
     const [originalListFiles, setOriginalListFiles] = React.useState(defaultValueOriginalListFiles);
     const [openDeleteImageOfferModal, setOpenDeleteImageOfferModal] = React.useState(false);
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
-    // const [description, setDescription] = useState('');
 
     const history = useHistory();
 
@@ -109,7 +111,8 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         resetSellerOffer,
         resetRentOffer,
         resetFindOffer,
-        entityOffer
+        entityOffer,
+        resetOffer
     } = props;
 
     const formik = useFormik({
@@ -131,9 +134,12 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             getEntityOffer(Number(id) || -1);
         }
         else{ // For new offer
-            resetSellerOffer();
-            resetRentOffer();
-            resetFindOffer();
+            // resetSellerOffer();
+            // resetRentOffer();
+            // resetFindOffer();
+            // resetOffer();
+            formik.resetForm();
+            setFileState(defaultValueFiles);
         }
     }, [id])
 
@@ -145,7 +151,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
 
     React.useEffect(() => {
-        if (!isEmpty(entityOffer)) {
+        if (!isEmpty(entityOffer) && id) { // For update
 
             // Defult values
             setDefaultsValues(formik, entityOffer);
@@ -162,25 +168,28 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     }, [entityOffer]);
 
     React.useEffect(() => {
-        if (props.updateSuccessSellerOffer) {
+        if (props.addSuccessSellerOffer || props.updateSuccessSellerOffer) {
             const offerId: number = props.entitySellerOffer?.id || -1;
             upladAllFiles(offerId);
             props.resetSellerOffer();
-            history.push(ALL_APP_ROUTES.HOME);
+            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
-        else if (props.updateSuccessRentOffer) {
+        else if (props.addSuccessRentOffer || props.updateSuccessRentOffer) {
             const offerId: number = props.entityRentOffer?.id || -1;
             upladAllFiles(offerId);
             props.resetRentOffer();
-            history.push(ALL_APP_ROUTES.HOME);
+            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
-        else if (props.updateSuccessFindOffer) {
+        else if ( props.addSuccessFindOffer || props.updateSuccessFindOffer) {
             const offerId: number = props.entityFindOffer?.id || -1;
             upladAllFiles(offerId);
             props.resetFindOffer();
-            history.push(ALL_APP_ROUTES.HOME);
+            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
-    }, [props.updateSuccessSellerOffer, props.updateSuccessRentOffer , props.updateSuccessFindOffer]);
+    }, [props.addSuccessSellerOffer, props.updateSuccessSellerOffer,
+        props.addSuccessRentOffer, props.updateSuccessRentOffer ,
+        props.addSuccessFindOffer, props.updateSuccessFindOffer
+    ]);
 
     const saveEntity = (values: any) => {
         const tempOfferImages: any[] = [];
@@ -192,11 +201,12 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         });
 
         const entity = {
+            ...entityOffer,
             dateCreated: convertDateTimeToServer(new Date()),
             ...values,
             user: {
                 id: currentUser.id,
-                login: currentUser.login,
+                email: currentUser.email,
             },
             offerImages: tempOfferImages.slice()
         };
@@ -222,7 +232,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             entity.endDate = convertDateTimeToServer(entity.endDate);
         }
 
-        if (isNew) {
+        if (!id) {
           if (formik.values.typeOffer === TypeOfferEnum.Sell) {
             props.createEntitySellerOffer(entity);
           } else if (formik.values.typeOffer === TypeOfferEnum.Rent) {
@@ -231,16 +241,15 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             props.createEntityFindOffer(entity);
           }
         }
-        /*else {
-          if (formik.values.typeOffer === TypeOfferEnum.Sell) {
-            props.updateEntitySell(entity);
-          } else if (formik.values.typeOffer === TypeOfferEnum.Rent) {
-            props.updateEntityRent(entity);
-          } else if (formik.values.typeOffer === TypeOfferEnum.Find) {
-            props.updateEntityFind(entity);
-          }
+        else {
+            if (formik.values.typeOffer === TypeOfferEnum.Sell) {
+                props.updateEntitySell(entity);
+            } else if (formik.values.typeOffer === TypeOfferEnum.Rent) {
+                props.updateEntityRent(entity);
+            } else if (formik.values.typeOffer === TypeOfferEnum.Find) {
+                props.updateEntityFind(entity);
+            }
         }
-        */
     };
 
     const selectFile = (event: any) => {
@@ -267,7 +276,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     };
 
     const upladAllFiles = (offerId: number) => {
-
+        console.log('upladAllFiles');
         if(originalListFiles.length){
             const formData = new FormData();
             for (const file of originalListFiles) {
@@ -404,7 +413,9 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                     <Grid item xs={12} md={12}>
                                         <FormControl fullWidth sx={{mt: 3}}
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
-                                            <EditorConvertToHTML callBackParent={onEditorStateChange} placeholder="Write your description..."/>
+                                            <EditorConvertToHTML callBackParent={onEditorStateChange}
+                                                                 placeholder="Write your description..."
+                                                                defaultValue={entityOffer?.description || ''}/>
                                             <FormHelperText
                                                 id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
                                         </FormControl>
@@ -496,7 +507,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                 ) : formik.values.typeOffer === TypeOfferEnum.Rent ? (
                                                     <OptionsRentAddOffer formik={formik}/>
                                                 ) : formik.values.typeOffer === TypeOfferEnum.Find ? (
-                                                    <OptionsFindAddOffer/>
+                                                    <OptionsFindAddOffer formik={formik}/>
                                                 ) : (
                                                     <Typography variant="subtitle2" color="text.secondary">
                                                         Select one type offer plz
@@ -515,7 +526,10 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                             type="submit"
                                             sx={{mt: 3, mb: 2}}
                                         >
-                                            Add
+                                            {
+                                                id ? 'Update offer' : 'Add offer'
+                                            }
+
                                         </LoadingButton>
                                     </Grid>
                                 </Grid>
@@ -547,14 +561,17 @@ const mapStateToProps = ({user, offer, sellOffer, rentOffer, findOffer, address,
     loadingEntitySellerOffer: sellOffer.loadingEntity,
     entitySellerOffer: sellOffer.entity,
     updateSuccessSellerOffer: sellOffer.updateSuccess,
+    addSuccessSellerOffer: sellOffer.addSuccess,
 
     loadingEntityRentOffer: rentOffer.loadingEntity,
     entityRentOffer: rentOffer.entity,
     updateSuccessRentOffer: rentOffer.updateSuccess,
+    addSuccessRentOffer: rentOffer.addSuccess,
 
     loadingEntityFindOffer: findOffer.loadingEntity,
     entityFindOffer: findOffer.entity,
     updateSuccessFindOffer: findOffer.updateSuccess,
+    addSuccessFindOffer: findOffer.addSuccess,
 
     entityOfferWithFavoriteUser: offer.entityWithFavoriteUser,
     entityOffer: offer.entity,
@@ -576,6 +593,10 @@ const mapDispatchToProps = {
     createEntityFindOffer,
     resetFindOffer,
     getEntityOffer,
+    resetOffer,
+    updateEntitySell,
+    updateEntityRent,
+    updateEntityFind
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

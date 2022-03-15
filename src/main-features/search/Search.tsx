@@ -33,7 +33,6 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
-import Stack from "@mui/material/Stack/Stack";
 
 
 export interface ISearchProps extends StateProps, DispatchProps {}
@@ -215,7 +214,7 @@ const mapStateToProps = ({ user, offer }: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-    getEntitiesOffers
+    getEntitiesOffers,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

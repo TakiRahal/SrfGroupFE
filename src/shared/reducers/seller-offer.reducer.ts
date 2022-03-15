@@ -1,9 +1,7 @@
 import axios from 'axios';
 import {defaultValue, ISellOffer} from "../model/sell-offer.model";
-import {clearAuthToken} from "./user-reducer";
 import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {IOffer} from "../model/offer.model";
 
 export const ACTION_TYPES = {
     FETCH_SELLOFFER_LIST: 'sellOffer/FETCH_SELLOFFER_LIST',
@@ -19,7 +17,9 @@ export const ACTION_TYPES = {
 const initialState = {
     loadingEntity: false,
     entity: defaultValue,
+    loadingUpdateEntity: false,
     updateSuccess: false,
+    addSuccess: false,
     entities: [] as ReadonlyArray<ISellOffer>,
     loadingEntities: false,
     errorMessage: null,
@@ -39,6 +39,7 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
             return {
                 ...state,
                 loadingEntity: true,
+                addSuccess: false
             };
         case FAILURE(ACTION_TYPES.CREATE_SELLOFFER):
             return {
@@ -50,10 +51,30 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
             return {
                 ...state,
                 loadingEntity: false,
+                entity: action.payload.data,
+                addSuccess: true
+            };
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_SELLOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: true,
+                updateSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_SELLOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_SELLOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
                 updateSuccess: true,
                 entity: action.payload.data,
             };
-
 
         case SUCCESS(ACTION_TYPES.FETCH_OFFERS_FOR_SELL):
             return {
@@ -97,29 +118,29 @@ export const getEntitiesForSell = (page: number, size: number, sort: string) => 
     };
 };
 
-export const getEntity  = (id: number) => {
-    const requestUrl = `${apiUrl}/${id}`;
-    return {
-        type: ACTION_TYPES.FETCH_SELLOFFER,
-        payload: axios.get<ISellOffer>(requestUrl),
-    };
-};
+// export const getEntity  = (id: number) => {
+//     const requestUrl = `${apiUrl}/${id}`;
+//     return {
+//         type: ACTION_TYPES.FETCH_SELLOFFER,
+//         payload: axios.get<ISellOffer>(requestUrl),
+//     };
+// };
 
-export const updateEntity = (entity: any) => async (dispatch: any) => {
+export const updateEntity: (entity: ISellOffer) => void = (entity: ISellOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_SELLOFFER,
-        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
+        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
     });
     return result;
 };
 
-export const partialUpdate = (entity: any) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.PARTIAL_UPDATE_SELLOFFER,
-        payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
-    });
-    return result;
-};
+// export const partialUpdate = (entity: any) => async (dispatch: any) => {
+//     const result = await dispatch({
+//         type: ACTION_TYPES.PARTIAL_UPDATE_SELLOFFER,
+//         payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
+//     });
+//     return result;
+// };
 
 export const deleteEntity = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;

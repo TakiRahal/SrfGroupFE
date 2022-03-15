@@ -23,6 +23,8 @@ const initialState = {
     entities: [] as ReadonlyArray<IRentOffer>,
     loadingEntities: false,
     errorMessage: null,
+    loadingUpdateEntity: false,
+    addSuccess: false,
 
     loadingRentOffers: false,
     entitiesRentOffers: [] as ReadonlyArray<IRentOffer>,
@@ -40,8 +42,6 @@ export default (state: RentOfferState = initialState, action: any): RentOfferSta
                 ...state,
                 loadingEntity: true,
             };
-
-
         case FAILURE(ACTION_TYPES.CREATE_RENTOFFER):
             return {
                 ...state,
@@ -52,12 +52,29 @@ export default (state: RentOfferState = initialState, action: any): RentOfferSta
             return {
                 ...state,
                 loadingEntity: false,
-                updateSuccess: true,
+                addSuccess: true,
                 entity: action.payload.data,
             };
-        case ACTION_TYPES.RESET:
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_RENTOFFER):
             return {
-                ...initialState,
+                ...state,
+                loadingUpdateEntity: true,
+                updateSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_RENTOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_RENTOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                updateSuccess: true,
+                entity: action.payload.data,
             };
 
 
@@ -65,6 +82,12 @@ export default (state: RentOfferState = initialState, action: any): RentOfferSta
             return {
                 ...state,
                 entitiesRentOffers: action.payload.data.content,
+            };
+
+
+        case ACTION_TYPES.RESET:
+            return {
+                ...initialState,
             };
 
 
@@ -111,21 +134,21 @@ export const createEntity: (entity: any) => void = (entity: any) => async (dispa
     return result;
 };
 
-export const updateEntity = (entity: any) => async (dispatch: any) => {
+export const updateEntity: (entity: IRentOffer) => void = (entity: IRentOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_RENTOFFER,
-        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
+        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
     });
     return result;
 };
 
-export const partialUpdate = (entity: any) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.PARTIAL_UPDATE_RENTOFFER,
-        payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
-    });
-    return result;
-};
+// export const partialUpdate = (entity: any) => async (dispatch: any) => {
+//     const result = await dispatch({
+//         type: ACTION_TYPES.PARTIAL_UPDATE_RENTOFFER,
+//         payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
+//     });
+//     return result;
+// };
 
 export const deleteEntity = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;

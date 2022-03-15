@@ -20,23 +20,23 @@ export default function SecondHorizentalListHomeClient() {
     const listServices: IService[] = [
         {
             img: getBaseImageUrl('/assets/images/home/services/delivery.png'),
-            primaryTitle: 'second_title',
-            secondTitle: 'second_title',
+            primaryTitle: 'Livraison Express 24/48H',
+            secondTitle: 'Livraison rapide sur toute la Tunisie',
         },
         {
             img: getBaseImageUrl('/assets/images/home/services/euro.png'),
-            primaryTitle: 'second_title',
-            secondTitle: 'second_title',
+            primaryTitle: 'Satisfait ou Remboursé',
+            secondTitle: 'Satisfait ou remboursé sans poser de questions ! (5Jours)',
         },
         {
             img: getBaseImageUrl('/assets/images/home/services/money.png'),
-            primaryTitle: 'second_title',
-            secondTitle: 'second_title',
+            primaryTitle: 'Paiement à la livraison',
+            secondTitle: 'Achetez et payez à la livraison',
         },
         {
             img: getBaseImageUrl('/assets/images/home/services/chat.png'),
-            primaryTitle: 'second_title',
-            secondTitle: 'second_title',
+            primaryTitle: 'Service Client 24/7',
+            secondTitle: 'Nous sommes à votre disposition pour répondre à vos questions',
         },
     ];
 

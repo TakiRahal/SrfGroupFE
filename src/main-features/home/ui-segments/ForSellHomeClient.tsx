@@ -47,7 +47,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
                             <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
                                 {index % 2 === 0 ? (
                                     offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
                                             <LazyImage
                                                 className="img-fluid"
                                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
@@ -55,7 +55,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
                                             />
                                         </CardMedia>
                                     ) : (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
                                             <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
                                         </CardMedia>
                                     )
@@ -76,7 +76,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
                                 </CardContent>
                                 {index % 2 !== 0 ? (
                                     offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
                                             <LazyImage
                                                 className="img-fluid"
                                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
@@ -84,7 +84,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
                                             />
                                         </CardMedia>
                                     ) : (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
                                             <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
                                         </CardMedia>
                                     )

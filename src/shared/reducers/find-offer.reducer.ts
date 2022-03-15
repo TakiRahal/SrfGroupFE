@@ -23,6 +23,8 @@ const initialState = {
     entities: [] as ReadonlyArray<IRentOffer>,
     loadingEntities: false,
     errorMessage: null,
+    loadingUpdateEntity: false,
+    addSuccess: false,
 
     entitiesFindOffers: [] as ReadonlyArray<IRentOffer>,
 };
@@ -49,15 +51,45 @@ export default (state: FindOfferState = initialState, action: any): FindOfferSta
             return {
                 ...state,
                 loadingEntity: false,
+                addSuccess: true,
+                entity: action.payload.data,
+            };
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_FINDOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: true,
+                updateSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_FINDOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_FINDOFFER):
+            return {
+                ...state,
+                loadingUpdateEntity: false,
                 updateSuccess: true,
                 entity: action.payload.data,
             };
+
 
         case SUCCESS(ACTION_TYPES.FETCH_OFFERS_FOR_FIND):
             return {
                 ...state,
                 entitiesFindOffers: action.payload.data.content,
             };
+
+
+        case ACTION_TYPES.RESET:
+            return {
+                ...initialState,
+            };
+
+
         default:
             return state;
     }
@@ -100,21 +132,21 @@ export const createEntity: (entity: any) => void = (entity: any) => async (dispa
     return result;
 };
 
-export const updateEntity = (entity: any) => async (dispatch: any) => {
+export const updateEntity: (entity: IFindOffer) => void = (entity: IFindOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_FINDOFFER,
-        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
+        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
     });
     return result;
 };
 
-export const partialUpdate = (entity: any) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.PARTIAL_UPDATE_FINDOFFER,
-        payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
-    });
-    return result;
-};
+// export const partialUpdate = (entity: any) => async (dispatch: any) => {
+//     const result = await dispatch({
+//         type: ACTION_TYPES.PARTIAL_UPDATE_FINDOFFER,
+//         payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
+//     });
+//     return result;
+// };
 
 export const deleteEntity = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;

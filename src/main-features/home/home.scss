@@ -36,12 +36,13 @@
   overflow-x: auto;
   .grid-full-slide {
     color: #fff;
-    white-space: nowrap;
+    //white-space: nowrap;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     .item-full-slide {
       margin: 0 50px;
+      //white-space: nowrap;
     }
   }
 }

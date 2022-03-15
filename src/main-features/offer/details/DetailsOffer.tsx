@@ -199,7 +199,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                         >
                             <Grid item xs={12} sm={6}>
                                 <SwiperDetailsOffer {...favoriteUserOffer?.offer} />
-                                <Card  sx={{mb: 3}}>
+                                <Card sx={{mb: 3}}>
                                     <CardContent>
                                         {favoriteUserOffer?.offer?.amount ? (
                                             <Typography variant="h4" sx={{ textAlign: 'center', color: 'red', fontWeight: 600 }}>
@@ -240,7 +240,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
                                             <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
                                         </Typography>
-
                                         {
                                             favoriteUserOffer?.offer?.address ?
                                                 <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
@@ -248,7 +247,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                     {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
                                                 </Typography> : null
                                         }
-
                                         <div dangerouslySetInnerHTML={{ __html: getDescriptionHtml() }}></div>
                                     </CardContent>
                                     <CardActions>
@@ -257,7 +255,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                 </Card>
 
                                 {isAuthenticated ? (
-                                    <Box>
+                                    <Box sx={{mb: 3}}>
                                         <CommentDetailsOffer
                                             offerEntity={favoriteUserOffer?.offer}
                                             listCommentsByOffer={listCommentsByOffer}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {deleteEntity, getEntitiesForCurrentUser} from "../../../shared/reducers/offer.reducer";
+import {deleteEntity, getEntitiesForCurrentUser, reset as resetOffer} from "../../../shared/reducers/offer.reducer";
 import {IRootState} from "../../../shared/reducers";
 import {connect} from "react-redux";
 import Box from "@mui/material/Box/Box";
@@ -41,7 +41,9 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import LoadingSearchOffers from "../../search/ui-segments/LoadingSearchOffers";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-
+import {reset as resetFindOffer} from "../../../shared/reducers/find-offer.reducer";
+import {reset as resetRentOffer} from "../../../shared/reducers/rent-offer.reducer";
+import {reset as resetSellerOffer} from "../../../shared/reducers/seller-offer.reducer";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -71,6 +73,11 @@ export const MyOffers = (props: IMyOfferProps) => {
     } = props;
 
     React.useEffect(() => {
+        props.resetSellerOffer();
+        props.resetRentOffer();
+        props.resetFindOffer();
+        props.resetOffer();
+
         getEntitiesForCurrentUser(1, 20, '');
     }, [])
 
@@ -167,8 +174,8 @@ export const MyOffers = (props: IMyOfferProps) => {
                             ) : listMyOffers && listMyOffers.length > 0 ? (
                                 listMyOffers.map((offer: IOffer, index: number) => (
                                     <CardActionArea component="div" onClick={() => rediretTo(offer.id)} sx={{mt: 5}} key={`entity-${index}`}>
-                                        <Card sx={{ display: 'flex' }}>
-                                            <CardMedia sx={{ width: 250, height: 200, display: { xs: 'none', sm: 'block' }, backgroundColor: '#0000004f' }}>
+                                        <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
+                                            <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
                                                 {offer.offerImages && offer.offerImages.length ? (
                                                     <LazyImage className="img-fluid" src={getImageForOffer(offer.id, offer.offerImages[0].path)} alt="New offer" />
                                                 ) : (
@@ -243,12 +250,14 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                                         : null}
                                                         </Typography>
                                                     </Grid>
-                                                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                                                        <Typography variant="subtitle1" color="text.secondary" display="flex">
-                                                            <AttachMoneyIcon />
-                                                            {offer.amount} 10 TND
-                                                        </Typography>
-                                                    </Grid>
+                                                    {
+                                                        offer.amount ? <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                                                            <Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>
+                                                                <AttachMoneyIcon /> {offer.amount} TND
+                                                            </Typography>
+                                                        </Grid> : null
+                                                    }
+
                                                 </Grid>
                                             </CardContent>
                                         </Card>
@@ -279,7 +288,11 @@ const mapStateToProps = ({ offer }: IRootState) => ({
 
 const mapDispatchToProps = {
     getEntitiesForCurrentUser,
-    deleteEntity
+    deleteEntity,
+    resetSellerOffer,
+    resetRentOffer,
+    resetFindOffer,
+    resetOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

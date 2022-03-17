@@ -1,6 +1,6 @@
 import React from 'react';
 import {IRootState} from "../../../shared/reducers";
-import {getEntitiesByUser} from "../../../shared/reducers/favorite-user.reducer";
+import {deleteEntity, getEntitiesByUser, reset as resetFavoriteUser} from "../../../shared/reducers/favorite-user.reducer";
 import {connect} from "react-redux";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
@@ -24,8 +24,15 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
         getEntitiesByUser(1, 20, '');
     }, [])
 
-    const deleteFavoriteUsers = () => {
+    React.useEffect(() => {
+        if(props.deleteSuccessFavoriteUser){
+            props.resetFavoriteUser();
+            getEntitiesByUser(1, 20, '');
+        }
+    }, [props.deleteSuccessFavoriteUser])
 
+    const deleteFavoriteUsers = (id: number) => {
+        props.deleteEntity(id);
     }
 
     return(
@@ -34,8 +41,7 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
                 container
                 style={{
                     paddingTop: 10,
-                }}
-            >
+                }} >
                 <Grid item xs={12} sm={6}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
@@ -76,11 +82,14 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
 
 const mapStateToProps = ({ favoriteUser }: IRootState) => ({
     loadingEntitiesFavoriteUsers: favoriteUser.loadingEntities,
-    listFavoriteUsers: favoriteUser.entities
+    listFavoriteUsers: favoriteUser.entities,
+    deleteSuccessFavoriteUser: favoriteUser.deleteSuccess
 });
 
 const mapDispatchToProps = {
     getEntitiesByUser,
+    deleteEntity,
+    resetFavoriteUser
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

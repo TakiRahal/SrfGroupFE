@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {IOffer} from "./offer.model";
 
 export interface ISellOffer extends IOffer {

@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {IUser} from "./user.model";
 import {IOfferImages} from "./offer-images.model";
 import {ICity} from "./city.model";

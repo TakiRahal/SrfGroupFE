@@ -73,9 +73,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     } = props;
 
     React.useEffect(() => {
-        props.resetSellerOffer();
-        props.resetRentOffer();
-        props.resetFindOffer();
+        // Persiste after update: Get entity
         props.resetOffer();
 
         getEntitiesForCurrentUser(1, 20, '');
@@ -169,6 +167,12 @@ export const MyOffers = (props: IMyOfferProps) => {
                     >
                         <Grid item xs={12} sm={3}></Grid>
                         <Grid item xs={12} sm={6}>
+
+
+                            <Typography  variant="subtitle2" color="text.secondary">
+                                Total = {totalItemsMyOffers}
+                            </Typography>
+
                             {loadingListMyOffers ? (
                                 <LoadingSearchOffers />
                             ) : listMyOffers && listMyOffers.length > 0 ? (
@@ -215,7 +219,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                                             ></Avatar>
                                                         </ListItemAvatar>
                                                         <ListItemText
-                                                            primary={getFullnameUser(offer?.user)}
+                                                            primary={offer.title}
                                                             secondary={
                                                                 <Typography  variant="subtitle2" color="text.secondary" display="flex">
                                                                     <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>
@@ -228,9 +232,7 @@ export const MyOffers = (props: IMyOfferProps) => {
 
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={8}>
-                                                        <Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>
-                                                            {offer.title}
-                                                        </Typography>
+                                                        <div dangerouslySetInnerHTML={{ __html: offer.description || '' }}></div>
 
                                                         {
                                                             offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>

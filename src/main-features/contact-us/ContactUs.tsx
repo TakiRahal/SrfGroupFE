@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid/Grid';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button/Button';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Breadcrumbs from '@mui/material/Breadcrumbs/Breadcrumbs';
 import Typography from '@mui/material/Typography/Typography';
 import Container from '@mui/material/Container/Container';
@@ -35,7 +34,7 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
 
 
     const {
-        loadingEntity, contactUsEntity,
+        loadingEntity,
         addSuccessEntity,createEntityContactUs,
         resetContactUs
     } = props;

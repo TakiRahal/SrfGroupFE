@@ -128,8 +128,8 @@ export default function Footer(){
                             Apps mobile
                         </Typography>
                         <Typography component="p" align="center">
-                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')} style={{marginRight: '2px'}} width="100" />
-                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')} style={{marginLeft: '2px'}} width="100" />
+                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')} style={{marginRight: '2px'}} width="100" alt='Logo Android'/>
+                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')} style={{marginLeft: '2px'}} width="100"  alt='Logo iOS'/>
                         </Typography>
                     </Grid>
                 </Grid>

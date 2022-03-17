@@ -9,10 +9,9 @@ import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";
 import IconButton from "@mui/material/IconButton/IconButton";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
-import {getUserAvatar} from "../../../../shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from "@mui/material/Dialog/Dialog";
-import {useHistory} from "react-router";
 import {TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide/Slide";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -20,6 +19,8 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
+import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
+import {useHistory} from "react-router";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -37,7 +38,8 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
     const { favoriteUser, id } = favorite;
 
     const handleClickOpenFavoriteModal = (event: any) => {
-
+        event.stopPropagation();
+        setOpenFavoriteModal(true);
     };
 
     const handleCloseFavoriteModal = () => {
@@ -45,11 +47,12 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
     };
 
     const redirectToPorfile = (userId: number) => {
-        // history.push(ALL_APP_ROUTES.CLIENT.PROFILE + '/' + userId);
+        history.push(ALL_APP_ROUTES.PROFILE + '/' + userId);
     };
 
     const disFavoriteHandleClick = () => {
-
+        setOpenFavoriteModal(false);
+        parentCallback(id);
     }
 
 
@@ -102,9 +105,7 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
                                 }
                             >
                                 <ListItemText
-                                    primary={
-                                        (favoriteUser?.firstName ? favoriteUser?.firstName : '') + ' ' + (favoriteUser?.lastName ? favoriteUser?.lastName : '')
-                                    }
+                                    primary={getFullnameUser(favoriteUser)}
                                     secondary={favoriteUser?.email}
                                 />
                             </ListItem>

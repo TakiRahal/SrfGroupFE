@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {defaultValue, ICommentOffer} from "../model/comment-offer.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {getPathApi} from "../utils/utils-functions";
 
 export const ACTION_TYPES = {
     FETCH_COMMENTOFFER_LIST: 'commentOffer/FETCH_COMMENTOFFER_LIST',
@@ -152,14 +151,14 @@ export const getEntitiesByOffer = (offerId: number, page: number, size: number, 
     const requestUrl = `${apiUrl}/by-offer/${offerId}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_COMMENTOFFER_LIST_BY_OFFER,
-        payload: axios.get<ICommentOffer>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<ICommentOffer>(`${requestUrl}`),
     };
 };
 
 export const addCommentOffer: (entity: ICommentOffer) => void = (entity: ICommentOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_COMMENTOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity),
+        payload: axios.post(`${apiUrl}/create`, entity),
     });
     return result;
 };
@@ -167,7 +166,7 @@ export const addCommentOffer: (entity: ICommentOffer) => void = (entity: ICommen
 export const updateEntity: (entity: ICommentOffer) => void = (entity: ICommentOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_COMMENTOFFER,
-        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
+        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
         meta: {
             successMessage: 'Comment update succefully',
         },
@@ -179,7 +178,7 @@ export const deleteEntity: (id: number) => void = (id: number) => async (dispatc
     const requestUrl = `${apiUrl}/${id}`;
     const result = await dispatch({
         type: ACTION_TYPES.DELETE_COMMENTOFFER,
-        payload: axios.delete(getPathApi(requestUrl)),
+        payload: axios.delete(requestUrl),
         meta: {
             successMessage: 'Comment delete succefully',
         },

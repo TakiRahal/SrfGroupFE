@@ -15,16 +15,6 @@ import {TypeOfferEnum} from "../../enums/type-offer.enum";
 import {useHistory} from "react-router";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 
-interface MainFeaturedPostProps {
-    post: {
-        description: string;
-        image: string;
-        imageText: string;
-        linkText: string;
-        title: string;
-    };
-}
-
 export default function SearchAppBar() {
     const [age, setAge] = React.useState('');
     const history = useHistory();

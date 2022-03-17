@@ -2,7 +2,6 @@ import {defaultValue, IRentOffer} from "../model/rent-offer.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import axios from "axios";
 import {IFindOffer} from "../model/find-offer.model";
-import {getPathApi} from "../utils/utils-functions";
 
 
 export const ACTION_TYPES = {
@@ -112,7 +111,7 @@ export const getEntitiesForFind = (page: number, size: number, sort: string) => 
     const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFERS_FOR_FIND,
-        payload: axios.get<IFindOffer>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<IFindOffer>(`${requestUrl}`),
     };
 };
 
@@ -127,7 +126,7 @@ export const getEntity = (id: number) => {
 export const createEntity: (entity: any) => void = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_FINDOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity)
+        payload: axios.post(`${apiUrl}/create`, entity)
     });
     return result;
 };
@@ -135,7 +134,7 @@ export const createEntity: (entity: any) => void = (entity: any) => async (dispa
 export const updateEntity: (entity: IFindOffer) => void = (entity: IFindOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_FINDOFFER,
-        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
+        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
     });
     return result;
 };

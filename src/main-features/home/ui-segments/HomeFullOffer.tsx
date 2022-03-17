@@ -1,11 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import {useEffect} from 'react';
-import {useState} from 'react';
-import parse from 'html-react-parser';
 import {AllAppConfig} from "../../../core/config/all-config";
-import {LazyImage} from "../../../shared/pages/lazy-image";
 import {StorageService} from '../../../shared/services/storage.service';
 import Button from "@mui/material/Button/Button";
 import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
@@ -14,15 +10,15 @@ const defaultImage = getBaseImageUrl('/assets/images/home/default_medium_home.jp
 
 
 export default function HomeFullOffer (props: any){
-    const [cmsEntity, setCmsEntity] = useState(StorageService.local.get(AllAppConfig.HomeMediumPost));
+    // const [cmsEntity, setCmsEntity] = useState(StorageService.local.get(AllAppConfig.HomeMediumPost));
 
-    const {cmsHomeMedium, loading} = props;
+    const {cmsHomeMedium} = props;
 
-    useEffect(() => {
+    React.useEffect(() => {
         // props.getLastEntity(null);
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (props.cmsHomeMedium) {
             // For next refresh
             StorageService.local.set(AllAppConfig.HomeMediumPost, props.cmsHomeMedium);

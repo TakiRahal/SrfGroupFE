@@ -15,7 +15,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from '@mui/material/styles/styled';
-import { useEffect } from 'react';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesRecentlyAdded} from "../../../shared/reducers/offer.reducer";
@@ -45,7 +44,7 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
 
     React.useEffect(() => {
         getEntitiesRecentlyAdded(0, 9, 'id,asc');
-    }, [])
+    }, []);
     
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -58,10 +57,6 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
     };
 
     const getPathAvatar = (url: string) => {
-        return '';
-    };
-
-    const getPathImage = (url: string) => {
         return '';
     };
 

@@ -9,3 +9,10 @@ export enum PeriodeRent {
   PerMonth = 'PER_MONTH',
   PerDay = 'PER_DAY',
 }
+
+export enum TypesFindOffer{
+    Carpooling = 'Carpooling',
+    Travels = 'Travels',
+    Transporter = 'Transporter',
+    Job = 'Job'
+}

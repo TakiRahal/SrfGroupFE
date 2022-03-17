@@ -1,6 +1,5 @@
 import axios from "axios";
 import {INotification} from "../model/notification.model";
-import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 
@@ -62,6 +61,6 @@ export const getEntities = (page: number, size: number, sort: string) => {
     const requestUrl = `${apiUrl}/current-user${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_NOTIFICATION_LIST,
-        payload: axios.get<INotification>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<INotification>(`${requestUrl}`),
     };
 };

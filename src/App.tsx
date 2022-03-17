@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './core/config/dayjs';
 import CssBaseline from "@mui/material/CssBaseline/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -18,7 +18,6 @@ import {useTranslation} from "react-i18next";
 import {
     BrowserRouter as Router, Link, useHistory
 } from "react-router-dom";
-import {LoadingBackdrop} from "./shared/pages/loading-backdrop";
 import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
 import { hot } from 'react-hot-loader';
@@ -50,7 +49,7 @@ import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
-import {StarBorder} from "@mui/icons-material";
+import StarBorder from "@mui/icons-material/StarBorder";
 import InfoIcon from '@mui/icons-material/Info';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
@@ -113,7 +112,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 function ScrollToTop() {
     const history = useHistory();
-    useEffect(() => {
+    React.useEffect(() => {
         const unlisten = history.listen((location, action) => {
             if (action !== 'POP') {
                 window.scrollTo(0, 0);
@@ -162,13 +161,13 @@ function App(props: IAppProps) {
     const [openAnchorDrawerRight, setOpenAnchorDrawerRight] = React.useState(false);
     const [openSubMenuSupport, setOpenSubMenuSupport] = React.useState(false);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
-    const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
+    // const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
 
     const { t, i18n } = useTranslation();
 
     const { currentUser, getEntitiesAddresses, getCategories } = props;
 
-    useEffect(() => {
+    React.useEffect(() => {
 
         // Init OneSignal Platform
         // OneSignal.init({
@@ -370,8 +369,6 @@ function App(props: IAppProps) {
             <ThemeProvider theme={ThemeApp}>
                 <CssBaseline/>
                 <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
-                <LoadingBackdrop />
-
                 <React.Fragment>
                     <Drawer anchor="left" open={openAnchorDrawer} onClose={() => handleDrawerToggle(false)}>
                         {listMenuMobile()}
@@ -415,12 +412,6 @@ const mapStateToProps = ({user, address}: IRootState) => ({
 
     loadingAddress: address.loadingEntities,
     entitiesAddress: address.entities
-    // isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
-    // ribbonEnv: applicationProfile.ribbonEnv,
-    // isInProduction: applicationProfile.inProduction,
-    // isOpenAPIEnabled: applicationProfile.isOpenAPIEnabled,
-    // account: authentication.account,
-    // numberNotReadNotifications: null,
 });
 
 const mapDispatchToProps = {
@@ -434,4 +425,3 @@ type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App));
 
-// export default App;

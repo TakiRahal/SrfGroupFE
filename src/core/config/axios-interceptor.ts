@@ -2,10 +2,9 @@ import axios from 'axios';
 
 import {StorageService} from "../../shared/services/storage.service";
 import {AllAppConfig} from "./all-config";
-import {BackDropService} from "../../shared/services/backdrop.service";
 const TIMEOUT = 1 * 60 * 1000;
 axios.defaults.timeout = TIMEOUT;
-// axios.defaults.baseURL = config.BASE_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_END_POINT;
 
 const setupAxiosInterceptors = (onUnauthenticated: any) => {
     const onRequestSuccess = (config: any) => {
@@ -13,8 +12,6 @@ const setupAxiosInterceptors = (onUnauthenticated: any) => {
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-
-        // BackDropService.toggleLoading(true);
 
         return config;
     };

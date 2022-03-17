@@ -1,7 +1,6 @@
 import axios from "axios";
 import {defaultValue, ICategory} from "../model/category.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {getPathApi} from "../utils/utils-functions";
 
 
 export const ACTION_TYPES = {
@@ -63,6 +62,6 @@ export const getPublicEntities = (page: number, size: number, sort: string) => {
     const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_CATEGORY_LIST,
-        payload: axios.get<ICategory>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<ICategory>(`${requestUrl}`),
     };
 };

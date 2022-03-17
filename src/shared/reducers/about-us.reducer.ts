@@ -1,6 +1,5 @@
 import {defaultValue, IAboutUs} from "../model/about-us.model";
 import axios from "axios";
-import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 
@@ -53,6 +52,6 @@ export const getEntity = () => {
     const requestUrl = `${apiUrl}`;
     return {
         type: ACTION_TYPES.FETCH_ABOUTUS,
-        payload: axios.get<IAboutUs>(`${getPathApi(requestUrl)}/public/last`),
+        payload: axios.get<IAboutUs>(`${requestUrl}/public/last`),
     };
 };

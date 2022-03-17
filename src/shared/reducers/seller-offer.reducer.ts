@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {defaultValue, ISellOffer} from "../model/sell-offer.model";
-import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 export const ACTION_TYPES = {
@@ -97,7 +96,7 @@ const apiUrl = 'api/sell-offer';
 export const createEntity: (entity: any) => void = (entity: any) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_SELLOFFER,
-        payload: axios.post(`${getPathApi(apiUrl)}/create`, entity),
+        payload: axios.post(`${apiUrl}/create`, entity),
     });
     return result;
 };
@@ -114,7 +113,7 @@ export const getEntitiesForSell = (page: number, size: number, sort: string) => 
     const requestUrl = `${apiUrl}/public${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFERS_FOR_SELL,
-        payload: axios.get<ISellOffer>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<ISellOffer>(`${requestUrl}`),
     };
 };
 
@@ -129,7 +128,7 @@ export const getEntitiesForSell = (page: number, size: number, sort: string) => 
 export const updateEntity: (entity: ISellOffer) => void = (entity: ISellOffer) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_SELLOFFER,
-        payload: axios.put(`${getPathApi(apiUrl)}/${entity.id}`, entity),
+        payload: axios.put(`${apiUrl}/${entity.id}`, entity),
     });
     return result;
 };

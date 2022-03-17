@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {defaultValue, IContactUs} from "../model/contact-us.model";
-import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 
@@ -53,7 +52,7 @@ const apiUrl = 'api/contactus';
 export const createEntity: (entity: IContactUs) => void = (entity: IContactUs) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_CONTACTUS,
-        payload: axios.post(`${getPathApi(apiUrl)}/public`, entity),
+        payload: axios.post(`${apiUrl}/public`, entity),
         meta: {
             successMessage: 'contact-us.messages.success',
         },

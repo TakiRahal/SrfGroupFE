@@ -18,8 +18,6 @@ import FormControl from "@mui/material/FormControl/FormControl";
 import InputLabel from "@mui/material/InputLabel/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
-import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
-import TextField from "@mui/material/TextField/TextField";
 import ButtonGroup from "@mui/material/ButtonGroup/ButtonGroup";
 import Button from "@mui/material/Button/Button";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
@@ -43,26 +41,24 @@ export const Account = (props: IAccountClientProps) => {
         getCurrentUser,
         account,
         loadingAccount,
-        listAddress,
         uploadAvatar,
-        uploadAvatarSuccess
     } = props;
 
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAccount,
         onSubmit: values => {
-            const account = {
-                ...props.account,
-                ...values,
-            };
+            // const account = {
+            //     ...props.account,
+            //     ...values,
+            // };
             // props.saveAccountSettings(account);
         },
     });
 
     React.useEffect(() => {
         getCurrentUser();
-    }, [])
+    })
 
     React.useEffect(() => {
         if (account) {

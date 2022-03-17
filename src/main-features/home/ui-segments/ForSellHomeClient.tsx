@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography/Typography';
 import Box from '@mui/material/Box/Box';
 import {LazyImage} from "../../../shared/pages/lazy-image";
 import {AllAppConfig} from "../../../core/config/all-config";
-import parse from 'html-react-parser';
 import {getImageForOffer} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useHistory} from "react-router";

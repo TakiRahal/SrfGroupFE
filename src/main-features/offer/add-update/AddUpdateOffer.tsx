@@ -1,6 +1,6 @@
 import React from 'react';
 import {initialValuesAddOffer, setDefaultsValues, validationSchemaAddOffer} from "./validation/init-value-add-offer";
-import {RouteComponentProps, useHistory, useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {connect} from "react-redux";
 import Grid from "@mui/material/Grid/Grid";
 import Container from "@mui/material/Container/Container";
@@ -28,7 +28,6 @@ import OptionsRentAddOffer from "./ui-segments/OptionsRentAddOffer";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import OptionsFindAddOffer from "./ui-segments/OptionsFindAddOffer";
-import parse from 'html-react-parser';
 import {useFormik} from "formik";
 import {convertDateTimeToServer, getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
@@ -39,7 +38,7 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import Slide from "@mui/material/Slide/Slide";
-import {TransitionProps} from "@mui/material/transitions";
+import {TransitionProps} from "@mui/material/transitions/transition";
 import {IRootState} from "../../../shared/reducers";
 import { reset as resetOffer } from '../../../shared/reducers/offer.reducer';
 import { createEntity as createEntitySellerOffer } from '../../../shared/reducers/seller-offer.reducer';
@@ -53,7 +52,7 @@ import { updateEntity as updateEntityFind } from '../../../shared/reducers/find-
 import { reset as resetFindOffer } from '../../../shared/reducers/find-offer.reducer';
 import {uploadFiles, getEntity as getEntityOffer} from "../../../shared/reducers/offer.reducer";
 import EditorConvertToHTML from "../../../shared/components/editor-convert-to-html/EditorConvertToHTML";
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
 
@@ -100,19 +99,15 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const {
         loadingEntitySellerOffer,
         loadingEntityRentOffer,
-        entitySellerOffer,
         isAuthenticated,
         currentUser,
-        entityOfferWithFavoriteUser,
         getEntityOffer,
         entitiesAddress,
-        loadingEntitiesCategory,
         entitiesCategory,
         resetSellerOffer,
         resetRentOffer,
         resetFindOffer,
         entityOffer,
-        resetOffer
     } = props;
 
     const formik = useFormik({
@@ -134,10 +129,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             getEntityOffer(Number(id) || -1);
         }
         else{ // For new offer
-            // resetSellerOffer();
-            // resetRentOffer();
-            // resetFindOffer();
-            // resetOffer();
             formik.resetForm();
             setFileState(defaultValueFiles);
         }
@@ -171,19 +162,19 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         if (props.addSuccessSellerOffer || props.updateSuccessSellerOffer) {
             const offerId: number = props.entitySellerOffer?.id || -1;
             upladAllFiles(offerId);
-            props.resetSellerOffer();
+            resetSellerOffer();
             history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
         else if (props.addSuccessRentOffer || props.updateSuccessRentOffer) {
             const offerId: number = props.entityRentOffer?.id || -1;
             upladAllFiles(offerId);
-            props.resetRentOffer();
+            resetRentOffer();
             history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
         else if ( props.addSuccessFindOffer || props.updateSuccessFindOffer) {
             const offerId: number = props.entityFindOffer?.id || -1;
             upladAllFiles(offerId);
-            props.resetFindOffer();
+            resetFindOffer();
             history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
     }, [props.addSuccessSellerOffer, props.updateSuccessSellerOffer,
@@ -254,6 +245,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
     const selectFile = (event: any) => {
         if (event.target.files && event.target.files.length <= AllAppConfig.MaxNbeImagePerOffer) {
+
             const newSelectedFiles: string[] = [];
             const newOrigSelectedFiles: File[] = [];
 
@@ -369,8 +361,8 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                             error={formik.touched.typeOffer && Boolean(formik.errors.typeOffer)}
                                             className="form-control-type-offer"
                                         >
-                                            <InputLabel id="demo-simple-select-label" className="type-offer-select">
-                                                Type Offre
+                                            <InputLabel id="label-component-helper-typeOffer" className="type-offer-select">
+                                                Type Offre *
                                             </InputLabel>
                                             <Select
                                                 id="typeOffer"
@@ -390,14 +382,14 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                 </MenuItem>
                                             </Select>
                                             <FormHelperText
-                                                id="component-helper-text">{formik.touched.typeOffer && formik.errors.typeOffer}</FormHelperText>
+                                                id="component-helper-text-typeOffer">{formik.touched.typeOffer && formik.errors.typeOffer}</FormHelperText>
                                         </FormControl>
                                     </Grid>
 
                                     <Grid item xs={12} md={6}>
                                         <FormControl fullWidth size="small"
                                                      error={formik.touched.title && Boolean(formik.errors.title)}>
-                                            <InputLabel htmlFor="outlined-adornment-title">Title</InputLabel>
+                                            <InputLabel htmlFor="outlined-adornment-title">Title *</InputLabel>
                                             <OutlinedInput
                                                 id="title"
                                                 name="title"
@@ -414,7 +406,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                         <FormControl fullWidth sx={{mt: 3}}
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
                                             <EditorConvertToHTML callBackParent={onEditorStateChange}
-                                                                 placeholder="Write your description..."
+                                                                 placeholder="Write your description *"
                                                                 defaultValue={entityOffer?.description || ''}/>
                                             <FormHelperText
                                                 id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>

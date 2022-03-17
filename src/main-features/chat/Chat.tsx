@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {IRootState} from "../../shared/reducers";
-import Box from "@mui/material/Box/Box";
 import Typography from "@mui/material/Typography/Typography";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";

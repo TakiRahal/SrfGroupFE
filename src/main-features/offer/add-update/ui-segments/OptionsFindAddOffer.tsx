@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TypeOfferEnum} from "../../../../shared/enums/type-offer.enum";
+import {TypeOfferEnum, TypesFindOffer} from "../../../../shared/enums/type-offer.enum";
 import Grid from "@mui/material/Grid/Grid";
 import FormControl from "@mui/material/FormControl/FormControl";
 import InputLabel from "@mui/material/InputLabel/InputLabel";
@@ -30,16 +30,16 @@ export default function OptionsFindAddOffer(props: any) {
                       labelId="demo-simple-select-label"
                       value={formik.values.typeFindOffer}
                       onChange={formik.handleChange}>
-                      <MenuItem value={TypeOfferEnum.Sell}>
+                      <MenuItem value={TypesFindOffer.Carpooling}>
                           CoVoiiturage
                       </MenuItem>
-                      <MenuItem value={TypeOfferEnum.Rent}>
+                      <MenuItem value={TypesFindOffer.Travels}>
                           Travels
                       </MenuItem>
-                      <MenuItem value={TypeOfferEnum.Find}>
-                          Transporteur: from --- to
+                      <MenuItem value={TypesFindOffer.Transporter}>
+                          Transporter: from --- to
                       </MenuItem>
-                      <MenuItem value={TypeOfferEnum.Find}>
+                      <MenuItem value={TypesFindOffer.Job}>
                           Travail
                       </MenuItem>
                   </Select>

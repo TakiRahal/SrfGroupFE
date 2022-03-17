@@ -1,6 +1,5 @@
 import axios from "axios";
 import {REQUEST, FAILURE, SUCCESS} from "./action-type.util";
-import {getPathApi} from "../utils/utils-functions";
 import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
 import {IUser} from "../model/user.model";
@@ -131,7 +130,7 @@ export default (state: UserState = initialState, action: any): UserState => {
                 ...state,
                 loadingAccount: true,
             };
-        case FAILURE(ACTION_TYPES.GET_PROFILE):
+        case FAILURE(ACTION_TYPES.GET_CURRENT_USER):
             return {
                 ...state,
                 loadingAccount: false,
@@ -185,7 +184,7 @@ const apiUrl = 'api/user/';
 export const handleRegister = (email: string, password: string, sourceRegister: string) => {
     const result = ({
         type: ACTION_TYPES.CREATE_ACCOUNT,
-        payload: axios.post(`${getPathApi(apiUrl)}public/signup`, {
+        payload: axios.post(`${apiUrl}public/signup`, {
             email: email,
             password: password,
             sourceRegister: sourceRegister
@@ -202,7 +201,7 @@ export const handleRegister = (email: string, password: string, sourceRegister: 
 export const activateAction = (key: string) => {
     const result = ({
         type: ACTION_TYPES.ACTIVATE_ACCOUNT,
-        payload: axios.get(`${getPathApi(apiUrl)}public/activate-account?key=`+ key),
+        payload: axios.get(`${apiUrl}public/activate-account?key=`+ key),
         meta: {
             errorMessage: 'Invalid key'
         }
@@ -214,7 +213,7 @@ export const activateAction = (key: string) => {
 export const login: (email: string, password: string, rememberMe?: boolean) => void = (email, password, rememberMe = false) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.LOGIN,
-        payload: axios.post(`${getPathApi(apiUrl)}public/signin`, {
+        payload: axios.post(`${apiUrl}public/signin`, {
             email: email,
             password: password,
             rememberMe: rememberMe
@@ -241,7 +240,7 @@ export const login: (email: string, password: string, rememberMe?: boolean) => v
 export const getSession: () => void = () => async (dispatch: any, getState: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.GET_SESSION,
-        payload: axios.get(`${getPathApi(apiUrl)}current-user`),
+        payload: axios.get(`${apiUrl}current-user`),
     });
 
     const account  = result?.value?.data;
@@ -261,7 +260,7 @@ export const getSession: () => void = () => async (dispatch: any, getState: any)
 export const getProfile: (userId: number) => void = (userId: number) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.GET_PROFILE,
-        payload: axios.get<IUser>(`${getPathApi(apiUrl)}public/profile/${userId}`),
+        payload: axios.get<IUser>(`${apiUrl}public/profile/${userId}`),
     });
     return result;
 };
@@ -269,7 +268,7 @@ export const getProfile: (userId: number) => void = (userId: number) => async (d
 export const getCurrentUser: () => void = () => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.GET_CURRENT_USER,
-        payload: axios.get(`${getPathApi(apiUrl)}current-user`),
+        payload: axios.get(`${apiUrl}current-user`),
     });
     return result;
 };
@@ -277,7 +276,7 @@ export const getCurrentUser: () => void = () => async (dispatch: any) => {
 export const uploadAvatar: (avatar: FormData) => void = entity => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.UPLOAD_AVATAR,
-        payload: axios.post(`${getPathApi(apiUrl)}avatar`, entity),
+        payload: axios.post(`${apiUrl}avatar`, entity),
         meta: {
             successMessage: 'Changed avatar succefully',
         },

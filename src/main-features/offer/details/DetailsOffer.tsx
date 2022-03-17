@@ -84,7 +84,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     React.useEffect(() => {
         if(!favoriteUserOffer?.offer?.id && id){
-            console.log('favoriteUserOffer ', favoriteUserOffer?.offer?.id);
             getEntitywithFavorite(id);
             getListCommentsByOffer(Number(id), 0, 20, '');
         }
@@ -94,6 +93,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntity) {
             setTimeout(() => {
                 setStartAnimation(true);
+                setIsFavoriteUser(favoriteUserOffer.myFavoriteUser || false);
             }, 100)
         }
     }, [favoriteUserOffer]);
@@ -106,8 +106,13 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     }, [addSuccessComment, updateSuccessComment, deleteSuccessComment])
 
+    React.useEffect(() => {
+        if(addSuccessFavoriteUser){
+            setIsFavoriteUser(true);
+        }
+    }, [addSuccessFavoriteUser])
+
     const handleCallbackAddComment = (content: string) => {
-        console.log('commentContent ', content);
         if (content) {
             const entity: ICommentOffer = {
                 createdDate: null,
@@ -155,15 +160,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     };
 
-    // React.useEffect(() => {
-    //     if(addSuccessFavoriteUser){
-    //         setIsFavoriteUser(true);
-    //     }
-    // }, [addSuccessFavoriteUser])
-
-    const getDescriptionHtml = (): string => {
-        return favoriteUserOffer?.offer?.description ? favoriteUserOffer?.offer?.description : '';
-    }
     return (
         <Zoom in={startAnimation}>
             <Container maxWidth="xl" className="details-offer-client">
@@ -247,7 +243,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                     {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
                                                 </Typography> : null
                                         }
-                                        <div dangerouslySetInnerHTML={{ __html: getDescriptionHtml() }}></div>
+                                        <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
                                     </CardContent>
                                     <CardActions>
                                         <Button size="small">Learn More</Button>

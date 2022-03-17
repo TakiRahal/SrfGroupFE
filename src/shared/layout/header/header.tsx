@@ -15,7 +15,6 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LanguageIcon from '@mui/icons-material/Language';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
@@ -72,9 +71,9 @@ export default function Header(props: any){
         handleMobileMenuClose();
     };
 
-    const redirectToMuAccount = () => {
-        history.push(ALL_APP_ROUTES.ACCOUNT);
-    };
+    // const redirectToMuAccount = () => {
+    //     history.push(ALL_APP_ROUTES.ACCOUNT);
+    // };
 
     // const redirectToMyFavoriteUsers = () => {
     //     history.push(ALL_APP_ROUTES.FAVORITE.USER);
@@ -109,13 +108,13 @@ export default function Header(props: any){
         props.parentCallbackRightMenuMobile(event);
     };
 
-    const handleLocaleChange = (locale: string) => {
-        handleLAnguagesMenuClose();
-        // const langKey = locale;
-        // Storage.session.set('locale', langKey);
-        // props.onLocaleChange(langKey);
-        // document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
-    };
+    // const handleLocaleChange = (locale: string) => {
+    //     handleLAnguagesMenuClose();
+    //     const langKey = locale;
+    //     Storage.session.set('locale', langKey);
+    //     props.onLocaleChange(langKey);
+    //     document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
+    // };
 
     const handleLAnguagesMenuClose = () => {
         setLanguagesAnchorEl(null);

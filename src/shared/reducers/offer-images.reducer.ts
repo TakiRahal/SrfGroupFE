@@ -1,6 +1,5 @@
 import {IOfferImages} from "../model/offer-images.model";
 import axios from "axios";
-import {getPathApi} from "../utils/utils-functions";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 
@@ -61,6 +60,6 @@ export const getEntitiesExistOfferImages = (page: number, size: number, sort: st
     const requestUrl = `${apiUrl}/public/offer-images-content${sort ? `?page=${page}&size=${size}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_OFFERIMAGES_LIST_EXIST,
-        payload: axios.get<IOfferImages>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<IOfferImages>(`${requestUrl}`),
     };
 };

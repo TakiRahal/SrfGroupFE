@@ -1,6 +1,5 @@
-import React, {Component, useEffect} from 'react';
+import React  from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
@@ -53,7 +52,6 @@ export const SignIn = (props: ISignInProps) => {
         showPassword: false,
     });
     const history = useHistory();
-    const dispatch = useDispatch();
 
     const { loading, isAuthenticated } = props;
 
@@ -67,11 +65,11 @@ export const SignIn = (props: ISignInProps) => {
         event.preventDefault();
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         setStartAnimation(true);
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (isAuthenticated) {
             history.push(ALL_APP_ROUTES.HOME);
             // BackDropService.toggleLoading(false);

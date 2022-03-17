@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
-import {useHistory, useLocation, useParams,} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {useQuery} from "../../shared/utils/utils-functions";
 import Container from "@mui/material/Container/Container";
-import {activateAction, handleRegister} from "../../shared/reducers/user-reducer";
+import {activateAction} from "../../shared/reducers/user-reducer";
 import {IRootState} from "../../shared/reducers";
 
 
@@ -11,11 +11,11 @@ export interface IActivateAccountProps extends StateProps, DispatchProps {}
 
 export const ActivationAccount = (props: IActivateAccountProps) => {
     const query = useQuery();
-    const history = useHistory();
+    // const history = useHistory();
 
     const {activationAccountSuccess} = props;
 
-    useEffect(() => {
+    React.useEffect(() => {
         const key = query.get("key");
         console.log('key ', key);
         if( key ){
@@ -23,7 +23,7 @@ export const ActivationAccount = (props: IActivateAccountProps) => {
         }
     }, [query])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if( activationAccountSuccess ){
 
         }

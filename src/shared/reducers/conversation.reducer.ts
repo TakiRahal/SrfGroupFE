@@ -1,9 +1,7 @@
-import {IConversation} from "../model/conversation.model";
 import {defaultValue} from "../model/faq.model";
 import axios from "axios";
 import {IConversationMessage} from "../model/conversation-message.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {getPathApi} from "../utils/utils-functions";
 import {IConversationContent} from "../model/conversation-content";
 
 
@@ -88,13 +86,13 @@ export const getEntitiesCurrentUser = (page: number, size: number, sort: string)
     const requestUrl = `${apiUrl}current-user${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_MY_CONVERSATION_LIST,
-        payload: axios.get<IConversationMessage>(`${getPathApi(requestUrl)}`),
+        payload: axios.get<IConversationMessage>(`${requestUrl}`),
     };
 };
 
 export const createConversation = (entity: IConversationContent) => {
     return {
         type: ACTION_TYPES.CREATE_CONVERSATION_MESSAGE,
-        payload: axios.post(`${getPathApi(apiUrl)}create/message`, entity),
+        payload: axios.post(`${apiUrl}create/message`, entity),
     };
 };

@@ -58,7 +58,7 @@ export const Account = (props: IAccountClientProps) => {
 
     React.useEffect(() => {
         getCurrentUser();
-    })
+    }, []);
 
     React.useEffect(() => {
         if (account) {

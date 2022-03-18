@@ -70,9 +70,9 @@ export const SignIn = (props: ISignInProps) => {
     }, []);
 
     React.useEffect(() => {
+        console.log('isAuthenticated ', isAuthenticated);
         if (isAuthenticated) {
             history.push(ALL_APP_ROUTES.HOME);
-            // BackDropService.toggleLoading(false);
         }
     }, [isAuthenticated]);
 
@@ -81,7 +81,6 @@ export const SignIn = (props: ISignInProps) => {
         initialValues,
         validationSchema: validationSchemaSignIn,
         onSubmit: values => {
-            // BackDropService.toggleLoading(true);
             props.login(values.email.toString(), values.password.toString(), true);
         },
     });
@@ -264,6 +263,7 @@ export const SignIn = (props: ISignInProps) => {
 const mapStateToProps = ({user}: IRootState) => ({
     loading: user.loginLoading,
     isAuthenticated: user.isAuthenticated,
+    currentUser: user.currentUser
 });
 
 const mapDispatchToProps = {

@@ -29,6 +29,7 @@ import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import Avatar from "@mui/material/Avatar/Avatar";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
+import {languages, locales} from "../../reducers/locale.reducer";
 
 
 const sections = [
@@ -47,7 +48,7 @@ const sections = [
 export default function Header(props: any){
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
     const [anchorElSupport, setAnchorElSupport] = React.useState<HTMLElement | null>(null);
 
@@ -63,7 +64,7 @@ export default function Header(props: any){
     };
 
     const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
+        // setMobileMoreAnchorEl(null);
     };
 
     const handleMenuClose = () => {
@@ -108,13 +109,10 @@ export default function Header(props: any){
         props.parentCallbackRightMenuMobile(event);
     };
 
-    // const handleLocaleChange = (locale: string) => {
-    //     handleLAnguagesMenuClose();
-    //     const langKey = locale;
-    //     Storage.session.set('locale', langKey);
-    //     props.onLocaleChange(langKey);
-    //     document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
-    // };
+    const handleLocaleChange = (locale: string) => {
+        handleLAnguagesMenuClose();
+        props.onLocaleChange(locale);
+    };
 
     const handleLAnguagesMenuClose = () => {
         setLanguagesAnchorEl(null);
@@ -139,13 +137,13 @@ export default function Header(props: any){
             open={isLanguagesMenuOpen}
             onClose={handleLAnguagesMenuClose}
         >
-            {/*{Object.keys(languages).length > 1*/}
-                {/*? locales.map(locale => (*/}
-                    {/*<MenuItem key={locale} onClick={() => handleLocaleChange(locale)}>*/}
-                        {/*{languages[locale].name}*/}
-                    {/*</MenuItem>*/}
-                {/*))*/}
-                {/*: null}*/}
+            {Object.keys(languages).length > 1
+                ? locales.map(locale => (
+                    <MenuItem key={locale} onClick={() => handleLocaleChange(locale)}>
+                        {languages[locale].name}
+                    </MenuItem>
+                ))
+                : null}
         </Menu>
     );
 
@@ -304,9 +302,9 @@ export default function Header(props: any){
                         color="inherit"
                         aria-controls={menuIdLanguages}
                         onClick={handleLAnguagesMenuOpen}
-                        sx={{ fontSize: '0.8rem;', display: { xs: 'none', sm: 'block' } }}
+                        sx={{ fontSize: '0.8rem;', display: { xs: 'none', sm: 'flex' } }}
                     >
-                        <LanguageIcon /> Ar
+                        <LanguageIcon sx={{mr: 0.5}} /> {props.currentLocale ? languages[props.currentLocale].name : undefined}
                     </IconButton>
                     <Typography align="center" variant="h6" noWrap component="h2" sx={{ flex: { sm: 1 }, display: 'block' }}>
                         SRF

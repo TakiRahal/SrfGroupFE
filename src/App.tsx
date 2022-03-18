@@ -60,6 +60,8 @@ import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
+import {StorageService} from "./shared/services/storage.service";
+import {setLocale} from "./shared/reducers/locale.reducer";
 
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -168,12 +170,17 @@ function App(props: IAppProps) {
     const { currentUser, getEntitiesAddresses, getCategories } = props;
 
     React.useEffect(() => {
+        console.log('currentUser ', currentUser);
+    }, [currentUser])
+
+    React.useEffect(() => {
 
         // Init OneSignal Platform
         // OneSignal.init({
         //     appId: AllAppConfig.APP_ID_ONESIGNAL
         // });
 
+        props.setLocale(StorageService.session.get('locale', 'en'));
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
     }, [])
@@ -385,7 +392,9 @@ function App(props: IAppProps) {
                         currentUser={currentUser}
                         parentCallbackLogout={(event: any) => handleLogout(event)}
                         parentCallbackRightMenuMobile={(event: any) => handleDrawerToggleRight(event)}
-                        parentCallbackMenuMobile={(event: any) => handleDrawerToggle(event)}/>
+                        parentCallbackMenuMobile={(event: any) => handleDrawerToggle(event)}
+                        currentLocale={props.currentLocale}
+                        onLocaleChange={props.setLocale}/>
                 <main
                     style={{
                         background: '#F2F3F7',
@@ -406,7 +415,9 @@ function App(props: IAppProps) {
     );
 }
 
-const mapStateToProps = ({user, address}: IRootState) => ({
+const mapStateToProps = ({user, address, locale}: IRootState) => ({
+    currentLocale: locale.currentLocale,
+
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
 
@@ -417,7 +428,8 @@ const mapStateToProps = ({user, address}: IRootState) => ({
 const mapDispatchToProps = {
     logout,
     getEntitiesAddresses,
-    getCategories
+    getCategories,
+    setLocale
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -77,7 +77,7 @@ export default (state: UserState = initialState, action: any): UserState => {
         case FAILURE(ACTION_TYPES.LOGIN):
             return {
                 ...initialState,
-                loginErrorMessage: action.payload.response.data.message,
+                loginErrorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.LOGIN):
             return {
@@ -218,10 +218,10 @@ export const login: (email: string, password: string, rememberMe?: boolean) => v
             password: password,
             rememberMe: rememberMe
         }),
-        meta: {
-            successMessage: 'Welcome',
-            errorMessage: 'User not activated yet !'
-        }
+        // meta: {
+        //     successMessage: 'Welcome',
+        //     errorMessage: 'User not activated yet !'
+        // }
     })
     const bearerToken = result.value.headers.authorization;
     if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {

@@ -14,6 +14,7 @@ import offerImages, {OfferImagesState} from "./offer-images.reducer";
 import conversation, {ConversationState} from "./conversation.reducer";
 import notification, {NotificationState} from "./notification.reducer";
 import category, {CategoryState} from "./category.reducer";
+import locale, {LocaleState} from "./locale.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -31,6 +32,7 @@ export interface IRootState {
     readonly conversation: ConversationState;
     readonly notification: NotificationState;
     readonly category: CategoryState;
+    readonly locale: LocaleState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -48,7 +50,8 @@ const rootReducer = combineReducers<IRootState>({
     offerImages,
     conversation,
     notification,
-    category
+    category,
+    locale
 });
 
 export default rootReducer;

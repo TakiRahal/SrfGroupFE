@@ -38,7 +38,6 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import Slide from "@mui/material/Slide/Slide";
-import {TransitionProps} from "@mui/material/transitions/transition";
 import {IRootState} from "../../../shared/reducers";
 import { reset as resetOffer } from '../../../shared/reducers/offer.reducer';
 import { createEntity as createEntitySellerOffer } from '../../../shared/reducers/seller-offer.reducer';
@@ -55,16 +54,7 @@ import EditorConvertToHTML from "../../../shared/components/editor-convert-to-ht
 import isEmpty from 'lodash/isEmpty';
 import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
+import {TransitionModal} from "../../../shared/pages/transition-modal";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -93,6 +83,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const [originalListFiles, setOriginalListFiles] = React.useState(defaultValueOriginalListFiles);
     const [openDeleteImageOfferModal, setOpenDeleteImageOfferModal] = React.useState(false);
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
+    const descEditor = React.useRef();
 
     const history = useHistory();
 
@@ -297,7 +288,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         return (
             <Dialog
                 open={openDeleteImageOfferModal}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleClickCancelDeleteImageOfferModal}
                 aria-describedby="alert-dialog-slide-description"
@@ -407,7 +398,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
                                             <EditorConvertToHTML callBackParent={onEditorStateChange}
                                                                  placeholder="Write your description *"
-                                                                defaultValue={entityOffer?.description || ''}/>
+                                                                 defaultValue={entityOffer?.description || ''}/>
                                             <FormHelperText
                                                 id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
                                         </FormControl>

@@ -12,8 +12,6 @@ import ListItemText from "@mui/material/ListItemText/ListItemText";
 import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from "@mui/material/Dialog/Dialog";
-import {TransitionProps} from "@mui/material/transitions";
-import Slide from "@mui/material/Slide/Slide";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
@@ -21,15 +19,7 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
 import {useHistory} from "react-router";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+import {TransitionModal} from "../../../../shared/pages/transition-modal";
 
 export default function ListFavoriteUsers({ favorite, parentCallback }: { favorite: IFavoriteUser, parentCallback: Function }) {
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
@@ -60,7 +50,7 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
         return (
             <Dialog
                 open={openFavoriteModal}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleCloseFavoriteModal}
                 aria-describedby="alert-dialog-slide-description"

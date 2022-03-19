@@ -1,4 +1,35 @@
 {
+  "header":{
+    "label_add_offer": "Ajouter l offre",
+    "link_home": "Accueil",
+    "link_search": "Recherche",
+    "link_support": {
+      "link_label_support": "Support",
+      "link_contact_us": "Contact-nous",
+      "link_about": "A propos",
+      "link_faq": "FAQ"
+    },
+    "chat": "Chat",
+    "my_offers": "Mes offres",
+    "my_favorite_users": "Mes favoris",
+    "notifications": "Notifications",
+    "logout": "Deconnecter"
+  },
+  "home":{
+    "title_for_sell": "A vendre",
+    "title_for_rent": "A louer",
+    "title_for_find": "A trouver",
+    "steps": {
+      "title_create_account": "CRÉEZ VOTRE COMPTE",
+      "sub_title_create_account": "Créez votre compte et Complétez votre profil.",
+      "title_login": "CONNECTEZ VOUS",
+      "sub_title_login": "Connectez Vous.",
+      "title_participate": "PARTICIPEZ AUX ENCHÈRES",
+      "sub_title_participate": "Participez aux enchères que vous intéresses..",
+      "title_win_auction": "REMPORTEZ L'ENCHÈRE",
+      "sub_title_win_auction": "Remportez l'enchère et gagnez un produit à moins de 30% de sa valeur !."
+    }
+  },
   "title": "Welcome to react using react-i18next and typescript 4.1 fr",
   "description": {
     "part1": "This is an example using multiple namespaces.",

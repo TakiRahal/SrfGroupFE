@@ -3,8 +3,12 @@ import Box from '@mui/material/Box/Box';
 import Grid from '@mui/material/Grid/Grid';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar/Avatar';
+import {useTranslation} from "react-i18next";
 
 export default function ThirdHorizentalListHomeClient() {
+
+    const { t } = useTranslation();
+
     return (
         <Box
             style={{
@@ -30,8 +34,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >01</Avatar>
-                        <h2 className="mt-2">CRÉEZ VOTRE COMPTE</h2>
-                        <p>Créez votre compte et Complétez votre profil.</p>
+                        <h2 className="mt-2">{t('home.steps.title_create_account')}</h2>
+                        <p>{t('home.steps.sub_title_create_account')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -46,8 +50,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >02</Avatar>
-                        <h2 className="mt-2">CONNECTEZ VOUS</h2>
-                        <p>Connectez Vous.</p>
+                        <h2 className="mt-2">{t('home.steps.title_login')}</h2>
+                        <p>{t('home.steps.sub_title_login')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -62,8 +66,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >03</Avatar>
-                        <h2 className="mt-2">PARTICIPEZ AUX ENCHÈRES</h2>
-                        <p>Participez aux enchères que vous intéresses..</p>
+                        <h2 className="mt-2">{t('home.steps.title_participate')}</h2>
+                        <p>{t('home.steps.sub_title_participate')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -78,8 +82,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >04</Avatar>
-                        <h2 className="mt-2">REMPORTEZ L'ENCHÈRE</h2>
-                        <p>Remportez l'enchère et gagnez un produit à moins de 30% de sa valeur !.</p>
+                        <h2 className="mt-2">{t('home.steps.title_win_auction')}</h2>
+                        <p>{t('home.steps.sub_title_win_auction')}</p>
                     </Grid>
                 </Grid>
             </Container>

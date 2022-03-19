@@ -124,7 +124,6 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
         }
 
-
         case REQUEST(ACTION_TYPES.GET_CURRENT_USER):
             return {
                 ...state,
@@ -208,7 +207,6 @@ export const activateAction = (key: string) => {
     });
     return result;
 };
-
 
 export const login: (email: string, password: string, rememberMe?: boolean) => void = (email, password, rememberMe = false) => async (dispatch: any) => {
     const result = await dispatch({

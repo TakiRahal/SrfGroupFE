@@ -27,7 +27,7 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import List from "@mui/material/List/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getUserAvatar} from "./shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
@@ -52,6 +52,7 @@ import Collapse from '@mui/material/Collapse';
 import StarBorder from "@mui/icons-material/StarBorder";
 import InfoIcon from '@mui/icons-material/Info';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import Menu from '@mui/material/Menu/Menu';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 
@@ -61,7 +62,9 @@ import FormGroup from "@mui/material/FormGroup/FormGroup";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import {StorageService} from "./shared/services/storage.service";
-import {setLocale} from "./shared/reducers/locale.reducer";
+import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
+import MenuItem from "@mui/material/MenuItem/MenuItem";
+import {IOffer} from "./shared/model/offer.model";
 
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -163,15 +166,11 @@ function App(props: IAppProps) {
     const [openAnchorDrawerRight, setOpenAnchorDrawerRight] = React.useState(false);
     const [openSubMenuSupport, setOpenSubMenuSupport] = React.useState(false);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
-    // const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
+    const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
 
     const { t, i18n } = useTranslation();
 
     const { currentUser, getEntitiesAddresses, getCategories } = props;
-
-    React.useEffect(() => {
-        console.log('currentUser ', currentUser);
-    }, [currentUser])
 
     React.useEffect(() => {
 
@@ -180,7 +179,8 @@ function App(props: IAppProps) {
         //     appId: AllAppConfig.APP_ID_ONESIGNAL
         // });
 
-        props.setLocale(StorageService.session.get('locale', 'en'));
+        i18n.changeLanguage(StorageService.session.get('locale', 'fr'));
+        props.setLocale(StorageService.session.get('locale', 'fr'));
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
     }, [])
@@ -193,16 +193,8 @@ function App(props: IAppProps) {
         setOpenAnchorDrawerRight(isOpen);
     };
 
-    const getFullName = () => {
-        return currentUser?.firstName + ' ' + currentUser?.lastName;
-    };
-
     const handleDrawerToggle = (isOpen: boolean) => {
         setOpenAnchorDrawer(isOpen);
-    };
-
-    const handleLAnguagesMenuOpen = (event: any) => {
-        setLanguagesAnchorEl(event.currentTarget);
     };
 
     const handleClickSupport = () => {
@@ -226,7 +218,7 @@ function App(props: IAppProps) {
 
                 <ListItem button onClick={handleLAnguagesMenuOpen}>
                     <Button variant="outlined" color="neutral" startIcon={<LanguageIcon />} endIcon={<ExpandMore />} size="small">
-                        local
+                        {props.currentLocale ? languages[props.currentLocale].name : undefined}
                     </Button>
                 </ListItem>
                 <Divider />
@@ -235,21 +227,21 @@ function App(props: IAppProps) {
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Home" />
+                    <ListItemText primary={t('header.link_home')} />
                 </ListItem>
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.SEARCH} onClick={() => handleDrawerToggle(false)}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Recherche" />
+                    <ListItemText primary={t('header.link_search')} />
                 </ListItem>
 
                 <ListItemButton onClick={handleClickSupport}>
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Support" />
+                    <ListItemText primary={t('header.link_support.link_label_support')} />
                     {openSubMenuSupport ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={openSubMenuSupport} timeout="auto" unmountOnExit>
@@ -258,21 +250,21 @@ function App(props: IAppProps) {
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="Contactez-nous" />
+                            <ListItemText primary={t('header.link_support.link_contact_us')} />
                         </ListItemButton>
 
                         <ListItemButton sx={{ pl: 4 }} component={Link} to={ALL_APP_ROUTES.SUPPORT.ABOUT_US} onClick={() => handleDrawerToggle(false)}>
                             <ListItemIcon>
                                 <InfoIcon />
                             </ListItemIcon>
-                            <ListItemText primary="À propos" />
+                            <ListItemText primary={t('header.link_support.link_about')} />
                         </ListItemButton>
 
                         <ListItemButton sx={{ pl: 4 }} component={Link} to={ALL_APP_ROUTES.SUPPORT.FAQ} onClick={() => handleDrawerToggle(false)}>
                             <ListItemIcon>
                                 <InfoIcon />
                             </ListItemIcon>
-                            <ListItemText primary="FAQ" />
+                            <ListItemText primary={t('header.link_support.link_faq')} />
                         </ListItemButton>
                     </List>
                 </Collapse>
@@ -312,7 +304,7 @@ function App(props: IAppProps) {
                         <Avatar alt="Avatar" src={getUserAvatar(currentUser?.id, currentUser?.imageUrl, currentUser?.sourceProvider)} />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={getFullName()}
+                        primary={getFullnameUser(currentUser)}
                         secondary={
                             <React.Fragment>
                                 <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
@@ -331,21 +323,21 @@ function App(props: IAppProps) {
                             <MailIcon />
                         </Badge>
                     </ListItemIcon>
-                    <ListItemText primary="Chat" />
+                    <ListItemText primary={t('header.chat')} />
                 </ListItem>
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.MY_OFFERS} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <PostAddIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My offers" />
+                    <ListItemText primary={t('header.my_offers')} />
                 </ListItem>
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.FAVORITE.USER} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My favorite users" />
+                    <ListItemText primary={t('header.my_favorite_users')} />
                 </ListItem>
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.NOTIFICATION.LIST} onClick={() => handleDrawerToggleRight(false)}>
@@ -354,7 +346,7 @@ function App(props: IAppProps) {
                             <NotificationsIcon />
                         </Badge>
                     </ListItemIcon>
-                    <ListItemText primary="Notifications" />
+                    <ListItemText primary={t('header.notifications')}/>
                 </ListItem>
             </List>
             <Divider />
@@ -363,10 +355,49 @@ function App(props: IAppProps) {
                     <ListItemIcon>
                         <Logout />
                     </ListItemIcon>
-                    <ListItemText primary="Logout" />
+                    <ListItemText primary={t('header.logout')} />
                 </ListItem>
             </List>
         </Box>
+    );
+
+
+    const handleLocaleChange = (locale: string) => {
+        i18n.changeLanguage(locale);
+        handleLAnguagesMenuClose();
+        props.setLocale(locale);
+    };
+    const handleLAnguagesMenuClose = () => {
+        setLanguagesAnchorEl(null);
+    };
+    const handleLAnguagesMenuOpen = (event: any) => {
+        setLanguagesAnchorEl(event.currentTarget);
+    };
+    const menuIdLanguages = 'languages-menu';
+    const renderMenuLanguages = (
+        <Menu
+            anchorEl={languagesAnchorEl}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+            }}
+            id={menuIdLanguages}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            open={isLanguagesMenuOpen}
+            onClose={handleLAnguagesMenuClose}
+        >
+            {Object.keys(languages).length > 1
+                ? locales.map(locale => (
+                    <MenuItem key={locale} onClick={() => handleLocaleChange(locale)}>
+                        {languages[locale].name}
+                    </MenuItem>
+                ))
+                : null}
+        </Menu>
     );
 
     return (
@@ -410,6 +441,7 @@ function App(props: IAppProps) {
                 </main>
                 <h1>{t('title')}</h1>
                 <Footer />
+                {renderMenuLanguages}
             </ThemeProvider>
         </Router>
     );

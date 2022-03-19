@@ -44,16 +44,7 @@ import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import {reset as resetFindOffer} from "../../../shared/reducers/find-offer.reducer";
 import {reset as resetRentOffer} from "../../../shared/reducers/rent-offer.reducer";
 import {reset as resetSellerOffer} from "../../../shared/reducers/seller-offer.reducer";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
+import {TransitionModal} from "../../../shared/pages/transition-modal";
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
@@ -119,7 +110,7 @@ export const MyOffers = (props: IMyOfferProps) => {
         return (
             <Dialog
                 open={openDeleteOfferModal}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleClickCancelDeleteOfferModal}
                 aria-describedby="alert-dialog-slide-description"

@@ -15,12 +15,14 @@ import {useHistory} from "react-router";
 import { connect } from 'react-redux';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesForSell} from "../../../shared/reducers/seller-offer.reducer";
+import {useTranslation} from "react-i18next";
 
 export interface IForSellClientProp extends StateProps, DispatchProps {}
 
 export const ForSellHomeClient = (props: IForSellClientProp) => {
 
     const history = useHistory();
+    const { t } = useTranslation();
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
@@ -37,7 +39,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     return(
         <Container maxWidth="xl">
             <h3>
-                <u>A vendre</u>
+                <u>{t('home.title_for_sell')}</u>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {listSellOffers.map((offer: any, index: number) => (

@@ -30,16 +30,17 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 import {languages, locales} from "../../reducers/locale.reducer";
+import {Translation, useTranslation} from "react-i18next";
 
 
 const sections = [
     {
-        title: 'Home',
+        title: <Translation>{(t, { i18n }) => <>{t('header.link_home')}</>}</Translation>,
         url: ALL_APP_ROUTES.HOME,
         icon: <HomeIcon sx={{ marginRight: 1 }} />,
     },
     {
-        title: 'Recherche',
+        title: <Translation>{(t, { i18n }) => <>{t('header.link_search')}</>}</Translation>,
         url: ALL_APP_ROUTES.SEARCH,
         icon: <SearchIcon sx={{ marginRight: 1 }} />,
     },
@@ -48,11 +49,12 @@ const sections = [
 export default function Header(props: any){
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
     const [anchorElSupport, setAnchorElSupport] = React.useState<HTMLElement | null>(null);
 
     const history = useHistory();
+
+    const { t, i18n } = useTranslation();
 
     const { currentUser, isAuthenticated } = props;
 
@@ -71,22 +73,6 @@ export default function Header(props: any){
         setAnchorEl(null);
         handleMobileMenuClose();
     };
-
-    // const redirectToMuAccount = () => {
-    //     history.push(ALL_APP_ROUTES.ACCOUNT);
-    // };
-
-    // const redirectToMyFavoriteUsers = () => {
-    //     history.push(ALL_APP_ROUTES.FAVORITE.USER);
-    // };
-
-    // const redirectToMyoffers = () => {
-    //     history.push(ALL_APP_ROUTES.CLIENT.OFFER.MY_LIST);
-    // };
-
-    // const handleMobileMenuOpen = event => {
-    //   setMobileMoreAnchorEl(event.currentTarget);
-    // };
 
     const logout = () => {
         setAnchorEl(null);
@@ -110,6 +96,8 @@ export default function Header(props: any){
     };
 
     const handleLocaleChange = (locale: string) => {
+        console.log('handleLocaleChange ', locale);
+        i18n.changeLanguage(locale);
         handleLAnguagesMenuClose();
         props.onLocaleChange(locale);
     };
@@ -244,7 +232,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <Logout fontSize="small" />
                 </ListItemIcon>
-                Logout
+                {t('header.logout')}
             </MenuItem>
         </Menu>
     );
@@ -284,7 +272,7 @@ export default function Header(props: any){
                         component={Link}
                         to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
                     >
-                        Add
+                        {t('header.label_add_offer')}
                     </Button>
                     <IconButton
                         size="small"
@@ -421,7 +409,7 @@ export default function Header(props: any){
                     sx={{ justifyContent: 'center', overflowX: 'auto', backgroundColor: '#e2c498', display: { xs: 'none', sm: 'flex' } }}
                 >
                     {sections.map(section => (
-                        <Link color="inherit" key={section.title} to={section.url} style={{ marginRight: 30, display: 'flex', color: 'rgb(60 60 60)', fontWeight: '600' }}>
+                        <Link color="inherit" key={section.url} to={section.url} style={{ marginRight: 30, display: 'flex', color: 'rgb(60 60 60)', fontWeight: '600' }}>
                             {section.icon}
                             {section.title}
                         </Link>
@@ -437,7 +425,7 @@ export default function Header(props: any){
                             onClick={handlePopoverOpenSupport}
                             aria-owns={anchorElSupport ? 'simple-menu' : undefined} >
                             <ExpandMoreIcon sx={{ marginRight: 1 }}/>
-                            Support
+                            {t('header.link_support.link_label_support')}
                         </Link>
                         <Menu
                             id="simple-menu"
@@ -450,19 +438,19 @@ export default function Header(props: any){
                                 <ListItemIcon>
                                     <MarkunreadIcon fontSize="small" />
                                 </ListItemIcon>
-                                Contactez-nous
+                                {t('header.link_support.link_contact_us')}
                             </MenuItem>
                             <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.ABOUT_US)}>
                                 <ListItemIcon>
                                     <InfoIcon fontSize="small" />
                                 </ListItemIcon>
-                                À propos
+                                {t('header.link_support.link_about')}
                             </MenuItem>
                             <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.FAQ)}>
                                 <ListItemIcon>
                                     <AccountCircle fontSize="small" />
                                 </ListItemIcon>
-                                FAQ
+                                {t('header.link_support.link_faq')}
                             </MenuItem>
                         </Menu>
                     </div>

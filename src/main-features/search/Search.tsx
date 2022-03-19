@@ -44,9 +44,8 @@ export const Search = (props: ISearchProps) => {
     const { listOffers, loadingListOffers, getEntitiesOffers } = props;
 
     React.useEffect(() => {
-        props.getEntitiesOffers(1, 10, '');
+        getEntitiesOffers(1, 10, '');
     }, [])
-
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
@@ -56,7 +55,6 @@ export const Search = (props: ISearchProps) => {
 
     return (
         <Box>
-
             <Grid container sx={{ pt: 1, pl: { xs: 1, md: 0 } }}>
                 <Grid item xs={12} sm={6} md={1}></Grid>
 

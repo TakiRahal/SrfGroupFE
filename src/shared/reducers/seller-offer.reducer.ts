@@ -85,8 +85,9 @@ export default (state: SellOfferState = initialState, action: any): SellOfferSta
             return {
                 ...initialState,
             };
+        default:
+            return state;
     }
-    return state;
 }
 
 const apiUrl = 'api/sell-offer';

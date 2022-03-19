@@ -15,6 +15,7 @@ import conversation, {ConversationState} from "./conversation.reducer";
 import notification, {NotificationState} from "./notification.reducer";
 import category, {CategoryState} from "./category.reducer";
 import locale, {LocaleState} from "./locale.reducer";
+import reportOffer, {ReportOfferState} from "./report-offer.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -33,6 +34,7 @@ export interface IRootState {
     readonly notification: NotificationState;
     readonly category: CategoryState;
     readonly locale: LocaleState;
+    readonly reportOffer: ReportOfferState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -51,7 +53,8 @@ const rootReducer = combineReducers<IRootState>({
     conversation,
     notification,
     category,
-    locale
+    locale,
+    reportOffer
 });
 
 export default rootReducer;

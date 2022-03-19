@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { useFormik } from 'formik';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
@@ -29,18 +29,9 @@ import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
-import {TransitionProps} from "@mui/material/transitions";
 import Container from "@mui/material/Container/Container";
 import {SourceProvider} from "../../shared/enums/source-provider";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+import {TransitionModal} from "../../shared/pages/transition-modal";
 
 const initialValues = initialValuesSignUp;
 
@@ -62,21 +53,18 @@ export const SignUp = (props: ISignUpProps) => {
         showPassword: false,
     });
     const [openDialogRegister, setOpenDialogRegister] = React.useState(false);
-    const history = useHistory();
 
     React.useEffect(() => {
         setStartAnimation(true);
     }, []);
 
-    const { loading, registrationSuccess } = props;
+    const { registrationSuccess } = props;
 
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaSignUp,
         onSubmit: (values: ISignUP) => {
-            window.console.log('values ', values);
             props.handleRegister(values.email, values.firstPassword, SourceProvider.WEB);
-            // props.handleRegister(username, values.email, values.firstPassword, props.currentLocale, SourceProvider.WEB);
         },
     });
 
@@ -112,7 +100,7 @@ export const SignUp = (props: ISignUpProps) => {
         return (
             <Dialog
                 open={openDialogRegister}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"

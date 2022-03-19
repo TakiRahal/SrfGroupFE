@@ -28,6 +28,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddLocation from '@mui/icons-material/AddLocation';
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
+import FlagIcon from '@mui/icons-material/Flag';
+import IconButton from '@mui/material/IconButton/IconButton';
 import SwiperDetailsOffer from "./ui-segments/SwiperDetailsOffer";
 import CommentDetailsOffer from "./ui-segments/CommentDetailsOffer";
 import RightDetailsOffer from './ui-segments/RightDetailsOffer';
@@ -35,17 +37,24 @@ import {ICommentOffer} from "../../../shared/model/comment-offer.model";
 import { createEntity as createEntityFavoriteUser } from '../../../shared/reducers/favorite-user.reducer';
 import { updateEntity as updateComment } from '../../../shared/reducers/comment-offer.reducer';
 import { deleteEntity as deleteComment } from '../../../shared/reducers/comment-offer.reducer';
-
+import { createEntity as createEntityReportOffer } from '../../../shared/reducers/report-offer.reducer';
 
 import './DetailsOffer.scss';
 import {convertDateTimeToServer} from "../../../shared/utils/utils-functions";
-
+import Dialog from "@mui/material/Dialog/Dialog";
+import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
+import DialogContent from "@mui/material/DialogContent/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
+import DialogActions from "@mui/material/DialogActions/DialogActions";
+import {TransitionModal} from "../../../shared/pages/transition-modal";
+import {IReportOffer} from "../../../shared/model/report-offer.model";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
 export const DetailsOffer = (props: IDetailsOfferProps) => {
     const [startAnimation, setStartAnimation] = React.useState(false);
     const [isFavoriteUser, setIsFavoriteUser] = React.useState(false);
+    const [openReportOfferModal, setOpenReportOfferModal] = React.useState(false);
 
     const {id} = useParams<{ id: string }>();
 
@@ -160,133 +169,184 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     };
 
+    const reportOffer = () => {
+        setOpenReportOfferModal(true);
+    }
+    const handleCloseReportOfferModal = () => {
+        setOpenReportOfferModal(false);
+    }
+    const handleAddReportOfferModal = () => {
+        setOpenReportOfferModal(false);
+        const entity: IReportOffer = {
+            offer: favoriteUserOffer?.offer,
+            user: {}
+        }
+        props.createEntityReportOffer(entity);
+    }
+    const renderDialogReportOffer = () => {
+        return (
+            <Dialog
+                open={openReportOfferModal}
+                TransitionComponent={TransitionModal}
+                keepMounted
+                onClose={handleCloseReportOfferModal}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>
+                    Repoprt offer
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Do you want report this offer !
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseReportOfferModal}>
+                        Cancel
+                    </Button>
+                    <Button color="success" onClick={handleAddReportOfferModal}>
+                        Report
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
+    };
+
     return (
-        <Zoom in={startAnimation}>
-            <Container maxWidth="xl" className="details-offer-client">
-                <Grid
-                    container
-                    style={{
-                        paddingTop: 10,
-                    }} >
-                    <Grid item xs={12} sm={6}>
-                        <Breadcrumbs aria-label="breadcrumb">
-                            <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
-                                SRF
-                            </Link>
-                            <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
-                                Search
-                            </Link>
-                            <Typography color="text.primary">{favoriteUserOffer?.offer?.title}</Typography>
-                        </Breadcrumbs>
-                    </Grid>
-                </Grid>
-
-                {
-                    loadingEntity ?
-                        <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
-                            <CircularProgress color="inherit"  />
-                        </Box> :
-
-                        <Grid
-                            container
-                            style={{
-                                paddingTop: 50,
-                            }}
-                        >
-                            <Grid item xs={12} sm={6}>
-                                <SwiperDetailsOffer {...favoriteUserOffer?.offer} />
-                                <Card sx={{mb: 3}}>
-                                    <CardContent>
-                                        {favoriteUserOffer?.offer?.amount ? (
-                                            <Typography variant="h4" sx={{ textAlign: 'center', color: 'red', fontWeight: 600 }}>
-                                                $ {favoriteUserOffer?.offer?.amount} DT
-                                            </Typography>
-                                        ) : null}
-
-                                        <Typography variant="subtitle2" color="text.secondary" display="flex">
-                                            <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
-                                            {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
-                                                'For Sell'
-                                            ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
-                                                'For Rent'
-                                            ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
-                                                'For Find'
-                                            ) : null}
-                                        </Typography>
-
-                                        {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
-                                            <Box>
-                                                <Typography color="text.secondary" gutterBottom display="flex">
-                                                    from_rent_periode
-                                                    &nbsp;
-                                                    <strong>{favoriteUserOffer?.offer?.startDate}</strong>&nbsp;
-                                                </Typography>
-                                                <Typography color="text.secondary" gutterBottom display="flex">
-                                                    to_rent_periode
-                                                    &nbsp;
-                                                    <strong>{favoriteUserOffer?.offer?.endDate}</strong>
-                                                </Typography>
-                                            </Box>
-                                        ) : null}
-
-                                        <Typography variant="h5" component="div" sx={{ mt: 2 }}>
-                                            {favoriteUserOffer?.offer?.title}
-                                        </Typography>
-
-                                        <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                            <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
-                                        </Typography>
-                                        {
-                                            favoriteUserOffer?.offer?.address ?
-                                                <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                                    <AddLocation fontSize="small" sx={{mr: 0.9}}/>
-                                                    {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
-                                                </Typography> : null
-                                        }
-                                        <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-
-                                {isAuthenticated ? (
-                                    <Box sx={{mb: 3}}>
-                                        <CommentDetailsOffer
-                                            offerEntity={favoriteUserOffer?.offer}
-                                            listCommentsByOffer={listCommentsByOffer}
-                                            account={account}
-                                            isAuthenticated={isAuthenticated}
-                                            loadingListComments={loadingCommentsByOffer}
-                                            loadingUpdateEntity={loadingUpdateEntity}
-                                            loadingAddEntity={loadingAddComment}
-                                            parentCallbackAddComment={handleCallbackAddComment}
-                                            parentCallbackDeleteComment={handleCallbackDeleteComment}
-                                            parentCallbackUpdateComment={parentCallbackUpdateComment}
-                                            totalItems={totalItemsCommentsByOffer}
-                                        />
-                                    </Box>
-                                ) : null}
-                            </Grid>
-
-                            <Grid container item xs={12} sm={6} sx={{ pl: { xs: 0, sm: 4 } }} spacing={2}>
-                                <RightDetailsOffer
-                                    parentCallback={handleCallbackFavorite}
-                                    offerEntity={favoriteUserOffer?.offer}
-                                    currentUser={account}
-                                    myFavoriteUser={isFavoriteUser}
-                                />
-                            </Grid>
+        <Box>
+            <Zoom in={startAnimation}>
+                <Container maxWidth="xl" className="details-offer-client">
+                    <Grid
+                        container
+                        style={{
+                            paddingTop: 10,
+                        }} >
+                        <Grid item xs={12} sm={6}>
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
+                                    SRF
+                                </Link>
+                                <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
+                                    Search
+                                </Link>
+                                <Typography color="text.primary">{favoriteUserOffer?.offer?.title}</Typography>
+                            </Breadcrumbs>
                         </Grid>
-                }
+                    </Grid>
 
-            </Container>
-        </Zoom>
+                    {
+                        loadingEntity ?
+                            <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
+                                <CircularProgress color="inherit"  />
+                            </Box> :
+
+                            <Grid
+                                container
+                                style={{
+                                    paddingTop: 50,
+                                }}
+                            >
+                                <Grid item xs={12} sm={6}>
+                                    <SwiperDetailsOffer {...favoriteUserOffer?.offer} />
+                                    <Card sx={{mb: 3}}>
+                                        <CardContent>
+                                            {favoriteUserOffer?.offer?.amount ? (
+                                                <Typography variant="h4" sx={{ textAlign: 'center', color: 'red', fontWeight: 600 }}>
+                                                    $ {favoriteUserOffer?.offer?.amount} DT
+                                                </Typography>
+                                            ) : null}
+
+                                            <Typography variant="subtitle2" color="text.secondary" display="flex">
+                                                <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
+                                                    'For Sell'
+                                                ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
+                                                    'For Rent'
+                                                ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
+                                                    'For Find'
+                                                ) : null}
+                                            </Typography>
+
+                                            {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
+                                                <Box>
+                                                    <Typography color="text.secondary" gutterBottom display="flex">
+                                                        from_rent_periode
+                                                        &nbsp;
+                                                        <strong>{favoriteUserOffer?.offer?.startDate}</strong>&nbsp;
+                                                    </Typography>
+                                                    <Typography color="text.secondary" gutterBottom display="flex">
+                                                        to_rent_periode
+                                                        &nbsp;
+                                                        <strong>{favoriteUserOffer?.offer?.endDate}</strong>
+                                                    </Typography>
+                                                </Box>
+                                            ) : null}
+
+                                            <Typography variant="h5" component="div" sx={{ mt: 2 }}>
+                                                {favoriteUserOffer?.offer?.title}
+                                            </Typography>
+
+                                            <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
+                                            </Typography>
+                                            {
+                                                favoriteUserOffer?.offer?.address ?
+                                                    <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                        <AddLocation fontSize="small" sx={{mr: 0.9}}/>
+                                                        {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
+                                                    </Typography> : null
+                                            }
+                                            <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
+                                        </CardContent>
+                                        <CardActions disableSpacing>
+                                            <Button size="small">Learn More</Button>
+
+                                            <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
+                                                <FlagIcon/>
+                                            </IconButton>
+
+                                        </CardActions>
+                                    </Card>
+
+                                    {isAuthenticated ? (
+                                        <Box sx={{mb: 3}}>
+                                            <CommentDetailsOffer
+                                                offerEntity={favoriteUserOffer?.offer}
+                                                listCommentsByOffer={listCommentsByOffer}
+                                                account={account}
+                                                isAuthenticated={isAuthenticated}
+                                                loadingListComments={loadingCommentsByOffer}
+                                                loadingUpdateEntity={loadingUpdateEntity}
+                                                loadingAddEntity={loadingAddComment}
+                                                parentCallbackAddComment={handleCallbackAddComment}
+                                                parentCallbackDeleteComment={handleCallbackDeleteComment}
+                                                parentCallbackUpdateComment={parentCallbackUpdateComment}
+                                                totalItems={totalItemsCommentsByOffer}
+                                            />
+                                        </Box>
+                                    ) : null}
+                                </Grid>
+
+                                <Grid container item xs={12} sm={6} sx={{ pl: { xs: 0, sm: 4 } }} spacing={2}>
+                                    <RightDetailsOffer
+                                        parentCallback={handleCallbackFavorite}
+                                        offerEntity={favoriteUserOffer?.offer}
+                                        currentUser={account}
+                                        myFavoriteUser={isFavoriteUser}
+                                    />
+                                </Grid>
+                            </Grid>
+                    }
+
+                </Container>
+            </Zoom>
+            {renderDialogReportOffer()}
+        </Box>
     );
 }
 
 
-const mapStateToProps = ({ user, offer, comment, favoriteUser }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -306,6 +366,10 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser }: IRootState) => 
     loadingEntityFavoriteUser: favoriteUser.loadingEntity,
     entityFavoriteUser: favoriteUser.entity,
     addSuccessFavoriteUser: favoriteUser.addSuccess,
+
+    addSuccessReportOffer: reportOffer.addSuccess,
+    loadingEntityReportOffer: reportOffer.loadingEntity,
+    entityReportOffer: reportOffer.entity,
 });
 
 const mapDispatchToProps = {
@@ -316,7 +380,8 @@ const mapDispatchToProps = {
     resetAllFavoriteOfferUser,
     resetCommentOffer,
     updateComment,
-    deleteComment
+    deleteComment,
+    createEntityReportOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

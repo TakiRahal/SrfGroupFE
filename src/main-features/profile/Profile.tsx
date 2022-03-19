@@ -29,7 +29,6 @@ import {useFormik} from "formik";
 import {initialValuesAddMessage, validationSchemaAddMessage} from "./validation/init-value-add-message";
 import {createConversation} from "../../shared/reducers/conversation.reducer";
 import Dialog from "@mui/material/Dialog/Dialog";
-import {TransitionProps} from "react-transition-group/Transition";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import FormControl from "@mui/material/FormControl/FormControl";
@@ -40,15 +39,7 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import {ListOffersProfile} from "./ui-segments/ListOffersProfile";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+import {TransitionModal} from "../../shared/pages/transition-modal";
 
 const initialValues = initialValuesAddMessage;
 
@@ -71,8 +62,6 @@ export const Profile = (props: IProfileProps) => {
         listOffersForUser,
         loadingEntitiesForUser,
         loadingConversation,
-        entityConversation,
-        updateSuccessConversation,
         createConversation
     } = props;
 
@@ -111,7 +100,6 @@ export const Profile = (props: IProfileProps) => {
     }, [profile]);
 
     React.useEffect(() => {
-        console.log('props.match.params ', id);
         if(id){
             getProfile(Number(id));
             getPublicEntitiesForUser(1, 10, '', Number(id));
@@ -133,7 +121,7 @@ export const Profile = (props: IProfileProps) => {
             <React.Fragment>
                 <Dialog
                     open={openAddMessageModal}
-                    TransitionComponent={Transition}
+                    TransitionComponent={TransitionModal}
                     keepMounted
                     onClose={handleClickCancelAddMessageModal}
                     aria-describedby="alert-dialog-slide-description"

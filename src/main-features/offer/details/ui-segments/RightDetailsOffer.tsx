@@ -9,7 +9,6 @@ import Button from '@mui/material/Button/Button';
 import CardHeader from '@mui/material/CardHeader/CardHeader';
 import Avatar from '@mui/material/Avatar/Avatar';
 import IconButton from '@mui/material/IconButton/IconButton';
-import styled from '@mui/material/styles/styled';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
@@ -22,8 +21,6 @@ import TextField from '@mui/material/TextField/TextField';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import PhoneIcon from '@mui/icons-material/Phone';
 import {useHistory} from 'react-router-dom';
-import Slide from '@mui/material/Slide';
-import {TransitionProps} from '@mui/material/transitions';
 import DialogActions from '@mui/material/DialogActions/DialogActions';
 import Dialog from '@mui/material/Dialog/Dialog';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
@@ -35,28 +32,8 @@ import {IUser} from "../../../../shared/model/user.model";
 import {getBaseImageUrl, getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {LazyImage} from "../../../../shared/pages/lazy-image";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
-import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const ExpandMore = styled((props: any) => {
-    const {expand, ...other} = props;
-    return <IconButton {...other} />;
-})(({theme, expand}) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+import {TransitionModal} from "../../../../shared/pages/transition-modal";
 
 export default function RightDetailsOffer({offerEntity, parentCallback, currentUser, myFavoriteUser}:
                                               {
@@ -66,10 +43,10 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                                   myFavoriteUser: boolean
                                               }) {
     const history = useHistory();
-    const [expanded, setExpanded] = React.useState(true);
 
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
-    const handleClickOpenFavoriteModal = () => {
+    const handleClickOpenFavoriteModal = (event: any) => {
+        event.stopPropagation();
         if (!myFavoriteUser) {
             setOpenFavoriteModal(true);
         }
@@ -96,14 +73,14 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
         if (myFavoriteUser) {
             return 'red';
         }
-        return '#fff';
+        return 'color: rgba(0, 0, 0, 0.54)';
     };
 
     const renderDialogFavoriteUser = () => {
         return (
             <Dialog
                 open={openFavoriteModal}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleCloseFavoriteModal}
                 aria-describedby="alert-dialog-slide-description"
@@ -147,8 +124,11 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                             ) : null
                         }
                         action={
-                            <IconButton aria-label="settings">
-                                <MoreVertIcon/>
+                            <IconButton aria-label="settings"
+                                        sx={{color: getFavoriteUserColor()}}
+                                        onClick={(event: any) => handleClickOpenFavoriteModal(event)}
+                                        disabled={offerEntity?.user?.id === currentUser?.id}>
+                                <FavoriteIcon/>
                             </IconButton>
                         }
                         title={
@@ -186,10 +166,9 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                     >
                         <ShareIcon/>
                     </FacebookShareButton>
-                    <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded}
-                                aria-label="show more" sx={{color: '#fff'}}>
+                    <IconButton sx={{marginLeft: 'auto', color: '#fff'}} onClick={handleExpandClick}>
                         <ExpandMoreIcon/>
-                    </ExpandMore>
+                    </IconButton>
                 </CardActions>
 
                 <Grid container item sx={{mt: 3}}>

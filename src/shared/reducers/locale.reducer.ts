@@ -5,7 +5,6 @@ export const languages: any = {
     'ar-ly': { name: 'العربية', rtl: true },
     en: { name: 'English' },
     fr: { name: 'Français' },
-    // jhipster-needle-i18n-language-key-pipe - JHipster will add/remove languages in this object
 };
 
 export const ACTION_TYPES = {
@@ -24,9 +23,9 @@ export default (state: LocaleState = initialState, action: any): LocaleState => 
             const currentLocale = action.locale;
             if (state.currentLocale !== currentLocale) {
                 dayjs.locale(currentLocale);
-                // TranslatorContext.setLocale(currentLocale);
             }
             return {
+                ...state,
                 currentLocale,
             };
         }
@@ -36,11 +35,6 @@ export default (state: LocaleState = initialState, action: any): LocaleState => 
 };
 
 export const setLocale: (locale: string) => void = (locale: string) => async (dispatch: any) => {
-    // if (!Object.keys(TranslatorContext.context.translations).includes(locale)) {
-    //   const response = await axios.get(`i18n/${locale}.json?buildTimestamp=${process.env.BUILD_TIMESTAMP}`, { baseURL: '' });
-    //   TranslatorContext.registerTranslations(locale, response.data);
-    // }
-
     StorageService.session.set('locale', locale);
     document.querySelector('html')?.setAttribute('dir', isRTL(locale) ? 'rtl' : 'ltr');
     dispatch({

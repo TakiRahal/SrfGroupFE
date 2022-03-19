@@ -14,15 +14,14 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 import {useFormik} from 'formik';
 import IconButton from '@mui/material/IconButton/IconButton';
-import {TransitionProps} from '@mui/material/transitions';
 import Dialog from '@mui/material/Dialog/Dialog';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import DialogContent from '@mui/material/DialogContent/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
 import DialogActions from '@mui/material/DialogActions/DialogActions';
-import Slide from '@mui/material/Slide';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useEffect, useState} from 'react';
+import FlagIcon from '@mui/icons-material/Flag';
+import {useEffect} from 'react';
 import Box from '@mui/material/Box/Box';
 import {
     initialValuesAddCommentOffer,
@@ -32,15 +31,7 @@ import {ICommentOffer} from "../../../../shared/model/comment-offer.model";
 import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+import {TransitionModal} from "../../../../shared/pages/transition-modal";
 
 const initialValues = initialValuesAddCommentOffer;
 
@@ -72,6 +63,7 @@ export default function CommentDetailsOffer({
     const [commentDeleteId, setCommentDeleteId] = React.useState(-1);
     const [commentUpdateId, setCommentUpdateId] = React.useState(-1);
     const [showComments, setShowComments] = React.useState<boolean>(false);
+    const [openReportCommentOfferModal, setOpenReportCommentOfferModal] = React.useState(false);
 
     const handleCallbackAddComment = (content: string) => {
         parentCallbackAddComment(content);
@@ -108,7 +100,7 @@ export default function CommentDetailsOffer({
         return (
             <Dialog
                 open={openDeleteCommentModal}
-                TransitionComponent={Transition}
+                TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleClickCancelDeleteCommentModal}
                 aria-describedby="alert-dialog-slide-description"
@@ -127,6 +119,45 @@ export default function CommentDetailsOffer({
                     </Button>
                     <Button onClick={handleClickDeleteDeleteCommentModal} color="error">
                         Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
+    };
+
+    const reportCommentOffer = (comment: ICommentOffer) => {
+        console.log('comment ', comment);
+        setOpenReportCommentOfferModal(true);
+    }
+    const handleCloseReportCommentOfferModal = () => {
+        setOpenReportCommentOfferModal(false);
+    }
+    const handleAddReportCommentOfferModal = () => {
+        setOpenReportCommentOfferModal(false);
+    }
+    const renderDialogReportCommentOffer = () => {
+        return (
+            <Dialog
+                open={openReportCommentOfferModal}
+                TransitionComponent={TransitionModal}
+                keepMounted
+                onClose={handleCloseReportCommentOfferModal}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>
+                    Repoprt comment offer
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Do you want report this comment offer !
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseReportCommentOfferModal}>
+                        Cancel
+                    </Button>
+                    <Button color="success" onClick={handleAddReportCommentOfferModal}>
+                        Report
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -179,7 +210,14 @@ export default function CommentDetailsOffer({
                                                                 sx={{border: '1px solid #b9b9b9'}}/>
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                        primary={getFullnameUser(comment?.user)}
+                                                        primary={
+                                                            <React.Fragment>
+                                                                {getFullnameUser(comment?.user)}
+                                                                <IconButton sx={{marginLeft: 'auto'}} onClick={() => reportCommentOffer(comment)}>
+                                                                    <FlagIcon/>
+                                                                </IconButton>
+                                                            </React.Fragment>
+                                                        }
                                                         secondary={
                                                             <React.Fragment>
                                                                 <Typography sx={{display: 'block'}} component="span" variant="body2"
@@ -233,6 +271,7 @@ export default function CommentDetailsOffer({
                 </ListItem>
             </List>
             <div>{renderDialogDeleteComment()}</div>
+            <div>{renderDialogReportCommentOffer()}</div>
         </Box>
     );
 }

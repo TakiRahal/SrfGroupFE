@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.8caf8ad7.css",
-    "main.js": "/SrfGroupFE/static/js/main.ec9ea413.js",
+    "main.js": "/SrfGroupFE/static/js/main.fdd96850.js",
     "static/js/922.5c91cede.chunk.js": "/SrfGroupFE/static/js/922.5c91cede.chunk.js",
     "service-worker.js": "/SrfGroupFE/service-worker.js",
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
     "static/css/main.8caf8ad7.css",
-    "static/js/main.ec9ea413.js"
+    "static/js/main.fdd96850.js"
   ]
 }

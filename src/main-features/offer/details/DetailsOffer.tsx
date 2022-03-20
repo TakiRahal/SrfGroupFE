@@ -37,6 +37,7 @@ import {ICommentOffer} from "../../../shared/model/comment-offer.model";
 import { createEntity as createEntityFavoriteUser } from '../../../shared/reducers/favorite-user.reducer';
 import { updateEntity as updateComment } from '../../../shared/reducers/comment-offer.reducer';
 import { deleteEntity as deleteComment } from '../../../shared/reducers/comment-offer.reducer';
+import { createEntity as reportComment } from '../../../shared/reducers/report-comment-offer.reducer';
 import { createEntity as createEntityReportOffer } from '../../../shared/reducers/report-offer.reducer';
 
 import './DetailsOffer.scss';
@@ -76,13 +77,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         addSuccessComment,
         updateSuccessComment,
 
-        loadingEntityFavoriteUser,
-        entityFavoriteUser,
         addSuccessFavoriteUser,
         createEntityFavoriteUser,
         loadingAddComment,
         totalItemsCommentsByOffer,
-        loadingDeleteComment,
         deleteSuccessComment,
         deleteComment
     } = props;
@@ -124,7 +122,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const handleCallbackAddComment = (content: string) => {
         if (content) {
             const entity: ICommentOffer = {
-                createdDate: null,
+                createdDate: convertDateTimeToServer(new Date()),
                 content: content,
                 offer: {
                     id: favoriteUserOffer?.offer?.id,
@@ -168,6 +166,15 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
             history.push(ALL_APP_ROUTES.LOGIN);
         }
     };
+
+    const parentCallbackReportComment = (comment: ICommentOffer) => {
+        console.log('comment ', comment);
+        const entity = {
+            commentOffer: comment,
+            user: {}
+        }
+        props.reportComment(entity);
+    }
 
     const reportOffer = () => {
         setOpenReportOfferModal(true);
@@ -321,6 +328,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                 parentCallbackAddComment={handleCallbackAddComment}
                                                 parentCallbackDeleteComment={handleCallbackDeleteComment}
                                                 parentCallbackUpdateComment={parentCallbackUpdateComment}
+                                                parentCallbackReportComment={parentCallbackReportComment}
                                                 totalItems={totalItemsCommentsByOffer}
                                             />
                                         </Box>
@@ -346,7 +354,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 }
 
 
-const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -367,9 +375,11 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer }: IR
     entityFavoriteUser: favoriteUser.entity,
     addSuccessFavoriteUser: favoriteUser.addSuccess,
 
-    addSuccessReportOffer: reportOffer.addSuccess,
-    loadingEntityReportOffer: reportOffer.loadingEntity,
-    entityReportOffer: reportOffer.entity,
+    addSuccessReportOffer: reportOffer.reportSuccess,
+    loadingEntityReportOffer: reportOffer.loadingReportEntity,
+
+    addSuccessReportCommentOffer: reportCommentOffer.reportSuccess,
+    loadingEntityReportCommentOffer: reportCommentOffer.loadingReportEntity,
 });
 
 const mapDispatchToProps = {
@@ -381,7 +391,8 @@ const mapDispatchToProps = {
     resetCommentOffer,
     updateComment,
     deleteComment,
-    createEntityReportOffer
+    createEntityReportOffer,
+    reportComment
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -27,7 +27,7 @@ import {
     initialValuesAddCommentOffer,
     validationSchemaAddCommentOffer
 } from "../validation/initial-values-add-comment-offer";
-import {ICommentOffer} from "../../../../shared/model/comment-offer.model";
+import {defaultValue, ICommentOffer} from "../../../../shared/model/comment-offer.model";
 import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
@@ -46,6 +46,7 @@ export default function CommentDetailsOffer({
                                                 parentCallbackAddComment,
                                                 parentCallbackDeleteComment,
                                                 parentCallbackUpdateComment,
+                                                parentCallbackReportComment,
                                                 totalItems
                                             }: {
     offerEntity: IOffer | undefined,
@@ -58,12 +59,14 @@ export default function CommentDetailsOffer({
     parentCallbackAddComment: any,
     parentCallbackDeleteComment: any,
     parentCallbackUpdateComment: any,
+    parentCallbackReportComment: any,
     totalItems: number
 }) {
     const [commentDeleteId, setCommentDeleteId] = React.useState(-1);
     const [commentUpdateId, setCommentUpdateId] = React.useState(-1);
     const [showComments, setShowComments] = React.useState<boolean>(false);
     const [openReportCommentOfferModal, setOpenReportCommentOfferModal] = React.useState(false);
+    const [commentReport, setCommentReport] = React.useState<ICommentOffer>(defaultValue);
 
     const handleCallbackAddComment = (content: string) => {
         parentCallbackAddComment(content);
@@ -126,7 +129,7 @@ export default function CommentDetailsOffer({
     };
 
     const reportCommentOffer = (comment: ICommentOffer) => {
-        console.log('comment ', comment);
+        setCommentReport(comment);
         setOpenReportCommentOfferModal(true);
     }
     const handleCloseReportCommentOfferModal = () => {
@@ -134,6 +137,7 @@ export default function CommentDetailsOffer({
     }
     const handleAddReportCommentOfferModal = () => {
         setOpenReportCommentOfferModal(false);
+        parentCallbackReportComment(commentReport);
     }
     const renderDialogReportCommentOffer = () => {
         return (

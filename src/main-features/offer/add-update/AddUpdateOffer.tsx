@@ -29,7 +29,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import OptionsFindAddOffer from "./ui-segments/OptionsFindAddOffer";
 import {useFormik} from "formik";
-import {convertDateTimeToServer, getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
+import {
+    convertDateTimeToServer,
+    dataUrlToFile,
+    getBaseImageUrl,
+    getImageForOffer
+} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -55,6 +60,7 @@ import isEmpty from 'lodash/isEmpty';
 import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
+import {getImageUrl} from "../../../shared/utils/image-url";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -83,7 +89,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const [originalListFiles, setOriginalListFiles] = React.useState(defaultValueOriginalListFiles);
     const [openDeleteImageOfferModal, setOpenDeleteImageOfferModal] = React.useState(false);
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
-    const descEditor = React.useRef();
 
     const history = useHistory();
 
@@ -242,17 +247,24 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
             Array.from(event.target.files).forEach((file: any) => {
                 console.log('file ', file);
-                newOrigSelectedFiles.push(file);
-                newSelectedFiles.push(URL.createObjectURL(file));
-            });
+                getImageUrl(file, 500)
+                    .then((resultBase64: any) => {
+                        dataUrlToFile(resultBase64, file.name)
+                            .then((valueFile: any) => {
+                                newOrigSelectedFiles.push(valueFile);
+                            });
+                        newSelectedFiles.push(resultBase64);
 
-            setFileState({
-                ...fileState,
-                selectedFiles: newSelectedFiles.slice(), // event.target.files
-            });
+                        setFileState({
+                            ...fileState,
+                            selectedFiles: newSelectedFiles.slice(), // event.target.files
+                        });
 
-            // Set all files
-            setOriginalListFiles(newOrigSelectedFiles);
+                        // Set all files
+                        setOriginalListFiles(newOrigSelectedFiles);
+                    });
+
+            });
         } else {
             alert('Ouups, max number is 5');
         }

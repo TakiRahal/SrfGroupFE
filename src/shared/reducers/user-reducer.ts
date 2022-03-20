@@ -12,6 +12,7 @@ export const ACTION_TYPES = {
     GET_PROFILE: 'authentication/GET_PROFILE',
     GET_CURRENT_USER: 'authentication/GET_CURRENT_USER',
     UPLOAD_AVATAR: 'account/UPLOAD_AVATAR',
+    UPDATE_INFOS_USER: 'account/UPDATE_INFOS_USER',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -44,7 +45,11 @@ const initialState = {
 
     accountUploadAvatar: null,
     loadingUploadAvatar: false,
-    uploadAvatarSuccess: false
+    uploadAvatarSuccess: false,
+
+    entityUpdateInfosAccount: {} as any,
+    loadingUpdateInfosAccount: false,
+    updateSuccessInfosAccount: false
 }
 
 export type UserState = Readonly<typeof initialState>;
@@ -66,6 +71,29 @@ export default (state: UserState = initialState, action: any): UserState => {
             return {
                 ...initialState,
                 registrationSuccess: true,
+            };
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_INFOS_USER):
+            return {
+                ...state,
+                entityUpdateInfosAccount: {},
+                loadingUpdateInfosAccount: true,
+                updateSuccessInfosAccount: false
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_INFOS_USER):
+            console.log('action = ', action);
+            return {
+                ...state,
+                loadingUpdateInfosAccount: false,
+                updateSuccessInfosAccount: false
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_INFOS_USER):
+            return {
+                ...state,
+                entityUpdateInfosAccount: action.payload.data,
+                loadingUpdateInfosAccount: false,
+                updateSuccessInfosAccount: true
             };
 
 
@@ -287,6 +315,15 @@ export const uploadAvatar: (avatar: FormData) => void = entity => async (dispatc
 
     return result;
 };
+
+export const updateInfosUser: (user: IUser) => void = (user: IUser) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.UPDATE_INFOS_USER,
+        payload: axios.put(`${apiUrl}update-current-user`, user),
+    });
+    return result;
+};
+
 
 export const logout: () => void = () => (dispatch: any) => {
     clearAuthToken();

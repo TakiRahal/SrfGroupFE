@@ -10,6 +10,7 @@ export const ACTION_TYPES = {
     UPDATE_COMMENTOFFER: 'commentOffer/UPDATE_COMMENTOFFER',
     PARTIAL_UPDATE_COMMENTOFFER: 'commentOffer/PARTIAL_UPDATE_COMMENTOFFER',
     DELETE_COMMENTOFFER: 'commentOffer/DELETE_COMMENTOFFER',
+    REPORT_COMMENTOFFER: 'commentOffer/REPORT_COMMENTOFFER',
     SET_BLOB: 'commentOffer/SET_BLOB',
     RESET: 'commentOffer/RESET',
 };
@@ -118,7 +119,6 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
                 loadingDeleteEntity: false,
                 deleteSuccess: true
             };
-
 
         case ACTION_TYPES.SET_BLOB: {
             const {name, data, contentType} = action.payload;

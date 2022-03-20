@@ -2,13 +2,13 @@ import React from 'react';
 import Container from "@mui/material/Container/Container";
 import {IRootState} from "../../shared/reducers";
 import {connect} from "react-redux";
-import {getCurrentUser, uploadAvatar} from "../../shared/reducers/user-reducer";
+import {getCurrentUser, updateInfosUser, uploadAvatar} from "../../shared/reducers/user-reducer";
 import Box from "@mui/material/Box/Box";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Grid from "@mui/material/Grid/Grid";
 import Paper from "@mui/material/Paper/Paper";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getFullnameUser, getUserAvatar} from "../../shared/utils/utils-functions";
+import {dataUrlToFile, getFullnameUser, getUserAvatar} from "../../shared/utils/utils-functions";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import {useFormik} from "formik";
 import {initialValuesAccount, validationSchemaAccount} from "./validation/validation-account";
@@ -27,6 +27,9 @@ import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
 import {Link} from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
+import {getImageUrl} from "../../shared/utils/image-url";
+import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
+import TextField from "@mui/material/TextField/TextField";
 
 const initialValues = initialValuesAccount;
 
@@ -35,7 +38,7 @@ export interface IAccountClientProps extends StateProps, DispatchProps {}
 export const Account = (props: IAccountClientProps) => {
     const [fileState, setFileState] = React.useState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
     const [showEditInfos, setShowEditInfos] = React.useState(false);
-    const [imageAvatar, setImageAvatar] = React.useState(null);
+    const [imageAvatar, setImageAvatar] = React.useState<any>(null);
 
     const {
         getCurrentUser,
@@ -48,13 +51,14 @@ export const Account = (props: IAccountClientProps) => {
         initialValues,
         validationSchema: validationSchemaAccount,
         onSubmit: values => {
-            // const account = {
-            //     ...props.account,
-            //     ...values,
-            // };
-            // props.saveAccountSettings(account);
+            const account = {
+                ...props.account,
+                ...values,
+            };
+            props.updateInfosUser(account);
         },
     });
+
 
     React.useEffect(() => {
         getCurrentUser();
@@ -78,6 +82,12 @@ export const Account = (props: IAccountClientProps) => {
     }, [account]);
 
     React.useEffect(() => {
+        if(props.updateSuccessInfosAccount){
+            setShowEditInfos(false);
+        }
+    }, [props.updateSuccessInfosAccount])
+
+    React.useEffect(() => {
         if (imageAvatar) {
             const formData = new FormData();
             formData.append('avatar', imageAvatar);
@@ -86,8 +96,17 @@ export const Account = (props: IAccountClientProps) => {
     }, [imageAvatar]);
 
     const selectFile = (event: any) => {
-        setImageAvatar(event.target.files[0]);
-        setFileState(URL.createObjectURL(event.target.files[0]));
+        getImageUrl(event.target.files[0], 500)
+            .then((result: any) => {
+                dataUrlToFile(result, event.target.files[0].name)
+                    .then((value: any) => {
+                        setImageAvatar(value);
+                    })
+                setFileState(result);
+            });
+
+        // setImageAvatar(event.target.files[0]);
+        // setFileState(URL.createObjectURL(event.target.files[0]));
     };
 
     return (
@@ -105,7 +124,7 @@ export const Account = (props: IAccountClientProps) => {
                         <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
                             Account
                         </Link>
-                        <Typography color="text.primary">f</Typography>
+                        <Typography color="text.primary">{getFullnameUser(props.account)}</Typography>
                     </Breadcrumbs>
                 </Grid>
             </Grid>
@@ -252,43 +271,44 @@ export const Account = (props: IAccountClientProps) => {
                                         </Grid>
 
                                         <Grid item xs={12} md={6}>
-                                            {/*<FormControl fullWidth error={formik.touched.address && Boolean(formik.errors.address)}>*/}
-                                                {/*<Autocomplete*/}
-                                                    {/*id="country-select-demo"*/}
-                                                    {/*fullWidth*/}
-                                                    {/*size="small"*/}
-                                                    {/*options={listAddress}*/}
-                                                    {/*disabled={!showEditInfos}*/}
-                                                    {/*value={formik.values.address}*/}
-                                                    {/*onChange={(e, value) => formik.setFieldValue('address', value || '')}*/}
-                                                    {/*autoHighlight*/}
-                                                    {/*getOptionLabel={option => option.city}*/}
-                                                    {/*renderOption={(propsRender, option) => (*/}
-                                                        {/*<Box component="li" {...propsRender}>*/}
-                                                            {/*{option.city}*/}
-                                                        {/*</Box>*/}
-                                                    {/*)}*/}
-                                                    {/*renderInput={params => (*/}
-                                                        {/*<TextField*/}
-                                                            {/*{...params}*/}
-                                                            {/*label="Address"*/}
-                                                            {/*inputProps={{*/}
-                                                                {/*...params.inputProps,*/}
-                                                                {/*form: {*/}
-                                                                    {/*autocomplete: 'off',*/}
-                                                                {/*},*/}
-                                                                {/*autoComplete: 'off', // disable autocomplete and autofill*/}
-                                                            {/*}}*/}
-                                                        {/*/>*/}
-                                                    {/*)}*/}
-                                                {/*/>*/}
-                                                {/*<FormHelperText id="component-helper-text">{formik.touched.address && formik.errors.address}</FormHelperText>*/}
-                                            {/*</FormControl>*/}
+                                            <FormControl fullWidth error={formik.touched.address && Boolean(formik.errors.address)}>
+                                                <Autocomplete
+                                                    id="country-select"
+                                                    fullWidth
+                                                    size="small"
+                                                    options={props.entitiesAddress}
+                                                    value={formik.values.address}
+                                                    onChange={(e, value) => formik.setFieldValue('address', value || '')}
+                                                    autoHighlight
+                                                    getOptionLabel={option => option?.city || ''}
+                                                    disabled={!showEditInfos}
+                                                    renderOption={(propsRender, option) => (
+                                                        <Box component="li" {...propsRender}>
+                                                            {option.city}
+                                                        </Box>
+                                                    )}
+                                                    renderInput={params => (
+                                                        <TextField
+                                                            {...params}
+                                                            label="Address"
+                                                            inputProps={{
+                                                                ...params.inputProps,
+                                                                form: {
+                                                                    autocomplete: 'off',
+                                                                },
+                                                                autoComplete: 'off', // disable autocomplete and autofill
+                                                            }}
+                                                        />
+                                                    )}
+                                                />
+                                                <FormHelperText
+                                                    id="component-helper-text">{formik.touched.address && formik.errors.address}</FormHelperText>
+                                            </FormControl>
                                         </Grid>
                                     </Grid>
 
                                     {showEditInfos ? (
-                                        <Grid container spacing={2} className="mt-2">
+                                        <Grid container spacing={2} sx={{mt: 2}}>
                                             <Grid item xs={12} md={12}>
                                                 <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
                                                     <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditInfos(false)}>
@@ -298,7 +318,7 @@ export const Account = (props: IAccountClientProps) => {
                                                     <LoadingButton
                                                         color="success"
                                                         type="submit"
-                                                        loading={true}
+                                                        loading={props.loadingUpdateInfosAccount}
                                                         loadingPosition="start"
                                                         startIcon={<CheckIcon />}
                                                         variant="contained"
@@ -306,9 +326,6 @@ export const Account = (props: IAccountClientProps) => {
                                                         Save
                                                     </LoadingButton>
 
-                                                    {/*<Button color="success" variant="contained" type="submit" startIcon={<CheckIcon />}>*/}
-                                                    {/*Modify*/}
-                                                    {/*</Button>*/}
                                                 </ButtonGroup>
                                             </Grid>
                                         </Grid>
@@ -316,9 +333,101 @@ export const Account = (props: IAccountClientProps) => {
                                 </Box>
                             </form>
 
-                            <hr />
-
                         </Paper>
+
+                        <Paper elevation={3} sx={{ p: 2, mt: 4 }}>
+                            <form onSubmit={formik.handleSubmit}>
+                                <Box sx={{ mt: 2 }}>
+                                    <h5 className="mb-4">
+                                        Update password
+                                        {!showEditInfos ? (
+                                            <IconButton
+                                                aria-label="upload picture"
+                                                className="float-right"
+                                                component="span"
+                                                color="success"
+                                                onClick={() => setShowEditInfos(true)}
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                        ) : null}
+                                    </h5>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
+                                            <FormControl fullWidth error={formik.touched.login && Boolean(formik.errors.login)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">Login</InputLabel>
+                                                <OutlinedInput
+                                                    id="login"
+                                                    name="login"
+                                                    label="Login"
+                                                    value={formik.values.login}
+                                                    onChange={formik.handleChange}
+                                                    disabled
+                                                />
+                                                <FormHelperText id="component-helper-text">{formik.touched.login && formik.errors.login}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container spacing={2} sx={{mt: 1}}>
+                                        <Grid item xs={12} md={6}>
+                                            <FormControl fullWidth error={formik.touched.firstName && Boolean(formik.errors.firstName)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">Firstname</InputLabel>
+                                                <OutlinedInput
+                                                    id="firstName"
+                                                    name="firstName"
+                                                    label="Firstname"
+                                                    value={formik.values.firstName}
+                                                    onChange={formik.handleChange}
+                                                    disabled={!showEditInfos}
+                                                />
+                                                <FormHelperText id="component-helper-text">{formik.touched.firstName && formik.errors.firstName}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+
+                                        <Grid item xs={12} md={6}>
+                                            <FormControl fullWidth error={formik.touched.lastName && Boolean(formik.errors.lastName)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">Lastname</InputLabel>
+                                                <OutlinedInput
+                                                    id="lastName"
+                                                    name="lastName"
+                                                    label="Lastname"
+                                                    value={formik.values.lastName}
+                                                    onChange={formik.handleChange}
+                                                    disabled={!showEditInfos}
+                                                />
+                                                <FormHelperText id="component-helper-text">{formik.touched.lastName && formik.errors.lastName}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+
+                                    {showEditInfos ? (
+                                        <Grid container spacing={2} sx={{mt: 2}}>
+                                            <Grid item xs={12} md={12}>
+                                                <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
+                                                    <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditInfos(false)}>
+                                                        Cancel
+                                                    </Button>
+
+                                                    <LoadingButton
+                                                        color="success"
+                                                        type="submit"
+                                                        loading={props.loadingUpdateInfosAccount}
+                                                        loadingPosition="start"
+                                                        startIcon={<CheckIcon />}
+                                                        variant="contained"
+                                                    >
+                                                        Save
+                                                    </LoadingButton>
+
+                                                </ButtonGroup>
+                                            </Grid>
+                                        </Grid>
+                                    ) : null}
+                                </Box>
+                            </form>
+                        </Paper>
+
                     </Grid>
                 </Grid>
             )}
@@ -330,13 +439,18 @@ const mapStateToProps = ({ user, address }: IRootState) => ({
     loadingAccount: user.loadingAccount,
     account: user.account,
 
-    listAddress: address.entities,
+    entitiesAddress: address.entities,
 
-    uploadAvatarSuccess: user.uploadAvatarSuccess
+    uploadAvatarSuccess: user.uploadAvatarSuccess,
+
+    entityUpdateInfosAccount: user.entityUpdateInfosAccount,
+    loadingUpdateInfosAccount: user.loadingUpdateInfosAccount,
+    updateSuccessInfosAccount: user.updateSuccessInfosAccount
 });
 
 const mapDispatchToProps = {
     getCurrentUser,
+    updateInfosUser,
     uploadAvatar
 };
 

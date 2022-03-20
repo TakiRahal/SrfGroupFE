@@ -31,6 +31,7 @@ import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 import {languages, locales} from "../../reducers/locale.reducer";
 import {Translation, useTranslation} from "react-i18next";
+import Tooltip from "@mui/material/Tooltip/Tooltip";
 
 
 const sections = [
@@ -263,17 +264,19 @@ export default function Header(props: any){
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="transparent">
                 <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#8080801f' }}>
-                    <Button
-                        variant="outlined"
-                        color="neutral"
-                        size="small"
-                        sx={{ mr: 1, display: { xs: 'none', sm: 'inline-flex;' } }}
-                        startIcon={<AddCircleIcon />}
-                        component={Link}
-                        to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
-                    >
-                        {t('header.label_add_offer')}
-                    </Button>
+                    <Tooltip title={t('header.label_add_offer') || ''}>
+                        <Button
+                            variant="outlined"
+                            color="neutral"
+                            size="small"
+                            sx={{ mr: 1, display: { xs: 'none', sm: 'inline-flex;' } }}
+                            startIcon={<AddCircleIcon />}
+                            component={Link}
+                            to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
+                        >
+                            {t('header.label_add_offer')}
+                        </Button>
+                    </Tooltip>
                     <IconButton
                         size="small"
                         aria-label="Language"
@@ -301,23 +304,27 @@ export default function Header(props: any){
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {isAuthenticated ? (
                             <div>
-                                <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
-                                            to={ALL_APP_ROUTES.CHAT.LIST}>
-                                    <Badge badgeContent={4} color="error">
-                                        <MailIcon />
-                                    </Badge>
-                                </IconButton>
-                                <IconButton
-                                    size="large"
-                                    aria-label="show 17 new notifications"
-                                    color="inherit"
-                                    component={Link}
-                                    to={ALL_APP_ROUTES.NOTIFICATION.LIST}
-                                >
-                                    <Badge badgeContent={props.numberNotReadNotifications > 0 ? props.numberNotReadNotifications : null} color="error">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </IconButton>
+                                <Tooltip title="Messages">
+                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
+                                                to={ALL_APP_ROUTES.CHAT.LIST}>
+                                        <Badge badgeContent={4} color="error">
+                                            <MailIcon />
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Notifications">
+                                    <IconButton
+                                        size="large"
+                                        aria-label="show 17 new notifications"
+                                        color="inherit"
+                                        component={Link}
+                                        to={ALL_APP_ROUTES.NOTIFICATION.LIST}
+                                    >
+                                        <Badge badgeContent={props.numberNotReadNotifications > 0 ? props.numberNotReadNotifications : null} color="error">
+                                            <NotificationsIcon />
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
                                 <IconButton
                                     size="large"
                                     edge="end"

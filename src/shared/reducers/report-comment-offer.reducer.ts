@@ -1,9 +1,10 @@
-import axios from 'axios';
-import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
+import axios from "axios";
 import {IReportOffer} from "../model/report-offer.model";
+import {ReportOfferState} from "./report-offer.reducer";
+import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
 export const ACTION_TYPES = {
-    CREATE_REPORTOFFER: 'reportOffer/CREATE_REPORTOFFER',
+    CREATE_REPORT_COMMENTOFFER: 'reportCommentOffer/CREATE_REPORT_COMMENTOFFER',
 };
 
 const initialState = {
@@ -12,25 +13,26 @@ const initialState = {
     reportSuccess: false
 }
 
-export type ReportOfferState = Readonly<typeof initialState>;
+export type ReportCommentOfferState = Readonly<typeof initialState>;
+
 
 // Reducer
 
 export default (state: ReportOfferState = initialState, action: any): ReportOfferState => {
     switch (action.type) {
-        case REQUEST(ACTION_TYPES.CREATE_REPORTOFFER):
+        case REQUEST(ACTION_TYPES.CREATE_REPORT_COMMENTOFFER):
             return {
                 ...state,
                 loadingReportEntity: true,
                 reportSuccess: false
             };
-        case FAILURE(ACTION_TYPES.CREATE_REPORTOFFER):
+        case FAILURE(ACTION_TYPES.CREATE_REPORT_COMMENTOFFER):
             return {
                 ...state,
                 loadingReportEntity: false,
                 errorMessage: action.payload,
             };
-        case SUCCESS(ACTION_TYPES.CREATE_REPORTOFFER):
+        case SUCCESS(ACTION_TYPES.CREATE_REPORT_COMMENTOFFER):
             return {
                 ...state,
                 loadingReportEntity: false,
@@ -44,14 +46,14 @@ export default (state: ReportOfferState = initialState, action: any): ReportOffe
 }
 
 
-const apiUrl = 'api/reportoffer';
+const apiUrl = 'api/reportcommentoffer';
 
 
 // Actions
 
 export const createEntity: (entity: IReportOffer) => void = (entity: IReportOffer) => async (dispatch: any) => {
     const result = await dispatch({
-        type: ACTION_TYPES.CREATE_REPORTOFFER,
+        type: ACTION_TYPES.CREATE_REPORT_COMMENTOFFER,
         payload: axios.post(`${apiUrl}/create`, entity),
     });
     return result;

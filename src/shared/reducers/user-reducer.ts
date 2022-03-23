@@ -2,10 +2,12 @@ import axios from "axios";
 import {REQUEST, FAILURE, SUCCESS} from "./action-type.util";
 import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
-import {IUser} from "../model/user.model";
+import {IFacebook, IGooglePlus, IUser} from "../model/user.model";
+import {IUpdatePassword} from "../model/update-password.model";
 
 export const ACTION_TYPES = {
     CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
+    RESET_CREATE_ACCOUNT: 'register/RESET_CREATE_ACCOUNT',
     ACTIVATE_ACCOUNT: 'activate/ACTIVATE_ACCOUNT',
     LOGIN: 'authentication/LOGIN',
     GET_SESSION: 'authentication/GET_SESSION',
@@ -13,6 +15,7 @@ export const ACTION_TYPES = {
     GET_CURRENT_USER: 'authentication/GET_CURRENT_USER',
     UPLOAD_AVATAR: 'account/UPLOAD_AVATAR',
     UPDATE_INFOS_USER: 'account/UPDATE_INFOS_USER',
+    UPDATE_PASSWORD_USER: 'account/UPDATE_PASSWORD_USER',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -49,7 +52,10 @@ const initialState = {
 
     entityUpdateInfosAccount: {} as any,
     loadingUpdateInfosAccount: false,
-    updateSuccessInfosAccount: false
+    updateSuccessInfosAccount: false,
+
+    loadingPasswordAccount: false,
+    updateSuccessPasswordAccount: false
 }
 
 export type UserState = Readonly<typeof initialState>;
@@ -60,6 +66,7 @@ export default (state: UserState = initialState, action: any): UserState => {
             return {
                 ...state,
                 registrationLoading: true,
+                registrationSuccess: false
             };
         case FAILURE(ACTION_TYPES.CREATE_ACCOUNT):
             console.log('action = ', action);
@@ -71,6 +78,11 @@ export default (state: UserState = initialState, action: any): UserState => {
             return {
                 ...initialState,
                 registrationSuccess: true,
+            };
+        case ACTION_TYPES.RESET_CREATE_ACCOUNT:
+            return {
+                ...state,
+                registrationSuccess: false
             };
 
 
@@ -97,6 +109,27 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
 
 
+        case REQUEST(ACTION_TYPES.UPDATE_PASSWORD_USER):
+            return {
+                ...state,
+                loadingPasswordAccount: true,
+                updateSuccessPasswordAccount: false
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_PASSWORD_USER):
+            console.log('action = ', action);
+            return {
+                ...state,
+                loadingPasswordAccount: false,
+                updateSuccessPasswordAccount: false
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_PASSWORD_USER):
+            return {
+                ...state,
+                loadingPasswordAccount: false,
+                updateSuccessPasswordAccount: true
+            };
+
+
         case REQUEST(ACTION_TYPES.LOGIN):
             return{
                 ...state,
@@ -104,12 +137,14 @@ export default (state: UserState = initialState, action: any): UserState => {
             }
         case FAILURE(ACTION_TYPES.LOGIN):
             return {
-                ...initialState,
+                ...state,
+                loginLoading: false,
                 loginErrorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.LOGIN):
             return {
-                ...initialState,
+                ...state,
+                loginLoading: false,
                 loginSuccess: true,
             };
 
@@ -217,13 +252,17 @@ export const handleRegister = (email: string, password: string, sourceRegister: 
             sourceRegister: sourceRegister
 
         }),
-        meta: {
-            successMessage: 'register.messages.success',
-            errorMessage: 'errorMessage'
-        },
+        // meta: {
+        //     successMessage: 'register.messages.success',
+        //     errorMessage: 'errorMessage'
+        // },
     });
     return result;
 };
+
+export const resetRegister = () => ({
+    type: ACTION_TYPES.RESET_CREATE_ACCOUNT,
+});
 
 export const activateAction = (key: string) => {
     const result = ({
@@ -273,12 +312,6 @@ export const getSession: () => void = () => async (dispatch: any, getState: any)
     if (account) {
         StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
     }
-
-    // if (account && account.langKey) {
-    //     Storage.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
-    //     const langKey = Storage.session.get('locale', account.langKey);
-    //     await dispatch(setLocale(langKey));
-    // }
     return result;
 };
 
@@ -324,6 +357,44 @@ export const updateInfosUser: (user: IUser) => void = (user: IUser) => async (di
     return result;
 };
 
+
+export const updatePasswordUser: (updatePassword: IUpdatePassword) => void = (updatePassword: IUpdatePassword) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.UPDATE_PASSWORD_USER,
+        payload: axios.put(`${apiUrl}update-password-current-user`, updatePassword),
+    });
+    return result;
+};
+
+export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: IGooglePlus) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus`, googlePlus),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+    }
+    return result;
+};
+
+export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-facebook`, facebook),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+    }
+    return result;
+};
 
 export const logout: () => void = () => (dispatch: any) => {
     clearAuthToken();

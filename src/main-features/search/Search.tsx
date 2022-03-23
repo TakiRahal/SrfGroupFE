@@ -4,11 +4,10 @@ import {IRootState} from "../../shared/reducers";
 import Box from "@mui/material/Box/Box";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import LeftSearchClient from "./ui-segments/LeftSearchClient";
-import SearchAppBar from "../../shared/layout/menus/SearchAppBar";
 import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
 import Card from "@mui/material/Card/Card";
 import CardContent from "@mui/material/CardContent/CardContent";
@@ -19,13 +18,19 @@ import {TypeOfferEnum} from "../../shared/enums/type-offer.enum";
 import {IOffer} from "../../shared/model/offer.model";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import {LazyImage} from "../../shared/pages/lazy-image";
-import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../shared/utils/utils-functions";
+import {
+    getBaseImageUrl,
+    getFullnameUser, getFullUrlWithParams,
+    getImageForOffer,
+    getUserAvatar,
+    useQuery
+} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FlagIcon from '@mui/icons-material/Flag';
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import {ConvertReactTimeAgo} from "../../shared/pages/react-time-ago";
@@ -33,19 +38,31 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
-
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SearchAppBar from "../../shared/layout/menus/SearchAppBar";
+import queryString from 'query-string';
+import isEmpty from 'lodash/isEmpty';
+import Alert from "@mui/material/Alert/Alert";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
 export const Search = (props: ISearchProps) => {
 
     const history = useHistory();
+    const { search } = useLocation();
 
-    const { listOffers, loadingListOffers, getEntitiesOffers } = props;
+    const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesAddress } = props;
+
+    // React.useEffect(() => {
+    //     getEntitiesOffers(1, 10, '');
+    // }, [])
 
     React.useEffect(() => {
-        getEntitiesOffers(1, 10, '');
-    }, [])
+        const values = queryString.parse(search);
+        let queryParams = getFullUrlWithParams(values);
+        console.log('queryParams ', queryParams);
+        getEntitiesOffers(1, 10, queryParams);
+    }, [search])
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
@@ -108,7 +125,7 @@ export const Search = (props: ISearchProps) => {
                                     </CardMedia>
                                     <CardContent sx={{ flex: 1, pt: 0 }}>
                                         <List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>
-                                            <ListItem sx={{ pl: 0 }} secondaryAction={<MoreVertIcon onClick={(event: any) => event.stopPropagation()} />}>
+                                            <ListItem sx={{ pl: 0 }} secondaryAction={<FlagIcon onClick={(event: any) => event.stopPropagation()} />}>
                                                 <ListItemAvatar>
                                                     <Avatar
                                                         alt={offer.user?.imageUrl}
@@ -166,6 +183,15 @@ export const Search = (props: ISearchProps) => {
                             </CardActionArea>
                         ))
                     )}
+
+                    {
+                        totalItems > listOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
+                            <Button color="neutral" variant="contained" startIcon={<RefreshIcon />}>Load More...</Button>
+                        </Box> : null
+                    }
+
+                    {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
+
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -205,10 +231,12 @@ export const Search = (props: ISearchProps) => {
         </Box>
     );
 }
-const mapStateToProps = ({ user, offer }: IRootState) => ({
+const mapStateToProps = ({ user, offer, address }: IRootState) => ({
     listOffers: offer.entities,
     loadingListOffers: offer.loadingEntities,
     totalItems: offer.totalItems,
+
+    entitiesAddress: address.entities,
 });
 
 const mapDispatchToProps = {

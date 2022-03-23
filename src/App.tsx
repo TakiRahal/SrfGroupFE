@@ -64,8 +64,7 @@ import Switch from '@mui/material/Switch';
 import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import {IOffer} from "./shared/model/offer.model";
-
+import {MessengerCustomerChat} from "typescript-react-facebook-messenger";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -438,8 +437,9 @@ function App(props: IAppProps) {
                             <KeyboardArrowUpIcon />
                         </Fab>
                     </ScrollTop>
+
+                    {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>
-                <h1>{t('title')}</h1>
                 <Footer />
                 {renderMenuLanguages}
             </ThemeProvider>

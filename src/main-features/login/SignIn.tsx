@@ -27,22 +27,18 @@ import Slide from '@mui/material/Slide';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {initialValuesSignIn, validationSchemaSignIn} from "./validation/validation-signin";
-import {login} from "../../shared/reducers/user-reducer";
+import {login, loginFacebook, loginGooglePlus} from "../../shared/reducers/user-reducer";
 import {IRootState} from "../../shared/reducers";
 import Container from "@mui/material/Container/Container";
 import {AllAppConfig} from "../../core/config/all-config";
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 import './SignIn.scss';
+import {IFacebook, IGooglePlus} from "../../shared/model/user.model";
+import {SourceProvider} from "../../shared/enums/source-provider";
+import {useTranslation} from "react-i18next";
 
 const initialValues = initialValuesSignIn;
-
-// class CpmFacebookLogin extends React.Component<any> {
-//     render() {
-//         return(<div></div>)
-//     }
-// }
-// const tagFacebookLogin: Node | React.Component<any, {}, any> | undefined = undefined;
 
 export interface ISignInProps extends StateProps, DispatchProps {}
 
@@ -53,7 +49,9 @@ export const SignIn = (props: ISignInProps) => {
     });
     const history = useHistory();
 
-    const { loading, isAuthenticated } = props;
+    const { t, i18n } = useTranslation();
+
+    const { loading, loginSuccess } = props;
 
     const handleClickShowPassword = () => {
         setShowPassword({
@@ -70,11 +68,10 @@ export const SignIn = (props: ISignInProps) => {
     }, []);
 
     React.useEffect(() => {
-        console.log('isAuthenticated ', isAuthenticated);
-        if (isAuthenticated) {
+        if (loginSuccess) {
             history.push(ALL_APP_ROUTES.HOME);
         }
-    }, [isAuthenticated]);
+    }, [loginSuccess]);
 
 
     const formik = useFormik({
@@ -87,22 +84,24 @@ export const SignIn = (props: ISignInProps) => {
 
     const responseFacebook = (response: any) => {
         console.log('responseFacebook ', response);
-        // const requestData: IFacebook = {
-        //     ...response,
-        //     sourceProvider: SourceProvider.FACEBOOK,
-        // };
-        // props.loginFacebook(requestData);
+        if(!response.status){
+            const requestData: IFacebook = {
+                ...response,
+                sourceProvider: SourceProvider.FACEBOOK,
+            };
+            props.loginFacebook(requestData);
+        }
     };
 
     const responseGoogle = (response: any) => {
         console.log('responseGoogle ', response);
-        // if (!response.error) {
-        //     const requestData: IGooglePlus = {
-        //         ...response,
-        //         sourceProvider: SourceProvider.GOOGLE_PLUS,
-        //     };
-        //     props.loginGooglePlus(requestData);
-        // }
+        if (!response.error) {
+            const requestData: IGooglePlus = {
+                ...response,
+                sourceProvider: SourceProvider.GOOGLE_PLUS,
+            };
+            props.loginGooglePlus(requestData);
+        }
     };
 
     return (
@@ -121,7 +120,7 @@ export const SignIn = (props: ISignInProps) => {
                                 SRF
                             </Link>
                             <Typography color="text.primary">
-                                Sign in
+                                {t('signin.title-page-signin')}
                             </Typography>
                         </Breadcrumbs>
                     </Grid>
@@ -143,7 +142,7 @@ export const SignIn = (props: ISignInProps) => {
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">
-                                Sign in
+                                {t('signin.title-page-signin')}
                             </Typography>
 
                             {/*{loginError ? (*/}
@@ -157,12 +156,12 @@ export const SignIn = (props: ISignInProps) => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">Email</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
                                                     type="email"
-                                                    label="email"
+                                                    label={t('common.label-email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                 />
@@ -171,12 +170,12 @@ export const SignIn = (props: ISignInProps) => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.password && Boolean(formik.errors.password)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">password</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="password"
                                                     name="password"
                                                     type={showPassword.showPassword ? 'text' : 'password'}
-                                                    label="password"
+                                                    label={t('common.label-password')}
                                                     value={formik.values.password}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -200,18 +199,18 @@ export const SignIn = (props: ISignInProps) => {
                                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
 
                                     <LoadingButton loading={loading} fullWidth variant="contained" color="neutral" type="submit" sx={{ mt: 3, mb: 2 }}>
-                                        Sign in
+                                        {t('common.label-login')}
                                     </LoadingButton>
                                 </form>
                                 <Grid container>
                                     <Grid item xs>
                                         <Link to={''}>
-                                            Did you forget your password?
+                                            {t('signin.label-forgot-password')}
                                         </Link>
                                     </Grid>
                                     <Grid item>
                                         <Link to={ALL_APP_ROUTES.REGISTER}>
-                                            Register a new account
+                                            {t('signin.label-register-account')}
                                         </Link>
                                     </Grid>
                                 </Grid>
@@ -263,11 +262,14 @@ export const SignIn = (props: ISignInProps) => {
 const mapStateToProps = ({user}: IRootState) => ({
     loading: user.loginLoading,
     isAuthenticated: user.isAuthenticated,
-    currentUser: user.currentUser
+    currentUser: user.currentUser,
+    loginSuccess: user.loginSuccess
 });
 
 const mapDispatchToProps = {
-    login
+    login,
+    loginGooglePlus,
+    loginFacebook
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

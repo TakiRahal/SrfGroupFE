@@ -22,7 +22,7 @@ import Slide from '@mui/material/Slide';
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {initialValuesSignUp, validationSchemaSignUp} from "./validation/validation-signup";
 import {connect} from "react-redux";
-import {handleRegister} from "../../shared/reducers/user-reducer";
+import {handleRegister, resetRegister} from "../../shared/reducers/user-reducer";
 import {IRootState} from "../../shared/reducers";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -32,6 +32,7 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Container from "@mui/material/Container/Container";
 import {SourceProvider} from "../../shared/enums/source-provider";
 import {TransitionModal} from "../../shared/pages/transition-modal";
+import {useTranslation} from "react-i18next";
 
 const initialValues = initialValuesSignUp;
 
@@ -54,9 +55,12 @@ export const SignUp = (props: ISignUpProps) => {
     });
     const [openDialogRegister, setOpenDialogRegister] = React.useState(false);
 
+    const { t, i18n } = useTranslation();
+
     React.useEffect(() => {
         setStartAnimation(true);
     }, []);
+
 
     const { registrationSuccess } = props;
 
@@ -85,7 +89,6 @@ export const SignUp = (props: ISignUpProps) => {
     };
 
     React.useEffect(() => {
-        console.log('registrationSuccess ', registrationSuccess);
         if(registrationSuccess){
             setOpenDialogRegister(true);
         }
@@ -93,7 +96,7 @@ export const SignUp = (props: ISignUpProps) => {
 
     const handleClose = () => {
         setOpenDialogRegister(false);
-        // navigate(ALL_APP_ROUTES.HOME);
+        props.resetRegister();
     }
 
     const shwDialogRegister = () => {
@@ -106,18 +109,17 @@ export const SignUp = (props: ISignUpProps) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                    {t('signup.title-dialog-register')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                        {t('signup.inbox-dialog-register')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
-                        Agree
+                    <Button onClick={handleClose} color="neutral">{t('common.label-cancel')}</Button>
+                    <Button onClick={handleClose} autoFocus color="success">
+                        {t('signup.label-activation-dialog-register')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -140,7 +142,7 @@ export const SignUp = (props: ISignUpProps) => {
                                 SRF
                             </Link>
                             <Typography color="text.primary">
-                                Registration
+                                {t('signup.title-page-register')}
                             </Typography>
                         </Breadcrumbs>
                     </Grid>
@@ -162,19 +164,19 @@ export const SignUp = (props: ISignUpProps) => {
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">
-                                Registration
+                                {t('signup.title-page-register')}
                             </Typography>
                             <Box sx={{ mt: 3 }}>
                                 <form onSubmit={formik.handleSubmit}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">email</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
                                                     type="email"
-                                                    label="email"
+                                                    label={t('common.label-email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                 />
@@ -183,12 +185,12 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.firstPassword && Boolean(formik.errors.firstPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">newpassword</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-new-password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="firstPassword"
                                                     name="firstPassword"
                                                     type={showPassword.showPassword ? 'text' : 'password'}
-                                                    label="newpassword"
+                                                    label={t('common.label-new-password')}
                                                     value={formik.values.firstPassword}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -211,12 +213,12 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.secondPassword && Boolean(formik.errors.secondPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">confirmpassword</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-confirm-password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="secondPassword"
                                                     name="secondPassword"
                                                     type={showConfPassword.showPassword ? 'text' : 'password'}
-                                                    label="confirmpassword"
+                                                    label={t('common.label-confirm-password')}
                                                     value={formik.values.secondPassword}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -249,18 +251,18 @@ export const SignUp = (props: ISignUpProps) => {
                                                             onChange={formik.handleChange}
                                                         />
                                                     }
-                                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                                    label={t('signup.accept-cgu').toString()}
                                                 />
                                                 <FormHelperText id="component-helper-text">{formik.touched.accept && formik.errors.accept}</FormHelperText>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
                                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} color="neutral">
-                                        Register
+                                        {t('common.label-register')}
                                     </Button>
                                     <Grid container justifyContent="flex-end">
                                         <Grid item>
-                                            <Link to={ALL_APP_ROUTES.LOGIN}>Already have an account? Sign in</Link>
+                                            <Link to={ALL_APP_ROUTES.LOGIN}>{t('signup.label-already-have-account')}</Link>
                                         </Grid>
                                     </Grid>
                                 </form>
@@ -282,7 +284,8 @@ const mapStateToProps = ({ user }: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-    handleRegister
+    handleRegister,
+    resetRegister
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

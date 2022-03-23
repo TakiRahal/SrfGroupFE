@@ -27,15 +27,6 @@ export const getBaseImageUrl = (path?: string) => {
 
 /**
  *
- * @param {string} pathApi
- * @returns {string}
- */
-// export const getPathApi = (pathApi: string) => {
-//     return process.env.REACT_APP_API_END_POINT + pathApi;
-// }
-
-/**
- *
  * @param {IOffer} offer
  * @returns {string}
  */
@@ -73,6 +64,36 @@ export function useQuery() {
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
+export function getFullUrlWithParams(values: any) {
+    let queryParams = '';
+    Object.keys(values).map((key) => {
+        if(key==='address' && values[key] && values[key].id){
+            if(queryParams){
+                if(values[key]){
+                    queryParams += '&address.id='+ values[key].id;
+                }
+            }
+            else{
+                if(values[key]){
+                    queryParams += '?address.id='+ values[key].id;
+                }
+            }
+        }
+        else{
+            if(queryParams){
+                if(values[key]){
+                    queryParams += '&'+key+ '='+ values[key];
+                }
+            }
+            else{
+                if(values[key]){
+                    queryParams += '?'+key+ '='+ values[key];
+                }
+            }
+        }
+    });
+    return queryParams;
+}
 
 /**
  *

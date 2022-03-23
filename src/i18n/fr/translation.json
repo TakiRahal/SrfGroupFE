@@ -1,4 +1,16 @@
 {
+  "common": {
+    "label-cancel": "Annuler",
+    "label-send": "Envoyer",
+    "label-email": "Email",
+    "label-firstname": "Prenom",
+    "label-lastname": "Nom",
+    "label-password": "Mot de passe",
+    "label-new-password": "Nouveau mot de passe",
+    "label-confirm-password": "Confirmer le mot de passe",
+    "label-register": "Inscrir",
+    "label-update": "Modifier"
+  },
   "header":{
     "label_add_offer": "Ajouter l offre",
     "link_home": "Accueil",
@@ -29,6 +41,35 @@
       "title_win_auction": "REMPORTEZ L'ENCHÈRE",
       "sub_title_win_auction": "Remportez l'enchère et gagnez un produit à moins de 30% de sa valeur !."
     }
+  },
+  "account": {
+    "title": "Compte",
+    "label_personnel_details": "Détails personnels",
+    "label_password_details": "Détails du mot de passe",
+    "label_username": "Nom d'utilisateur",
+    "label_email": "Email",
+    "label_firstname": "Prénom",
+    "label_lastname": "Nom de famille",
+    "label_phone": "Téléphoner",
+    "label_current_password": "Mot de passe actuel",
+    "label_new_password": "Nouveau mot de passe",
+    "label_conf_new_password": "Confirmer le nouveau mot de passe",
+    "label_update_infos": "Mettre à jour les informations",
+    "label_update_password": "Modifier"
+  },
+  "signup": {
+    "title-dialog-register": "Inscription avec succès",
+    "inbox-dialog-register": "Merci de consulter votre boite email pour activer votre compte",
+    "label-activation-dialog-register": "Activation",
+    "title-page-register": "Inscription",
+    "accept-cgu": "En validant votre compte, vous acceptez nos termes et conditions.",
+    "label-already-have-account": "Vous avez déjà un compte? S'identifier"
+  },
+  "signin": {
+    "title-page-signin": "Authentification",
+    "label-login": "Se connecter",
+    "label-forgot-password": "Avez-vous oublié votre mot de passe?",
+    "label-register-account": "Enregistrer un nouveau compte"
   },
   "title": "Welcome to react using react-i18next and typescript 4.1 fr",
   "description": {

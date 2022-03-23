@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import {TypeOfferEnum} from "../../../../shared/enums/type-offer.enum";
 
 export const initialValuesAddOffer = {
     typeOffer: '',

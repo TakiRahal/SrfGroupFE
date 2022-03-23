@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography/Typography";
 import Slide from "@mui/material/Slide/Slide";
 import Paper from "@mui/material/Paper/Paper";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {convertDateTimeToServer, getUserAvatar} from "../../shared/utils/utils-functions";
+import {convertDateTimeToServer, getFullnameUser, getUserAvatar} from "../../shared/utils/utils-functions";
 import Skeleton from "@mui/material/Skeleton/Skeleton";
 import Button from "@mui/material/Button/Button";
 import Toolbar from "@mui/material/Toolbar/Toolbar";
@@ -184,8 +184,7 @@ export const Profile = (props: IProfileProps) => {
                                 Profile
                             </Link>
                             <Typography color="text.primary">
-                                {profile?.firstName}
-                                {profile?.lastName}
+                                {getFullnameUser(profile)}
                             </Typography>
                         </Breadcrumbs>
                     </Grid>
@@ -216,8 +215,7 @@ export const Profile = (props: IProfileProps) => {
                                             <Skeleton animation="wave" height={30} />
                                         ) : (
                                             <React.Fragment>
-                                                {profile.firstName ? profile.firstName : ''}
-                                                {profile.lastName ? ' ' + profile.lastName : ''}
+                                                {getFullnameUser(profile)}
                                             </React.Fragment>
                                         )}
                                     </h4>

@@ -92,7 +92,9 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     React.useEffect(() => {
         if(!favoriteUserOffer?.offer?.id && id){
             getEntitywithFavorite(id);
-            getListCommentsByOffer(Number(id), 0, 20, '');
+            if(isAuthenticated){
+                getListCommentsByOffer(Number(id), 0, 20, '');
+            }
         }
     }, [favoriteUserOffer])
 

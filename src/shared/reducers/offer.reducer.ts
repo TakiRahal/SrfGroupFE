@@ -2,6 +2,7 @@ import axios from 'axios';
 import {defaultValue, IOffer} from "../model/offer.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import {defaultValueOFU, IOfferFavoriteUser} from "../model/offer-favorite-user";
+import {ParsedQuery} from "query-string";
 
 export const ACTION_TYPES = {
     FETCH_OFFER_LIST: 'offer/FETCH_OFFER_LIST',
@@ -199,8 +200,10 @@ const apiUrl = 'api/offer';
 
 // Actions
 
-export const getEntities = (page: number, size: number, sort: string) => {
-    const requestUrl = `${apiUrl + '/public'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+export const getEntities = (page: number, size: number, queryParams?: string) => {
+    // const requestUrl = `${apiUrl + '/public'}${queryParams ? `?page=${page}&size=${size}&sort=${queryParams}` : ''}`;
+    // const requestUrl = 'http://localhost:8080/api/offer/public?title=dd';
+    const requestUrl = `${apiUrl}/public${queryParams}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER_LIST,
         payload: axios.get<IOffer>(`${requestUrl}`),

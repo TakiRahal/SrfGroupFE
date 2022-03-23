@@ -1,4 +1,16 @@
 {
+  "common": {
+    "label-cancel": "Cancel",
+    "label-send": "Send",
+    "label-email": "Email",
+    "label-firstname": "FirstName",
+    "label-lastname": "LastName",
+    "label-password": "Password",
+    "label-new-password": "New password",
+    "label-confirm-password": "Confirm Password",
+    "label-register": "Register",
+    "label-update": "Update"
+  },
   "header":{
     "label_add_offer": "Add offer",
     "link_home": "Home",
@@ -29,6 +41,35 @@
       "title_win_auction": "WIN THE AUCTION",
       "sub_title_win_auction": "Win the auction and win a product at less than 30% of its value!."
     }
+  },
+  "account": {
+    "title": "Account",
+    "label_personnel_details": "Personal Details",
+    "label_password_details": "Password Details",
+    "label_username": "Username",
+    "label_email": "Email",
+    "label_firstname": "Firstname",
+    "label_lastname": "Lastname",
+    "label_phone": "Phone",
+    "label_current_password": "Current password",
+    "label_new_password": "New password",
+    "label_conf_new_password": "Confirm New password",
+    "label_update_infos": "Update informations",
+    "label_update_password": "Update password"
+  },
+  "signup": {
+    "title-dialog-register": "Register succefully",
+    "inbox-dialog-register": "Please check your inbox for activation your account",
+    "label-activation-dialog-register": "Activation",
+    "title-page-register": "Registration",
+    "accept-cgu": "By validating your account, you agree to our terms and conditions.",
+    "label-already-have-account": "Already have an account? Sign in"
+  },
+  "signin": {
+    "title-page-signin": "Sing In",
+    "label-login": "Logged in",
+    "label-forgot-password": "Did you forget your password?",
+    "label-register-account": "Register a new account"
   },
   "title": "Welcome to react using react-i18next and typescript 4.1 en",
   "description": {

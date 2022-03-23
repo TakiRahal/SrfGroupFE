@@ -2,7 +2,7 @@ import React from 'react';
 import Container from "@mui/material/Container/Container";
 import {IRootState} from "../../shared/reducers";
 import {connect} from "react-redux";
-import {getCurrentUser, updateInfosUser, uploadAvatar} from "../../shared/reducers/user-reducer";
+import {getCurrentUser, updateInfosUser, updatePasswordUser, uploadAvatar} from "../../shared/reducers/user-reducer";
 import Box from "@mui/material/Box/Box";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Grid from "@mui/material/Grid/Grid";
@@ -11,7 +11,11 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import {dataUrlToFile, getFullnameUser, getUserAvatar} from "../../shared/utils/utils-functions";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import {useFormik} from "formik";
-import {initialValuesAccount, validationSchemaAccount} from "./validation/validation-account";
+import {
+    initialValuesAccount,
+    initialValuesPasswordAccount,
+    validationSchemaAccount, validationSchemaPasswordAccount
+} from "./validation/validation-account";
 import IconButton from "@mui/material/IconButton/IconButton";
 import EditIcon from '@mui/icons-material/Edit';
 import FormControl from "@mui/material/FormControl/FormControl";
@@ -30,8 +34,12 @@ import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
 import {getImageUrl} from "../../shared/utils/image-url";
 import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
 import TextField from "@mui/material/TextField/TextField";
+import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {useTranslation} from "react-i18next";
 
 const initialValues = initialValuesAccount;
+const initialValuesPassword = initialValuesPasswordAccount;
 
 export interface IAccountClientProps extends StateProps, DispatchProps {}
 
@@ -39,6 +47,18 @@ export const Account = (props: IAccountClientProps) => {
     const [fileState, setFileState] = React.useState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
     const [showEditInfos, setShowEditInfos] = React.useState(false);
     const [imageAvatar, setImageAvatar] = React.useState<any>(null);
+    const [showEditPassword, setShowEditPassword] = React.useState(false);
+    const [showCurrentUserPassword, setShowCurrentUserPassword] = React.useState({
+        showPassword: false,
+    });
+    const [showNewPassword, setShowNewPassword] = React.useState({
+        showPassword: false,
+    });
+    const [showConfPassword, setShowConfPassword] = React.useState({
+        showPassword: false,
+    });
+
+    const { t, i18n } = useTranslation();
 
     const {
         getCurrentUser,
@@ -48,7 +68,7 @@ export const Account = (props: IAccountClientProps) => {
     } = props;
 
     const formik = useFormik({
-        initialValues,
+        initialValues: initialValues,
         validationSchema: validationSchemaAccount,
         onSubmit: values => {
             const account = {
@@ -59,6 +79,34 @@ export const Account = (props: IAccountClientProps) => {
         },
     });
 
+
+    const formikPassword = useFormik({
+        initialValues: initialValuesPassword,
+        validationSchema: validationSchemaPasswordAccount,
+        onSubmit: values => {
+            console.log('values ', values);
+            props.updatePasswordUser(values);
+        },
+    });
+
+    const handleClickShowCurrentUserPassword = () => {
+        setShowCurrentUserPassword({
+            showPassword: !showCurrentUserPassword.showPassword,
+        });
+    };
+    const handleClickShowNewPassword = () => {
+        setShowNewPassword({
+            showPassword: !showNewPassword.showPassword,
+        });
+    };
+    const handleClickShowConfPassword = () => {
+        setShowConfPassword({
+            showPassword: !showConfPassword.showPassword,
+        });
+    };
+    const handleMouseDownPassword = (event: any) => {
+        event.preventDefault();
+    };
 
     React.useEffect(() => {
         getCurrentUser();
@@ -71,7 +119,7 @@ export const Account = (props: IAccountClientProps) => {
             setFileState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
 
             formik.setValues({
-                login: account.username ? account.username : '',
+                username: account.username ? account.username : '',
                 firstName: account.firstName ? account.firstName : '',
                 lastName: account.lastName ? account.lastName : '',
                 email: account.email ? account.email : '',
@@ -104,9 +152,6 @@ export const Account = (props: IAccountClientProps) => {
                     })
                 setFileState(result);
             });
-
-        // setImageAvatar(event.target.files[0]);
-        // setFileState(URL.createObjectURL(event.target.files[0]));
     };
 
     return (
@@ -122,7 +167,7 @@ export const Account = (props: IAccountClientProps) => {
                             SRF
                         </Link>
                         <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
-                            Account
+                            {t('account.title')}
                         </Link>
                         <Typography color="text.primary">{getFullnameUser(props.account)}</Typography>
                     </Breadcrumbs>
@@ -176,7 +221,7 @@ export const Account = (props: IAccountClientProps) => {
                             <form onSubmit={formik.handleSubmit}>
                                 <Box sx={{ mt: 2 }}>
                                     <h5 className="mb-4">
-                                        Personal Details
+                                        {t('account.label_personnel_details')}
                                         {!showEditInfos ? (
                                             <IconButton
                                                 aria-label="upload picture"
@@ -191,27 +236,27 @@ export const Account = (props: IAccountClientProps) => {
                                     </h5>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formik.touched.login && Boolean(formik.errors.login)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Login</InputLabel>
+                                            <FormControl fullWidth error={formik.touched.username && Boolean(formik.errors.username)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_username')}</InputLabel>
                                                 <OutlinedInput
                                                     id="login"
                                                     name="login"
                                                     label="Login"
-                                                    value={formik.values.login}
+                                                    value={formik.values.username}
                                                     onChange={formik.handleChange}
                                                     disabled
                                                 />
-                                                <FormHelperText id="component-helper-text">{formik.touched.login && formik.errors.login}</FormHelperText>
+                                                <FormHelperText id="component-helper-text">{formik.touched.username && formik.errors.username}</FormHelperText>
                                             </FormControl>
                                         </Grid>
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Email</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
-                                                    label="Email"
+                                                    label={t('account.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                     disabled
@@ -224,11 +269,11 @@ export const Account = (props: IAccountClientProps) => {
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.firstName && Boolean(formik.errors.firstName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Firstname</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_firstname')}</InputLabel>
                                                 <OutlinedInput
                                                     id="firstName"
                                                     name="firstName"
-                                                    label="Firstname"
+                                                    label={t('account.label_firstname')}
                                                     value={formik.values.firstName}
                                                     onChange={formik.handleChange}
                                                     disabled={!showEditInfos}
@@ -239,11 +284,11 @@ export const Account = (props: IAccountClientProps) => {
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.lastName && Boolean(formik.errors.lastName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Lastname</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_lastname')}</InputLabel>
                                                 <OutlinedInput
                                                     id="lastName"
                                                     name="lastName"
-                                                    label="Lastname"
+                                                    label={t('account.label_lastname')}
                                                     value={formik.values.lastName}
                                                     onChange={formik.handleChange}
                                                     disabled={!showEditInfos}
@@ -256,11 +301,11 @@ export const Account = (props: IAccountClientProps) => {
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.phone && Boolean(formik.errors.phone)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Phone</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_phone')}</InputLabel>
                                                 <OutlinedInput
                                                     id="phone"
                                                     name="phone"
-                                                    label="Phone"
+                                                    label={t('account.label_phone')}
                                                     type="tel"
                                                     value={formik.values.phone}
                                                     onChange={formik.handleChange}
@@ -312,7 +357,7 @@ export const Account = (props: IAccountClientProps) => {
                                             <Grid item xs={12} md={12}>
                                                 <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
                                                     <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditInfos(false)}>
-                                                        Cancel
+                                                        {t('common.label-cancel')}
                                                     </Button>
 
                                                     <LoadingButton
@@ -322,8 +367,9 @@ export const Account = (props: IAccountClientProps) => {
                                                         loadingPosition="start"
                                                         startIcon={<CheckIcon />}
                                                         variant="contained"
+                                                        size="small"
                                                     >
-                                                        Save
+                                                        {t('common.label-update')}
                                                     </LoadingButton>
 
                                                 </ButtonGroup>
@@ -336,17 +382,17 @@ export const Account = (props: IAccountClientProps) => {
                         </Paper>
 
                         <Paper elevation={3} sx={{ p: 2, mt: 4 }}>
-                            <form onSubmit={formik.handleSubmit}>
+                            <form onSubmit={formikPassword.handleSubmit}>
                                 <Box sx={{ mt: 2 }}>
                                     <h5 className="mb-4">
-                                        Update password
-                                        {!showEditInfos ? (
+                                        {t('account.label_password_details')}
+                                        {!showEditPassword ? (
                                             <IconButton
                                                 aria-label="upload picture"
                                                 className="float-right"
                                                 component="span"
                                                 color="success"
-                                                onClick={() => setShowEditInfos(true)}
+                                                onClick={() => setShowEditPassword(true)}
                                             >
                                                 <EditIcon />
                                             </IconButton>
@@ -354,70 +400,116 @@ export const Account = (props: IAccountClientProps) => {
                                     </h5>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <FormControl fullWidth error={formik.touched.login && Boolean(formik.errors.login)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Login</InputLabel>
+                                            <FormControl fullWidth error={formikPassword.touched.currentPassword && Boolean(formikPassword.errors.currentPassword)}>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_current_password')}</InputLabel>
                                                 <OutlinedInput
-                                                    id="login"
-                                                    name="login"
-                                                    label="Login"
-                                                    value={formik.values.login}
-                                                    onChange={formik.handleChange}
-                                                    disabled
+                                                    id="currentPassword"
+                                                    name="currentPassword"
+                                                    type={showCurrentUserPassword.showPassword ? 'text' : 'password'}
+                                                    label={t('account.label_current_password')}
+                                                    value={formikPassword.values.currentPassword}
+                                                    onChange={formikPassword.handleChange}
+                                                    disabled={!showEditPassword}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowCurrentUserPassword}
+                                                                onMouseDown={handleMouseDownPassword}
+                                                                edge="end"
+                                                            >
+                                                                {showCurrentUserPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
                                                 />
-                                                <FormHelperText id="component-helper-text">{formik.touched.login && formik.errors.login}</FormHelperText>
+                                                <FormHelperText id="component-helper-text">
+                                                    {formikPassword.touched.currentPassword && formikPassword.errors.currentPassword}
+                                                </FormHelperText>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formik.touched.firstName && Boolean(formik.errors.firstName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Firstname</InputLabel>
+                                            <FormControl fullWidth error={formikPassword.touched.newPassword && Boolean(formikPassword.errors.newPassword)}>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_new_password')}</InputLabel>
                                                 <OutlinedInput
-                                                    id="firstName"
-                                                    name="firstName"
-                                                    label="Firstname"
-                                                    value={formik.values.firstName}
-                                                    onChange={formik.handleChange}
-                                                    disabled={!showEditInfos}
+                                                    id="newPassword"
+                                                    name="newPassword"
+                                                    type={showNewPassword.showPassword ? 'text' : 'password'}
+                                                    label={t('account.label_new_password')}
+                                                    value={formikPassword.values.newPassword}
+                                                    onChange={formikPassword.handleChange}
+                                                    disabled={!showEditPassword}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowNewPassword}
+                                                                onMouseDown={handleMouseDownPassword}
+                                                                edge="end"
+                                                            >
+                                                                {showNewPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
                                                 />
-                                                <FormHelperText id="component-helper-text">{formik.touched.firstName && formik.errors.firstName}</FormHelperText>
+                                                <FormHelperText id="component-helper-text">
+                                                    {formikPassword.touched.newPassword && formikPassword.errors.newPassword}
+                                                </FormHelperText>
                                             </FormControl>
                                         </Grid>
 
                                         <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formik.touched.lastName && Boolean(formik.errors.lastName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">Lastname</InputLabel>
+                                            <FormControl fullWidth error={formikPassword.touched.confirmNewPassword && Boolean(formikPassword.errors.confirmNewPassword)}>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_conf_new_password')}</InputLabel>
                                                 <OutlinedInput
-                                                    id="lastName"
-                                                    name="lastName"
-                                                    label="Lastname"
-                                                    value={formik.values.lastName}
-                                                    onChange={formik.handleChange}
-                                                    disabled={!showEditInfos}
+                                                    id="confirmNewPassword"
+                                                    name="confirmNewPassword"
+                                                    type={showConfPassword.showPassword ? 'text' : 'password'}
+                                                    label={t('account.label_conf_new_password')}
+                                                    value={formikPassword.values.confirmNewPassword}
+                                                    onChange={formikPassword.handleChange}
+                                                    disabled={!showEditPassword}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowConfPassword}
+                                                                onMouseDown={handleMouseDownPassword}
+                                                                edge="end"
+                                                            >
+                                                                {showConfPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
                                                 />
-                                                <FormHelperText id="component-helper-text">{formik.touched.lastName && formik.errors.lastName}</FormHelperText>
+                                                <FormHelperText id="component-helper-text">
+                                                    {formikPassword.touched.confirmNewPassword && formikPassword.errors.confirmNewPassword}
+                                                </FormHelperText>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
 
-                                    {showEditInfos ? (
+                                    {showEditPassword ? (
                                         <Grid container spacing={2} sx={{mt: 2}}>
                                             <Grid item xs={12} md={12}>
                                                 <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
-                                                    <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditInfos(false)}>
-                                                        Cancel
+                                                    <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditPassword(false)}>
+                                                        {t('common.label-cancel')}
                                                     </Button>
 
                                                     <LoadingButton
                                                         color="success"
                                                         type="submit"
-                                                        loading={props.loadingUpdateInfosAccount}
+                                                        loading={props.loadingPasswordAccount}
                                                         loadingPosition="start"
                                                         startIcon={<CheckIcon />}
                                                         variant="contained"
+                                                        size="small"
                                                     >
-                                                        Save
+                                                        {t('account.label_update_password')}
                                                     </LoadingButton>
 
                                                 </ButtonGroup>
@@ -445,13 +537,17 @@ const mapStateToProps = ({ user, address }: IRootState) => ({
 
     entityUpdateInfosAccount: user.entityUpdateInfosAccount,
     loadingUpdateInfosAccount: user.loadingUpdateInfosAccount,
-    updateSuccessInfosAccount: user.updateSuccessInfosAccount
+    updateSuccessInfosAccount: user.updateSuccessInfosAccount,
+
+    loadingPasswordAccount: user.loadingPasswordAccount,
+    updateSuccessPasswordAccount: user.updateSuccessPasswordAccount,
 });
 
 const mapDispatchToProps = {
     getCurrentUser,
     updateInfosUser,
-    uploadAvatar
+    uploadAvatar,
+    updatePasswordUser
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

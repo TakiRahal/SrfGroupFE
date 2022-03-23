@@ -14,90 +14,181 @@ import FilterIcon from '@mui/icons-material/FilterListSharp';
 import {TypeOfferEnum} from "../../enums/type-offer.enum";
 import {useHistory} from "react-router";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {connect} from "react-redux";
+import {IRootState} from "../../reducers";
+import {useFormik} from "formik";
+import {initialValuesSearchAppBar, validationSchemSearchAppBar} from "./validation/inti-value-search-app-bar";
+import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
+import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
+import {useLocation} from "react-router-dom";
+import queryString from "query-string";
+import {getFullUrlWithParams} from "../../utils/utils-functions";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function SearchAppBar() {
-    const [age, setAge] = React.useState('');
+const initialValues = initialValuesSearchAppBar;
+
+export interface ISearchAppBarProps extends StateProps, DispatchProps {
+}
+
+export const SearchAppBar = (props: ISearchAppBarProps) => {
     const history = useHistory();
+    const { search } = useLocation();
 
-    const handleChange = (event: any) => {
-        setAge(event.target.value);
-    };
+    const {entitiesAddress} = props;
 
-    const searchNavigate = () => {
-        history.push(ALL_APP_ROUTES.SEARCH);
-    };
+    const formik = useFormik({
+        initialValues,
+        validationSchema: validationSchemSearchAppBar,
+        onSubmit: (values: any) => {
+            let queryParams = getFullUrlWithParams(values);
+            console.log('queryParams ', queryParams);
+            history.push(ALL_APP_ROUTES.SEARCH+queryParams);
+        },
+    });
+
+    React.useEffect(() => {
+        const values = queryString.parse(search);
+        formik.setFieldValue('title', values.title || '');
+        formik.setFieldValue('typeOffer', values.typeOffer || '');
+    }, [search])
+
+    React.useEffect(() => {
+        const values = queryString.parse(search);
+        formik.setFieldValue('address', entitiesAddress.find(add => add?.id?.toString() === values?.address?.toString())  || null);
+    }, [entitiesAddress])
 
     return (
         <Box>
-            <Paper elevation={16} sx={{ height: { sx: 'auto', md: 100 } }}>
-                <Toolbar
-                    sx={{
-                        display: { xs: 'block', sm: 'flex' },
-                        justifyContent: 'space-between',
-                        overflowX: 'auto',
-                        borderColor: 'divider',
-                        backgroundColor: '#fff',
-                        paddingRight: { md: 0 },
-                    }}
-                >
-                    <IconButton color="inherit" aria-label="upload picture" component="span" sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
-                        <FilterIcon />
-                    </IconButton>
-                    <FormControl variant="standard" sx={{ m: { xs: 'auto', md: 1 }, minWidth: 230, width: { xs: '100%', md: 'auto' } }}>
-                        <TextField id="outlined-basic" label="Search" variant="standard" />
-                    </FormControl>
-                    <FormControl variant="standard" sx={{ m: { xs: 'auto', md: 1 }, minWidth: 230, width: { xs: '100%', md: 'auto' } }}>
-                        <InputLabel id="demo-simple-select-label">Location</InputLabel>
-                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </FormControl>
+            <form onSubmit={formik.handleSubmit}>
+                <Paper elevation={16} sx={{height: {sx: 'auto', md: 100}}}>
+                    <Toolbar
+                        sx={{
+                            display: {xs: 'block', sm: 'flex'},
+                            justifyContent: 'space-between',
+                            overflowX: 'auto',
+                            borderColor: 'divider',
+                            backgroundColor: '#fff',
+                            paddingRight: {md: 0},
+                        }}
+                    >
+                        <IconButton color="inherit" aria-label="upload picture" component="span"
+                                    sx={{display: {xs: 'none', md: 'inline-flex'}}}>
+                            <FilterIcon/>
+                        </IconButton>
+                        <FormControl variant="standard"
+                                     sx={{m: {xs: 'auto', md: 1}, minWidth: 230, width: {xs: '100%', md: 'auto'}}}>
+                            <TextField id="title"
+                                       name="title"
+                                       label="Search"
+                                       variant="standard"
+                                       value={formik.values.title}
+                                       onChange={formik.handleChange}/>
+                        </FormControl>
 
-                    <FormControl variant="standard" sx={{ m: { xs: 'auto', md: 1 }, minWidth: 230, width: { xs: '100%', md: 'auto' } }}>
-                        <InputLabel id="demo-simple-select-label">Type offre</InputLabel>
-                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Type" onChange={handleChange}>
-                            <MenuItem value={TypeOfferEnum.Sell}>À vendre</MenuItem>
-                            <MenuItem value={TypeOfferEnum.Rent}>À louer</MenuItem>
-                            <MenuItem value={TypeOfferEnum.Find}>À trouver</MenuItem>
-                        </Select>
-                    </FormControl>
+                        <FormControl sx={{m: {xs: 'auto', md: 1}, minWidth: 230, width: {xs: '100%', md: 'auto'}}}
+                                     error={formik.touched.address && Boolean(formik.errors.address)}>
+                            <Autocomplete
+                                id="country-select"
+                                fullWidth
+                                size="small"
+                                options={entitiesAddress}
+                                value={formik.values.address}
+                                onChange={(e, value) => formik.setFieldValue('address', value || '')}
+                                autoHighlight
+                                getOptionLabel={option => option?.city || ''}
+                                renderOption={(propsRender, option) => (
+                                    <Box component="li" {...propsRender}>
+                                        {option.city}
+                                    </Box>
+                                )}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        label="Address"
+                                        variant="standard"
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            form: {
+                                                autocomplete: 'off',
+                                            },
+                                            autoComplete: 'off', // disable autocomplete and autofill
+                                        }}
+                                    />
+                                )}
+                            />
+                            <FormHelperText
+                                id="component-helper-text">{formik.touched.address && formik.errors.address}</FormHelperText>
+                        </FormControl>
 
-                    <Box sx={{ my: { xs: 2, md: 'auto' } }}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                width: 100,
-                                height: { xs: 'auto', md: 100 },
-                                borderRadius: 'unset',
-                                backgroundColor: '#3f3f40',
-                                marginRight: '0.8rem',
-                                color: '#fff',
-                                display: { xs: 'inline-flex', md: 'none' },
-                            }}
-                            color="neutral"
-                        >
-                            <FilterIcon />
-                        </Button>
+                        <FormControl variant="standard"
+                                     sx={{m: {xs: 'auto', md: 1}, minWidth: 230, width: {xs: '100%', md: 'auto'}}}>
+                            <InputLabel id="demo-simple-select-label">Type offre</InputLabel>
+                            <Select labelId="demo-simple-select-label"
+                                    id="typeOffer"
+                                    name="typeOffer"
+                                    value={formik.values.typeOffer}
+                                    onChange={formik.handleChange}
+                                    label="Type">
+                                <MenuItem value=''><DeleteIcon /> Clear select</MenuItem>
+                                <MenuItem value={TypeOfferEnum.Sell}>À vendre</MenuItem>
+                                <MenuItem value={TypeOfferEnum.Rent}>À louer</MenuItem>
+                                <MenuItem value={TypeOfferEnum.Find}>À trouver</MenuItem>
+                            </Select>
+                        </FormControl>
 
-                        <Button
-                            variant="contained"
-                            sx={{
-                                height: { xs: 'auto', md: 100 },
-                                borderRadius: 'unset',
-                                backgroundColor: '#3f3f40',
-                                color: '#fff',
-                            }}
-                            onClick={() => searchNavigate()}
-                            startIcon={<SearchIcon />}
-                            color="neutral"
-                        >
-                            Search
-                        </Button>
-                    </Box>
-                </Toolbar>
-            </Paper>
+                        <Box sx={{my: {xs: 2, md: 'auto'}}}>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    width: 100,
+                                    height: {xs: 'auto', md: 100},
+                                    borderRadius: 'unset',
+                                    backgroundColor: '#3f3f40',
+                                    marginRight: '0.8rem',
+                                    color: '#fff',
+                                    display: {xs: 'inline-flex', md: 'none'},
+                                }}
+                                color="neutral"
+                            >
+                                <FilterIcon/>
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    height: {xs: 'auto', md: 100},
+                                    borderRadius: 'unset',
+                                    backgroundColor: '#3f3f40',
+                                    color: '#fff',
+                                }}
+                                startIcon={<SearchIcon/>}
+                                color="neutral"
+                                type="submit"
+                            >
+                                Search
+                            </Button>
+                        </Box>
+                    </Toolbar>
+                </Paper>
+            </form>
         </Box>
     );
 }
+
+
+const mapStateToProps = ({address, category}: IRootState) => ({
+
+    loadingEntitiesAddress: address.loadingEntities,
+    entitiesAddress: address.entities,
+    updateSuccessAddress: address.updateSuccess,
+
+    loadingEntitiesCategory: category.loadingEntities,
+    entitiesCategory: category.entities,
+});
+
+const mapDispatchToProps = {};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchAppBar);

@@ -24,7 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
@@ -32,8 +32,6 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Dialog from "@mui/material/Dialog/Dialog";
-import {TransitionProps} from "@mui/material/transitions";
-import Slide from "@mui/material/Slide/Slide";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
@@ -45,6 +43,9 @@ import {reset as resetFindOffer} from "../../../shared/reducers/find-offer.reduc
 import {reset as resetRentOffer} from "../../../shared/reducers/rent-offer.reducer";
 import {reset as resetSellerOffer} from "../../../shared/reducers/seller-offer.reducer";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import Alert from "@mui/material/Alert/Alert";
+import SearchAppBar from "../../../shared/layout/menus/SearchAppBar";
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
@@ -159,6 +160,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                         <Grid item xs={12} sm={3}></Grid>
                         <Grid item xs={12} sm={6}>
 
+                            <SearchAppBar />
 
                             <Typography  variant="subtitle2" color="text.secondary">
                                 Total = {totalItemsMyOffers}
@@ -257,10 +259,15 @@ export const MyOffers = (props: IMyOfferProps) => {
                                     </CardActionArea>
                                 ))
                             ) : (
-                                <div className="alert alert-warning">
-                                    No Offers found
-                                </div>
+                                <Alert severity="warning">No Offers found</Alert>
                             )}
+
+                            {
+                                totalItemsMyOffers > listMyOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
+                                    <Button color="neutral" variant="contained" startIcon={<RefreshIcon />}>Load More...</Button>
+                                </Box> : null
+                            }
+
                         </Grid>
                     </Grid>
 

@@ -79,10 +79,6 @@ export const Search = (props: ISearchProps) => {
         if(activePage>=0){
             const values = queryString.parse(search);
             searchWithParams(values);
-            // let queryParams = getFullUrlWithParams(values);
-            // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
-            // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
-            // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
         }
     }, [activePage]);
 
@@ -105,10 +101,6 @@ export const Search = (props: ISearchProps) => {
 
     const searchCalback = (values: any) => {
         searchWithParams(values);
-        // let queryParams = getFullUrlWithParams(values);
-        // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
-        // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
-        // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
     }
 
     return (

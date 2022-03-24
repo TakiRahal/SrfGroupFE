@@ -18,11 +18,7 @@ import {
     initialValuesSearchAppBar,
     validationSchemSearchAppBar
 } from "../../../shared/layout/menus/validation/inti-value-search-app-bar";
-import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
-import {useHistory} from "react-router";
 import {useFormik} from "formik";
-import {AllAppConfig} from "../../../core/config/all-config";
-import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useLocation} from "react-router-dom";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {IAddress} from "../../../shared/model/address.model";
@@ -32,7 +28,6 @@ import queryString from "query-string";
 const initialValues = initialValuesSearchAppBar;
 
 export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress: IAddress[], searchCalback: any}) {
-    const history = useHistory();
     const { search } = useLocation();
 
     const formik = useFormik({

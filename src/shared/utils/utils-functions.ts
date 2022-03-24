@@ -67,30 +67,44 @@ export function useQuery() {
 export function getFullUrlWithParams(values: any) {
     let queryParams = '';
     Object.keys(values).map((key) => {
-        if(key==='address' && values[key] && values[key].id){
-            if(queryParams){
+        if( key!=='page' && key!=='size'){
+            if(key==='address' && values[key] && values[key].id){
                 if(values[key]){
                     queryParams += '&address.id='+ values[key].id;
                 }
             }
             else{
                 if(values[key]){
-                    queryParams += '?address.id='+ values[key].id;
-                }
-            }
-        }
-        else{
-            if(queryParams){
-                if(values[key]){
                     queryParams += '&'+key+ '='+ values[key];
                 }
             }
-            else{
-                if(values[key]){
-                    queryParams += '?'+key+ '='+ values[key];
-                }
-            }
         }
+
+
+        // if(key==='address' && values[key] && values[key].id){
+        //     if(queryParams){
+        //         if(values[key]!=null){
+        //             queryParams += '&address.id='+ values[key].id;
+        //         }
+        //     }
+        //     else{
+        //         if(values[key]!=null){
+        //             queryParams += '?address.id='+ values[key].id;
+        //         }
+        //     }
+        // }
+        // else{
+        //     if(queryParams){
+        //         if(values[key]!=null){
+        //             queryParams += '&'+key+ '='+ values[key];
+        //         }
+        //     }
+        //     else{
+        //         if(values[key]!=null){
+        //             queryParams += '?'+key+ '='+ values[key];
+        //         }
+        //     }
+        // }
     });
     return queryParams;
 }

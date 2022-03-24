@@ -9,7 +9,10 @@
     "label-new-password": "Nouveau mot de passe",
     "label-confirm-password": "Confirmer le mot de passe",
     "label-register": "Inscrir",
-    "label-update": "Modifier"
+    "label-update": "Modifier",
+    "for_sell": "À vendre",
+    "for_rent": "À louer",
+    "for_find": "À trouver"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -28,9 +31,6 @@
     "logout": "Deconnecter"
   },
   "home":{
-    "title_for_sell": "A vendre",
-    "title_for_rent": "A louer",
-    "title_for_find": "A trouver",
     "steps": {
       "title_create_account": "CRÉEZ VOTRE COMPTE",
       "sub_title_create_account": "Créez votre compte et Complétez votre profil.",
@@ -40,7 +40,12 @@
       "sub_title_participate": "Participez aux enchères que vous intéresses..",
       "title_win_auction": "REMPORTEZ L'ENCHÈRE",
       "sub_title_win_auction": "Remportez l'enchère et gagnez un produit à moins de 30% de sa valeur !."
-    }
+    },
+    "label_category_immovable": "Immobilier",
+    "label_category_cars": "Voitures",
+    "label_category_phones": "Téléphones",
+    "label_category_services": "Services",
+    "label_category_search": "Rechercher"
   },
   "account": {
     "title": "Compte",

@@ -14,6 +14,7 @@ export const ALL_APP_ROUTES = {
         CONTACT_US: process.env.PUBLIC_URL+'/cms/contact-us'
     },
     OFFER: {
+        LIST: process.env.PUBLIC_URL+'/search',
         MY_OFFERS: process.env.PUBLIC_URL+'/my-offers',
         DEAILS_OFFER: process.env.PUBLIC_URL+'/details',
         ADD_UPDATE_OFFER: process.env.PUBLIC_URL+'/add-update',

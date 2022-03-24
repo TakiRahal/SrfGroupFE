@@ -229,7 +229,7 @@ function App(props: IAppProps) {
                     <ListItemText primary={t('header.link_home')} />
                 </ListItem>
 
-                <ListItem button component={Link} to={ALL_APP_ROUTES.SEARCH} onClick={() => handleDrawerToggle(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page} onClick={() => handleDrawerToggle(false)}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>

@@ -4,6 +4,8 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import styled from "@mui/material/styles/styled";
 import Paper from "@mui/material/Paper/Paper";
 import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
+import Box from "@mui/material/Box/Box";
+import {Translation} from "react-i18next";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -22,28 +24,28 @@ export default function FirstHorizentalListHomeClient() {
     const listCategories = [
         {
             img: getBaseImageUrl('/assets/images/home/categories/home.png'),
-            title: 'home_furniture',
+            title: <Translation>{(t, { i18n }) => <>{t('home.label_category_immovable')}</>}</Translation>,
         },
         {
             img: getBaseImageUrl('/assets/images/home/categories/cars.png'),
-            title: 'cars',
+            title: <Translation>{(t, { i18n }) => <>{t('home.label_category_cars')}</>}</Translation>,
         },
         {
             img: getBaseImageUrl('/assets/images/home/categories/phones.png'),
-            title: 'phones',
+            title: <Translation>{(t, { i18n }) => <>{t('home.label_category_phones')}</>}</Translation>,
         },
         {
             img: getBaseImageUrl('/assets/images/home/categories/services.png'),
-            title: 'services',
+            title: <Translation>{(t, { i18n }) => <>{t('home.label_category_services')}</>}</Translation>,
         },
         {
             img: getBaseImageUrl('/assets/images/home/categories/search.png'),
-            title: 'search',
+            title: <Translation>{(t, { i18n }) => <>{t('home.label_category_search')}</>}</Translation>,
         },
     ];
 
     return (
-        <Container maxWidth="xl">
+        <Box className="bg-brown" sx={{p: 8, mt: 10, mb: 10}}>
             <Stack
                 sx={{
                     my: '4rem',
@@ -74,6 +76,6 @@ export default function FirstHorizentalListHomeClient() {
                     </Item>
                 ))}
             </Stack>
-        </Container>
+        </Box>
     )
 }

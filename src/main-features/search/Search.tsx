@@ -39,36 +39,77 @@ import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import SearchAppBar from "../../shared/layout/menus/SearchAppBar";
 import queryString from 'query-string';
 import isEmpty from 'lodash/isEmpty';
 import Alert from "@mui/material/Alert/Alert";
+import {SearchAppBar} from "./ui-segments/SearchAppBar";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
 export const Search = (props: ISearchProps) => {
 
+    const [activePage, setActivePage] = React.useState(-1);
     const history = useHistory();
     const { search } = useLocation();
 
     const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesAddress } = props;
 
-    // React.useEffect(() => {
-    //     getEntitiesOffers(1, 10, '');
-    // }, [])
-
     React.useEffect(() => {
         const values = queryString.parse(search);
-        let queryParams = getFullUrlWithParams(values);
-        console.log('queryParams ', queryParams);
-        getEntitiesOffers(1, 10, queryParams);
-    }, [search])
+
+        // Protect search page
+        if(isEmpty(values)){
+            history.push(ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page);
+            return;
+        }
+        else{
+            setActivePage(Number(values.page) || 0);
+        }
+
+        // console.log('activePage ', activePage);
+        // let queryParams = getFullUrlWithParams(values);
+        // console.log('queryParams ', queryParams);
+        // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        // console.log('urlSearch ', urlSearch);
+        // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+
+    }, [search]);
+
+    React.useEffect(() => {
+        if(activePage>=0){
+            const values = queryString.parse(search);
+            searchWithParams(values);
+            // let queryParams = getFullUrlWithParams(values);
+            // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+            // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+            // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+        }
+    }, [activePage]);
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
             history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
         }, 300);
     };
+
+    const searchWithParams = (values: any) => {
+        let queryParams = getFullUrlWithParams(values);
+        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+        getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+    }
+
+    const loadMore = () => {
+        setActivePage(activePage+1);
+    }
+
+    const searchCalback = (values: any) => {
+        searchWithParams(values);
+        // let queryParams = getFullUrlWithParams(values);
+        // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+        // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+    }
 
     return (
         <Box>
@@ -105,7 +146,7 @@ export const Search = (props: ISearchProps) => {
                             marginBottom: 100,
                         }}
                     >
-                        <SearchAppBar />
+                        <SearchAppBar entitiesAddress={entitiesAddress.slice()} searchCalback={searchCalback}/>
                     </div>
 
                     {loadingListOffers ? (
@@ -186,9 +227,10 @@ export const Search = (props: ISearchProps) => {
 
                     {
                         totalItems > listOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
-                            <Button color="neutral" variant="contained" startIcon={<RefreshIcon />}>Load More...</Button>
+                            <Button color="neutral" variant="contained" startIcon={<RefreshIcon />} onClick={loadMore}>Load More...</Button>
                         </Box> : null
                     }
+
 
                     {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
 

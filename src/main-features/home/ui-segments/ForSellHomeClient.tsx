@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesForSell} from "../../../shared/reducers/seller-offer.reducer";
 import {useTranslation} from "react-i18next";
+import {Link} from "react-router-dom";
+import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 
 export interface IForSellClientProp extends StateProps, DispatchProps {}
 
@@ -39,7 +41,9 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     return(
         <Container maxWidth="xl">
             <h3>
-                <u>{t('home.title_for_sell')}</u>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.Items_Per_Page}&typeOffer=${TypeOfferEnum.Sell}`}>
+                    {t('common.for_sell')}
+                </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {listSellOffers.map((offer: any, index: number) => (

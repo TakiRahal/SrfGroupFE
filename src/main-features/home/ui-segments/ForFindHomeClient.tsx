@@ -16,12 +16,16 @@ import {useHistory} from "react-router";
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesForFind} from "../../../shared/reducers/find-offer.reducer";
 import {connect} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
+import {Link} from "react-router-dom";
 
 export interface IForFindClientProp extends StateProps, DispatchProps {}
 
 export const ForFindHomeClient = (props: IForFindClientProp) => {
 
     const history = useHistory();
+    const { t } = useTranslation();
 
     const { listFindOffers, getEntitiesForFind } = props;
 
@@ -38,7 +42,9 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
     return (
         <Container maxWidth="xl">
             <h3>
-                <u>A trouver</u>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.Items_Per_Page}&typeOffer=${TypeOfferEnum.Find}`}>
+                    {t('common.for_find')}
+                </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {listFindOffers.map((offer: any, index: number) => (

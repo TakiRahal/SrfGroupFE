@@ -47,12 +47,9 @@ export default function Footer(){
                     display: { xs: 'block', sm: 'flex;' },
                 }}
             >
-                <Box sx={{ display: 'flex', mr: 1 }}>
-                    <IconButton aria-label="menu">
-                        <SendIcon />
-                    </IconButton>
-                    <Typography paragraph>Inscrivez-vous à la newsletter</Typography>
-                </Box>
+                <Typography sx={{ fontSize: 20, mr: 1 }} color="text.secondary" display="flex">
+                    <SendIcon sx={{mr: 0.9}}/> Inscrivez-vous à la newsletter
+                </Typography>
                 <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: { xs: '100%', sm: 400 } }}>
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}

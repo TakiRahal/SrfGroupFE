@@ -32,6 +32,7 @@ import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 import {languages, locales} from "../../reducers/locale.reducer";
 import {Translation, useTranslation} from "react-i18next";
 import Tooltip from "@mui/material/Tooltip/Tooltip";
+import {AllAppConfig} from "../../../core/config/all-config";
 
 
 const sections = [
@@ -42,7 +43,7 @@ const sections = [
     },
     {
         title: <Translation>{(t, { i18n }) => <>{t('header.link_search')}</>}</Translation>,
-        url: ALL_APP_ROUTES.SEARCH,
+        url: ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page,
         icon: <SearchIcon sx={{ marginRight: 1 }} />,
     },
 ];

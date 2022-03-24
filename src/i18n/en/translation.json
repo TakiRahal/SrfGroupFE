@@ -9,7 +9,10 @@
     "label-new-password": "New password",
     "label-confirm-password": "Confirm Password",
     "label-register": "Register",
-    "label-update": "Update"
+    "label-update": "Update",
+    "for_sell": "For Sell",
+    "for_rent": "For Rent",
+    "for_find": "For find"
   },
   "header":{
     "label_add_offer": "Add offer",
@@ -28,9 +31,6 @@
     "logout": "Logout"
   },
   "home":{
-    "title_for_sell": "For Sell",
-    "title_for_rent": "For Rent",
-    "title_for_find": "For Find",
     "steps": {
       "title_create_account": "CREATE YOUR ACCOUNT",
       "sub_title_create_account": "Create your account and complete your profile.",
@@ -40,7 +40,12 @@
       "sub_title_participate": "Participate in the auctions that interest you.",
       "title_win_auction": "WIN THE AUCTION",
       "sub_title_win_auction": "Win the auction and win a product at less than 30% of its value!."
-    }
+    },
+    "label_category_immovable": "Immovable",
+    "label_category_cars": "Cars",
+    "label_category_phones": "Phones",
+    "label_category_services": "Services",
+    "label_category_search": "Search"
   },
   "account": {
     "title": "Account",

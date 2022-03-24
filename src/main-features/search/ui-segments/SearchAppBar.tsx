@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button/Button';
@@ -11,42 +11,38 @@ import Toolbar from '@mui/material/Toolbar/Toolbar';
 import IconButton from '@mui/material/IconButton/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterIcon from '@mui/icons-material/FilterListSharp';
-import {TypeOfferEnum} from "../../enums/type-offer.enum";
-import {useHistory} from "react-router";
-import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {connect} from "react-redux";
-import {IRootState} from "../../reducers";
-import {useFormik} from "formik";
-import {initialValuesSearchAppBar, validationSchemSearchAppBar} from './validation/inti-value-search-app-bar';
 import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
 import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
-import {useLocation} from "react-router-dom";
-import queryString from "query-string";
-import {getFullUrlWithParams} from "../../utils/utils-functions";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {
+    initialValuesSearchAppBar,
+    validationSchemSearchAppBar
+} from "../../../shared/layout/menus/validation/inti-value-search-app-bar";
+import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
+import {useHistory} from "react-router";
+import {useFormik} from "formik";
 import {AllAppConfig} from "../../../core/config/all-config";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {useLocation} from "react-router-dom";
+import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
+import {IAddress} from "../../../shared/model/address.model";
+import queryString from "query-string";
+
 
 const initialValues = initialValuesSearchAppBar;
 
-export interface ISearchAppBarProps extends StateProps, DispatchProps {
-}
-
-export const SearchAppBar = (props: ISearchAppBarProps) => {
+export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress: IAddress[], searchCalback: any}) {
     const history = useHistory();
     const { search } = useLocation();
-
-    const {entitiesAddress} = props;
 
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemSearchAppBar,
         onSubmit: (values: any) => {
-            let queryParams = getFullUrlWithParams(values);
-            let urlSearch = '?page=0&size='+AllAppConfig.Items_Per_Page+queryParams;
-            console.log('urlSearch ', urlSearch);
-            history.push(ALL_APP_ROUTES.OFFER.LIST+''+urlSearch);
+            searchCalback(values);
         },
     });
+
 
     React.useEffect(() => {
         const objParams = queryString.parse(search);
@@ -55,8 +51,12 @@ export const SearchAppBar = (props: ISearchAppBarProps) => {
     }, [search])
 
     React.useEffect(() => {
-        const values = queryString.parse(search);
-        formik.setFieldValue('address', entitiesAddress.find(add => add?.id?.toString() === values?.address?.toString())  || null);
+        const values: any = queryString.parse(search);
+        Object.keys(values).map((key) => {
+            if(key==='address.id'){
+                formik.setFieldValue('address', entitiesAddress.find(add => add?.id?.toString() === values[key]?.toString())  || null);
+            }
+        });
     }, [entitiesAddress])
 
     return (
@@ -176,21 +176,3 @@ export const SearchAppBar = (props: ISearchAppBarProps) => {
         </Box>
     );
 }
-
-
-const mapStateToProps = ({address, category}: IRootState) => ({
-
-    loadingEntitiesAddress: address.loadingEntities,
-    entitiesAddress: address.entities,
-    updateSuccessAddress: address.updateSuccess,
-
-    loadingEntitiesCategory: category.loadingEntities,
-    entitiesCategory: category.entities,
-});
-
-const mapDispatchToProps = {};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchAppBar);

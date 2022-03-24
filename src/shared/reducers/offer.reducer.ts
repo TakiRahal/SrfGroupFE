@@ -65,6 +65,10 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 ...state,
                 loadingEntities: false,
                 entities: action.payload.data.content,
+                // entities: [
+                //     ...state.entities,
+                //     ...action.payload.data.content
+                // ],
                 totalItems: action.payload.data.totalElements
             };
 
@@ -201,8 +205,8 @@ const apiUrl = 'api/offer';
 // Actions
 
 export const getEntities = (page: number, size: number, queryParams?: string) => {
-    // const requestUrl = `${apiUrl + '/public'}${queryParams ? `?page=${page}&size=${size}&sort=${queryParams}` : ''}`;
-    // const requestUrl = 'http://localhost:8080/api/offer/public?title=dd';
+    // const requestUrl = `${apiUrl}/public${queryParams}${queryParams ? `&` : `?`}page=${page}&size=${size}`;
+    // const requestUrl = `${apiUrl}/public?page=${page}&size=${size}${queryParams}`;
     const requestUrl = `${apiUrl}/public${queryParams}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER_LIST,

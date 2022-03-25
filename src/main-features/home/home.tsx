@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from "@mui/material/Box/Box";
-import TopHomeSlides from "./ui-segments/TopHomeSlides";
 import ForSellHomeClient from "./ui-segments/ForSellHomeClient";
 import FirstHorizentalListHomeClient from "./ui-segments/FirstHorizentalListHomeClient";
 import SecondHorizentalListHomeClient from "./ui-segments/SecondHorizentalListHomeClient";
@@ -11,6 +10,7 @@ import ForRentHomeClient from "./ui-segments/ForRentHomeClient";
 import ForFindHomeClient from "./ui-segments/ForFindHomeClient";
 import BottomHomeSlides from "./ui-segments/BottomHomeSlides";
 import './home.scss';
+import TopHomeSlides from "./ui-segments/TopHomeSlides";
 
 export default function Home(props: any){
     return (

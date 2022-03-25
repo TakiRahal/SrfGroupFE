@@ -16,7 +16,8 @@ export const AllAppConfig = {
     PAGE_ID: '100054409273167',
     CLIENT_ID_GOOGLLE: '936898141282-neqsvsprrf7e1pchibhsui8nmki8496b.apps.googleusercontent.com',
     APP_ID_ONESIGNAL: 'f9ba6082-5e4c-4a3e-b1b8-bc85a60eb5db',
-    Items_Per_Page: 2
+    Items_Per_Page: 2,
+    Comments_Per_Page: 2
 };
 
 

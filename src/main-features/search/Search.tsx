@@ -42,7 +42,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import queryString from 'query-string';
 import isEmpty from 'lodash/isEmpty';
 import Alert from "@mui/material/Alert/Alert";
-import {SearchAppBar} from "./ui-segments/SearchAppBar";
+import {SearchAppBar} from "../../shared/layout/menus/SearchAppBar";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -65,13 +65,6 @@ export const Search = (props: ISearchProps) => {
         else{
             setActivePage(Number(values.page) || 0);
         }
-
-        // console.log('activePage ', activePage);
-        // let queryParams = getFullUrlWithParams(values);
-        // console.log('queryParams ', queryParams);
-        // let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
-        // console.log('urlSearch ', urlSearch);
-        // getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
 
     }, [search]);
 

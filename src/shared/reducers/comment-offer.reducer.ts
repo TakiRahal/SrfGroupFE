@@ -54,7 +54,10 @@ export default (state: CommentOfferState = initialState, action: any): CommentOf
             return {
                 ...state,
                 loadingEntitiesByOffer: false,
-                entitiesByOffer: action.payload.data.content,
+                entitiesByOffer: [
+                    ...state.entitiesByOffer,
+                    ...action.payload.data.content
+                ],
                 totalItemsEntitiesByOffer: action.payload.data.totalElements
             };
         }
@@ -148,7 +151,8 @@ const apiUrl = 'api/comment-offer';
 
 
 export const getEntitiesByOffer = (offerId: number, page: number, size: number, sort: string) => {
-    const requestUrl = `${apiUrl}/by-offer/${offerId}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    // const requestUrl = `${apiUrl}/by-offer/${offerId}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    const requestUrl = `${apiUrl}/by-offer/${offerId}?page=${page}&size=${size}`;
     return {
         type: ACTION_TYPES.FETCH_COMMENTOFFER_LIST_BY_OFFER,
         payload: axios.get<ICommentOffer>(`${requestUrl}`),

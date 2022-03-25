@@ -11,6 +11,7 @@ import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
 import Alert from "@mui/material/Alert/Alert";
+import i18n from 'i18next';
 
 
 export interface IAboutUsClientProps extends StateProps, DispatchProps{}
@@ -18,12 +19,33 @@ export interface IAboutUsClientProps extends StateProps, DispatchProps{}
 export const AboutUs = (props: IAboutUsClientProps) => {
 
     const { aboutUsEntity, loadingEntity, getEntitiyAboutUs } = props;
-
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
     React.useEffect(() => {
+
+        i18n.on('languageChanged', (lang: any) => {
+            console.log('lang ', lang);
+            setDefaultLanguage(lang);
+        });
+
         getEntitiyAboutUs();
     }, []);
 
+    React.useEffect(() => {
+        if(aboutUsEntity){
+            getContentByLang();
+        }
+    }, [aboutUsEntity]);
+
+    const getContentByLang = (): string => {
+        if( defaultLanguage==='en' ){
+            return aboutUsEntity.contentEn || '';
+        }
+        else if( defaultLanguage==='fr' ){
+            return aboutUsEntity.contentFr || '';
+        }
+        return aboutUsEntity.contentAr || '';
+    }
 
     return (
         <Container maxWidth="xl">
@@ -61,7 +83,7 @@ export const AboutUs = (props: IAboutUsClientProps) => {
 
                 <Grid item xs={12}>
                     {aboutUsEntity && aboutUsEntity.contentEn ?
-                        <div dangerouslySetInnerHTML={{ __html: aboutUsEntity.contentEn }}></div> :
+                        <div dangerouslySetInnerHTML={{ __html: getContentByLang() }}></div> :
                         <Alert severity="warning">No About Us found</Alert>}
                 </Grid>
             </Grid>

@@ -39,6 +39,7 @@ import { updateEntity as updateComment } from '../../../shared/reducers/comment-
 import { deleteEntity as deleteComment } from '../../../shared/reducers/comment-offer.reducer';
 import { createEntity as reportComment } from '../../../shared/reducers/report-comment-offer.reducer';
 import { createEntity as createEntityReportOffer } from '../../../shared/reducers/report-offer.reducer';
+import ShareIcon from '@mui/icons-material/Share';
 
 import './DetailsOffer.scss';
 import {convertDateTimeToServer} from "../../../shared/utils/utils-functions";
@@ -49,6 +50,7 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {IReportOffer} from "../../../shared/model/report-offer.model";
+import {AllAppConfig} from "../../../core/config/all-config";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -56,6 +58,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const [startAnimation, setStartAnimation] = React.useState(false);
     const [isFavoriteUser, setIsFavoriteUser] = React.useState(false);
     const [openReportOfferModal, setOpenReportOfferModal] = React.useState(false);
+    const [activeCommentPage, setActiveCommentPage] = React.useState(-1);
 
     const {id} = useParams<{ id: string }>();
 
@@ -92,11 +95,20 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     React.useEffect(() => {
         if(!favoriteUserOffer?.offer?.id && id){
             getEntitywithFavorite(id);
-            if(isAuthenticated){
-                getListCommentsByOffer(Number(id), 0, 20, '');
-            }
+            // if(isAuthenticated){
+            //     getListCommentsByOffer(Number(id), 0, 20, '');
+            // }
+            setActiveCommentPage(0);
         }
     }, [favoriteUserOffer])
+
+    React.useEffect(() => {
+        if(activeCommentPage>=0){
+            if(isAuthenticated){
+                getListCommentsByOffer(Number(id), activeCommentPage, AllAppConfig.Comments_Per_Page, '');
+            }
+        }
+    }, [activeCommentPage])
 
     React.useEffect(() => {
         if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntity) {
@@ -176,6 +188,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
             user: {}
         }
         props.reportComment(entity);
+    }
+
+    const parentCallbackLoadMoreComments = () => {
+        setActiveCommentPage(activeCommentPage+1);
     }
 
     const reportOffer = () => {
@@ -308,7 +324,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
                                         </CardContent>
                                         <CardActions disableSpacing>
-                                            <Button size="small">Learn More</Button>
+
+                                            <IconButton>
+                                                <ShareIcon/>
+                                            </IconButton>
 
                                             <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
                                                 <FlagIcon/>
@@ -331,6 +350,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                 parentCallbackDeleteComment={handleCallbackDeleteComment}
                                                 parentCallbackUpdateComment={parentCallbackUpdateComment}
                                                 parentCallbackReportComment={parentCallbackReportComment}
+                                                parentCallbackLoadMoreComments={parentCallbackLoadMoreComments}
                                                 totalItems={totalItemsCommentsByOffer}
                                             />
                                         </Box>

@@ -3,12 +3,29 @@ import Paper from "@mui/material/Paper/Paper";
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid/Grid";
 import Typography from "@mui/material/Typography/Typography";
-import SearchAppBar from "../../../shared/layout/menus/SearchAppBar";
-import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getFullUrlWithParams} from "../../../shared/utils/utils-functions";
+import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
+import {getEntitiesForSell} from "../../../shared/reducers/seller-offer.reducer";
+import {IRootState} from "../../../shared/reducers";
+import {connect} from "react-redux";
+import {AllAppConfig} from "../../../core/config/all-config";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {useHistory} from "react-router-dom";
 
 const defaultImage = getBaseImageUrl('/assets/images/home/default_top_home.jpg');
 
-export default function TopHomeSlides(){
+export interface IForSellClientProp extends StateProps, DispatchProps {}
+
+export const TopHomeSlides = (props: IForSellClientProp) => {
+
+    const history = useHistory();
+
+    const searchCalback = (values: any) => {
+        console.log('searchCalback ', values);
+        let queryParams = getFullUrlWithParams(values);
+        let urlSearch = '?page=0&size='+AllAppConfig.Items_Per_Page+queryParams;
+        history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+    }
 
     return (
         <div>
@@ -79,9 +96,22 @@ export default function TopHomeSlides(){
                         height: { sx: 'auto', md: 100 },
                     }}
                 >
-                    <SearchAppBar />
+                    <SearchAppBar entitiesAddress={props.entitiesAddress.slice()} searchCalback={searchCalback}/>
                 </Box>
             </Paper>
         </div>
     )
 }
+
+const mapStateToProps = ({address}: IRootState) => ({
+    entitiesAddress: address.entities,
+});
+
+const mapDispatchToProps = {
+    getEntitiesForSell,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopHomeSlides);

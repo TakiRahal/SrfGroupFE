@@ -42,7 +42,7 @@ const sections = [
         icon: <HomeIcon sx={{ marginRight: 1 }} />,
     },
     {
-        title: <Translation>{(t, { i18n }) => <>{t('header.link_search')}</>}</Translation>,
+        title: <Translation>{(t, { i18n }) => <>{t('common.label_search')}</>}</Translation>,
         url: ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page,
         icon: <SearchIcon sx={{ marginRight: 1 }} />,
     },
@@ -361,7 +361,7 @@ export default function Header(props: any){
                                 </Link>
                                 <Link to={ALL_APP_ROUTES.REGISTER} style={{textDecoration: 'none'}}>
                                     <Button variant="outlined" size="small" color="neutral" sx={{ ml: 1 }}>
-                                        Sign up
+                                        {t('header.signup')}
                                     </Button>
                                 </Link>
                             </div>

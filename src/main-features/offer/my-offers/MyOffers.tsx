@@ -7,7 +7,7 @@ import Box from "@mui/material/Box/Box";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {IOffer} from "../../../shared/model/offer.model";
 import Card from "@mui/material/Card/Card";
@@ -24,7 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {getFullUrlWithParams, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
@@ -45,15 +45,20 @@ import {reset as resetSellerOffer} from "../../../shared/reducers/seller-offer.r
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Alert from "@mui/material/Alert/Alert";
-import SearchAppBar from "../../../shared/layout/menus/SearchAppBar";
+import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
+import isEmpty from "lodash/isEmpty";
+import queryString from "query-string";
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
 export const MyOffers = (props: IMyOfferProps) => {
     const [openDeleteOfferModal, setOpenDeleteOfferModal] = React.useState(false);
     const [deleteOfferId, setDeleteOfferId] = React.useState(-1);
+    const [activePage, setActivePage] = React.useState(-1);
 
     const history = useHistory();
+
+    const { search } = useLocation();
 
     const {
         getEntitiesForCurrentUser,
@@ -63,6 +68,34 @@ export const MyOffers = (props: IMyOfferProps) => {
         deleteEntity,
         deleteSuccessOffer
     } = props;
+
+    React.useEffect(() => {
+        const values = queryString.parse(search);
+
+        // Protect search page
+        if(isEmpty(values)){
+            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+'?page=0&size='+AllAppConfig.Items_Per_Page);
+            return;
+        }
+        else{
+            setActivePage(Number(values.page) || 0);
+        }
+
+    }, [search]);
+
+    React.useEffect(() => {
+        if(activePage>=0){
+            const values = queryString.parse(search);
+            searchWithParams(values);
+        }
+    }, [activePage]);
+
+    const searchWithParams = (values: any) => {
+        let queryParams = getFullUrlWithParams(values);
+        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+urlSearch);
+        getEntitiesForCurrentUser(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+    }
 
     React.useEffect(() => {
         // Persiste after update: Get entity
@@ -136,6 +169,13 @@ export const MyOffers = (props: IMyOfferProps) => {
         );
     };
 
+    const searchCalback = (values: any) => {
+        console.log('searchCalback ', values);
+        let queryParams = getFullUrlWithParams(values);
+        let urlSearch = '?page=0&size='+AllAppConfig.Items_Per_Page+queryParams;
+        // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+    }
+
     return(
         <Box>
             <Container maxWidth="xl" className="details-offer-client">
@@ -160,7 +200,13 @@ export const MyOffers = (props: IMyOfferProps) => {
                         <Grid item xs={12} sm={3}></Grid>
                         <Grid item xs={12} sm={6}>
 
-                            <SearchAppBar />
+                            <div
+                                style={{
+                                    maxWidth: '100%',
+                                    marginBottom: 100,
+                                }} >
+                                <SearchAppBar entitiesAddress={props.entitiesAddress.slice()} searchCalback={searchCalback}/>
+                            </div>
 
                             <Typography  variant="subtitle2" color="text.secondary">
                                 Total = {totalItemsMyOffers}
@@ -278,12 +324,14 @@ export const MyOffers = (props: IMyOfferProps) => {
     );
 }
 
-const mapStateToProps = ({ offer }: IRootState) => ({
+const mapStateToProps = ({ offer, address }: IRootState) => ({
     listMyOffers: offer.entitiesMyOffers,
     loadingListMyOffers: offer.loadingMyOffers,
     totalItemsMyOffers: offer.totalItemsMyOffers,
 
-    deleteSuccessOffer: offer.deleteSuccess
+    deleteSuccessOffer: offer.deleteSuccess,
+
+    entitiesAddress: address.entities,
 });
 
 const mapDispatchToProps = {

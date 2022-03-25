@@ -1,4 +1,5 @@
 {
+  "Unauthorized": "Session expirée",
   "common": {
     "label-cancel": "Annuler",
     "label-send": "Envoyer",
@@ -10,14 +11,16 @@
     "label-confirm-password": "Confirmer le mot de passe",
     "label-register": "Inscrir",
     "label-update": "Modifier",
+    "label_search": "Recherche",
     "for_sell": "À vendre",
     "for_rent": "À louer",
-    "for_find": "À trouver"
+    "for_find": "À trouver",
+    "address": "Addresse",
+    "type_offer": "Type offre"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
     "link_home": "Accueil",
-    "link_search": "Recherche",
     "link_support": {
       "link_label_support": "Support",
       "link_contact_us": "Contact-nous",
@@ -28,7 +31,8 @@
     "my_offers": "Mes offres",
     "my_favorite_users": "Mes favoris",
     "notifications": "Notifications",
-    "logout": "Deconnecter"
+    "logout": "Deconnecter",
+    "signup": "S'inscrire"
   },
   "home":{
     "steps": {
@@ -76,9 +80,10 @@
     "label-forgot-password": "Avez-vous oublié votre mot de passe?",
     "label-register-account": "Enregistrer un nouveau compte"
   },
-  "title": "Welcome to react using react-i18next and typescript 4.1 fr",
-  "description": {
-    "part1": "This is an example using multiple namespaces.",
-    "part2": "😉"
+  "comment_offer": {
+    "comment_offer_added_succefully": "Commentaire ajouté avec succès",
+    "show_comment_details_offer": "Afficher les commentaires",
+    "hide_comment_details_offer": "Masquer les commentaires",
+    "show_more_comment": "Afficher plus de commentaires"
   }
 }

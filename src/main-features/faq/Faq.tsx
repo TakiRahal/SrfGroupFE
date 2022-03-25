@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
 import Alert from "@mui/material/Alert/Alert";
+import i18n from "i18next";
 
 
 export const GetCardList = (props: any) => {
@@ -74,9 +75,16 @@ export interface IFaqClientProps extends StateProps, DispatchProps {}
 
 export const FaqClient = (props: IFaqClientProps) => {
 
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+
     const {listFaq, loadingEntitiesFaq, getEntitiesFaq} = props;
 
     React.useEffect(() => {
+        i18n.on('languageChanged', (lang: any) => {
+            console.log('lang ', lang);
+            setDefaultLanguage(lang);
+        });
+
         getEntitiesFaq(1, 20, '');
     }, []);
 
@@ -112,7 +120,7 @@ export const FaqClient = (props: IFaqClientProps) => {
                     listFaq && listFaq.length > 0
                     ? listFaq.map((faq, i) => (
                         <Grid item xs={12} md={6} key={`entity-${i}`}>
-                            <GetCardList faq={faq} currentLocale='fr' />
+                            <GetCardList faq={faq} currentLocale={defaultLanguage} />
                         </Grid>
                     ))
                     : !loadingEntitiesFaq && (

@@ -125,9 +125,7 @@ export const FaqClient = (props: IFaqClientProps) => {
                     ))
                     : !loadingEntitiesFaq && (
                     <Grid item xs={12} md={6}>
-                        <div className="alert alert-warning">
-                            <Alert severity="warning">No Faqs found</Alert>
-                        </div>
+                        <Alert severity="warning">No Faqs found</Alert>
                     </Grid>)
                 }
             </Grid>

@@ -55,7 +55,7 @@ export const SignUp = (props: ISignUpProps) => {
     });
     const [openDialogRegister, setOpenDialogRegister] = React.useState(false);
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     React.useEffect(() => {
         setStartAnimation(true);
@@ -97,6 +97,7 @@ export const SignUp = (props: ISignUpProps) => {
     const handleClose = () => {
         setOpenDialogRegister(false);
         props.resetRegister();
+        formik.resetForm();
     }
 
     const shwDialogRegister = () => {
@@ -117,7 +118,6 @@ export const SignUp = (props: ISignUpProps) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="neutral">{t('common.label-cancel')}</Button>
                     <Button onClick={handleClose} autoFocus color="success">
                         {t('signup.label-activation-dialog-register')}
                     </Button>

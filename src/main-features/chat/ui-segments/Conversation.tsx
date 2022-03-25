@@ -16,6 +16,7 @@ import ListItemText from "@mui/material/ListItemText/ListItemText";
 import {getUserAvatar} from "../../../shared/utils/utils-functions";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
+import Alert from "@mui/material/Alert/Alert";
 
 
 export function Conversation({ loading, list, account }: { loading: boolean, list: IConversationMessage[], account: IUser }) {
@@ -93,7 +94,7 @@ export function Conversation({ loading, list, account }: { loading: boolean, lis
 
                     <ListItemButton alignItems="flex-start">
                         {!loading && list.length === 0 ? (
-                            <>No Conversations found</>
+                            <Alert severity="warning">No Conversations found</Alert>
                         ) : null}
                     </ListItemButton>
                 </List>

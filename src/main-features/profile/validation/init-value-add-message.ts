@@ -5,5 +5,5 @@ export const initialValuesAddMessage = {
 };
 
 export const validationSchemaAddMessage = Yup.object({
-  content: Yup.string().required('Type Offer is required'),
+  content: Yup.string().required('Message is required'),
 });

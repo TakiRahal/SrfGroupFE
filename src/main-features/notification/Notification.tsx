@@ -17,6 +17,7 @@ import List from "@mui/material/List/List";
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import {getEntities as getEntitiesNotification} from '../../shared/reducers/notification.reducer';
 import {INotification} from "../../shared/model/notification.model";
+import Alert from "@mui/material/Alert/Alert";
 
 export interface INotificationProps extends StateProps, DispatchProps {}
 
@@ -83,9 +84,7 @@ export const Notification = (props: INotificationProps) => {
                             ))}
                         </List>
                     ) : (
-                        <div className="alert alert-warning">
-                            No Notifications found
-                        </div>
+                        <Alert severity="warning">No Notifications found</Alert>
                     )}
                 </Grid>
             </Grid>

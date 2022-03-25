@@ -61,6 +61,7 @@ import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {getImageUrl} from "../../../shared/utils/image-url";
+import {CustomSunEditor} from "../../../shared/components/sun-editor/CustomSunEditor";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -329,6 +330,11 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         formik.setFieldValue('description', editorState ? editorState : '');
     };
 
+    const onChangeValue = (newValue: any) => {
+        console.log('onChangeValue ', newValue);
+        formik.setFieldValue('description', newValue ? newValue : '');
+    }
+
     return (
         <Slide direction="up" in={startAnimation} mountOnEnter unmountOnExit>
             <Container maxWidth="xl" className="page-add-offer">
@@ -408,9 +414,10 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                     <Grid item xs={12} md={12}>
                                         <FormControl fullWidth sx={{mt: 3}}
                                                      error={formik.touched.description && Boolean(formik.errors.description)}>
-                                            <EditorConvertToHTML callBackParent={onEditorStateChange}
-                                                                 placeholder="Write your description *"
-                                                                 defaultValue={entityOffer?.description || ''}/>
+                                            {/*<EditorConvertToHTML callBackParent={onEditorStateChange}*/}
+                                                                 {/*placeholder="Write your description *"*/}
+                                                                 {/*defaultValue={entityOffer?.description || ''}/>*/}
+                                            <CustomSunEditor defaultValue={entityOffer?.description || ''} callbcakHandleChange={onChangeValue}/>
                                             <FormHelperText
                                                 id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
                                         </FormControl>

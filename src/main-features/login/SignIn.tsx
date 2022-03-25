@@ -199,19 +199,22 @@ export const SignIn = (props: ISignInProps) => {
                                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
 
                                     <LoadingButton loading={loading} fullWidth variant="contained" color="neutral" type="submit" sx={{ mt: 3, mb: 2 }}>
-                                        {t('common.label-login')}
+                                        {t('signin.label-login')}
                                     </LoadingButton>
                                 </form>
                                 <Grid container>
-                                    <Grid item xs>
-                                        <Link to={''}>
-                                            {t('signin.label-forgot-password')}
-                                        </Link>
-                                    </Grid>
                                     <Grid item>
-                                        <Link to={ALL_APP_ROUTES.REGISTER}>
-                                            {t('signin.label-register-account')}
-                                        </Link>
+                                        <Typography variant="subtitle2" component="p" sx={{ mt: 2 }}>
+                                            <Link to={''}>
+                                                {t('signin.label-forgot-password')}
+                                            </Link>
+                                        </Typography>
+
+                                        <Typography variant="subtitle2" component="p" sx={{ mt: 2 }}>
+                                            <Link to={ALL_APP_ROUTES.REGISTER}>
+                                                {t('signin.label-register-account')}
+                                            </Link>
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Box>

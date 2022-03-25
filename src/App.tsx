@@ -233,7 +233,7 @@ function App(props: IAppProps) {
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('header.link_search')} />
+                    <ListItemText primary={t('common.label_search')} />
                 </ListItem>
 
                 <ListItemButton onClick={handleClickSupport}>

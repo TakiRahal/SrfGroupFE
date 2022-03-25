@@ -1,8 +1,8 @@
 {
   "Unauthorized": "Session expirée",
   "common": {
-    "label-cancel": "Annuler",
-    "label-send": "Envoyer",
+    "label_cancel": "Annuler",
+    "label_send": "Envoyer",
     "label-email": "Email",
     "label-firstname": "Prenom",
     "label-lastname": "Nom",
@@ -85,5 +85,10 @@
     "show_comment_details_offer": "Afficher les commentaires",
     "hide_comment_details_offer": "Masquer les commentaires",
     "show_more_comment": "Afficher plus de commentaires"
+  },
+  "profile": {
+    "title_page_profile": "Profil",
+    "title_send_message": "Envoyer un message",
+    "write_your_message": "Ecrire votre message..."
   }
 }

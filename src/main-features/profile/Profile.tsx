@@ -40,6 +40,7 @@ import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import {ListOffersProfile} from "./ui-segments/ListOffersProfile";
 import {TransitionModal} from "../../shared/pages/transition-modal";
+import {useTranslation} from "react-i18next";
 
 const initialValues = initialValuesAddMessage;
 
@@ -51,6 +52,8 @@ export const Profile = (props: IProfileProps) => {
     const [openAddMessageModal, setOpenAddMessageModal] = React.useState(false);
 
     const {id} = useParams<{ id: string }>();
+
+    const { t } = useTranslation();
 
     const {
         profileLoading,
@@ -128,20 +131,20 @@ export const Profile = (props: IProfileProps) => {
                 >
                     <form onSubmit={formik.handleSubmit}>
                         <DialogTitle>
-                            Send a message
+                            {t('profile.title_send_message')}
                         </DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                                : xxx
+                                {getFullnameUser(currentUser)}
                             </DialogContentText>
-                            <FormControl fullWidth sx={{ mt: 3, minWidth: 400 }} error={formik.touched.content && Boolean(formik.errors.content)}>
+                            <FormControl fullWidth sx={{ mt: 3, minWidth: {sx: 'auto', md: 400} }} error={formik.touched.content && Boolean(formik.errors.content)}>
                                 <InputLabel htmlFor="outlined-adornment-amount">
-                                    title
+                                    {t('profile.write_your_message')}
                                 </InputLabel>
                                 <OutlinedInput
                                     id="content"
                                     name="content"
-                                    label="content"
+                                    label={t('profile.write_your_message')}
                                     value={formik.values.content}
                                     onChange={formik.handleChange}
                                     size="small"
@@ -153,11 +156,11 @@ export const Profile = (props: IProfileProps) => {
                             </FormControl>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClickCancelAddMessageModal}>
-                                Cancel
+                            <Button onClick={handleClickCancelAddMessageModal} color="neutral">
+                                {t('common.label_cancel')}
                             </Button>
-                            <LoadingButton loading={loadingConversation} type="submit" color="neutral">
-                                Send
+                            <LoadingButton loading={loadingConversation} type="submit" color="success">
+                                {t('common.label_send')}
                             </LoadingButton>
                         </DialogActions>
                     </form>
@@ -181,7 +184,7 @@ export const Profile = (props: IProfileProps) => {
                                 SRF
                             </Link>
                             <Link color="inherit" to="/getting-started/installation/">
-                                Profile
+                                {t('profile.title_page_profile')}
                             </Link>
                             <Typography color="text.primary">
                                 {getFullnameUser(profile)}
@@ -234,17 +237,6 @@ export const Profile = (props: IProfileProps) => {
                                     </Toolbar>
                                 </Paper>
 
-                                <div className="card mt-3">
-                                    <div className="card-header">Partager ce profile</div>
-                                    <div className="card-body">
-                                        <Button variant="contained" startIcon={<FacebookIcon />} size="small" sx={{ mr: 1 }}>
-                                            Facebook
-                                        </Button>
-                                        <Button variant="contained" startIcon={<TwitterIcon />} size="small" color="secondary">
-                                            Twitter
-                                        </Button>
-                                    </div>
-                                </div>
                             </div>
                         </Slide>
                     </Grid>
@@ -345,19 +337,7 @@ export const Profile = (props: IProfileProps) => {
                                                     </ListItem>
                                                 </Grid>
                                                 <Grid item xs={12} md={6}>
-                                                    <ListItem alignItems="flex-start">
-                                                        <ListItemText
-                                                            primary="Phone number"
-                                                            secondary={
-                                                                <React.Fragment>
-                                                                    <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                                                                        {/*Ali Connors*/}
-                                                                    </Typography>
-                                                                    {'12345678'}
-                                                                </React.Fragment>
-                                                            }
-                                                        />
-                                                    </ListItem>
+
                                                 </Grid>
                                             </Grid>
                                         </List>

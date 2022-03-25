@@ -11,10 +11,15 @@ import {Conversation} from "./ui-segments/Conversation";
 import Container from "@mui/material/Container/Container";
 import {MessageConversation} from "./ui-segments/MessageConversation";
 import './Chat.scss';
+import {IConversation} from "../../shared/model/conversation.model";
+import {addMessage, getMessagesByConversation} from "../../shared/reducers/message.reducer";
+import {IMessage} from "../../shared/model/message.model";
 
 export interface IChatClientProps extends StateProps, DispatchProps {}
 
 export const Chat = (props: IChatClientProps) => {
+
+    const [currentConversation, setCurrentConversation] = React.useState<IConversation>({});
 
     const {loadingEntitiesConversation,
         listConversations,
@@ -24,6 +29,16 @@ export const Chat = (props: IChatClientProps) => {
     React.useEffect(() => {
         getEntitiesCurrentUser(0, 20, 'id,asc');
     }, []);
+
+    const addMessage = (value: IMessage) => {
+        console.log('addMessage ', value);
+        props.addMessage(value)
+    }
+
+    const getListMessages = (conversation: IConversation) => {
+        setCurrentConversation(conversation);
+        props.getMessagesByConversation(conversation.id);
+    }
 
     return (
         <Container maxWidth="xl">
@@ -55,11 +70,15 @@ export const Chat = (props: IChatClientProps) => {
                 <Grid item xs={12} sm={6} md={2}></Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <Conversation loading={loadingEntitiesConversation} list={listConversations.slice()} account={account} />
+                    <Conversation loading={loadingEntitiesConversation} list={listConversations.slice()} account={account} listMessages={getListMessages} />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={5}>
-                    <MessageConversation />
+                    <MessageConversation account={account}
+                                         conversation={currentConversation}
+                                         callbackAddMessage={addMessage}
+                                         loading={props.loadingMessageByConversation}
+                                         listMessages={props.listMessageByConversation.slice()} />
                 </Grid>
             </Grid>
 
@@ -67,15 +86,20 @@ export const Chat = (props: IChatClientProps) => {
     );
 }
 
-const mapStateToProps = ({ conversation, user }: IRootState) => ({
+const mapStateToProps = ({ conversation, user, message }: IRootState) => ({
     loadingEntitiesConversation: conversation.loadingEntities,
     listConversations: conversation.entities,
 
-    account: user.currentUser
+    account: user.currentUser,
+
+    loadingMessageByConversation: message.loadingEntities,
+    listMessageByConversation: message.entities
 });
 
 const mapDispatchToProps = {
-    getEntitiesCurrentUser
+    getEntitiesCurrentUser,
+    getMessagesByConversation,
+    addMessage
     // reset,
 };
 

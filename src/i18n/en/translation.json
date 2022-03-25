@@ -90,5 +90,15 @@
     "title_page_profile": "Profile",
     "title_send_message": "Send a message",
     "write_your_message": "Write your message..."
+  },
+  "add_offer": {
+    "title_page": "Create new Offer",
+    "label_publish_new_offer": "Publish a new offer",
+    "label_type_offer": "Type Offer *",
+    "label_title_offer": "Title *",
+    "label_more_options": "To get a better result, you need to add options",
+    "label_select_offer_plz": "Select one type offer please",
+    "label_update_offer": "Update offer",
+    "label_add_offer": "Add offer"
   }
 }

@@ -17,9 +17,11 @@ import {getUserAvatar} from "../../../shared/utils/utils-functions";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
 import Alert from "@mui/material/Alert/Alert";
+import {IConversation} from "../../../shared/model/conversation.model";
+import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 
 
-export function Conversation({ loading, list, account }: { loading: boolean, list: IConversationMessage[], account: IUser }) {
+export function Conversation({ loading, list, account, listMessages }: { loading: boolean, list: IConversationMessage[], account: IUser, listMessages: any }) {
 
     const getAvatar = (conversatioinMessage: IConversationMessage) => {
         if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
@@ -39,19 +41,15 @@ export function Conversation({ loading, list, account }: { loading: boolean, lis
 
     const getFullname = (conversatioinMessage: IConversationMessage) => {
         if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
-            return conversatioinMessage?.conversation?.receiverUser?.firstName
-                ? conversatioinMessage?.conversation?.receiverUser?.firstName
-                : '' + conversatioinMessage?.conversation?.receiverUser?.lastName
-                    ? conversatioinMessage?.conversation?.receiverUser?.lastName
-                    : '';
+            return conversatioinMessage?.conversation?.receiverUser?.firstName + ' ' + conversatioinMessage?.conversation?.receiverUser?.lastName;
         } else {
-            return conversatioinMessage?.conversation?.senderUser?.firstName
-                ? conversatioinMessage?.conversation?.senderUser?.firstName
-                : '' + conversatioinMessage?.conversation?.senderUser?.lastName
-                    ? conversatioinMessage?.conversation?.senderUser?.lastName
-                    : '';
+            return conversatioinMessage?.conversation?.senderUser?.firstName+ ' ' + conversatioinMessage?.conversation?.senderUser?.lastName;
         }
     };
+
+    const openListMessages = (conversation?: IConversation) => {
+        listMessages(conversation);
+    }
 
     return(
         <Box>
@@ -72,7 +70,7 @@ export function Conversation({ loading, list, account }: { loading: boolean, lis
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {list.map((conversatioinMessage: IConversationMessage, index: number) => (
                         <Box key={`conversation-${index}`}>
-                            <ListItemButton alignItems="flex-start">
+                            <ListItemButton alignItems="flex-start" onClick={() => openListMessages(conversatioinMessage.conversation)}>
                                 <ListItemAvatar>
                                     <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} />
                                 </ListItemAvatar>
@@ -81,7 +79,7 @@ export function Conversation({ loading, list, account }: { loading: boolean, lis
                                     secondary={
                                         <React.Fragment>
                                             <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                                                {conversatioinMessage?.conversation?.dateCreated}
+                                                <ConvertReactTimeAgo convertDate={conversatioinMessage?.conversation?.dateCreated} />
                                             </Typography>
                                             {` — ${conversatioinMessage?.message?.content}`}
                                         </React.Fragment>

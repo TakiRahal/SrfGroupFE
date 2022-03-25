@@ -12,7 +12,7 @@ import Fab from '@mui/material/Fab/Fab';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useFormik } from 'formik';
-import {connect, useDispatch} from 'react-redux';
+import {connect} from 'react-redux';
 import { useHistory } from 'react-router';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';

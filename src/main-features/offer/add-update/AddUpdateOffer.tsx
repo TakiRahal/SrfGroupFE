@@ -55,13 +55,15 @@ import { createEntity as createEntityFindOffer } from '../../../shared/reducers/
 import { updateEntity as updateEntityFind } from '../../../shared/reducers/find-offer.reducer';
 import { reset as resetFindOffer } from '../../../shared/reducers/find-offer.reducer';
 import {uploadFiles, getEntity as getEntityOffer} from "../../../shared/reducers/offer.reducer";
-import EditorConvertToHTML from "../../../shared/components/editor-convert-to-html/EditorConvertToHTML";
 import isEmpty from 'lodash/isEmpty';
 import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {getImageUrl} from "../../../shared/utils/image-url";
 import {CustomSunEditor} from "../../../shared/components/sun-editor/CustomSunEditor";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import Box from "@mui/material/Box/Box";
+import {useTranslation} from "react-i18next";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -92,6 +94,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
 
     const history = useHistory();
+    const { t } = useTranslation();
 
     const {
         loadingEntitySellerOffer,
@@ -326,10 +329,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         );
     };
 
-    const onEditorStateChange = (editorState: any) => {
-        formik.setFieldValue('description', editorState ? editorState : '');
-    };
-
     const onChangeValue = (newValue: any) => {
         console.log('onChangeValue ', newValue);
         formik.setFieldValue('description', newValue ? newValue : '');
@@ -350,7 +349,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                 SRF
                             </Link>
                             <Typography color="text.primary">
-                                Create a new Offer
+                                {t('add_offer.title_page')}
                             </Typography>
                         </Breadcrumbs>
                     </Grid>
@@ -359,183 +358,195 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                 <Grid container>
                     <Grid item xs={12} sm={6}>
                         <Paper elevation={3} sx={{p: 2, mt: 6}}>
-                            <h3 className="mb-3">Publier une nouvelle offre</h3>
 
-                            <form onSubmit={formik.handleSubmit}>
-                                <Grid container spacing={1}>
-                                    <Grid item xs={12} md={6}>
-                                        <FormControl
-                                            fullWidth
-                                            size="small"
-                                            error={formik.touched.typeOffer && Boolean(formik.errors.typeOffer)}
-                                            className="form-control-type-offer"
-                                        >
-                                            <InputLabel id="label-component-helper-typeOffer" className="type-offer-select">
-                                                Type Offre *
-                                            </InputLabel>
-                                            <Select
-                                                id="typeOffer"
-                                                name="typeOffer"
-                                                label="Type"
-                                                labelId="demo-simple-select-label"
-                                                value={formik.values.typeOffer}
-                                                onChange={formik.handleChange}>
-                                                <MenuItem value={TypeOfferEnum.Sell}>
-                                                    For Sell
-                                                </MenuItem>
-                                                <MenuItem value={TypeOfferEnum.Rent}>
-                                                    For Rent
-                                                </MenuItem>
-                                                <MenuItem value={TypeOfferEnum.Find}>
-                                                    For Find
-                                                </MenuItem>
-                                            </Select>
-                                            <FormHelperText
-                                                id="component-helper-text-typeOffer">{formik.touched.typeOffer && formik.errors.typeOffer}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
+                            {
+                                props.loadingEntity ? <Box sx={{ pt: 10, pb: 10, textAlign: 'center' }}>
+                                    <CircularProgress color="inherit"  />
+                                </Box> :
 
-                                    <Grid item xs={12} md={6}>
-                                        <FormControl fullWidth size="small"
-                                                     error={formik.touched.title && Boolean(formik.errors.title)}>
-                                            <InputLabel htmlFor="outlined-adornment-title">Title *</InputLabel>
-                                            <OutlinedInput
-                                                id="title"
-                                                name="title"
-                                                label="Title"
-                                                value={formik.values.title}
-                                                onChange={formik.handleChange}
-                                            />
-                                            <FormHelperText
-                                                id="component-helper-text">{formik.touched.title && formik.errors.title}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
+                                <Box>
+                                    <h3 className="mb-3">{t('add_offer.label_publish_new_offer')}</h3>
+                                    <form onSubmit={formik.handleSubmit}>
+                                        <Grid container spacing={1}>
+                                            <Grid item xs={12} md={6}>
+                                                <FormControl
+                                                    fullWidth
+                                                    size="small"
+                                                    error={formik.touched.typeOffer && Boolean(formik.errors.typeOffer)}
+                                                    className="form-control-type-offer"
+                                                >
+                                                    <InputLabel id="label-component-helper-typeOffer" className="type-offer-select">
+                                                        {t('add_offer.label_type_offer')}
+                                                    </InputLabel>
+                                                    <Select
+                                                        id="typeOffer"
+                                                        name="typeOffer"
+                                                        label="Type"
+                                                        labelId="demo-simple-select-label"
+                                                        value={formik.values.typeOffer}
+                                                        onChange={formik.handleChange}>
+                                                        <MenuItem value={TypeOfferEnum.Sell}>
+                                                            {t('common.for_sell')}
+                                                        </MenuItem>
+                                                        <MenuItem value={TypeOfferEnum.Rent}>
+                                                            {t('common.for_rent')}
+                                                        </MenuItem>
+                                                        <MenuItem value={TypeOfferEnum.Find}>
+                                                            {t('common.for_find')}
+                                                        </MenuItem>
+                                                    </Select>
+                                                    <FormHelperText
+                                                        id="component-helper-text-typeOffer">{formik.touched.typeOffer && formik.errors.typeOffer}</FormHelperText>
+                                                </FormControl>
+                                            </Grid>
 
-                                    <Grid item xs={12} md={12}>
-                                        <FormControl fullWidth sx={{mt: 3}}
-                                                     error={formik.touched.description && Boolean(formik.errors.description)}>
-                                            {/*<EditorConvertToHTML callBackParent={onEditorStateChange}*/}
-                                                                 {/*placeholder="Write your description *"*/}
-                                                                 {/*defaultValue={entityOffer?.description || ''}/>*/}
-                                            <CustomSunEditor defaultValue={entityOffer?.description || ''} callbcakHandleChange={onChangeValue}/>
-                                            <FormHelperText
-                                                id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <FormControl fullWidth size="small"
+                                                             error={formik.touched.title && Boolean(formik.errors.title)}>
+                                                    <InputLabel htmlFor="outlined-adornment-title">{t('add_offer.label_title_offer')} *</InputLabel>
+                                                    <OutlinedInput
+                                                        id="title"
+                                                        name="title"
+                                                        label="Title"
+                                                        value={formik.values.title}
+                                                        onChange={formik.handleChange}
+                                                    />
+                                                    <FormHelperText
+                                                        id="component-helper-text">{formik.touched.title && formik.errors.title}</FormHelperText>
+                                                </FormControl>
+                                            </Grid>
 
-                                    <Grid item xs={12} md={12} sx={{mb: 3}}>
-                                        <ImageList sx={{width: '100%', height: 'auto', mt: 3, mb: 0}} cols={5}>
-                                            {fileState && fileState.selectedFiles && fileState.selectedFiles.length > 0
-                                                ? fileState.selectedFiles.map((file, index) => (
-                                                    <ImageListItem
-                                                        key={index}
-                                                        style={{
-                                                            marginRight: 4,
-                                                            borderRadius: 4,
-                                                        }}
-                                                    >
+                                            <Grid item xs={12} md={12}>
+                                                <FormControl fullWidth sx={{mt: 3}}
+                                                             error={formik.touched.description && Boolean(formik.errors.description)}>
+                                                    {
+                                                        id && entityOffer?.description ? <CustomSunEditor defaultValue={entityOffer?.description} callbcakHandleChange={onChangeValue}/> :
+                                                            <CustomSunEditor defaultValue='' callbcakHandleChange={onChangeValue}/>
+                                                    }
+
+                                                    <FormHelperText
+                                                        id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
+                                                </FormControl>
+                                            </Grid>
+
+                                            <Grid item xs={12} md={12} sx={{mb: 3}}>
+                                                <ImageList sx={{width: '100%', height: 'auto', mt: 3, mb: 0}} cols={5}>
+                                                    {fileState && fileState.selectedFiles && fileState.selectedFiles.length > 0
+                                                        ? fileState.selectedFiles.map((file, index) => (
+                                                            <ImageListItem
+                                                                key={index}
+                                                                style={{
+                                                                    marginRight: 4,
+                                                                    borderRadius: 4,
+                                                                }}
+                                                            >
+                                                                <img
+                                                                    src={file}
+                                                                    srcSet={file}
+                                                                    alt={'desc_' + index}
+                                                                    loading="lazy"
+                                                                    style={{borderRadius: 4, border: '1px solid #b7b1b1'}}
+                                                                />
+                                                                <IconButton
+                                                                    size="small"
+                                                                    aria-label="delete"
+                                                                    color="error"
+                                                                    sx={{
+                                                                        position: 'absolute',
+                                                                        top: 0,
+                                                                        right: 0,
+                                                                        backgroundColor: '#fff'
+                                                                    }}
+                                                                    onClick={() => handleClickOpenDeleteOffertModal(index)}
+                                                                >
+                                                                    <ClearIcon/>
+                                                                </IconButton>
+                                                            </ImageListItem>
+                                                        ))
+                                                        : null}
+
+                                                    <ImageListItem>
                                                         <img
-                                                            src={file}
-                                                            srcSet={file}
-                                                            alt={'desc_' + index}
+                                                            src={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
+                                                            srcSet={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
+                                                            alt={'img_add_offer'}
                                                             loading="lazy"
                                                             style={{borderRadius: 4, border: '1px solid #b7b1b1'}}
                                                         />
-                                                        <IconButton
-                                                            size="small"
-                                                            aria-label="delete"
-                                                            color="error"
-                                                            sx={{
+                                                        <input
+                                                            id="offer-addFiles"
+                                                            data-cy="files"
+                                                            type="file"
+                                                            name="files"
+                                                            style={{
                                                                 position: 'absolute',
+                                                                maxWidth: '100%',
                                                                 top: 0,
-                                                                right: 0,
-                                                                backgroundColor: '#fff'
+                                                                bottom: 0,
+                                                                opacity: 0,
                                                             }}
-                                                            onClick={() => handleClickOpenDeleteOffertModal(index)}
-                                                        >
-                                                            <ClearIcon/>
-                                                        </IconButton>
+                                                            multiple
+                                                            accept="image/png, image/gif, image/jpeg, image/jpg"
+                                                            onChange={selectFile}
+                                                        />
                                                     </ImageListItem>
-                                                ))
-                                                : null}
+                                                </ImageList>
+                                            </Grid>
 
-                                            <ImageListItem>
-                                                <img
-                                                        src={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
-                                                    srcSet={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
-                                                    alt={'img_add_offer'}
-                                                    loading="lazy"
-                                                    style={{borderRadius: 4, border: '1px solid #b7b1b1'}}
-                                                />
-                                                <input
-                                                    id="offer-addFiles"
-                                                    data-cy="files"
-                                                    type="file"
-                                                    name="files"
-                                                    style={{
-                                                        position: 'absolute',
-                                                        maxWidth: '100%',
-                                                        top: 0,
-                                                        bottom: 0,
-                                                        opacity: 0,
-                                                    }}
-                                                    multiple
-                                                    accept="image/png, image/gif, image/jpeg, image/jpg"
-                                                    onChange={selectFile}
-                                                />
-                                            </ImageListItem>
-                                        </ImageList>
-                                    </Grid>
+                                            <Grid item xs={12} md={12}>
+                                                <Accordion sx={{width: '100%'}}>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon sx={{backgroundColor: 'yellow', borderRadius: '50%'}}/>}
+                                                        aria-controls="panel1a-content"
+                                                        id="panel1a-header"
+                                                        className="bg-brown"
+                                                    >
+                                                        <Typography sx={{textDecoration: 'underline'}}>
+                                                            {t('add_offer.label_more_options')}
+                                                        </Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails sx={{pt: 4}}>
+                                                        {formik.values.typeOffer ? (
+                                                            <OptionsCommonAddOffer formik={formik} cities={entitiesAddress} listCategories={entitiesCategory} />
+                                                        ) : null}
 
-                                    <Grid item xs={12} md={12}>
-                                        <Accordion sx={{width: '100%'}}>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon sx={{backgroundColor: 'yellow', borderRadius: '50%'}}/>}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                                className="bg-brown"
-                                            >
-                                                <Typography sx={{textDecoration: 'underline'}}>
-                                                    Pour obtenir un meilleur résultat, vous devez ajouter des options
-                                                </Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails sx={{pt: 4}}>
-                                                {formik.values.typeOffer ? (
-                                                    <OptionsCommonAddOffer formik={formik} cities={entitiesAddress} listCategories={entitiesCategory} />
-                                                ) : null}
+                                                        {formik.values.typeOffer === TypeOfferEnum.Sell ? (
+                                                            <OptionsSellAddOffer formik={formik}/>
+                                                        ) : formik.values.typeOffer === TypeOfferEnum.Rent ? (
+                                                            <OptionsRentAddOffer formik={formik}/>
+                                                        ) : formik.values.typeOffer === TypeOfferEnum.Find ? (
+                                                            <OptionsFindAddOffer formik={formik}/>
+                                                        ) : (
+                                                            <Typography variant="subtitle2" color="text.secondary">
+                                                                {t('add_offer.label_select_offer_plz')}
+                                                            </Typography>
+                                                        )}
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            </Grid>
 
-                                                {formik.values.typeOffer === TypeOfferEnum.Sell ? (
-                                                    <OptionsSellAddOffer formik={formik}/>
-                                                ) : formik.values.typeOffer === TypeOfferEnum.Rent ? (
-                                                    <OptionsRentAddOffer formik={formik}/>
-                                                ) : formik.values.typeOffer === TypeOfferEnum.Find ? (
-                                                    <OptionsFindAddOffer formik={formik}/>
-                                                ) : (
-                                                    <Typography variant="subtitle2" color="text.secondary">
-                                                        Select one type offer plz
-                                                    </Typography>
-                                                )}
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </Grid>
+                                            <Grid item xs={12} md={12}>
+                                                <LoadingButton
+                                                    loading={loadingEntitySellerOffer === true || loadingEntityRentOffer === true}
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="neutral"
+                                                    type="submit"
+                                                    sx={{mt: 3, mb: 2}}
+                                                >
+                                                    {
+                                                        id ? t('add_offer.label_update_offer') : t('add_offer.label_add_offer')
+                                                    }
 
-                                    <Grid item xs={12} md={12}>
-                                        <LoadingButton
-                                            loading={loadingEntitySellerOffer === true || loadingEntityRentOffer === true}
-                                            fullWidth
-                                            variant="contained"
-                                            color="neutral"
-                                            type="submit"
-                                            sx={{mt: 3, mb: 2}}
-                                        >
-                                            {
-                                                id ? 'Update offer' : 'Add offer'
-                                            }
+                                                </LoadingButton>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
+                                </Box>
+                            }
 
-                                        </LoadingButton>
-                                    </Grid>
-                                </Grid>
-                            </form>
+
+
                         </Paper>
                     </Grid>
 
@@ -577,6 +588,7 @@ const mapStateToProps = ({user, offer, sellOffer, rentOffer, findOffer, address,
 
     entityOfferWithFavoriteUser: offer.entityWithFavoriteUser,
     entityOffer: offer.entity,
+    loadingEntity: offer.loadingEntity,
 
     loadingEntitiesAddress: address.loadingEntities,
     entitiesAddress: address.entities,

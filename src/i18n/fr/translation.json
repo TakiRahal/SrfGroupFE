@@ -90,5 +90,15 @@
     "title_page_profile": "Profil",
     "title_send_message": "Envoyer un message",
     "write_your_message": "Ecrire votre message..."
+  },
+  "add_offer": {
+    "title_page": "Créer une nouvelle offre",
+    "label_publish_new_offer": "Publier une nouvelle offre",
+    "label_type_offer": "Type d'offre *",
+    "label_title_offer": "Titre *",
+    "label_more_options": "Pour obtenir un meilleur résultat, vous devez ajouter des options",
+    "label_select_offer_plz": "Sélectionnez un type d'offre s'il vous plaît",
+    "label_update_offer": "Modifier l'offer",
+    "label_add_offer": "Ajouter une offre"
   }
 }

@@ -8,6 +8,10 @@ export function CustomSunEditor({ defaultValue, callbcakHandleChange }: { defaul
         callbcakHandleChange(content);
     }
 
+    React.useEffect(() => {
+        console.log('defaultValue ', defaultValue);
+    }, [defaultValue])
+
     return (
         <SunEditor lang="en"
            defaultValue={defaultValue || ''}

@@ -75,18 +75,15 @@ export default (state: OfferState = initialState, action: any): OfferState => {
         case REQUEST(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
-                loadingEntity: true,
             };
         case FAILURE(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
-                loadingEntity: false,
                 errorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
-                loadingEntity: false,
                 entityWithFavoriteUser: action.payload.data,
             };
 
@@ -173,7 +170,7 @@ export default (state: OfferState = initialState, action: any): OfferState => {
         case REQUEST(ACTION_TYPES.FETCH_OFFER):
             return {
                 ...state,
-                loadingEntity: false,
+                loadingEntity: true,
             };
         case FAILURE(ACTION_TYPES.FETCH_OFFER):
             return {

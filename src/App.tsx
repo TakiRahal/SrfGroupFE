@@ -27,7 +27,7 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import List from "@mui/material/List/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
+import {checkMobileDesktopBrowser, getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
@@ -56,7 +56,6 @@ import Menu from '@mui/material/Menu/Menu';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 
-// import OneSignal from 'react-onesignal';
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import { styled } from '@mui/material/styles';
@@ -65,6 +64,7 @@ import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {MessengerCustomerChat} from "typescript-react-facebook-messenger";
+import {OneSignalProviders} from "./shared/providers/onesignal.provider";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -118,6 +118,15 @@ function ScrollToTop() {
     const history = useHistory();
     React.useEffect(() => {
         const unlisten = history.listen((location, action) => {
+
+            try {
+                // Add track page Google Analytics
+                gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID, {
+                    'page_title' : location.pathname,
+                    'page_path': location.pathname
+                });
+            }catch (e) {}
+
             if (action !== 'POP') {
                 window.scrollTo(0, 0);
             }
@@ -129,9 +138,6 @@ function ScrollToTop() {
 
 function ScrollTop(props: any) {
     const { children, window } = props;
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
     const trigger = useScrollTrigger({
         target: window ? window() : undefined,
         disableHysteresis: true,
@@ -173,18 +179,18 @@ function App(props: IAppProps) {
 
     React.useEffect(() => {
 
-        // Init OneSignal Platform
-        // OneSignal.init({
-        //     appId: AllAppConfig.APP_ID_ONESIGNAL
-        // });
+        // OneSignal Platform
+        OneSignalProviders();
 
+        // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));
         props.setLocale(StorageService.session.get('locale', 'fr'));
+
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
     }, [])
 
-    const handleLogout = (event: any) => {
+    const handleLogout = (history: any) => {
         props.logout();
     }
 
@@ -416,7 +422,6 @@ function App(props: IAppProps) {
                         {rightMenuMobile()}
                     </Drawer>
                 </React.Fragment>
-
                 <div id="back-to-top-anchor"></div>
                 <Header isAuthenticated={props.isAuthenticated}
                         currentUser={currentUser}

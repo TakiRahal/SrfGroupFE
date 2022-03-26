@@ -17,11 +17,12 @@ import {IConversation} from "../../../shared/model/conversation.model";
 import {IUser} from "../../../shared/model/user.model";
 import {convertDateTimeToServer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 
 const initialValues = initialValuesMessage;
 
-export function MessageConversation({account, conversation, callbackAddMessage, loading, listMessages}:
-                                    {account: any, conversation: IConversation, callbackAddMessage: any, loading: boolean, listMessages: IMessage[]}) {
+export function MessageConversation({account, conversation, callbackAddMessage, loadingListMessages, listMessages, loadingAddMessage}:
+                                    {account: any, conversation: IConversation, callbackAddMessage: any, loadingListMessages: boolean, listMessages: IMessage[], loadingAddMessage: boolean}) {
 
     const [listCurrentMessages, setListCurrentMessages] = React.useState<IMessage[]>([]);
 
@@ -114,7 +115,7 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                             <div className="chat-history">
 
                                 {
-                                    loading ? <Box sx={{ pt: 5, textAlign: 'center' }}>
+                                    loadingListMessages ? <Box sx={{ pt: 5, textAlign: 'center' }}>
                                         <CircularProgress color="inherit"  />
                                     </Box> : null
                                 }
@@ -197,16 +198,12 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
 
                                                 <Box sx={{ flexGrow: 1 }} />
                                                 <Box>
-                                                    <IconButton
-                                                        size="large"
-                                                        edge="end"
-                                                        aria-label="account of current user"
-                                                        aria-haspopup="true"
-                                                        color="inherit"
-                                                        type="submit"
-                                                    >
+                                                    <LoadingButton loading={loadingAddMessage}
+                                                                   variant="text"
+                                                                   color="inherit"
+                                                                   type="submit">
                                                         <SendIcon />
-                                                    </IconButton>
+                                                    </LoadingButton>
                                                 </Box>
                                             </Toolbar>
                                         </AppBar>

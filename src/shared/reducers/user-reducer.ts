@@ -16,6 +16,7 @@ export const ACTION_TYPES = {
     UPLOAD_AVATAR: 'account/UPLOAD_AVATAR',
     UPDATE_INFOS_USER: 'account/UPDATE_INFOS_USER',
     UPDATE_PASSWORD_USER: 'account/UPDATE_PASSWORD_USER',
+    ONE_SIGNAL_ID: 'account/ONE_SIGNAL_ID',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -24,6 +25,8 @@ const CURRENT_USER = StorageService.local.get(AllAppConfig.VALUE_CURRENT_USER) ?
 const initialState = {
     isAuthenticated: CURRENT_USER ? true : false,
     currentUser: CURRENT_USER ? CURRENT_USER : {},
+    nbeNotificationsNotRead: 0,
+    oneSignalId: '',
 
     registrationLoading: false,
     registrationSuccess: false,
@@ -69,7 +72,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 registrationSuccess: false
             };
         case FAILURE(ACTION_TYPES.CREATE_ACCOUNT):
-            console.log('action = ', action);
             return {
                 ...initialState,
                 registrationErrorMessage: action.payload.response.data.message,
@@ -116,7 +118,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 updateSuccessPasswordAccount: false
             };
         case FAILURE(ACTION_TYPES.UPDATE_PASSWORD_USER):
-            console.log('action = ', action);
             return {
                 ...state,
                 loadingPasswordAccount: false,
@@ -161,7 +162,7 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
         case SUCCESS(ACTION_TYPES.GET_SESSION):
             return {
-                ...initialState,
+                ...state,
                 sessionSuccess: true,
                 isAuthenticated: true,
                 currentUser: action.payload.data
@@ -215,8 +216,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 loadingUploadAvatar: false,
             };
         case SUCCESS(ACTION_TYPES.UPLOAD_AVATAR):
-            console.log('...state ', state);
-            console.log('...action ', action, action.payload.data.imageUrl);
             return {
                 ...state,
                 currentUser: {
@@ -228,9 +227,16 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
 
 
+        case ACTION_TYPES.ONE_SIGNAL_ID:
+            return {
+                ...state,
+                oneSignalId: action.payload
+            };
+
         case ACTION_TYPES.LOGOUT:
             return {
                 ...initialState,
+                oneSignalId: state.oneSignalId,
                 isAuthenticated: false,
                 currentUser: {}
             };
@@ -243,14 +249,14 @@ export default (state: UserState = initialState, action: any): UserState => {
 const apiUrl = 'api/user/';
 
 // Actions
-export const handleRegister = (email: string, password: string, sourceRegister: string) => {
+export const handleRegister = (email: string, password: string, sourceRegister: string, oneSignalId: string) => {
     const result = ({
         type: ACTION_TYPES.CREATE_ACCOUNT,
         payload: axios.post(`${apiUrl}public/signup`, {
             email: email,
             password: password,
-            sourceRegister: sourceRegister
-
+            sourceRegister: sourceRegister,
+            idOneSignal: oneSignalId
         }),
         // meta: {
         //     successMessage: 'register.messages.success',
@@ -275,13 +281,14 @@ export const activateAction = (key: string) => {
     return result;
 };
 
-export const login: (email: string, password: string, rememberMe?: boolean) => void = (email, password, rememberMe = false) => async (dispatch: any) => {
+export const login: (email: string, password: string, oneSignalId: string, rememberMe?: boolean) => void = (email, password, oneSignalId: string, rememberMe = false) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.LOGIN,
         payload: axios.post(`${apiUrl}public/signin`, {
             email: email,
             password: password,
-            rememberMe: rememberMe
+            rememberMe: rememberMe,
+            idOneSignal: oneSignalId
         }),
         // meta: {
         //     successMessage: 'Welcome',
@@ -384,7 +391,7 @@ export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: I
 export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.LOGIN,
-        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-facebook`, facebook),
+        payload: axios.post<IFacebook>(`${apiUrl}public/signin-facebook`, facebook),
     })
     const bearerToken = result.value.headers.authorization;
     if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
@@ -402,6 +409,7 @@ export const logout: () => void = () => (dispatch: any) => {
         type: ACTION_TYPES.LOGOUT,
     });
 };
+
 
 export const clearAuthToken = () => {
     if (StorageService.local.get(AllAppConfig.NAME_TOKEN_CURRENT_USER)) {

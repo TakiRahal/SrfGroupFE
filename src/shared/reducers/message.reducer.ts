@@ -1,4 +1,4 @@
-import {IMessage} from "../model/message.model";
+import {defaultValue, IMessage} from "../model/message.model";
 import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 
@@ -8,9 +8,12 @@ export const ACTION_TYPES = {
 }
 
 const initialState = {
+    loadingEntity: false,
+    entity: defaultValue,
     loadingEntities: false,
     errorMessage: null,
     entities: [] as ReadonlyArray<IMessage>,
+    addSuccess: false,
     totalItems: 0,
 }
 
@@ -41,6 +44,26 @@ export default (state: MessageState = initialState, action: any): MessageState =
                 totalItems: action.payload.data.totalElements
             };
 
+
+        case REQUEST(ACTION_TYPES.CREATE_MESSAGE):
+            return {
+                ...state,
+                loadingEntity: true,
+                addSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.CREATE_MESSAGE):
+            return {
+                ...state,
+                errorMessage: action.payload,
+                loadingEntity: false,
+            };
+        case SUCCESS(ACTION_TYPES.CREATE_MESSAGE):
+            return {
+                ...state,
+                loadingEntity: false,
+                addSuccess: true,
+                entity: action.payload.data,
+            };
 
         default:
             return state;

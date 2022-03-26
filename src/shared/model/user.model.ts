@@ -44,6 +44,7 @@ export interface IGooglePlus {
     profileObj: any;
     tokenId: string;
     sourceProvider: string;
+    idOneSignal: string;
 }
 
 export interface IFacebook {
@@ -58,4 +59,5 @@ export interface IFacebook {
     signedRequest: string;
     userID: string;
     sourceProvider: string;
+    idOneSignal: string;
 }

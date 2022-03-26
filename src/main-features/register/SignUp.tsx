@@ -22,7 +22,7 @@ import Slide from '@mui/material/Slide';
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {initialValuesSignUp, validationSchemaSignUp} from "./validation/validation-signup";
 import {connect} from "react-redux";
-import {handleRegister, resetRegister} from "../../shared/reducers/user-reducer";
+import {ACTION_TYPES, handleRegister, resetRegister} from "../../shared/reducers/user-reducer";
 import {IRootState} from "../../shared/reducers";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -30,9 +30,9 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Container from "@mui/material/Container/Container";
-import {SourceProvider} from "../../shared/enums/source-provider";
 import {TransitionModal} from "../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
+import {checkMobileDesktopBrowser} from "../../shared/utils/utils-functions";
 
 const initialValues = initialValuesSignUp;
 
@@ -61,6 +61,9 @@ export const SignUp = (props: ISignUpProps) => {
         setStartAnimation(true);
     }, []);
 
+    React.useEffect(() => {
+        console.log('props.oneSignalId ', props.oneSignalId);
+    }, [props.oneSignalId])
 
     const { registrationSuccess } = props;
 
@@ -68,7 +71,7 @@ export const SignUp = (props: ISignUpProps) => {
         initialValues,
         validationSchema: validationSchemaSignUp,
         onSubmit: (values: ISignUP) => {
-            props.handleRegister(values.email, values.firstPassword, SourceProvider.WEB);
+            props.handleRegister(values.email, values.firstPassword, checkMobileDesktopBrowser(), props.oneSignalId);
         },
     });
 
@@ -280,7 +283,8 @@ export const SignUp = (props: ISignUpProps) => {
 
 const mapStateToProps = ({ user }: IRootState) => ({
     loading: user.registrationLoading,
-    registrationSuccess: user.registrationSuccess
+    registrationSuccess: user.registrationSuccess,
+    oneSignalId: user.oneSignalId
 });
 
 const mapDispatchToProps = {

@@ -1,4 +1,5 @@
 declare const FB: any;
+declare const gtag: any;
 
 // declare let adsbygoogle: any;
 

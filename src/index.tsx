@@ -13,15 +13,15 @@ import "swiper/css/bundle";
 import './index.css';
 
 // Store initialize
-const store = initStore();
+const store = initStore;
 const actions = bindActionCreators({ clearAuthentication}, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
 
 ReactDOM.render(
   <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
+        <Provider store={store}>
+            <App />
+        </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

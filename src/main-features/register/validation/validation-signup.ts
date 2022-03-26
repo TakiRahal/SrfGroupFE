@@ -8,7 +8,7 @@ export const initialValuesSignUp = {
 };
 
 export const validationSchemaSignUp = Yup.object({
-  email: Yup.string().required('Email is required'),
+  email: Yup.string().email().required('Email is required'),
   firstPassword: Yup.string().required('Password is required').min(5, 'Min 5 digits').max(200, 'Max 200 digits'),
   secondPassword: Yup.string()
     .required('Password is required')

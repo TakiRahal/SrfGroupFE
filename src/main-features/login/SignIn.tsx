@@ -49,7 +49,7 @@ export const SignIn = (props: ISignInProps) => {
     });
     const history = useHistory();
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const { loading, loginSuccess } = props;
 
@@ -78,7 +78,7 @@ export const SignIn = (props: ISignInProps) => {
         initialValues,
         validationSchema: validationSchemaSignIn,
         onSubmit: values => {
-            props.login(values.email.toString(), values.password.toString(), true);
+            props.login(values.email.toString(), values.password.toString(), props.oneSignalId, true);
         },
     });
 
@@ -88,6 +88,7 @@ export const SignIn = (props: ISignInProps) => {
             const requestData: IFacebook = {
                 ...response,
                 sourceProvider: SourceProvider.FACEBOOK,
+                idOneSignal: props.oneSignalId
             };
             props.loginFacebook(requestData);
         }
@@ -99,6 +100,7 @@ export const SignIn = (props: ISignInProps) => {
             const requestData: IGooglePlus = {
                 ...response,
                 sourceProvider: SourceProvider.GOOGLE_PLUS,
+                idOneSignal: props.oneSignalId
             };
             props.loginGooglePlus(requestData);
         }
@@ -266,7 +268,8 @@ const mapStateToProps = ({user}: IRootState) => ({
     loading: user.loginLoading,
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
-    loginSuccess: user.loginSuccess
+    loginSuccess: user.loginSuccess,
+    oneSignalId: user.oneSignalId
 });
 
 const mapDispatchToProps = {

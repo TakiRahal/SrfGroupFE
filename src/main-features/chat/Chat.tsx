@@ -67,7 +67,7 @@ export const Chat = (props: IChatClientProps) => {
                     paddingTop: 50,
                 }}
             >
-                <Grid item xs={12} sm={6} md={2}></Grid>
+                <Grid item xs={12} sm={6} md={2} sx={{display: { xs: 'none', md: 'flex' }}}></Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
                     <Conversation loading={loadingEntitiesConversation} list={listConversations.slice()} account={account} listMessages={getListMessages} />
@@ -77,8 +77,9 @@ export const Chat = (props: IChatClientProps) => {
                     <MessageConversation account={account}
                                          conversation={currentConversation}
                                          callbackAddMessage={addMessage}
-                                         loading={props.loadingMessageByConversation}
-                                         listMessages={props.listMessageByConversation.slice()} />
+                                         loadingListMessages={props.loadingMessageByConversation}
+                                         listMessages={props.listMessageByConversation.slice()}
+                                         loadingAddMessage={props.loadingEntityMessage}/>
                 </Grid>
             </Grid>
 
@@ -93,7 +94,9 @@ const mapStateToProps = ({ conversation, user, message }: IRootState) => ({
     account: user.currentUser,
 
     loadingMessageByConversation: message.loadingEntities,
-    listMessageByConversation: message.entities
+    listMessageByConversation: message.entities,
+    loadingEntityMessage: message.loadingEntity,
+    addSuccessMessage: message.addSuccess
 });
 
 const mapDispatchToProps = {

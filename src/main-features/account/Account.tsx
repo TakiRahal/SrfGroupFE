@@ -113,6 +113,13 @@ export const Account = (props: IAccountClientProps) => {
     }, []);
 
     React.useEffect(() => {
+        if( props.updateSuccessPasswordAccount){
+            setShowEditPassword(false);
+            formikPassword.resetForm();
+        }
+    }, [props.updateSuccessPasswordAccount])
+
+    React.useEffect(() => {
         if (account) {
 
             // Set avatar

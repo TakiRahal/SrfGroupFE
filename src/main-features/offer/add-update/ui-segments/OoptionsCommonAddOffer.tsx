@@ -6,9 +6,31 @@ import Box from '@mui/material/Box/Box';
 import Autocomplete from '@mui/material/Autocomplete/Autocomplete';
 import TextField from '@mui/material/TextField/TextField';
 import Grid from '@mui/material/Grid/Grid';
+import i18n from "i18next";
+import {ICategory} from "../../../../shared/model/category.model";
 
 export default function OptionsCommonAddOffer(props: any) {
     const {formik, cities, listCategories} = props;
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+
+
+    React.useEffect(() => {
+
+        i18n.on('languageChanged', (lang: any) => {
+            console.log('lang ', lang);
+            setDefaultLanguage(lang);
+        });
+    }, []);
+
+    const getValueTitle = (option: ICategory) => {
+        if( defaultLanguage==='en' ){
+            return option.titleEn || '';
+        }
+        else if( defaultLanguage==='fr' ){
+            return option.titleFr || '';
+        }
+        return option.titleAr || '';
+    }
 
     return (
         <Box>
@@ -23,7 +45,7 @@ export default function OptionsCommonAddOffer(props: any) {
                             value={formik.values.category}
                             onChange={(e, value) => formik.setFieldValue('category', value || null)}
                             autoHighlight
-                            getOptionLabel={option => option.titleEn || ''}
+                            getOptionLabel={option => getValueTitle(option) || ''}
                             renderOption={(propsRender, option) => (
                                 <Box component="li" {...propsRender}>
                                     {option.titleEn}

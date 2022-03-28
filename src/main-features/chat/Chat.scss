@@ -1,0 +1,14 @@
+.container-chat{
+    min-height: 600px;
+    .container-chat-conversation{
+
+    }
+    .container-chat-message{
+        @media only screen and (max-width: 576px) {
+            //position: absolute;
+            //top: 35px;
+            //right: 5px;
+            //z-index: 9;
+        }
+    }
+}

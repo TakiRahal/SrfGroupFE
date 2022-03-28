@@ -51,6 +51,7 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {IReportOffer} from "../../../shared/model/report-offer.model";
 import {AllAppConfig} from "../../../core/config/all-config";
+import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-anaylitics";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -148,6 +149,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                 user: {},
             };
             props.addCommentOffer(entity);
+
+            // Add event GA
+            addEventGA(AllModulesEventGA.EventOffer.AddCommentOffer.eventName,
+                AllModulesEventGA.EventOffer.AddCommentOffer.eventCategory,
+                AllModulesEventGA.EventOffer.AddCommentOffer.eventLabel);
         }
     }
 
@@ -162,6 +168,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
             content: content
         }
         updateComment(commentUpdate);
+
+        // Add event GA
+        addEventGA(AllModulesEventGA.EventOffer.UpdateCommentOffer.eventName,
+            AllModulesEventGA.EventOffer.UpdateCommentOffer.eventCategory,
+            AllModulesEventGA.EventOffer.UpdateCommentOffer.eventLabel);
     };
 
     const handleCallbackFavorite = (userId: number) => {

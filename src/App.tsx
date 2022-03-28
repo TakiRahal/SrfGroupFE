@@ -65,6 +65,7 @@ import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {MessengerCustomerChat} from "typescript-react-facebook-messenger";
 import {OneSignalProviders} from "./shared/providers/onesignal.provider";
+import {initGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -119,13 +120,10 @@ function ScrollToTop() {
     React.useEffect(() => {
         const unlisten = history.listen((location, action) => {
 
-            try {
-                // Add track page Google Analytics
-                gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID, {
-                    'page_title' : location.pathname,
-                    'page_path': location.pathname
-                });
-            }catch (e) {}
+            // Add track page Google Analytics
+            trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
+                console.log('Success track pages');
+            }, (error: boolean) => {console.log('Error track pages');})
 
             if (action !== 'POP') {
                 window.scrollTo(0, 0);
@@ -181,6 +179,11 @@ function App(props: IAppProps) {
 
         // OneSignal Platform
         OneSignalProviders();
+
+        // Init Google Analyticd
+        initGoogleAnalytics().then((result: boolean) => {
+            console.log('Success init Google Analytics');
+        }, (error: boolean) => {console.log('Error init Google Analytics');})
 
         // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));

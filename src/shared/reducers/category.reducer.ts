@@ -17,8 +17,8 @@ export const ACTION_TYPES = {
 const initialState = {
     loadingEntity: false,
     entity: defaultValue,
-    entities: [] as ReadonlyArray<ICategory>,
     loadingEntities: false,
+    entities: [] as ReadonlyArray<ICategory>,
     updateSuccess: false,
     errorMessage: null,
     totalItems: 0,

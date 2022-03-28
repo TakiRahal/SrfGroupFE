@@ -64,6 +64,9 @@ import {CustomSunEditor} from "../../../shared/components/sun-editor/CustomSunEd
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
 import {useTranslation} from "react-i18next";
+import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-anaylitics";
+import {getPublicEntity} from "../../../shared/reducers/description-add-offer.reducer";
+import i18n from "i18next";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -92,6 +95,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const [originalListFiles, setOriginalListFiles] = React.useState(defaultValueOriginalListFiles);
     const [openDeleteImageOfferModal, setOpenDeleteImageOfferModal] = React.useState(false);
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
     const history = useHistory();
     const { t } = useTranslation();
@@ -135,9 +139,16 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     }, [id])
 
     React.useEffect(() => {
+
+        i18n.on('languageChanged', (lang: any) => {
+            setDefaultLanguage(lang);
+        });
+
         setTimeout(() => {
             setStartAnimation(true);
         }, 300);
+
+        props.getPublicEntity();
     }, []);
 
 
@@ -334,6 +345,22 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         formik.setFieldValue('description', newValue ? newValue : '');
     }
 
+    const addNewEventGA = () => {
+        addEventGA(AllModulesEventGA.EventOffer.ShowMoreOption.eventName,
+            AllModulesEventGA.EventOffer.ShowMoreOption.eventCategory,
+            AllModulesEventGA.EventOffer.ShowMoreOption.eventLabel);
+    }
+
+    const getContentDescriptionAddOffer = () => {
+        if( defaultLanguage==='en' ){
+            return props.entityDescriptionAddOffer.descriptionEn || '';
+        }
+        else if( defaultLanguage==='fr' ){
+            return props.entityDescriptionAddOffer.descriptionFr || '';
+        }
+        return props.entityDescriptionAddOffer.descriptionAr || '';
+    }
+
     return (
         <Slide direction="up" in={startAnimation} mountOnEnter unmountOnExit>
             <Container maxWidth="xl" className="page-add-offer">
@@ -403,7 +430,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                             <Grid item xs={12} md={6}>
                                                 <FormControl fullWidth size="small"
                                                              error={formik.touched.title && Boolean(formik.errors.title)}>
-                                                    <InputLabel htmlFor="outlined-adornment-title">{t('add_offer.label_title_offer')} *</InputLabel>
+                                                    <InputLabel htmlFor="outlined-adornment-title">{t('add_offer.label_title_offer')}</InputLabel>
                                                     <OutlinedInput
                                                         id="title"
                                                         name="title"
@@ -500,7 +527,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                         aria-controls="panel1a-content"
                                                         id="panel1a-header"
                                                         className="bg-brown"
-                                                    >
+                                                        onClick={() => addNewEventGA()}>
                                                         <Typography sx={{textDecoration: 'underline'}}>
                                                             {t('add_offer.label_more_options')}
                                                         </Typography>
@@ -551,13 +578,11 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                     </Grid>
 
                     <Grid item xs={12} sm={6} sx={{p: 2, mt: 6}}>
-                        {/*{loadingDescriptionAddOfferEntity ? (*/}
-                        {/*<Box>*/}
-                        {/*<CircularProgress />*/}
-                        {/*</Box>*/}
-                        {/*) : descriptionAddOfferEntity?.descriptionEn ? (*/}
-                        {/*parse(descriptionAddOfferEntity?.descriptionEn)*/}
-                        {/*) : null}*/}
+                        {
+                            props.loadingDescriptionAddOfferEntity ? <Box sx={{ textAlign: 'center' }}>
+                                <CircularProgress color="inherit"  />
+                            </Box> : <div dangerouslySetInnerHTML={{ __html: getContentDescriptionAddOffer() }}></div>
+                        }
                     </Grid>
                 </Grid>
 
@@ -567,7 +592,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     );
 }
 
-const mapStateToProps = ({user, offer, sellOffer, rentOffer, findOffer, address, category}: IRootState) => ({
+const mapStateToProps = ({user, offer, sellOffer, rentOffer, findOffer, address, category, descriptionAddOffer}: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
 
@@ -596,6 +621,9 @@ const mapStateToProps = ({user, offer, sellOffer, rentOffer, findOffer, address,
 
     loadingEntitiesCategory: category.loadingEntities,
     entitiesCategory: category.entities,
+
+    loadingDescriptionAddOfferEntity: descriptionAddOffer.loadingEntity,
+    entityDescriptionAddOffer: descriptionAddOffer.entity,
 });
 
 const mapDispatchToProps = {
@@ -610,7 +638,8 @@ const mapDispatchToProps = {
     resetOffer,
     updateEntitySell,
     updateEntityRent,
-    updateEntityFind
+    updateEntityFind,
+    getPublicEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

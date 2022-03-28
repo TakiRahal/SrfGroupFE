@@ -1,0 +1,77 @@
+/**
+ * Init Google Analytics with ts
+ * @returns {Promise<boolean>}
+ */
+import {AllAppConfig} from "../../core/config/all-config";
+
+export function initGoogleAnalytics(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+        try {
+            gtag('js', new Date());
+            gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID);
+            resolve(true);
+        }catch (e) {
+            reject(false);
+        }
+    })
+}
+
+export function trackPagesGA(title: string, path: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+        try {
+            // Add track page Google Analytics
+            gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID, {
+                'page_title': title,
+                'page_path': path
+            });
+            resolve(true);
+        } catch (e) {
+            reject(false);
+        }
+    });
+}
+
+export function addEventGA(eventName: string, eventCategory: string, eventLabel: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+        try {
+            console.log('Add new event Google Analytics');
+            // Add new event Google Analytics
+            gtag('event', eventName, {
+                'event_category' : eventCategory,
+                'event_label' : eventLabel
+            });
+            resolve(true);
+        } catch (e) {
+            reject(false);
+        }
+    });
+}
+
+
+/**
+ * Name of module: EventOffer, EventUser
+ * Add sub module (ShowMoreOption) with eventName, eventCategory, eventLabel
+ * @type {{EventOffer: {ShowMoreOption: {}}; EventUser: {}}}
+ */
+export const AllModulesEventGA = {
+    EventOffer: {
+        ShowMoreOption: {
+            eventName: 'ShowMoreOptionAddUpdateOffer',
+            eventCategory: 'Offer',
+            eventLabel: 'Show more options for Add/Update offer'
+        },
+        AddCommentOffer: {
+            eventName: 'AddCommentOffer',
+            eventCategory: 'Offer',
+            eventLabel: 'Add new comment'
+        },
+        UpdateCommentOffer: {
+            eventName: 'UpdateCommentOffer',
+            eventCategory: 'Offer',
+            eventLabel: 'Add new comment'
+        }
+    },
+    EventUser: {
+
+    }
+}

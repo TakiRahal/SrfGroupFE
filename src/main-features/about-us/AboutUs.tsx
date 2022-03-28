@@ -24,7 +24,6 @@ export const AboutUs = (props: IAboutUsClientProps) => {
     React.useEffect(() => {
 
         i18n.on('languageChanged', (lang: any) => {
-            console.log('lang ', lang);
             setDefaultLanguage(lang);
         });
 

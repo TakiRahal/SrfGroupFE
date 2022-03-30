@@ -11,7 +11,6 @@ import Toolbar from '@mui/material/Toolbar/Toolbar';
 import IconButton from '@mui/material/IconButton/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterIcon from '@mui/icons-material/FilterListSharp';
-import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
 import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
@@ -24,55 +23,18 @@ import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {IAddress} from "../../../shared/model/address.model";
 import queryString from "query-string";
 import {useTranslation} from "react-i18next";
-import Typography from "@mui/material/Typography/Typography";
 import AppBar from "@mui/material/AppBar/AppBar";
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import GridOnIcon from '@mui/icons-material/GridOn';
+import {TypeDisplaySearchOffers} from "../../enums/type-offer.enum";
 
-
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}));
 
 const initialValues = initialValuesSearchAppBar;
 
-export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress: IAddress[], searchCalback: any}) {
+export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallback}: {entitiesAddress: IAddress[], searchCalback: any, typeDisplayCallback?: any}) {
+
+    const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
+
     const { search } = useLocation();
 
     const { t } = useTranslation();
@@ -101,6 +63,11 @@ export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress:
         });
     }, [entitiesAddress])
 
+    const changeTypeDisplayOffers = () => {
+        setTypeDisplayOffers(typeDisplayOffers===TypeDisplaySearchOffers.Grid ? TypeDisplaySearchOffers.List : TypeDisplaySearchOffers.Grid);
+        typeDisplayCallback(typeDisplayOffers===TypeDisplaySearchOffers.Grid ? TypeDisplaySearchOffers.List : TypeDisplaySearchOffers.Grid);
+    }
+
     return (
         <Box>
             <form onSubmit={formik.handleSubmit}>
@@ -118,8 +85,10 @@ export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress:
                                 color="inherit"
                                 aria-label="open drawer"
                                 sx={{ mx: 1, display: {xs: 'none', md: 'inline-flex'} }}
+                                onClick={() => changeTypeDisplayOffers()}
                             >
-                                <FilterIcon />
+                                {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
+
                             </IconButton>
                             <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0,  mx: 1, width: {xs: '100%', md: 'auto'}}}>
                                 <TextField id="title"
@@ -176,6 +145,18 @@ export function SearchAppBar({entitiesAddress, searchCalback}: {entitiesAddress:
                             </FormControl>
 
                             <Box sx={{my: {xs: 2, md: 'auto'}}}>
+
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    sx={{ mx: 1, display: {xs: 'inline-flex', md: 'none'} }}
+                                    onClick={() => changeTypeDisplayOffers()}
+                                >
+                                    {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
+
+                                </IconButton>
                                 <Button
                                     variant="contained"
                                     sx={{

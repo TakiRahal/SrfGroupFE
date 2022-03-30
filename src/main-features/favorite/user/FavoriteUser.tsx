@@ -12,6 +12,7 @@ import {IFavoriteUser} from "../../../shared/model/favorite.model";
 import ListFavoriteUsers from "./ui-segments/ListFavoriteUsers";
 import Box from "@mui/material/Box/Box";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import Alert from "@mui/material/Alert/Alert";
 
 
 export interface IFavoriteUserProps extends StateProps, DispatchProps {}
@@ -68,9 +69,7 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
                     ))
                     : !loadingEntitiesFavoriteUsers && (
                     <Grid item xs={12}>
-                        <div className="alert alert-warning w-100">
-                            No Favorites found
-                        </div>
+                        <Alert severity="warning">No Favorites found</Alert>
                     </Grid>
                 )}
 

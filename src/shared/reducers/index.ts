@@ -19,6 +19,7 @@ import reportOffer, {ReportOfferState} from "./report-offer.reducer";
 import reportCommentOffer, {ReportCommentOfferState} from "./report-comment-offer.reducer";
 import message, {MessageState} from "./message.reducer";
 import descriptionAddOffer, {DescriptionAddOfferState} from "./description-add-offer.reducer";
+import newsLetter, {NewsLetterState} from "./news-letter.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -41,6 +42,7 @@ export interface IRootState {
     readonly reportCommentOffer: ReportCommentOfferState;
     readonly message: MessageState;
     readonly descriptionAddOffer: DescriptionAddOfferState;
+    readonly newsLetter: NewsLetterState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -63,7 +65,8 @@ const rootReducer = combineReducers<IRootState>({
     reportOffer,
     reportCommentOffer,
     message,
-    descriptionAddOffer
+    descriptionAddOffer,
+    newsLetter
 });
 
 export default rootReducer;

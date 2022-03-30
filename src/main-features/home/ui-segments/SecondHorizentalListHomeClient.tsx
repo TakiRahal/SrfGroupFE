@@ -41,29 +41,23 @@ export default function SecondHorizentalListHomeClient() {
     ];
 
     return (
-        <Container maxWidth="xl">
-            <Box
-                sx={{
-                    my: '4rem',
-                }}
-            >
-                <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    {listServices.map((service: IService, index: number) => (
-                        <Grid item xs={12} md={3} key={`service-${index}`}>
-                            <Card sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar alt={service.primaryTitle} src={service.img} />
-                                        </ListItemAvatar>
-                                        <ListItemText primary={service.primaryTitle} secondary={service.secondTitle} />
-                                    </ListItem>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
-        </Container>
+        <Box sx={{p: 8, my: 10}}  className="bg-brown">
+            <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                {listServices.map((service: IService, index: number) => (
+                    <Grid item xs={12} md={3} key={`service-${index}`}>
+                        <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <CardContent sx={{ flexGrow: 1, minHeight: 130 }}>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemAvatar>
+                                        <Avatar alt={service.primaryTitle} src={service.img} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={service.primaryTitle} secondary={service.secondTitle} />
+                                </ListItem>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     );
 }

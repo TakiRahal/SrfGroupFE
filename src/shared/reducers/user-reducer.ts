@@ -209,13 +209,16 @@ export default (state: UserState = initialState, action: any): UserState => {
             return {
                 ...state,
                 loadingUploadAvatar: true,
+                uploadAvatarSuccess: false
             };
         case FAILURE(ACTION_TYPES.UPLOAD_AVATAR):
             return {
                 ...state,
                 loadingUploadAvatar: false,
+                uploadAvatarSuccess: false
             };
         case SUCCESS(ACTION_TYPES.UPLOAD_AVATAR):
+            console.log('action.payload.data.imageUrl ', action.payload.data.imageUrl);
             return {
                 ...state,
                 currentUser: {

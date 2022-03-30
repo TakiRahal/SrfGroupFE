@@ -10,9 +10,8 @@ export default function ThirdHorizentalListHomeClient() {
     const { t } = useTranslation();
 
     return (
-        <Box
+        <Box sx={{my: 10}}
             style={{
-                marginTop: 40,
                 // height: 250,
                 backgroundColor: 'rgb(0 0 0 / 74%)',
                 color:'#fff',

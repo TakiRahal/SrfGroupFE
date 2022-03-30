@@ -20,8 +20,9 @@ export const ACTION_TYPES = {
 };
 
 const initialState = {
-    loadingEntity: false,
+    loadingEntityWithFavoriteUser: false,
     entityWithFavoriteUser: defaultValueOFU,
+    loadingEntity: false,
     entity: defaultValue,
     updateSuccess: false,
     deleteSuccess: false,
@@ -75,16 +76,19 @@ export default (state: OfferState = initialState, action: any): OfferState => {
         case REQUEST(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
+                loadingEntityWithFavoriteUser: true
             };
         case FAILURE(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
                 errorMessage: action.payload,
+                loadingEntityWithFavoriteUser: false
             };
         case SUCCESS(ACTION_TYPES.FETCH_OFFER_WITH_FAVORITE_USER):
             return {
                 ...state,
                 entityWithFavoriteUser: action.payload.data,
+                loadingEntityWithFavoriteUser: false
             };
 
 

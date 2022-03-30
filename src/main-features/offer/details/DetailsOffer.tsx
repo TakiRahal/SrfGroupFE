@@ -71,7 +71,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         getEntitywithFavorite,
         updateComment,
         favoriteUserOffer,
-        loadingEntity,
+        loadingEntityFavoriteUserOffer,
         isAuthenticated,
         getListCommentsByOffer,
         loadingCommentsByOffer,
@@ -112,7 +112,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     }, [activeCommentPage])
 
     React.useEffect(() => {
-        if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntity) {
+        if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntityFavoriteUserOffer) {
             setTimeout(() => {
                 setStartAnimation(true);
                 setIsFavoriteUser(favoriteUserOffer.myFavoriteUser || false);
@@ -271,7 +271,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                     </Grid>
 
                     {
-                        loadingEntity ?
+                        loadingEntityFavoriteUserOffer ?
                             <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
                                 <CircularProgress color="inherit"  />
                             </Box> :
@@ -391,7 +391,7 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, repo
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
-    loadingEntity: offer.loadingEntity,
+    loadingEntityFavoriteUserOffer: offer.loadingEntityWithFavoriteUser,
     favoriteUserOffer: offer.entityWithFavoriteUser,
 
     loadingCommentsByOffer: comment.loadingEntitiesByOffer,

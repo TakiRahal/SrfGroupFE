@@ -13,6 +13,10 @@ import Avatar from '@mui/material/Avatar/Avatar';
 import Stack from '@mui/material/Stack/Stack';
 import {getBaseImageUrl} from "../../utils/utils-functions";
 import packageJson from '../../../../package.json';
+import {useFormik} from "formik";
+import {initialValuesSubscribeNewsLetter, validationSchemaSubscribeNewsLetter} from './validation/initial-values-subscribe-news-letter';
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import {useTranslation} from "react-i18next";
 
 function Copyright() {
     return (
@@ -32,37 +36,63 @@ function Copyright() {
     );
 }
 
+const initialValues = initialValuesSubscribeNewsLetter;
 
-export default function Footer(){
+export default function Footer({sendCallback, addSuccess, loadingEntity}:
+                                {sendCallback: any, addSuccess: boolean, loadingEntity: boolean}){
+
+    const { t } = useTranslation();
+
+    const formik = useFormik({
+        initialValues,
+        validationSchema: validationSchemaSubscribeNewsLetter,
+        onSubmit: values => {
+            sendCallback(values);
+        },
+    });
+
+    React.useEffect(() => {
+        console.log('addSuccessNewsLetter ', addSuccess);
+        if(addSuccess){
+            formik.resetForm();
+        }
+    }, [addSuccess])
+
     return (
         <Box component="footer" sx={{ bgcolor: 'background.paper' }}>
-            <Toolbar
-                component="nav"
-                variant="dense"
-                sx={{
-                    backgroundColor: '#e2c498',
-                    justifyContent: 'center',
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                    display: { xs: 'block', sm: 'flex;' },
-                }}
-            >
-                <Typography sx={{ fontSize: 20, mr: 1 }} color="text.secondary" display="flex">
-                    <SendIcon sx={{mr: 0.9}}/> Inscrivez-vous à la newsletter
-                </Typography>
-                <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: { xs: '100%', sm: 400 } }}>
-                    <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Entrez votre adresse Mail"
-                        inputProps={{ 'aria-label': 'Entrez votre adresse Mail' }}
-                        size="small"
-                    />
-                    <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                    <IconButton sx={{ p: '10px' }} aria-label="directions">
-                        Inscrire
-                    </IconButton>
-                </Paper>
-            </Toolbar>
+            <form onSubmit={formik.handleSubmit}>
+                <Toolbar
+                    component="nav"
+                    variant="dense"
+                    sx={{
+                        backgroundColor: '#e2c498',
+                        justifyContent: 'center',
+                        paddingTop: 2,
+                        paddingBottom: 2,
+                        display: { xs: 'block', sm: 'flex;' },
+                    }}
+                >
+                    <Typography sx={{ fontSize: 20, mr: 1 }} color="text.secondary" display="flex">
+                        <SendIcon sx={{mr: 0.9}}/> Inscrivez-vous à la newsletter
+                    </Typography>
+                    <Paper sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: { xs: '100%', sm: 400 } }}>
+                        <InputBase
+                            id="email"
+                            name="email"
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder={t('common.label-email')}
+                            inputProps={{ 'aria-label': t('common.label-email') }}
+                            size="small"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                        />
+                        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                        <LoadingButton loading={false} variant="text" color="neutral" type="submit">
+                            {t('common.label_subscribe')}
+                        </LoadingButton>
+                    </Paper>
+                </Toolbar>
+            </form>
             <div>
                 <Typography variant="h5" align="center" gutterBottom sx={{ pt: 3 }}>
                     SRF

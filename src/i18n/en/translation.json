@@ -3,6 +3,7 @@
   "common": {
     "label_cancel": "Cancel",
     "label_send": "Send",
+    "label_subscribe": "Subscribe",
     "label-email": "Email",
     "label-firstname": "FirstName",
     "label-lastname": "LastName",
@@ -100,5 +101,8 @@
     "label_select_offer_plz": "Select one type offer please",
     "label_update_offer": "Update offer",
     "label_add_offer": "Add offer"
+  },
+  "news_letter": {
+    "added_success": "Thanks for your subscription"
   }
 }

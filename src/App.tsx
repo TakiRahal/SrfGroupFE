@@ -66,6 +66,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {MessengerCustomerChat} from "typescript-react-facebook-messenger";
 import {OneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
+import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -408,6 +409,11 @@ function App(props: IAppProps) {
         </Menu>
     );
 
+    const sendNewsLetter =(newsLetter: INewsLetter) => {
+        console.log('email ', newsLetter);
+        props.createEntityNewsLetter(newsLetter);
+    }
+
     return (
         <Router>
 
@@ -448,28 +454,32 @@ function App(props: IAppProps) {
 
                     {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>
-                <Footer />
+                <Footer sendCallback={sendNewsLetter} addSuccess={props.addSuccessNewsLetter} loadingEntity={props.loadingEntityNewsLetter}/>
                 {renderMenuLanguages}
             </ThemeProvider>
         </Router>
     );
 }
 
-const mapStateToProps = ({user, address, locale}: IRootState) => ({
+const mapStateToProps = ({user, address, locale, newsLetter}: IRootState) => ({
     currentLocale: locale.currentLocale,
 
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
 
     loadingAddress: address.loadingEntities,
-    entitiesAddress: address.entities
+    entitiesAddress: address.entities,
+
+    loadingEntityNewsLetter: newsLetter.loadingEntity,
+    addSuccessNewsLetter: newsLetter.addSuccess,
 });
 
 const mapDispatchToProps = {
     logout,
     getEntitiesAddresses,
     getCategories,
-    setLocale
+    setLocale,
+    createEntityNewsLetter
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

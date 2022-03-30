@@ -45,7 +45,7 @@ export default function FirstHorizentalListHomeClient() {
     ];
 
     return (
-        <Box className="bg-brown" sx={{p: 8, mt: 10, mb: 10}}>
+        <Box className="bg-brown" sx={{p: 8, my: 10}}>
             <Stack
                 sx={{
                     my: '4rem',

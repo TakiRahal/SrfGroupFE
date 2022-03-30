@@ -16,3 +16,8 @@ export enum TypesFindOffer{
     Transporter = 'Transporter',
     Job = 'Job'
 }
+
+export enum TypeDisplaySearchOffers {
+    List = 'LIST',
+    Grid = 'GRID'
+}

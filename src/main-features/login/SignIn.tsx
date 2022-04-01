@@ -122,7 +122,7 @@ export const SignIn = (props: ISignInProps) => {
                                 SRF
                             </Link>
                             <Typography color="text.primary">
-                                {t('signin.title-page-signin')}
+                                {t('signin.title_page_signin')}
                             </Typography>
                         </Breadcrumbs>
                     </Grid>
@@ -144,14 +144,8 @@ export const SignIn = (props: ISignInProps) => {
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">
-                                {t('signin.title-page-signin')}
+                                {t('signin.title_page_signin')}
                             </Typography>
-
-                            {/*{loginError ? (*/}
-                                {/*<Alert severity="error">*/}
-                                    {/*<strong>Failed to sign in!</strong> Please check your credentials and try again.*/}
-                                {/*</Alert>*/}
-                            {/*) : null}*/}
 
                             <Box sx={{ mt: 1, pb: 2 }}>
                                 <form onSubmit={formik.handleSubmit}>

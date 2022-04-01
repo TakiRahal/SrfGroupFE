@@ -55,6 +55,7 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Menu from '@mui/material/Menu/Menu';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
+import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
 
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
@@ -173,6 +174,8 @@ function App(props: IAppProps) {
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
 
     const { t, i18n } = useTranslation();
+    const history = useHistory()
+
 
     const { currentUser, getEntitiesAddresses, getCategories } = props;
 
@@ -198,8 +201,12 @@ function App(props: IAppProps) {
         }
     }, [])
 
-    const handleLogout = (history: any) => {
+    // Callback From header and menu mobile
+    const handleLogout = () => {
+        handleDrawerToggleRight(false);
         props.logout();
+        props.resetNotification();
+        history.push(ALL_APP_ROUTES.HOME);
     }
 
     const handleDrawerToggleRight = (isOpen: boolean) => {
@@ -213,11 +220,6 @@ function App(props: IAppProps) {
     const handleClickSupport = () => {
         setOpenSubMenuSupport(!openSubMenuSupport);
     };
-
-    const logoutMenuRight = () => {
-        handleDrawerToggleRight(false)
-        props.logout();
-    }
 
     const listMenuMobile = () => (
         <Box sx={{ width: 250 }} role="presentation">
@@ -243,7 +245,7 @@ function App(props: IAppProps) {
                     <ListItemText primary={t('header.link_home')} />
                 </ListItem>
 
-                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page} onClick={() => handleDrawerToggle(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE} onClick={() => handleDrawerToggle(false)}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>
@@ -364,7 +366,7 @@ function App(props: IAppProps) {
             </List>
             <Divider />
             <List>
-                <ListItem button onClick={() => logoutMenuRight()}>
+                <ListItem button onClick={() => handleLogout()}>
                     <ListItemIcon>
                         <Logout />
                     </ListItemIcon>
@@ -419,7 +421,7 @@ function App(props: IAppProps) {
     }
 
     return (
-        <Router>
+        <>
 
             <ScrollToTop />
             <ThemeProvider theme={ThemeApp}>
@@ -438,7 +440,7 @@ function App(props: IAppProps) {
                 <div id="back-to-top-anchor"></div>
                 <Header isAuthenticated={props.isAuthenticated}
                         currentUser={currentUser}
-                        parentCallbackLogout={(event: any) => handleLogout(event)}
+                        parentCallbackLogout={(event: any) => handleLogout()}
                         parentCallbackRightMenuMobile={(event: any) => handleDrawerToggleRight(event)}
                         parentCallbackMenuMobile={(event: any) => handleDrawerToggle(event)}
                         currentLocale={props.currentLocale}
@@ -462,7 +464,7 @@ function App(props: IAppProps) {
                 <Footer sendCallback={sendNewsLetter} addSuccess={props.addSuccessNewsLetter} loadingEntity={props.loadingEntityNewsLetter}/>
                 {renderMenuLanguages}
             </ThemeProvider>
-        </Router>
+        </>
     );
 }
 
@@ -486,7 +488,8 @@ const mapDispatchToProps = {
     getCategories,
     setLocale,
     createEntityNewsLetter,
-    getNumberOfMessageNotSee
+    getNumberOfMessageNotSee,
+    resetNotification
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

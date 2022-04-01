@@ -43,7 +43,7 @@ const sections = [
     },
     {
         title: <Translation>{(t, { i18n }) => <>{t('common.label_search')}</>}</Translation>,
-        url: ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page,
+        url: ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE,
         icon: <SearchIcon sx={{ marginRight: 1 }} />,
     },
 ];
@@ -78,8 +78,7 @@ export default function Header(props: any){
 
     const logout = () => {
         setAnchorEl(null);
-        props.parentCallbackLogout(true);
-        history.push(ALL_APP_ROUTES.HOME);
+        props.parentCallbackLogout();
     };
 
     const handlePartAdmin = () => {

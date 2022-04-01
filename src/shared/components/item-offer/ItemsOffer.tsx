@@ -45,10 +45,6 @@ export default function ItemOffer({listOffers, typeDisplay}: {listOffers: IOffer
         }, 300);
     };
 
-    React.useEffect(() => {
-        console.log('typeDisplay ', typeDisplay);
-    }, [typeDisplay])
-
     return (
         <Box>
             <Grid container spacing={{xs: 2, md: 6}}>
@@ -169,7 +165,7 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                         ></Avatar>
                     }
                     action={''}
-                    title={<span className="truncate-text-mobile">{getFullnameUser(offer?.user)}</span>}
+                    title={<span className="truncate-text">{getFullnameUser(offer?.user)}</span>}
                     subheader={
                         <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{fontSize: {xs: '0.6rem', md: '0.875rem' }}}>
                             <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' } }}/>
@@ -198,7 +194,7 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                                         : null}
                         </Typography>
 
-                        <Typography component="h5" variant="h5" sx={{ fontSize: {xs: '1rem', md: '1.2rem' } }} className="truncate-text-mobile">
+                        <Typography component="h5" variant="h5" sx={{ fontSize: {xs: '1rem', md: '1.2rem' } }} className="truncate-text">
                             {offer.title}
                         </Typography>
                         {

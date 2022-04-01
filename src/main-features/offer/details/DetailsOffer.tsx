@@ -53,7 +53,6 @@ import {IReportOffer} from "../../../shared/model/report-offer.model";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-anaylitics";
 import {useTranslation} from "react-i18next";
-import {IConversation} from "../../../shared/model/conversation.model";
 import {createConversation} from "../../../shared/reducers/conversation.reducer";
 import {IConversationContent} from "../../../shared/model/conversation-content";
 
@@ -101,9 +100,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     React.useEffect(() => {
         if(!favoriteUserOffer?.offer?.id && id){
             getEntitywithFavorite(id);
-            // if(isAuthenticated){
-            //     getListCommentsByOffer(Number(id), 0, 20, '');
-            // }
             setActiveCommentPage(0);
         }
     }, [favoriteUserOffer])
@@ -111,7 +107,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     React.useEffect(() => {
         if(activeCommentPage>=0){
             if(isAuthenticated){
-                getListCommentsByOffer(Number(id), activeCommentPage, AllAppConfig.Comments_Per_Page, '');
+                getListCommentsByOffer(Number(id), activeCommentPage, AllAppConfig.COMMENTS_PER_PAGE, '');
             }
         }
     }, [activeCommentPage])
@@ -271,7 +267,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                     SRF
                                 </Link>
                                 <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
-                                    Search
+                                    {t('common.label_search')}
                                 </Link>
                                 <Typography color="text.primary">{favoriteUserOffer?.offer?.title}</Typography>
                             </Breadcrumbs>

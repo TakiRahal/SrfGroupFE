@@ -18,6 +18,7 @@
     "for_rent": "À louer",
     "for_find": "À trouver",
     "address": "Addresse",
+    "cateory": "Categorie",
     "type_offer": "Type offre",
     "email_is_required": "Email obligatoire",
     "label_load_more": "Charger plus"
@@ -114,5 +115,9 @@
   "notification": {
     "title_page": "Notifications",
     "not_found_result": "Aucune notification trouvée"
+  },
+  "my_offers": {
+    "title_page": "Mes offres",
+    "no_offers_found": "Aucune offre trouvée"
   }
 }

@@ -20,21 +20,25 @@ import {
 import {useFormik} from "formik";
 import {useLocation} from "react-router-dom";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
-import {IAddress} from "../../../shared/model/address.model";
 import queryString from "query-string";
 import {useTranslation} from "react-i18next";
 import AppBar from "@mui/material/AppBar/AppBar";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import {TypeDisplaySearchOffers} from "../../enums/type-offer.enum";
+import {ICategory} from "../../model/category.model";
+import i18n from "i18next";
 
+const listTypeOffers: string[] = [
+    TypeOfferEnum.Sell, TypeOfferEnum.Rent,TypeOfferEnum.Find
+]
 
 const initialValues = initialValuesSearchAppBar;
 
-export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallback}: {entitiesAddress: IAddress[], searchCalback: any, typeDisplayCallback?: any}) {
+export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCallback}: {entitiesCategories: ICategory[], searchCalback: any, typeDisplayCallback?: any}) {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
-
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
     const { search } = useLocation();
 
     const { t } = useTranslation();
@@ -43,10 +47,16 @@ export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallbac
         initialValues,
         validationSchema: validationSchemSearchAppBar,
         onSubmit: (values: any) => {
+            console.log('values ', values);
             searchCalback(values);
         },
     });
 
+    React.useEffect(() => {
+        i18n.on('languageChanged', (lang: any) => {
+            setDefaultLanguage(lang);
+        });
+    }, []);
 
     React.useEffect(() => {
         const objParams = queryString.parse(search);
@@ -57,15 +67,25 @@ export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallbac
     React.useEffect(() => {
         const values: any = queryString.parse(search);
         Object.keys(values).map((key) => {
-            if(key==='address.id'){
-                formik.setFieldValue('address', entitiesAddress.find(add => add?.id?.toString() === values[key]?.toString())  || null);
+            if(key==='category.id'){
+                formik.setFieldValue('category', entitiesCategories.find(add => add?.id?.toString() === values[key]?.toString())  || null);
             }
         });
-    }, [entitiesAddress])
+    }, [entitiesCategories])
 
     const changeTypeDisplayOffers = () => {
         setTypeDisplayOffers(typeDisplayOffers===TypeDisplaySearchOffers.Grid ? TypeDisplaySearchOffers.List : TypeDisplaySearchOffers.Grid);
         typeDisplayCallback(typeDisplayOffers===TypeDisplaySearchOffers.Grid ? TypeDisplaySearchOffers.List : TypeDisplaySearchOffers.Grid);
+    }
+
+    const getOptionLabelCat = (option: ICategory) => {
+        if( defaultLanguage==='en' ){
+            return option.titleEn || '';
+        }
+        else if( defaultLanguage==='fr' ){
+            return option.titleFr || '';
+        }
+        return option.titleAr || '';
     }
 
     return (
@@ -99,23 +119,23 @@ export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallbac
                                            onChange={formik.handleChange}/>
                             </FormControl>
 
-                            <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0, mx: 1, width: {xs: '100%', md: 'auto'}}}>
+                            <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0,  mx: 1, width: {xs: '100%', md: 'auto'}}}>
                                 <Autocomplete
-                                    id="country-select"
-                                    options={entitiesAddress}
-                                    value={formik.values.address}
-                                    onChange={(e, value) => formik.setFieldValue('address', value || '')}
+                                    id="typeOffer"
+                                    options={listTypeOffers}
+                                    value={formik.values.typeOffer}
+                                    onChange={(e, value) => formik.setFieldValue('typeOffer', value || null)}
                                     autoHighlight
-                                    getOptionLabel={option => option?.city || ''}
+                                    getOptionLabel={(option) => option}
                                     renderOption={(propsRender, option) => (
                                         <Box component="li" {...propsRender}>
-                                            {option.city}
+                                            {option}
                                         </Box>
                                     )}
                                     renderInput={params => (
                                         <TextField
                                             {...params}
-                                            label={t('common.address')}
+                                            label={t('common.type_offer')}
                                             variant="standard"
                                             inputProps={{
                                                 ...params.inputProps,
@@ -127,21 +147,48 @@ export function SearchAppBar({entitiesAddress, searchCalback, typeDisplayCallbac
                                         />
                                     )}
                                 />
+                                {/*<InputLabel id="demo-simple-select-label">{t('common.type_offer')}</InputLabel>*/}
+                                {/*<Select labelId="demo-simple-select-label"*/}
+                                        {/*id="typeOffer"*/}
+                                        {/*name="typeOffer"*/}
+                                        {/*value={formik.values.typeOffer}*/}
+                                        {/*onChange={formik.handleChange}*/}
+                                        {/*label="Type">*/}
+                                    {/*<MenuItem value=''><DeleteIcon /> Clear select</MenuItem>*/}
+                                    {/*<MenuItem value={TypeOfferEnum.Sell}>À vendre</MenuItem>*/}
+                                    {/*<MenuItem value={TypeOfferEnum.Rent}>À louer</MenuItem>*/}
+                                    {/*<MenuItem value={TypeOfferEnum.Find}>À trouver</MenuItem>*/}
+                                {/*</Select>*/}
                             </FormControl>
 
-                            <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0,  mx: 1, width: {xs: '100%', md: 'auto'}}}>
-                                <InputLabel id="demo-simple-select-label">{t('common.type_offer')}</InputLabel>
-                                <Select labelId="demo-simple-select-label"
-                                        id="typeOffer"
-                                        name="typeOffer"
-                                        value={formik.values.typeOffer}
-                                        onChange={formik.handleChange}
-                                        label="Type">
-                                    <MenuItem value=''><DeleteIcon /> Clear select</MenuItem>
-                                    <MenuItem value={TypeOfferEnum.Sell}>À vendre</MenuItem>
-                                    <MenuItem value={TypeOfferEnum.Rent}>À louer</MenuItem>
-                                    <MenuItem value={TypeOfferEnum.Find}>À trouver</MenuItem>
-                                </Select>
+                            <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0, mx: 1, width: {xs: '100%', md: 'auto'}}}>
+                                <Autocomplete
+                                    id="country-select"
+                                    options={entitiesCategories}
+                                    value={formik.values.category}
+                                    onChange={(e, value) => formik.setFieldValue('category', value || '')}
+                                    autoHighlight
+                                    getOptionLabel={option => getOptionLabelCat(option)}
+                                    renderOption={(propsRender, option) => (
+                                        <Box component="li" {...propsRender}>
+                                            {getOptionLabelCat(option)}
+                                        </Box>
+                                    )}
+                                    renderInput={params => (
+                                        <TextField
+                                            {...params}
+                                            label={t('common.cateory')}
+                                            variant="standard"
+                                            inputProps={{
+                                                ...params.inputProps,
+                                                form: {
+                                                    autocomplete: 'off',
+                                                },
+                                                autoComplete: 'off', // disable autocomplete and autofill
+                                            }}
+                                        />
+                                    )}
+                                />
                             </FormControl>
 
                             <Box sx={{my: {xs: 2, md: 'auto'}}}>

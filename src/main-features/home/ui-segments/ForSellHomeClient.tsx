@@ -41,7 +41,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     return(
         <Container maxWidth="xl">
             <h3>
-                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.Items_Per_Page}&typeOffer=${TypeOfferEnum.Sell}`}>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Sell}`}>
                     {t('common.for_sell')}
                 </Link>
             </h3>

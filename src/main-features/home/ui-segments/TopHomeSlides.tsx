@@ -23,7 +23,7 @@ export const TopHomeSlides = (props: IForSellClientProp) => {
     const searchCalback = (values: any) => {
         console.log('searchCalback ', values);
         let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page=0&size='+AllAppConfig.Items_Per_Page+queryParams;
+        let urlSearch = '?page=0&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
         history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
     }
 
@@ -96,7 +96,7 @@ export const TopHomeSlides = (props: IForSellClientProp) => {
                         height: { sx: 'auto', md: 100 },
                     }}
                 >
-                    <SearchAppBar entitiesAddress={props.entitiesAddress.slice()} searchCalback={searchCalback}/>
+                    {/*<SearchAppBar entitiesAddress={props.entitiesAddress.slice()} searchCalback={searchCalback}/>*/}
                 </Box>
             </Paper>
         </div>

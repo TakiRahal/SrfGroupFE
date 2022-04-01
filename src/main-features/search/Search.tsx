@@ -7,23 +7,9 @@ import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
-import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
-import Card from "@mui/material/Card/Card";
-import CardContent from "@mui/material/CardContent/CardContent";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
-import {TypeDisplaySearchOffers, TypeOfferEnum} from "../../shared/enums/type-offer.enum";
-import {IOffer} from "../../shared/model/offer.model";
-import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
-import {LazyImage} from "../../shared/pages/lazy-image";
-import {
-    getBaseImageUrl,
-    getFullnameUser, getFullUrlWithParams,
-    getImageForOffer,
-    getUserAvatar,
-    useQuery
-} from "../../shared/utils/utils-functions";
+import {TypeDisplaySearchOffers} from "../../shared/enums/type-offer.enum";
+import {getFullUrlWithParams,} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -36,6 +22,7 @@ import RightSearch from "./ui-segments/RightSearch";
 import LeftSearch from './ui-segments/LeftSearch';
 import {useTranslation} from "react-i18next";
 import './Search.scss';
+import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -48,18 +35,20 @@ export const Search = (props: ISearchProps) => {
 
     const { t } = useTranslation();
 
-    const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesAddress } = props;
+    const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesCategories } = props;
 
     React.useEffect(() => {
         const values = queryString.parse(search);
 
         // Protect search page
         if(isEmpty(values)){
-            history.push(ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.Items_Per_Page);
+            history.push(ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE);
             return;
         }
         else{
-            setActivePage(Number(values.page) || 0);
+            if(listOffers.length===0){
+                setActivePage(Number(values.page) || 0);
+            }
         }
 
     }, [search]);
@@ -79,9 +68,10 @@ export const Search = (props: ISearchProps) => {
 
     const searchWithParams = (values: any) => {
         let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
         history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
-        getEntitiesOffers(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+
+        getEntitiesOffers(activePage, AllAppConfig.OFFERS_PER_PAGE, urlSearch);
     }
 
     const loadMore = () => {
@@ -93,7 +83,6 @@ export const Search = (props: ISearchProps) => {
     }
 
     const typeDisplay = (value: TypeDisplaySearchOffers) => {
-        console.log('value ', value );
         setTypeDisplayOffers(value);
     }
 
@@ -132,18 +121,22 @@ export const Search = (props: ISearchProps) => {
                             marginBottom: 100,
                         }}
                     >
-                        <SearchAppBar entitiesAddress={entitiesAddress.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
+                        <SearchAppBar entitiesCategories={entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
                     </div>
 
 
                     <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
 
                     {
-                        totalItems > listOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
+                        loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null
+                    }
+
+
+                    {
+                        props.totalPages-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
                             <Button color="neutral" variant="contained" startIcon={<RefreshIcon />} onClick={loadMore}>Load More...</Button>
                         </Box> : null
                     }
-
 
                     {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
 
@@ -157,12 +150,13 @@ export const Search = (props: ISearchProps) => {
         </Box>
     );
 }
-const mapStateToProps = ({ user, offer, address }: IRootState) => ({
+const mapStateToProps = ({ user, offer, category }: IRootState) => ({
     listOffers: offer.entities,
     loadingListOffers: offer.loadingEntities,
     totalItems: offer.totalItems,
+    totalPages: offer.totalPages,
 
-    entitiesAddress: address.entities,
+    entitiesCategories: category.entities,
 });
 
 const mapDispatchToProps = {

@@ -6,72 +6,125 @@ import CardContent from '@mui/material/CardContent/CardContent';
 import Typography from '@mui/material/Typography/Typography';
 import PropTypes from 'prop-types';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
+import Box from "@mui/material/Box/Box";
+import Grid from "@mui/material/Grid/Grid";
+import {TypeDisplaySearchOffers, TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
+import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {useTranslation} from "react-i18next";
+import {IOffer} from "../../../shared/model/offer.model";
+import {AllAppConfig} from "../../../core/config/all-config";
+import {LazyImage} from "../../../shared/pages/lazy-image";
+import List from "@mui/material/List/List";
+import ListItem from "@mui/material/ListItem/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
+import Avatar from "@mui/material/Avatar/Avatar";
+import FlagIcon from '@mui/icons-material/Flag';
+import ListItemText from "@mui/material/ListItemText/ListItemText";
+import CardHeader from "@mui/material/CardHeader/CardHeader";
 
 LoadingSearchOffers.propTypes = {
     loading: PropTypes.bool,
 };
 
-export default function LoadingSearchOffers() {
+export default function LoadingSearchOffers({typeDisplay}: {typeDisplay: TypeDisplaySearchOffers}) {
     // const { loading = false } = props;
 
     return (
-        <>
-            <CardActionArea component="a">
-                <Card sx={{display: 'flex'}}>
-                    <CardMedia sx={{width: 250, display: {xs: 'none', sm: 'block'}}}>
-                        <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                    </CardMedia>
-                    <CardContent sx={{flex: 1}} className="pb-0">
-                        <Typography component="h2" variant="h5">
-                            <Skeleton animation="wave" height={24} style={{marginBottom: 6}}/>
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
-                            <Skeleton animation="wave" height={14} style={{marginBottom: 6}}/>
-                        </Typography>
-                        <Typography variant="subtitle1" paragraph sx={{height: 150}}>
-                            <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </CardActionArea>
+        <Box sx={{my: 4}}>
+            <Grid container spacing={{xs: 2, md: 6}}>
 
-            <CardActionArea component="a" sx={{mt: 5}}>
-                <Card sx={{display: 'flex'}}>
-                    <CardMedia sx={{width: 250, display: {xs: 'none', sm: 'block'}}}>
-                        <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                    </CardMedia>
-                    <CardContent sx={{flex: 1}} className="pb-0">
-                        <Typography component="h2" variant="h5">
-                            <Skeleton animation="wave" height={24} style={{marginBottom: 6}}/>
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
-                            <Skeleton animation="wave" height={14} style={{marginBottom: 6}}/>
-                        </Typography>
-                        <Typography variant="subtitle1" paragraph sx={{height: 150}}>
-                            <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </CardActionArea>
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
 
-            <CardActionArea component="a" sx={{mt: 5}}>
-                <Card sx={{display: 'flex'}}>
-                    <CardMedia sx={{width: 250, display: {xs: 'none', sm: 'block'}}}>
-                        <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                    </CardMedia>
-                    <CardContent sx={{flex: 1}} className="pb-0">
-                        <Typography component="h2" variant="h5">
-                            <Skeleton animation="wave" height={24} style={{marginBottom: 6}}/>
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
+
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
+
+            </Grid>
+
+        </Box>
+    );
+}
+
+
+function CardListLoading(){
+
+    return (
+        <CardActionArea component="a">
+            <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
+                <CardMedia
+                    sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
+                    <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
+                </CardMedia>
+                <CardContent sx={{ flex: 1 }}>
+                    <List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>
+                        <ListItem sx={{ pl: 0 }}>
+                            <ListItemAvatar>
+                                <Skeleton variant="circular" width={40} height={40} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={<Skeleton animation="wave" height={24}/>}
+                                secondary={<Skeleton animation="wave" height={24}/>}
+                            />
+                        </ListItem>
+                    </List>
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>
+                                <Skeleton animation="wave" height={24}/>
+                            </Typography>
+
+                            <Skeleton variant="rectangular" width={'100%'} height={50}/>
+                        </Grid>
+
+                    </Grid>
+                </CardContent>
+            </Card>
+        </CardActionArea>
+    );
+}
+
+
+
+function CardGridLoading(){
+
+    const { t } = useTranslation();
+
+    return (
+        <CardActionArea component="a">
+            <Card>
+                <CardHeader
+                    avatar={ <Skeleton variant="circular" width={40} height={40} /> }
+                    action={''}
+                    title={<Skeleton animation="wave" height={24}/>}
+                    subheader={
+                        <Typography  variant="subtitle2" color="text.secondary">
+                            <Skeleton animation="wave" height={24}/>
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
-                            <Skeleton animation="wave" height={14} style={{marginBottom: 6}}/>
-                        </Typography>
-                        <Typography variant="subtitle1" paragraph sx={{height: 150}}>
-                            <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </CardActionArea>
-        </>
+                    }
+                />
+                <CardMedia sx={{ height: {xs: 150, md: 200} }}>
+                    <Skeleton variant="rectangular" width={'100%'} height={'100%'}/>
+                </CardMedia>
+                <CardContent className="card-content">
+
+                </CardContent>
+            </Card>
+        </CardActionArea>
     );
 }

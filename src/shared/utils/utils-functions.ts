@@ -68,9 +68,9 @@ export function getFullUrlWithParams(values: any) {
     let queryParams = '';
     Object.keys(values).map((key) => {
         if( key!=='page' && key!=='size'){
-            if(key==='address' && values[key] && values[key].id){
+            if(key==='category' && values[key] && values[key].id){
                 if(values[key]){
-                    queryParams += '&address.id='+ values[key].id;
+                    queryParams += '&category.id='+ values[key].id;
                 }
             }
             else{

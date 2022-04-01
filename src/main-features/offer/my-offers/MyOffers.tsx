@@ -27,7 +27,7 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import {getFullUrlWithParams, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
+import {TypeDisplaySearchOffers, TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CheckIcon from '@mui/icons-material/Check';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -48,6 +48,8 @@ import Alert from "@mui/material/Alert/Alert";
 import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
 import isEmpty from "lodash/isEmpty";
 import queryString from "query-string";
+import ItemsOffer from '../../../shared/components/item-offer/ItemsOffer';
+import {useTranslation} from "react-i18next";
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
@@ -55,8 +57,10 @@ export const MyOffers = (props: IMyOfferProps) => {
     const [openDeleteOfferModal, setOpenDeleteOfferModal] = React.useState(false);
     const [deleteOfferId, setDeleteOfferId] = React.useState(-1);
     const [activePage, setActivePage] = React.useState(-1);
+    const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
 
     const history = useHistory();
+    const { t } = useTranslation();
 
     const { search } = useLocation();
 
@@ -74,7 +78,7 @@ export const MyOffers = (props: IMyOfferProps) => {
 
         // Protect search page
         if(isEmpty(values)){
-            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+'?page=0&size='+AllAppConfig.Items_Per_Page);
+            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE);
             return;
         }
         else{
@@ -92,9 +96,9 @@ export const MyOffers = (props: IMyOfferProps) => {
 
     const searchWithParams = (values: any) => {
         let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.Items_Per_Page+queryParams;
+        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
         history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+urlSearch);
-        getEntitiesForCurrentUser(activePage, AllAppConfig.Items_Per_Page, urlSearch);
+        getEntitiesForCurrentUser(activePage, AllAppConfig.OFFERS_PER_PAGE, urlSearch);
     }
 
     React.useEffect(() => {
@@ -170,10 +174,15 @@ export const MyOffers = (props: IMyOfferProps) => {
     };
 
     const searchCalback = (values: any) => {
-        console.log('searchCalback ', values);
-        let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page=0&size='+AllAppConfig.Items_Per_Page+queryParams;
-        // history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+        searchWithParams(values);
+    }
+
+    const typeDisplay = (value: TypeDisplaySearchOffers) => {
+        setTypeDisplayOffers(value);
+    }
+
+    const loadMore = () => {
+        setActivePage(activePage+1);
     }
 
     return(
@@ -187,7 +196,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                             <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
                                 SRF
                             </Link>
-                            <Typography color="text.primary">My offers</Typography>
+                            <Typography color="text.primary">{t('my_offers.title_page')}</Typography>
                         </Breadcrumbs>
                     </Grid>
 
@@ -205,114 +214,128 @@ export const MyOffers = (props: IMyOfferProps) => {
                                     maxWidth: '100%',
                                     marginBottom: 100,
                                 }} >
-                                <SearchAppBar entitiesAddress={props.entitiesAddress.slice()} searchCalback={searchCalback}/>
+                                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
                             </div>
 
                             <Typography  variant="subtitle2" color="text.secondary">
                                 Total = {totalItemsMyOffers}
                             </Typography>
 
-                            {loadingListMyOffers ? (
-                                <LoadingSearchOffers />
-                            ) : listMyOffers && listMyOffers.length > 0 ? (
-                                listMyOffers.map((offer: IOffer, index: number) => (
-                                    <CardActionArea component="div" onClick={() => rediretTo(offer.id)} sx={{mt: 5}} key={`entity-${index}`}>
-                                        <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
-                                            <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
-                                                {offer.offerImages && offer.offerImages.length ? (
-                                                    <LazyImage className="img-fluid" src={getImageForOffer(offer.id, offer.offerImages[0].path)} alt="New offer" />
-                                                ) : (
-                                                    <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="offer" />
-                                                )}
-                                            </CardMedia>
-                                            <CardContent sx={{ flex: 1, pt: 0 }}>
-                                                <List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>
-                                                    <ListItem
-                                                        sx={{ pl: 0 }}
-                                                        secondaryAction={
-                                                            <React.Fragment>
-                                                                <IconButton
-                                                                    edge="end"
-                                                                    aria-label="edit"
-                                                                    color="success"
-                                                                    onClick={event => handleClickOpenUpdateOffert(event, offer.id)}
-                                                                    sx={{mr: 0.5}}
-                                                                >
-                                                                    <ModeEditIcon />
-                                                                </IconButton>
-                                                                <IconButton
-                                                                    edge="end"
-                                                                    aria-label="delete"
-                                                                    color="error"
-                                                                    onClick={event => handleClickOpenDeleteOffertModal(event, offer.id)}
-                                                                >
-                                                                    <DeleteIcon />
-                                                                </IconButton>
-                                                            </React.Fragment>
-                                                        }
-                                                    >
-                                                        <ListItemAvatar>
-                                                            <Avatar
-                                                                alt={offer.user?.imageUrl}
-                                                                src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
-                                                            ></Avatar>
-                                                        </ListItemAvatar>
-                                                        <ListItemText
-                                                            primary={offer.title}
-                                                            secondary={
-                                                                <Typography  variant="subtitle2" color="text.secondary" display="flex">
-                                                                    <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>
-                                                                    <ConvertReactTimeAgo convertDate={offer.dateCreated} />
-                                                                </Typography>
-                                                            }
-                                                        />
-                                                    </ListItem>
-                                                </List>
-
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={8}>
-                                                        <div dangerouslySetInnerHTML={{ __html: offer.description || '' }}></div>
-
-                                                        {
-                                                            offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>
-                                                                <AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>
-                                                                {offer.address.city+', '+offer.address.country}
-                                                            </Typography> : null
-                                                        }
-
-                                                        <Typography variant="subtitle2" color="text.secondary" display="flex">
-                                                            <CheckIcon />
-                                                            {offer.typeOffer === TypeOfferEnum.Sell
-                                                                ? 'À vendre'
-                                                                : offer.typeOffer === TypeOfferEnum.Rent
-                                                                    ? 'À louer'
-                                                                    : offer.typeOffer === TypeOfferEnum.Find
-                                                                        ? 'À trouver'
-                                                                        : null}
-                                                        </Typography>
-                                                    </Grid>
-                                                    {
-                                                        offer.amount ? <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                                                            <Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>
-                                                                <AttachMoneyIcon /> {offer.amount} TND
-                                                            </Typography>
-                                                        </Grid> : null
-                                                    }
-
-                                                </Grid>
-                                            </CardContent>
-                                        </Card>
-                                    </CardActionArea>
-                                ))
-                            ) : (
-                                <Alert severity="warning">No Offers found</Alert>
-                            )}
+                            <ItemsOffer listOffers={listMyOffers.slice()} typeDisplay={typeDisplayOffers}/>
 
                             {
-                                totalItemsMyOffers > listMyOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
-                                    <Button color="neutral" variant="contained" startIcon={<RefreshIcon />}>Load More...</Button>
+                                loadingListMyOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null
+                            }
+
+                            {
+                                props.totalPagesMyOffers-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
+                                    <Button color="neutral" variant="contained" startIcon={<RefreshIcon />} onClick={loadMore}>Load More...</Button>
                                 </Box> : null
                             }
+
+                            {totalItemsMyOffers ===0 && !loadingListMyOffers ? <Alert severity="warning">{t('my_offers.no_offers_found')}</Alert> : null}
+
+                            {/*{loadingListMyOffers ? (*/}
+                                {/*null*/}
+                            {/*) : listMyOffers && listMyOffers.length > 0 ? (*/}
+                                {/*listMyOffers.map((offer: IOffer, index: number) => (*/}
+                                    {/*<CardActionArea component="div" onClick={() => rediretTo(offer.id)} sx={{mt: 5}} key={`entity-${index}`}>*/}
+                                        {/*<Card sx={{ display: { xs: 'block', sm: 'flex' } }}>*/}
+                                            {/*<CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>*/}
+                                                {/*{offer.offerImages && offer.offerImages.length ? (*/}
+                                                    {/*<LazyImage className="img-fluid" src={getImageForOffer(offer.id, offer.offerImages[0].path)} alt="New offer" />*/}
+                                                {/*) : (*/}
+                                                    {/*<LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="offer" />*/}
+                                                {/*)}*/}
+                                            {/*</CardMedia>*/}
+                                            {/*<CardContent sx={{ flex: 1, pt: 0 }}>*/}
+                                                {/*<List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>*/}
+                                                    {/*<ListItem*/}
+                                                        {/*sx={{ pl: 0 }}*/}
+                                                        {/*secondaryAction={*/}
+                                                            {/*<React.Fragment>*/}
+                                                                {/*<IconButton*/}
+                                                                    {/*edge="end"*/}
+                                                                    {/*aria-label="edit"*/}
+                                                                    {/*color="success"*/}
+                                                                    {/*onClick={event => handleClickOpenUpdateOffert(event, offer.id)}*/}
+                                                                    {/*sx={{mr: 0.5}}*/}
+                                                                {/*>*/}
+                                                                    {/*<ModeEditIcon />*/}
+                                                                {/*</IconButton>*/}
+                                                                {/*<IconButton*/}
+                                                                    {/*edge="end"*/}
+                                                                    {/*aria-label="delete"*/}
+                                                                    {/*color="error"*/}
+                                                                    {/*onClick={event => handleClickOpenDeleteOffertModal(event, offer.id)}*/}
+                                                                {/*>*/}
+                                                                    {/*<DeleteIcon />*/}
+                                                                {/*</IconButton>*/}
+                                                            {/*</React.Fragment>*/}
+                                                        {/*}*/}
+                                                    {/*>*/}
+                                                        {/*<ListItemAvatar>*/}
+                                                            {/*<Avatar*/}
+                                                                {/*alt={offer.user?.imageUrl}*/}
+                                                                {/*src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}*/}
+                                                            {/*></Avatar>*/}
+                                                        {/*</ListItemAvatar>*/}
+                                                        {/*<ListItemText*/}
+                                                            {/*primary={offer.title}*/}
+                                                            {/*secondary={*/}
+                                                                {/*<Typography  variant="subtitle2" color="text.secondary" display="flex">*/}
+                                                                    {/*<AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>*/}
+                                                                    {/*<ConvertReactTimeAgo convertDate={offer.dateCreated} />*/}
+                                                                {/*</Typography>*/}
+                                                            {/*}*/}
+                                                        {/*/>*/}
+                                                    {/*</ListItem>*/}
+                                                {/*</List>*/}
+
+                                                {/*<Grid container spacing={2}>*/}
+                                                    {/*<Grid item xs={8}>*/}
+                                                        {/*<div dangerouslySetInnerHTML={{ __html: offer.description || '' }}></div>*/}
+
+                                                        {/*{*/}
+                                                            {/*offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>*/}
+                                                                {/*<AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>*/}
+                                                                {/*{offer.address.city+', '+offer.address.country}*/}
+                                                            {/*</Typography> : null*/}
+                                                        {/*}*/}
+
+                                                        {/*<Typography variant="subtitle2" color="text.secondary" display="flex">*/}
+                                                            {/*<CheckIcon />*/}
+                                                            {/*{offer.typeOffer === TypeOfferEnum.Sell*/}
+                                                                {/*? 'À vendre'*/}
+                                                                {/*: offer.typeOffer === TypeOfferEnum.Rent*/}
+                                                                    {/*? 'À louer'*/}
+                                                                    {/*: offer.typeOffer === TypeOfferEnum.Find*/}
+                                                                        {/*? 'À trouver'*/}
+                                                                        {/*: null}*/}
+                                                        {/*</Typography>*/}
+                                                    {/*</Grid>*/}
+                                                    {/*{*/}
+                                                        {/*offer.amount ? <Grid item xs={4} sx={{ textAlign: 'right' }}>*/}
+                                                            {/*<Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>*/}
+                                                                {/*<AttachMoneyIcon /> {offer.amount} TND*/}
+                                                            {/*</Typography>*/}
+                                                        {/*</Grid> : null*/}
+                                                    {/*}*/}
+
+                                                {/*</Grid>*/}
+                                            {/*</CardContent>*/}
+                                        {/*</Card>*/}
+                                    {/*</CardActionArea>*/}
+                                {/*))*/}
+                            {/*) : (*/}
+                                {/*<Alert severity="warning">No Offers found</Alert>*/}
+                            {/*)}*/}
+
+                            {/*{*/}
+                                {/*totalItemsMyOffers > listMyOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>*/}
+                                    {/*<Button color="neutral" variant="contained" startIcon={<RefreshIcon />}>Load More...</Button>*/}
+                                {/*</Box> : null*/}
+                            {/*}*/}
 
                         </Grid>
                     </Grid>
@@ -324,14 +347,15 @@ export const MyOffers = (props: IMyOfferProps) => {
     );
 }
 
-const mapStateToProps = ({ offer, address }: IRootState) => ({
+const mapStateToProps = ({ offer, category }: IRootState) => ({
     listMyOffers: offer.entitiesMyOffers,
     loadingListMyOffers: offer.loadingMyOffers,
     totalItemsMyOffers: offer.totalItemsMyOffers,
+    totalPagesMyOffers: offer.totalPagesMyOffers,
 
     deleteSuccessOffer: offer.deleteSuccess,
 
-    entitiesAddress: address.entities,
+    entitiesCategories: category.entities,
 });
 
 const mapDispatchToProps = {

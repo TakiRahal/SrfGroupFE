@@ -18,6 +18,7 @@
     "for_rent": "For Rent",
     "for_find": "For find",
     "address": "Address",
+    "cateory": "Category",
     "type_offer": "Type offer",
     "email_is_required": "Email is required",
     "label_load_more": "Load More"
@@ -114,5 +115,9 @@
   "notification": {
     "title_page": "Notifications",
     "not_found_result": "No Notifications found"
+  },
+  "my_offers": {
+    "title_page": "My offers",
+    "no_offers_found": "No Offers found"
   }
 }

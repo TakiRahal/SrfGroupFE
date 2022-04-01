@@ -30,6 +30,7 @@ const initialState = {
     loadingEntities: false,
     errorMessage: null,
     totalItems: 0,
+    totalPages: 3,
 
     entitiesForUser: [] as ReadonlyArray<IOffer>,
     loadingEntitiesForUser: false,
@@ -37,6 +38,7 @@ const initialState = {
     loadingMyOffers: false,
     entitiesMyOffers: [] as ReadonlyArray<IOffer>,
     totalItemsMyOffers: 0,
+    totalPagesMyOffers: 0,
 
     loadingRecentlyAddedOffers: false,
     entitiesRecentlyAddedOffers: [] as ReadonlyArray<IOffer>,
@@ -69,7 +71,8 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 //     ...state.entities,
                 //     ...action.payload.data.content
                 // ],
-                totalItems: action.payload.data.totalElements
+                totalItems: action.payload.data.totalElements,
+                totalPages: action.payload.data.totalPages
             };
 
 
@@ -129,6 +132,7 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 loadingMyOffers: false,
                 entitiesMyOffers: action.payload.data.content,
                 totalItemsMyOffers: action.payload.data.totalElements,
+                totalPagesMyOffers: action.payload.data.totalPages
             };
 
 

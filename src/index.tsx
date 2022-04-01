@@ -11,6 +11,7 @@ import {clearAuthentication} from "./shared/reducers/user-reducer";
 
 import "swiper/css/bundle";
 import './index.css';
+import {BrowserRouter, Route} from "react-router-dom";
 
 // Store initialize
 const store = initStore;
@@ -20,7 +21,9 @@ setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthoriz
 ReactDOM.render(
   <React.StrictMode>
         <Provider store={store}>
-            <App />
+            <BrowserRouter>
+                <Route path="" exact component={ App }/>
+            </BrowserRouter>
         </Provider>
   </React.StrictMode>,
   document.getElementById('root')

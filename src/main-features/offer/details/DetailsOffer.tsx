@@ -52,6 +52,10 @@ import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {IReportOffer} from "../../../shared/model/report-offer.model";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-anaylitics";
+import {useTranslation} from "react-i18next";
+import {IConversation} from "../../../shared/model/conversation.model";
+import {createConversation} from "../../../shared/reducers/conversation.reducer";
+import {IConversationContent} from "../../../shared/model/conversation-content";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -64,6 +68,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const {id} = useParams<{ id: string }>();
 
     const history = useHistory();
+    const { t } = useTranslation();
 
     const {
         resetAllFavoriteOfferUser,
@@ -143,7 +148,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                     id: favoriteUserOffer?.offer?.id,
                     user: {
                         id: favoriteUserOffer?.offer?.user?.id,
-                        username: favoriteUserOffer?.offer?.user?.username,
+                        email: favoriteUserOffer?.offer?.user?.email,
                     },
                 },
                 user: {},
@@ -192,8 +197,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     };
 
+    const createConversation = (conversation: IConversationContent) => {
+        props.createConversation(conversation);
+    }
+
     const parentCallbackReportComment = (comment: ICommentOffer) => {
-        console.log('comment ', comment);
         const entity = {
             commentOffer: comment,
             user: {}
@@ -295,11 +303,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             <Typography variant="subtitle2" color="text.secondary" display="flex">
                                                 <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
                                                 {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
-                                                    'For Sell'
+                                                    t('common.for_sell')
                                                 ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
-                                                    'For Rent'
+                                                    t('common.for_rent')
                                                 ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
-                                                    'For Find'
+                                                    t('common.for_find')
                                                 ) : null}
                                             </Typography>
 
@@ -373,7 +381,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         parentCallback={handleCallbackFavorite}
                                         offerEntity={favoriteUserOffer?.offer}
                                         currentUser={account}
+                                        isAuthenticated={isAuthenticated}
                                         myFavoriteUser={isFavoriteUser}
+                                        createConversationCallback={createConversation}
+                                        addSuccessConversation={props.addSuccessConversation}
                                     />
                                 </Grid>
                             </Grid>
@@ -387,7 +398,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 }
 
 
-const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer, conversation }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -413,6 +424,8 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, repo
 
     addSuccessReportCommentOffer: reportCommentOffer.reportSuccess,
     loadingEntityReportCommentOffer: reportCommentOffer.loadingReportEntity,
+
+    addSuccessConversation: conversation.addSuccess
 });
 
 const mapDispatchToProps = {
@@ -425,7 +438,8 @@ const mapDispatchToProps = {
     updateComment,
     deleteComment,
     createEntityReportOffer,
-    reportComment
+    reportComment,
+    createConversation
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

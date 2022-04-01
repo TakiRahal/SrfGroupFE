@@ -26,12 +26,6 @@ export default function LoadingNotification() {
                 </ListItemAvatar>
                 <ListItemText primary={<Skeleton variant="text" height={40} />} secondary={<Skeleton variant="text" height={20} />} />
             </ListItem>
-            <ListItem button>
-                <ListItemAvatar>
-                    <Skeleton variant="circular" width={40} height={40} />
-                </ListItemAvatar>
-                <ListItemText primary={<Skeleton variant="text" height={40} />} secondary={<Skeleton variant="text" height={20} />} />
-            </ListItem>
         </List>
     );
 }

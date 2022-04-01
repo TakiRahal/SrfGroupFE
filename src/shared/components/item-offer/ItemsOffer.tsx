@@ -82,7 +82,9 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                                    src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                    alt={offer.offerImages[0].path}/>
                     ) : (
-                        <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
+                        <Box sx={{display: {xs: 'none', md: 'block'}}}>
+                            <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
+                        </Box>
                     )}
                 </CardMedia>
                 <CardContent sx={{ flex: 1 }}>
@@ -167,10 +169,10 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                         ></Avatar>
                     }
                     action={''}
-                    title={getFullnameUser(offer?.user)}
+                    title={<span className="truncate-text-mobile">{getFullnameUser(offer?.user)}</span>}
                     subheader={
-                        <Typography  variant="subtitle2" color="text.secondary" display="flex">
-                            <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>
+                        <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{fontSize: {xs: '0.6rem', md: '0.875rem' }}}>
+                            <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' } }}/>
                             <ConvertReactTimeAgo convertDate={offer.dateCreated} />
                         </Typography>
                     }
@@ -184,9 +186,9 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                             <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
                         )}
                     </CardMedia>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            <CheckIcon fontSize="small" sx={{mr: 0.9}}/>
+                    <CardContent className="card-content">
+                        <Typography gutterBottom variant="h5" component="div" sx={{fontSize: {xs: '1rem', md: '1.5rem' }}}>
+                            <CheckIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' } }}/>
                             {offer.typeOffer === TypeOfferEnum.Sell
                                 ? t('common.for_sell')
                                 : offer.typeOffer === TypeOfferEnum.Rent
@@ -196,20 +198,20 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                                         : null}
                         </Typography>
 
-                        <Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>
+                        <Typography component="h5" variant="h5" sx={{ fontSize: {xs: '1rem', md: '1.2rem' } }} className="truncate-text-mobile">
                             {offer.title}
                         </Typography>
                         {
-                            offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>
-                                <AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>
+                            offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1, fontSize: {xs: '0.6rem', md: '0.875rem' }}}>
+                                <AddLocationAltIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' }}}/>
                                 {offer.address.city+', '+offer.address.country}
                             </Typography> : null
                         }
                     </CardContent>
                 <CardActions>
                     {offer.amount ? (
-                        <IconButton aria-label="amount" size="small">
-                            <AttachMoneyIcon/>
+                        <IconButton aria-label="amount" size="small" sx={{fontSize: {xs: '0.9rem', md: '1.125rem' }}}>
+                            <AttachMoneyIcon sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' }}}/>
                             {offer.amount} TND
                         </IconButton>
                     ) : null}

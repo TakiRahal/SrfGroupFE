@@ -17,8 +17,6 @@ import Skeleton from "@mui/material/Skeleton/Skeleton";
 import Button from "@mui/material/Button/Button";
 import Toolbar from "@mui/material/Toolbar/Toolbar";
 import PhoneIcon from '@mui/icons-material/Phone';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import Box from "@mui/material/Box/Box";
 import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";

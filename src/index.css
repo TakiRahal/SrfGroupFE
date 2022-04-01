@@ -1,24 +1,31 @@
 /************* MUI *********************/
 .MuiButton-outlinedNeutral {
-  border: 1px solid #000 !important;
+    border: 1px solid #000 !important;
 }
 
-.img-fluid{
-  max-width: 100%;
+.img-fluid {
+    max-width: 100%;
 }
 
 .bg-brown {
-  background-color: #e2c498 !important;
+    background-color: #e2c498 !important;
 }
 
-.float-right{
-  float: right;
+.red-color{
+    color: #d70505;
 }
 
+.float-right {
+    float: right;
+}
 
-
-
-
+@media only screen and (max-width: 576px) {
+    .truncate-text-mobile {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
 
 
 

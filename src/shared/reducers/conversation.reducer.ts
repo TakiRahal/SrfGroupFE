@@ -59,18 +59,21 @@ export default (state: ConversationState = initialState, action: any): Conversat
             return {
                 ...state,
                 loadingEntity: true,
+                addSuccess: false,
             };
         case FAILURE(ACTION_TYPES.CREATE_CONVERSATION_MESSAGE):
             return {
                 ...state,
                 loadingEntity: false,
                 errorMessage: action.payload,
+                addSuccess: false,
             };
         case SUCCESS(ACTION_TYPES.CREATE_CONVERSATION_MESSAGE):
             return {
                 ...state,
                 loadingEntity: false,
                 entity: action.payload.data,
+                addSuccess: true,
             };
 
         default:

@@ -21,7 +21,7 @@ import {
 import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
 import { hot } from 'react-hot-loader';
-import {logout} from "./shared/reducers/user-reducer";
+import {getNumberOfMessageNotSee, logout} from "./shared/reducers/user-reducer";
 import Drawer from "@mui/material/Drawer/Drawer";
 import ListItem from "@mui/material/ListItem/ListItem";
 import List from "@mui/material/List/List";
@@ -123,7 +123,7 @@ function ScrollToTop() {
 
             // Add track page Google Analytics
             trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
-                console.log('Success track pages');
+                // console.log('Success track pages');
             }, (error: boolean) => {console.log('Error track pages');})
 
             if (action !== 'POP') {
@@ -192,6 +192,10 @@ function App(props: IAppProps) {
 
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
+
+        if(props.isAuthenticated){
+            props.getNumberOfMessageNotSee();
+        }
     }, [])
 
     const handleLogout = (history: any) => {
@@ -351,7 +355,7 @@ function App(props: IAppProps) {
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.NOTIFICATION.LIST} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
-                        <Badge badgeContent={4} color="error">
+                        <Badge badgeContent={props.nbeNotificationsNotRead} color="error">
                             <NotificationsIcon />
                         </Badge>
                     </ListItemIcon>
@@ -438,7 +442,8 @@ function App(props: IAppProps) {
                         parentCallbackRightMenuMobile={(event: any) => handleDrawerToggleRight(event)}
                         parentCallbackMenuMobile={(event: any) => handleDrawerToggle(event)}
                         currentLocale={props.currentLocale}
-                        onLocaleChange={props.setLocale}/>
+                        onLocaleChange={props.setLocale}
+                        nbeNotificationsNotSee={props.nbeNotificationsNotRead}/>
                 <main
                     style={{
                         background: '#F2F3F7',
@@ -466,6 +471,7 @@ const mapStateToProps = ({user, address, locale, newsLetter}: IRootState) => ({
 
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
+    nbeNotificationsNotRead: user.nbeNotificationsNotRead,
 
     loadingAddress: address.loadingEntities,
     entitiesAddress: address.entities,
@@ -479,7 +485,8 @@ const mapDispatchToProps = {
     getEntitiesAddresses,
     getCategories,
     setLocale,
-    createEntityNewsLetter
+    createEntityNewsLetter,
+    getNumberOfMessageNotSee
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

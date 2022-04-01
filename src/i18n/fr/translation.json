@@ -4,20 +4,23 @@
     "label_cancel": "Annuler",
     "label_send": "Envoyer",
     "label_subscribe": "Inscrire",
-    "label-email": "Email",
-    "label-firstname": "Prenom",
-    "label-lastname": "Nom",
-    "label-password": "Mot de passe",
-    "label-new-password": "Nouveau mot de passe",
-    "label-confirm-password": "Confirmer le mot de passe",
-    "label-register": "Inscrir",
-    "label-update": "Modifier",
+    "label_name": "Nom",
+    "label_email": "Email",
+    "label_firstname": "Prenom",
+    "label_lastname": "Nom",
+    "label_password": "Mot de passe",
+    "label_new-password": "Nouveau mot de passe",
+    "label_confirm-password": "Confirmer le mot de passe",
+    "label_register": "Inscrir",
+    "label_update": "Modifier",
     "label_search": "Recherche",
     "for_sell": "À vendre",
     "for_rent": "À louer",
     "for_find": "À trouver",
     "address": "Addresse",
-    "type_offer": "Type offre"
+    "type_offer": "Type offre",
+    "email_is_required": "Email obligatoire",
+    "label_load_more": "Charger plus"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -76,10 +79,10 @@
     "label-already-have-account": "Vous avez déjà un compte? S'identifier"
   },
   "signin": {
-    "title-page-signin": "Authentification",
-    "label-login": "Se connecter",
-    "label-forgot-password": "Avez-vous oublié votre mot de passe?",
-    "label-register-account": "Enregistrer un nouveau compte"
+    "title_page_signin": "Authentification",
+    "label_login": "Se connecter",
+    "label_forgot_password": "Avez-vous oublié votre mot de passe?",
+    "label_register_account": "Enregistrer un nouveau compte"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Commentaire ajouté avec succès",
@@ -104,5 +107,12 @@
   },
   "news_letter": {
     "added_success": "Merci pour votre abonnement"
+  },
+  "message": {
+    "sent_succefully": "Message envoyé avec succès"
+  },
+  "notification": {
+    "title_page": "Notifications",
+    "not_found_result": "Aucune notification trouvée"
   }
 }

@@ -58,7 +58,7 @@ export default function Header(props: any){
 
     const { t, i18n } = useTranslation();
 
-    const { currentUser, isAuthenticated } = props;
+    const { currentUser, isAuthenticated, nbeNotificationsNotSee } = props;
 
     const isMenuOpen = Boolean(anchorEl);
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
@@ -308,7 +308,7 @@ export default function Header(props: any){
                                 <Tooltip title="Messages">
                                     <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
                                                 to={ALL_APP_ROUTES.CHAT.LIST}>
-                                        <Badge badgeContent={4} color="error">
+                                        <Badge badgeContent={null} color="error">
                                             <MailIcon />
                                         </Badge>
                                     </IconButton>
@@ -321,7 +321,7 @@ export default function Header(props: any){
                                         component={Link}
                                         to={ALL_APP_ROUTES.NOTIFICATION.LIST}
                                     >
-                                        <Badge badgeContent={props.numberNotReadNotifications > 0 ? props.numberNotReadNotifications : null} color="error">
+                                        <Badge badgeContent={nbeNotificationsNotSee > 0 ? nbeNotificationsNotSee : null} color="error">
                                             <NotificationsIcon />
                                         </Badge>
                                     </IconButton>

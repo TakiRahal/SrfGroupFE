@@ -17,6 +17,7 @@ export const ACTION_TYPES = {
     UPDATE_INFOS_USER: 'account/UPDATE_INFOS_USER',
     UPDATE_PASSWORD_USER: 'account/UPDATE_PASSWORD_USER',
     ONE_SIGNAL_ID: 'account/ONE_SIGNAL_ID',
+    FETCH_NUMBER_MESSAGE_NOT_SEE: 'account/FETCH_NUMBER_MESSAGE_NOT_SEE',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -230,6 +231,21 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
 
 
+        case REQUEST(ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE):
+            return {
+                ...state,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE):
+            return {
+                ...state,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE):
+            return {
+                ...state,
+                nbeNotificationsNotRead: action.payload.data,
+            };
+
+
         case ACTION_TYPES.ONE_SIGNAL_ID:
             return {
                 ...state,
@@ -308,6 +324,7 @@ export const login: (email: string, password: string, oneSignalId: string, remem
         }
 
         await dispatch(getSession());
+        await dispatch(getNumberOfMessageNotSee());
     }
     return result;
 };
@@ -325,11 +342,18 @@ export const getSession: () => void = () => async (dispatch: any, getState: any)
     return result;
 };
 
-
 export const getProfile: (userId: number) => void = (userId: number) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.GET_PROFILE,
         payload: axios.get<IUser>(`${apiUrl}public/profile/${userId}`),
+    });
+    return result;
+};
+
+export const getNumberOfMessageNotSee: () => void = () => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE,
+        payload: axios.get<IUser>(`${apiUrl}count-not-see-notifications`),
     });
     return result;
 };

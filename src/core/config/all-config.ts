@@ -18,6 +18,7 @@ export const AllAppConfig = {
     APP_ID_ONESIGNAL: '52e18c28-761d-409f-a363-f58a9bd41cfe',
     Items_Per_Page: 20,
     Comments_Per_Page: 2,
+    NOTIFICATIONS_PER_PAGE: 2,
     GOOGLE_ANALYTICS_MEASUREMENT_ID: 'G-T8KR5P5CC4'
 };
 

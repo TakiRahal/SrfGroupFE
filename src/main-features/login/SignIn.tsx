@@ -158,12 +158,12 @@ export const SignIn = (props: ISignInProps) => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-email')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label_email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
                                                     type="email"
-                                                    label={t('common.label-email')}
+                                                    label={t('common.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                 />
@@ -172,12 +172,12 @@ export const SignIn = (props: ISignInProps) => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.password && Boolean(formik.errors.password)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-password')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label_password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="password"
                                                     name="password"
                                                     type={showPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('common.label-password')}
+                                                    label={t('common.label_password')}
                                                     value={formik.values.password}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -201,20 +201,20 @@ export const SignIn = (props: ISignInProps) => {
                                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
 
                                     <LoadingButton loading={loading} fullWidth variant="contained" color="neutral" type="submit" sx={{ mt: 3, mb: 2 }}>
-                                        {t('signin.label-login')}
+                                        {t('signin.label_login')}
                                     </LoadingButton>
                                 </form>
                                 <Grid container>
                                     <Grid item>
                                         <Typography variant="subtitle2" component="p" sx={{ mt: 2 }}>
                                             <Link to={''}>
-                                                {t('signin.label-forgot-password')}
+                                                {t('signin.label_forgot_password')}
                                             </Link>
                                         </Typography>
 
                                         <Typography variant="subtitle2" component="p" sx={{ mt: 2 }}>
                                             <Link to={ALL_APP_ROUTES.REGISTER}>
-                                                {t('signin.label-register-account')}
+                                                {t('signin.label_register_account')}
                                             </Link>
                                         </Typography>
                                     </Grid>

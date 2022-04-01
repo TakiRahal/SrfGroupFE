@@ -4,22 +4,25 @@
     "label_cancel": "Cancel",
     "label_send": "Send",
     "label_subscribe": "Subscribe",
-    "label-email": "Email",
-    "label-firstname": "FirstName",
-    "label-lastname": "LastName",
-    "label-password": "Password",
-    "label-new-password": "New password",
-    "label-confirm-password": "Confirm Password",
-    "label-register": "Register",
-    "label-update": "Update",
+    "label_name": "Name",
+    "label_email": "Email",
+    "label_firstname": "FirstName",
+    "label_lastname": "LastName",
+    "label_password": "Password",
+    "label_new-password": "New password",
+    "label_confirm-password": "Confirm Password",
+    "label_register": "Register",
+    "label_update": "Update",
     "label_search": "Search",
     "for_sell": "For Sell",
     "for_rent": "For Rent",
     "for_find": "For find",
     "address": "Address",
-    "type_offer": "Type offer"
+    "type_offer": "Type offer",
+    "email_is_required": "Email is required",
+    "label_load_more": "Load More"
   },
-  "header":{
+  "header": {
     "label_add_offer": "Add offer",
     "link_home": "Home",
     "link_support": {
@@ -35,7 +38,7 @@
     "logout": "Logout",
     "signup": "Sign Up"
   },
-  "home":{
+  "home": {
     "steps": {
       "title_create_account": "CREATE YOUR ACCOUNT",
       "sub_title_create_account": "Create your account and complete your profile.",
@@ -76,10 +79,10 @@
     "label-already-have-account": "Already have an account? Sign in"
   },
   "signin": {
-    "title-page-signin": "Sing In",
-    "label-login": "Logged in",
-    "label-forgot-password": "Did you forget your password?",
-    "label-register-account": "Register a new account"
+    "title_page_signin": "Sing In",
+    "label_login": "Logged in",
+    "label_forgot_password": "Did you forget your password?",
+    "label_register_account": "Register a new account"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Comment added succefully",
@@ -104,5 +107,12 @@
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
+  },
+  "message": {
+    "sent_succefully": "Message sent succefully"
+  },
+  "notification": {
+    "title_page": "Notifications",
+    "not_found_result": "No Notifications found"
   }
 }

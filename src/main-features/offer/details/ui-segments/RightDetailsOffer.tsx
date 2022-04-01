@@ -28,20 +28,85 @@ import DialogContentText from '@mui/material/DialogContentText/DialogContentText
 import {FacebookShareButton} from 'react-share';
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
-import {getBaseImageUrl, getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
+import {
+    convertDateTimeToServer,
+    getBaseImageUrl,
+    getFullnameUser,
+    getUserAvatar
+} from "../../../../shared/utils/utils-functions";
 import {LazyImage} from "../../../../shared/pages/lazy-image";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
 import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
+import {useFormik} from "formik";
+import {
+    initialValuesAddMessageDetailsOffer,
+    validationSchemaAddMessageDetailsOffer
+} from "../validation/initial-values-add-comment-offer";
+import {useTranslation} from "react-i18next";
+import InputLabel from "@mui/material/InputLabel/InputLabel";
+import FormControl from "@mui/material/FormControl/FormControl";
+import Input from "@mui/material/Input/Input";
+import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
+import isEmpty from 'lodash/isEmpty';
+import {createConversation} from "../../../../shared/reducers/conversation.reducer";
 
-export default function RightDetailsOffer({offerEntity, parentCallback, currentUser, myFavoriteUser}:
+const initialValues = initialValuesAddMessageDetailsOffer;
+
+export default function RightDetailsOffer({offerEntity, parentCallback, currentUser, isAuthenticated, myFavoriteUser, createConversationCallback, addSuccessConversation}:
                                               {
                                                   offerEntity: IOffer | undefined,
                                                   parentCallback: any,
                                                   currentUser: IUser,
-                                                  myFavoriteUser: boolean
+                                                  isAuthenticated: boolean,
+                                                  myFavoriteUser: boolean,
+                                                  createConversationCallback: any,
+                                                  addSuccessConversation: boolean
                                               }) {
+
+    const [defaultValues, setDefaultValues] = React.useState<any>();
+
     const history = useHistory();
+    const { t } = useTranslation();
+
+    const formik = useFormik({
+        initialValues,
+        validationSchema: validationSchemaAddMessageDetailsOffer,
+        onSubmit: values => {
+            if (currentUser.id !== offerEntity?.user?.id && isAuthenticated) {
+                setDefaultValues(values);
+                sendMessage(values.content);
+            }
+        },
+    });
+
+    React.useEffect(() => {
+        if( !isEmpty(currentUser)) {
+            formik.setFieldValue('fullName', getFullnameUser(currentUser));
+            formik.setFieldValue('email', currentUser.email);
+        }
+    }, [currentUser])
+
+    React.useEffect(() =>{
+        if(addSuccessConversation){
+            formik.resetForm({values:{...defaultValues, content:""}})
+        }
+    }, [addSuccessConversation])
+
+    const sendMessage = (content: string) => {
+        const entity = {
+            content: content,
+            conversation: {
+                dateCreated: convertDateTimeToServer(new Date()),
+                senderUser: null,
+                receiverUser: {
+                    id: offerEntity?.user?.id,
+                    email: offerEntity?.user?.email,
+                },
+            },
+        };
+        createConversationCallback(entity);
+    };
 
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
     const handleClickOpenFavoriteModal = (event: any) => {
@@ -173,27 +238,56 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                 <Grid container item sx={{mt: 3}}>
                     <Grid item xs={12} sm={6}>
                         <Box sx={{'& > :not(style)': {m: 1}}}>
-                            <Typography paragraph className="text-center">
-                                Envoyer un message
-                            </Typography>
-                            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}}/>
-                                <TextField id="input-with-sx" label="Name" variant="standard" fullWidth/>
-                            </Box>
-                            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                <EmailIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
-                                <TextField id="input-with-sx" label="Email" variant="standard" fullWidth/>
-                            </Box>
-                            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                <MessageIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
-                                <TextField id="input-with-sx" label="Message" variant="standard" fullWidth multiline
-                                           rows={4}/>
-                            </Box>
-                            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                <Button variant="outlined" size="small" fullWidth sx={{mt: 2, mb: 2}} color="neutral">
-                                    Envoyer
-                                </Button>
-                            </Box>
+                            <form onSubmit={formik.handleSubmit}>
+                                <Typography paragraph className="text-center">
+                                    Envoyer un message
+                                </Typography>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                                    <TextField id="fullName"
+                                               name="fullName"
+                                               label={t('common.label_name')}
+                                               variant="standard"
+                                               fullWidth
+                                               disabled={!(formik.touched.fullName && Boolean(formik.errors.fullName))}
+                                               value={formik.values.fullName}
+                                               onChange={formik.handleChange}
+                                               error={formik.touched.fullName && Boolean(formik.errors.fullName)}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end', my: 2}}>
+                                    <EmailIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                                    <TextField id="email"
+                                               name="email"
+                                               label={t('common.label_email')}
+                                               variant="standard"
+                                               fullWidth
+                                               disabled={!(formik.touched.email && Boolean(formik.errors.email))}
+                                               value={formik.values.email}
+                                               onChange={formik.handleChange}
+                                               error={formik.touched.email && Boolean(formik.errors.email)}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <MessageIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                                    <TextField id="content"
+                                               name="content"
+                                               label="Message"
+                                               variant="standard"
+                                               fullWidth
+                                               multiline
+                                               rows={4}
+                                               value={formik.values.content}
+                                               onChange={formik.handleChange}
+                                               error={formik.touched.content && Boolean(formik.errors.content)}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <Button variant="outlined" size="small" fullWidth sx={{mt: 2, mb: 2}}
+                                            color="neutral"
+                                            type="submit"
+                                            disabled={currentUser.id === offerEntity?.user?.id}>
+                                        {t('common.label_send')}
+                                    </Button>
+                                </Box>
+                            </form>
                         </Box>
                     </Grid>
 

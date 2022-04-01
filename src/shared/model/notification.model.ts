@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import {IUser} from "./user.model";
+import {IOffer} from "./offer.model";
 
 export interface INotification {
   id?: number;
@@ -8,6 +9,7 @@ export interface INotification {
   module?: string | null;
   isRead?: boolean | null;
   user?: IUser | null;
+  offer?: IOffer | null;
 }
 
 export const defaultValue: Readonly<INotification> = {

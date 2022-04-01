@@ -364,7 +364,7 @@ export const Account = (props: IAccountClientProps) => {
                                             <Grid item xs={12} md={12}>
                                                 <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
                                                     <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditInfos(false)}>
-                                                        {t('common.label-cancel')}
+                                                        {t('common.label_cancel')}
                                                     </Button>
 
                                                     <LoadingButton
@@ -376,7 +376,7 @@ export const Account = (props: IAccountClientProps) => {
                                                         variant="contained"
                                                         size="small"
                                                     >
-                                                        {t('common.label-update')}
+                                                        {t('common.label_update')}
                                                     </LoadingButton>
 
                                                 </ButtonGroup>
@@ -504,7 +504,7 @@ export const Account = (props: IAccountClientProps) => {
                                             <Grid item xs={12} md={12}>
                                                 <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
                                                     <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditPassword(false)}>
-                                                        {t('common.label-cancel')}
+                                                        {t('common.label_cancel')}
                                                     </Button>
 
                                                     <LoadingButton

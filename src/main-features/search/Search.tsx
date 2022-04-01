@@ -34,6 +34,8 @@ import {SearchAppBar} from "../../shared/layout/menus/SearchAppBar";
 import ItemsOffer from "../../shared/components/item-offer/ItemsOffer";
 import RightSearch from "./ui-segments/RightSearch";
 import LeftSearch from './ui-segments/LeftSearch';
+import {useTranslation} from "react-i18next";
+import './Search.scss';
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -43,6 +45,8 @@ export const Search = (props: ISearchProps) => {
     const [activePage, setActivePage] = React.useState(-1);
     const history = useHistory();
     const { search } = useLocation();
+
+    const { t } = useTranslation();
 
     const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesAddress } = props;
 
@@ -103,7 +107,7 @@ export const Search = (props: ISearchProps) => {
                         <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
                             SRF
                         </Link>
-                        <Typography color="text.primary">Search</Typography>
+                        <Typography color="text.primary">{t('common.label_search')}</Typography>
                     </Breadcrumbs>
                 </Grid>
             </Grid>
@@ -133,87 +137,6 @@ export const Search = (props: ISearchProps) => {
 
 
                     <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
-
-
-                    {/*<br /><br /><br /><br /><br /><br />*/}
-                    {/*<hr />*/}
-                    {/*<br /><br /><br /><br /><br /><br />*/}
-
-                    {/*{loadingListOffers ? (*/}
-                        {/*<LoadingSearchOffers {...props} />*/}
-                    {/*) : (*/}
-                        {/*listOffers.map((offer: IOffer, index: number) => (*/}
-                            {/*<CardActionArea onClick={() => rediretTo(offer.id)} sx={{mt:5}} key={`entity-${index}`}>*/}
-                                {/*<Card sx={{ display: { xs: 'block', sm: 'flex' } }}>*/}
-                                    {/*<CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>*/}
-                                        {/*{offer.offerImages && offer.offerImages.length ? (*/}
-                                            {/*<LazyImage className="img-fluid"*/}
-                                                       {/*src={getImageForOffer(offer.id, offer.offerImages[0].path)}*/}
-                                                       {/*alt={offer.offerImages[0].path}/>*/}
-                                        {/*) : (*/}
-                                            {/*<LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />*/}
-                                        {/*)}*/}
-                                    {/*</CardMedia>*/}
-                                    {/*<CardContent sx={{ flex: 1, pt: 0 }}>*/}
-                                        {/*<List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>*/}
-                                            {/*<ListItem sx={{ pl: 0 }} secondaryAction={<FlagIcon onClick={(event: any) => event.stopPropagation()} />}>*/}
-                                                {/*<ListItemAvatar>*/}
-                                                    {/*<Avatar*/}
-                                                        {/*alt={offer.user?.imageUrl}*/}
-                                                        {/*src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}*/}
-                                                        {/*sx={{border: '1px solid #b9b9b9'}}*/}
-                                                    {/*></Avatar>*/}
-                                                {/*</ListItemAvatar>*/}
-                                                {/*<ListItemText*/}
-                                                    {/*primary={getFullnameUser(offer?.user)}*/}
-                                                    {/*secondary={*/}
-                                                        {/*<Typography  variant="subtitle2" color="text.secondary" display="flex">*/}
-                                                            {/*<AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9}}/>*/}
-                                                            {/*<ConvertReactTimeAgo convertDate={offer.dateCreated} />*/}
-                                                        {/*</Typography>*/}
-                                                    {/*}*/}
-                                                {/*/>*/}
-                                            {/*</ListItem>*/}
-                                        {/*</List>*/}
-
-                                        {/*<Grid container spacing={2}>*/}
-                                            {/*<Grid item xs={8}>*/}
-                                                {/*<Typography component="h5" variant="h5" sx={{ fontSize: '1.2rem' }}>*/}
-                                                    {/*{offer.title}*/}
-                                                {/*</Typography>*/}
-
-                                                {/*{*/}
-                                                    {/*offer.address ? <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{mt: 1}}>*/}
-                                                        {/*<AddLocationAltIcon fontSize="small" sx={{mr: 0.9}}/>*/}
-                                                            {/*{offer.address.city+', '+offer.address.country}*/}
-                                                    {/*</Typography> : null*/}
-                                                {/*}*/}
-
-                                                {/*<Typography variant="subtitle2" color="text.secondary" display="flex">*/}
-                                                    {/*<CheckIcon fontSize="small" sx={{mr: 0.9}}/>*/}
-                                                    {/*{offer.typeOffer === TypeOfferEnum.Sell*/}
-                                                        {/*? 'À vendre'*/}
-                                                        {/*: offer.typeOffer === TypeOfferEnum.Rent*/}
-                                                            {/*? 'À louer'*/}
-                                                            {/*: offer.typeOffer === TypeOfferEnum.Find*/}
-                                                                {/*? 'À trouver'*/}
-                                                                {/*: null}*/}
-                                                {/*</Typography>*/}
-                                            {/*</Grid>*/}
-                                            {/*{offer.amount ? (*/}
-                                                {/*<Grid item xs={4}>*/}
-                                                    {/*<Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>*/}
-                                                        {/*<AttachMoneyIcon />*/}
-                                                        {/*{offer.amount} TND*/}
-                                                    {/*</Typography>*/}
-                                                {/*</Grid>*/}
-                                            {/*) : null}*/}
-                                        {/*</Grid>*/}
-                                    {/*</CardContent>*/}
-                                {/*</Card>*/}
-                            {/*</CardActionArea>*/}
-                        {/*))*/}
-                    {/*)}*/}
 
                     {
                         totalItems > listOffers.length ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>

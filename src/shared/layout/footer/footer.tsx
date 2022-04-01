@@ -52,7 +52,6 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
     });
 
     React.useEffect(() => {
-        console.log('addSuccessNewsLetter ', addSuccess);
         if(addSuccess){
             formik.resetForm();
         }

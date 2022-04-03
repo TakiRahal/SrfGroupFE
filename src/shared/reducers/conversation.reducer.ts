@@ -86,7 +86,7 @@ const apiUrl = 'api/conversation/';
 // Actions
 
 export const getEntitiesCurrentUser = (page: number, size: number, sort: string) => {
-    const requestUrl = `${apiUrl}current-user${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+    const requestUrl = `${apiUrl}current-user?page=${page}&size=${size}`;
     return {
         type: ACTION_TYPES.FETCH_MY_CONVERSATION_LIST,
         payload: axios.get<IConversationMessage>(`${requestUrl}`),

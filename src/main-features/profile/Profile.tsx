@@ -210,7 +210,7 @@ export const Profile = (props: IProfileProps) => {
                                             mt: 2,
                                             border: '1px solid #b9b9b9'
                                         }}
-                                    />
+                                    >{getFullnameUser(profile)?.charAt(0)}</Avatar>
                                     <h4>
                                         {profileLoading ? (
                                             <Skeleton animation="wave" height={30} />

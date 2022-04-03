@@ -26,6 +26,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddLocation from '@mui/icons-material/AddLocation';
+import ApprovalIcon from '@mui/icons-material/Approval';
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
 import FlagIcon from '@mui/icons-material/Flag';
@@ -310,14 +311,12 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
                                                 <Box>
                                                     <Typography color="text.secondary" gutterBottom display="flex">
-                                                        from_rent_periode
-                                                        &nbsp;
-                                                        <strong>{favoriteUserOffer?.offer?.startDate}</strong>&nbsp;
+                                                        <Box sx={{mr: 1}}>{t('common.label_start_date')}</Box>
+                                                        <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
                                                     </Typography>
                                                     <Typography color="text.secondary" gutterBottom display="flex">
-                                                        to_rent_periode
-                                                        &nbsp;
-                                                        <strong>{favoriteUserOffer?.offer?.endDate}</strong>
+                                                        <Box sx={{mr: 1}}>{t('common.label_end_date')}</Box>
+                                                        <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
                                                     </Typography>
                                                 </Box>
                                             ) : null}
@@ -334,6 +333,14 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                     <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
                                                         <AddLocation fontSize="small" sx={{mr: 0.9}}/>
                                                         {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
+                                                    </Typography> : null
+                                            }
+
+                                            {
+                                                favoriteUserOffer?.offer?.category ?
+                                                    <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                        <ApprovalIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                        {favoriteUserOffer?.offer?.category.titleEn}
                                                     </Typography> : null
                                             }
                                             <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>

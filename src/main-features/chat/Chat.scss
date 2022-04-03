@@ -12,3 +12,26 @@
         }
     }
 }
+
+@media only screen and (max-width: 576px) {
+    .container-chat{
+        position: relative;
+        min-height: 900px;
+        .container-chat-message{
+            position: absolute;
+            z-index: 9;
+            right: 0;
+            left: 0;
+            visibility: hidden;
+            -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+            transition: all .4s;
+            &.open{
+                visibility: visible;
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+            }
+        }
+    }
+
+}

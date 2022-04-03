@@ -1,0 +1,25 @@
+.container-for-sell-home{
+  .box-swiper{
+    margin: 180px auto 500px;
+    position: relative;
+    .swiper {
+      width: 400px;
+      height: 400px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -200px;
+      margin-top: -145px;
+    }
+
+    .swiper-slide {
+      background-position: center;
+      background-size: cover;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+    }
+  }
+}

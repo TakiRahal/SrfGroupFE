@@ -15,6 +15,7 @@ const initialState = {
     entities: [] as ReadonlyArray<IMessage>,
     addSuccess: false,
     totalItems: 0,
+    totalPages: 0
 }
 
 export type MessageState = Readonly<typeof initialState>;
@@ -41,7 +42,8 @@ export default (state: MessageState = initialState, action: any): MessageState =
                 ...state,
                 entities: action.payload.data.content,
                 loadingEntities: false,
-                totalItems: action.payload.data.totalElements
+                totalItems: action.payload.data.totalElements,
+                totalPages: action.payload.data.totalPages
             };
 
 
@@ -83,9 +85,9 @@ export const addMessage = (entity: IMessage) => {
 };
 
 
-export const getMessagesByConversation = (conversationId?: number) => {
+export const getMessagesByConversation = (page: number, size: number, sort: string, conversationId?: number) => {
     // const requestUrl = `${apiUrl}current-user${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
-    const requestUrl = `${apiUrl}by-conversation/${conversationId}`;
+    const requestUrl = `${apiUrl}by-conversation/${conversationId}?page=${page}&size=${size}`;
     return {
         type: ACTION_TYPES.FETCH_MESSAGE_LIST,
         payload: axios.get<IMessage>(`${requestUrl}`),

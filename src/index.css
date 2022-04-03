@@ -19,6 +19,11 @@
     float: right;
 }
 
+.truncate-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /*@media only screen and (max-width: 576px) {*/
     /*.truncate-text-mobile {*/
         /*white-space: nowrap;*/

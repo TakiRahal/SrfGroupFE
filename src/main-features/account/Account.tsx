@@ -205,7 +205,7 @@ export const Account = (props: IAccountClientProps) => {
                                             mt: 2,
                                             border: '1px solid #f2f3f7',
                                         }}
-                                    />
+                                    >{getFullnameUser(props.account)?.charAt(0)}</Avatar>
                                     <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
                                         <CameraAltIcon />
                                     </Box>

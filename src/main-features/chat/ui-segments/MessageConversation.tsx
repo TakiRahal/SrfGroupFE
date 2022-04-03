@@ -15,16 +15,27 @@ import {IMessage} from "../../../shared/model/message.model";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import {IConversation} from "../../../shared/model/conversation.model";
 import {IUser} from "../../../shared/model/user.model";
-import {convertDateTimeToServer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {convertDateTimeToServer, getFullnameUser, getUserAvatar} from "../../../shared/utils/utils-functions";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import Button from "@mui/material/Button/Button";
+import List from "@mui/material/List/List";
+import ListItem from "@mui/material/ListItem/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
+import Avatar from "@mui/material/Avatar/Avatar";
+import ListItemText from "@mui/material/ListItemText/ListItemText";
+import Typography from "@mui/material/Typography/Typography";
+import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const initialValues = initialValuesMessage;
 
-export function MessageConversation({account, conversation, callbackAddMessage, loadingListMessages, listMessages, loadingAddMessage}:
-                                    {account: any, conversation: IConversation, callbackAddMessage: any, loadingListMessages: boolean, listMessages: IMessage[], loadingAddMessage: boolean}) {
+export function MessageConversation({account, conversation, callbackAddMessage, loadingListMessages, listMessages, loadingAddMessage, totalPagesMessages, activePage, callbackLoadMoreMessages, calbackBackToConversations}:
+                                    {account: any, conversation: IConversation, callbackAddMessage: any, loadingListMessages: boolean, listMessages: IMessage[],
+                                        loadingAddMessage: boolean, totalPagesMessages: number, activePage: number, callbackLoadMoreMessages: any, calbackBackToConversations: any}) {
 
     const [listCurrentMessages, setListCurrentMessages] = React.useState<IMessage[]>([]);
+    const messagesEndRef = React.useRef<any>();
 
     const formik = useFormik({
         initialValues,
@@ -51,14 +62,26 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
             ]);
             callbackAddMessage(entity);
             formik.resetForm();
+
+            setTimeout(() => {
+                messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+            }, 300)
         },
     });
+
 
     const getReceiverUser = (): IUser | null | undefined => {
         if(conversation?.senderUser?.id ===account.id){
             return conversation?.receiverUser;
         }
         return conversation?.senderUser;
+    }
+
+    const getAvatarReceiverUser = (): string | undefined => {
+        if(conversation?.senderUser?.id ===account.id){
+            return getUserAvatar(conversation?.receiverUser?.id, conversation?.receiverUser?.imageUrl, conversation?.receiverUser?.sourceRegister);
+        }
+        return getUserAvatar(conversation?.senderUser?.id, conversation?.senderUser?.imageUrl, conversation?.senderUser?.sourceRegister);
     }
 
     React.useEffect(() => {
@@ -79,38 +102,50 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
         return getUserAvatar(message?.senderUser?.id, message?.senderUser?.imageUrl, message?.senderUser?.sourceRegister);
     }
 
+    const loadMoreMessages = () => {
+        callbackLoadMoreMessages();
+    }
+
+    const backToConversations = () => {
+        calbackBackToConversations();
+    }
+
     return (
-        <div className="container">
+        <div className="container-messages">
             <div className="row clearfix">
                 <div className="col-lg-12">
                     <div className="card chat-app">
                         <div className="chat">
                             <div className="chat-header clearfix">
-                                <div className="row">
-                                    <div className="col-lg-6">
-                                        <a data-toggle="modal" data-target="#view_info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                        </a>
-                                        <div className="chat-about">
-                                            <h6 className="m-b-0">Aiden Chavez</h6>
-                                            <small>Last seen: 2 hours ago</small>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6 hidden-sm text-right">
-                                        <a className="btn btn-outline-secondary">
-                                            <i className="fa fa-camera"></i>
-                                        </a>
-                                        <a className="btn btn-outline-primary">
-                                            <i className="fa fa-image"></i>
-                                        </a>
-                                        <a className="btn btn-outline-info">
-                                            <i className="fa fa-cogs"></i>
-                                        </a>
-                                        <a className="btn btn-outline-warning">
-                                            <i className="fa fa-question"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                    <ListItem alignItems="center">
+                                        <IconButton aria-label="upload picture"
+                                                    component="span"
+                                                    onClick={backToConversations}
+                                                    sx={{display: {xs: 'inline-flex', md: 'none'}}}>
+                                            <ArrowBackIosIcon />
+                                        </IconButton>
+                                        <ListItemAvatar>
+                                            <Avatar alt="Remy Sharp" src={getAvatarReceiverUser()} >{getFullnameUser(getReceiverUser())?.charAt(0)}</Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={getFullnameUser(getReceiverUser())}
+                                            secondary={
+                                                <React.Fragment>
+                                                    <Typography
+                                                        sx={{ display: 'inline' }}
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="text.primary"
+                                                    >
+                                                        Ali Connors
+                                                    </Typography>
+                                                    {" — I'll be in your neighborhood doing errands this…"}
+                                                </React.Fragment>
+                                            }
+                                        />
+                                    </ListItem>
+                                </List>
                             </div>
                             <div className="chat-history">
 
@@ -120,6 +155,11 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                                     </Box> : null
                                 }
 
+                                {
+                                    totalPagesMessages-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
+                                        <Button color="neutral" variant="outlined"  onClick={loadMoreMessages}>Load More...</Button>
+                                    </Box> : null
+                                }
 
                                 <ul className="m-b-0">
                                     {
@@ -140,33 +180,8 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                                         ))
                                     }
 
-
-
-
-
-
-                                    {/*<hr />*/}
-                                    {/*<li className="clearfix">*/}
-                                        {/*<div className="message-data text-right">*/}
-                                            {/*<span className="message-data-time">10:10 AM, Today</span>*/}
-                                        {/*</div>*/}
-                                        {/*<div className="message my-message float-right"> Hi Aiden, how are you? How is the project coming along?</div>*/}
-                                    {/*</li>*/}
-                                    {/*<li className="clearfix">*/}
-                                        {/*<div className="message-data">*/}
-                                            {/*<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar" />*/}
-                                            {/*<span className="message-data-time">10:12 AM, Today</span>*/}
-                                        {/*</div>*/}
-                                        {/*<div className="message other-message">Are we meeting today?</div>*/}
-                                    {/*</li>*/}
-                                    {/*<li className="clearfix">*/}
-                                        {/*<div className="message-data">*/}
-                                            {/*<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar" />*/}
-                                            {/*<span className="message-data-time">10:15 AM, Today</span>*/}
-                                        {/*</div>*/}
-                                        {/*<div className="message other-message">Project has been already finished and I have results to show you.</div>*/}
-                                    {/*</li>*/}
                                 </ul>
+                                <div ref={messagesEndRef}></div>
                             </div>
                             <div className="chat-message clearfix">
                                 <Box sx={{ flexGrow: 1 }}>

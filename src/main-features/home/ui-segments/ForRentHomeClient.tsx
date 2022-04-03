@@ -18,6 +18,84 @@ import {AllAppConfig} from "../../../core/config/all-config";
 import {getEntitiesForRent} from "../../../shared/reducers/rent-offer.reducer";
 import {useTranslation} from "react-i18next";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
+import {IOffer} from "../../../shared/model/offer.model";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css/effect-flip";
+import './ForRentHome.scss';
+
+import { EffectFlip, Pagination, Navigation } from "swiper";
+
+function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
+    return (
+        <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
+            <Card sx={{display: {xs: 'block', sm: 'flex'}}}>
+                {index % 2 === 0 ? (
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
+                                       alt="Offer"/>
+                        </CardMedia>
+                    )
+                ) : null}
+                <CardContent sx={{flex: 1}}>
+                    <Typography component="h2" variant="h5">
+                        {offer.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {offer.dateCreated}
+                    </Typography>
+                    <Box className="truncate-string" style={{maxWidth: 400}}>
+                        <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
+                    </Box>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
+                    </Typography>
+                </CardContent>
+                {index % 2 !== 0 ? (
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
+                                       alt="Offer"/>
+                        </CardMedia>
+                    )
+                ) : null}
+            </Card>
+        </CardActionArea>
+    );
+}
 
 export interface IForRentClientProp extends StateProps, DispatchProps, RouteComponentProps {
 }
@@ -40,89 +118,40 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
         }, 300);
     };
 
-    const getDescription = (offer: IRentOffer): string => {
-        return offer.description ? offer.description : '';
-    }
-
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" className="container-for-rent-home">
             <h3>
                 <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Rent}`}>
                     {t('common.for_rent')}
                 </Link>
             </h3>
-            <Grid container rowSpacing={2} columnSpacing={{xs: 1, sm: 2, md: 3}}>
+            <Grid container rowSpacing={2} columnSpacing={{xs: 1, sm: 2, md: 3}} sx={{display: {xs: 'none', md: 'flex'}}}>
                 {listRentOffers.map((offer: IRentOffer, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
-                        <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
-                            <Card sx={{display: {xs: 'block', sm: 'flex'}}}>
-                                {index % 2 === 0 ? (
-                                    offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{
-                                            width: {xs: '100%', sm: 250},
-                                            height: {xs: '100%', sm: 200},
-                                            backgroundColor: '#0000004f'
-                                        }}>
-                                            <LazyImage
-                                                className="img-fluid"
-                                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                alt={offer.offerImages[0].path}
-                                            />
-                                        </CardMedia>
-                                    ) : (
-                                        <CardMedia sx={{
-                                            width: {xs: '100%', sm: 250},
-                                            height: {xs: '100%', sm: 200},
-                                            backgroundColor: '#0000004f'
-                                        }}>
-                                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
-                                                       alt="Offer"/>
-                                        </CardMedia>
-                                    )
-                                ) : null}
-                                <CardContent sx={{flex: 1}}>
-                                    <Typography component="h2" variant="h5">
-                                        {offer.title}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="text.secondary">
-                                        {offer.dateCreated}
-                                    </Typography>
-                                    <Box className="truncate-string" style={{maxWidth: 400}}>
-                                        <div dangerouslySetInnerHTML={{__html: getDescription(offer)}}></div>
-                                    </Box>
-                                    <Typography variant="subtitle1" color="primary">
-                                        Continue reading...
-                                    </Typography>
-                                </CardContent>
-                                {index % 2 !== 0 ? (
-                                    offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{
-                                            width: {xs: '100%', sm: 250},
-                                            height: {xs: '100%', sm: 200},
-                                            backgroundColor: '#0000004f'
-                                        }}>
-                                            <LazyImage
-                                                className="img-fluid"
-                                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                alt={offer.offerImages[0].path}
-                                            />
-                                        </CardMedia>
-                                    ) : (
-                                        <CardMedia sx={{
-                                            width: {xs: '100%', sm: 250},
-                                            height: {xs: '100%', sm: 200},
-                                            backgroundColor: '#0000004f'
-                                        }}>
-                                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
-                                                       alt="Offer"/>
-                                        </CardMedia>
-                                    )
-                                ) : null}
-                            </Card>
-                        </CardActionArea>
+                        <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
                 ))}
             </Grid>
+            <Box sx={{display: {md: 'none'}}} className="box-swiper">
+                <Swiper
+                    effect={"flip"}
+                    grabCursor={true}
+                    pagination={true}
+                    loop={true}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    modules={[EffectFlip, Pagination, Navigation]}
+                    className="mySwiper"
+                >
+                    {listRentOffers.map((offer: IRentOffer, index: number) => (
+                        <SwiperSlide key={`offer-${index}`}>
+                            <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </Box>
         </Container>
     );
 };

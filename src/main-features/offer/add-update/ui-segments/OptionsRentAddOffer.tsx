@@ -13,8 +13,12 @@ import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
 import {PeriodeRent} from "../../../../shared/enums/type-offer.enum";
+import {useTranslation} from "react-i18next";
 
 export default function OptionsRentAddOffer(props: any) {
+
+    const { t } = useTranslation();
+
     const {formik} = props;
 
     return (
@@ -69,7 +73,7 @@ export default function OptionsRentAddOffer(props: any) {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <DatePicker
-                        label="Start date"
+                        label={t('common.label_start_date')}
                         value={formik.values.startDate}
                         onChange={newValue => formik.setFieldValue('startDate', newValue)}
                         renderInput={params => <TextField {...params} size="small" fullWidth error={false}/>}
@@ -78,7 +82,7 @@ export default function OptionsRentAddOffer(props: any) {
 
                 <Grid item xs={12} md={6}>
                     <DatePicker
-                        label="End date"
+                        label={t('common.label_end_date')}
                         value={formik.values.endDate}
                         onChange={newValue => formik.setFieldValue('endDate', newValue)}
                         renderInput={params => <TextField {...params} size="small" fullWidth error={false}/>}

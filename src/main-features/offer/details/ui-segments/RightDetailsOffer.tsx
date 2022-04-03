@@ -184,7 +184,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                     alt={offerEntity.user?.imageUrl}
                                     src={getUserAvatar(offerEntity.user?.id, offerEntity.user?.imageUrl, offerEntity.user?.sourceRegister)}
                                     sx={{border: '1px solid #b9b9b9'}}
-                                ></Avatar>
+                                >{getFullnameUser(offerEntity?.user)?.charAt(0)}</Avatar>
                             ) : null
                         }
                         action={

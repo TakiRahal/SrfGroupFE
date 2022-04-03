@@ -21,7 +21,9 @@
     "cateory": "Categorie",
     "type_offer": "Type offre",
     "email_is_required": "Email obligatoire",
-    "label_load_more": "Charger plus"
+    "label_load_more": "Charger plus",
+    "label_start_date": "Date de début",
+    "label_end_date": "Date de fin"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",

@@ -21,7 +21,9 @@
     "cateory": "Category",
     "type_offer": "Type offer",
     "email_is_required": "Email is required",
-    "label_load_more": "Load More"
+    "label_load_more": "Load More",
+    "label_start_date": "Start date",
+    "label_end_date": "End date"
   },
   "header": {
     "label_add_offer": "Add offer",

@@ -9,7 +9,11 @@ import setupAxiosInterceptors from "./core/config/axios-interceptor";
 import {bindActionCreators} from "redux";
 import {clearAuthentication} from "./shared/reducers/user-reducer";
 
-import "swiper/css/bundle";
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import "swiper/css/navigation";
 import './index.css';
 import {BrowserRouter, Route} from "react-router-dom";
 

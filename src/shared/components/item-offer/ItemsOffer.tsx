@@ -91,7 +91,7 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                                     alt={offer.user?.imageUrl}
                                     src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
                                     sx={{border: '1px solid #b9b9b9'}}
-                                ></Avatar>
+                                >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
                             </ListItemAvatar>
                             <ListItemText
                                 primary={getFullnameUser(offer?.user)}
@@ -162,7 +162,7 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                             alt={offer.user?.imageUrl}
                             src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
                             sx={{border: '1px solid #b9b9b9'}}
-                        ></Avatar>
+                        >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
                     }
                     action={''}
                     title={<span className="truncate-text">{getFullnameUser(offer?.user)}</span>}

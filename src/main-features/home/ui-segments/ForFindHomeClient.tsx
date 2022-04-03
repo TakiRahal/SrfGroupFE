@@ -19,6 +19,66 @@ import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {Link} from "react-router-dom";
+import {IOffer} from "../../../shared/model/offer.model";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCards } from "swiper";
+
+import "swiper/css/effect-cards";
+import './ForFindHome.scss';
+
+
+function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
+    return (
+        <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
+            <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
+                {index % 2 === 0 ? (
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                        </CardMedia>
+                    )
+                ) : null}
+                <CardContent sx={{ flex: 1 }}>
+                    <Typography component="h2" variant="h5">
+                        {offer.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {offer.dateCreated}
+                    </Typography>
+                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
+                        <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
+                    </Box>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
+                    </Typography>
+                </CardContent>
+                {index % 2 !== 0 ? (
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                        </CardMedia>
+                    )
+                ) : null}
+            </Card>
+        </CardActionArea>
+    );
+}
 
 export interface IForFindClientProp extends StateProps, DispatchProps {}
 
@@ -40,66 +100,39 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
     };
 
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" className="container-for-find-home">
             <h3>
                 <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Find}`}>
                     {t('common.for_find')}
                 </Link>
             </h3>
-            <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{display: {xs: 'none', md: 'flex'}}}>
                 {listFindOffers.map((offer: any, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
-                        <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
-                            <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
-                                {index % 2 === 0 ? (
-                                    offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                                            <LazyImage
-                                                className="img-fluid"
-                                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                alt={offer.offerImages[0].path}
-                                            />
-                                        </CardMedia>
-                                    ) : (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
-                                        </CardMedia>
-                                    )
-                                ) : null}
-                                <CardContent sx={{ flex: 1 }}>
-                                    <Typography component="h2" variant="h5">
-                                        {offer.title}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="text.secondary">
-                                        {offer.dateCreated}
-                                    </Typography>
-                                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
-                                        {parse(offer.description)}
-                                    </Box>
-                                    <Typography variant="subtitle1" color="primary">
-                                        Continue reading...
-                                    </Typography>
-                                </CardContent>
-                                {index % 2 !== 0 ? (
-                                    offer.offerImages && offer.offerImages.length ? (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                                            <LazyImage
-                                                className="img-fluid"
-                                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                alt={offer.offerImages[0].path}
-                                            />
-                                        </CardMedia>
-                                    ) : (
-                                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
-                                        </CardMedia>
-                                    )
-                                ) : null}
-                            </Card>
-                        </CardActionArea>
+                        <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
                 ))}
             </Grid>
+            <Box sx={{display: {md: 'none'}}} className="box-swiper">
+                <Swiper
+                    effect={"cards"}
+                    grabCursor={true}
+                    modules={[EffectCards]}
+                    pagination={true}
+                    loop={true}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    className="mySwiper"
+                >
+                    {listFindOffers.map((offer: any, index: number) => (
+                        <SwiperSlide key={`offer-${index}`}>
+                            <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </Box>
         </Container>
     );
 }

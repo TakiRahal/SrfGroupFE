@@ -1,0 +1,20 @@
+.container-for-rent-home{
+  .box-swiper {
+    position: relative;
+    .swiper {
+      width: 410px;
+      height: 410px;
+      padding: 10px;
+    }
+    .swiper-slide {
+      background-position: center;
+      background-size: cover;
+      width: 300px;
+      height: 300px;
+    }
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+    }
+  }
+}

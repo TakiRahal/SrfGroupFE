@@ -235,7 +235,7 @@ export default function CommentDetailsOffer({
                                                 <ListItemAvatar>
                                                     <Avatar alt="Avatar"
                                                             src={getUserAvatar(comment.user?.id, comment.user?.imageUrl, comment.user?.sourceRegister)}
-                                                            sx={{border: '1px solid #b9b9b9'}}/>
+                                                            sx={{border: '1px solid #b9b9b9'}}>{getFullnameUser(comment?.user)?.charAt(0)}</Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={getFullnameUser(comment?.user)}
@@ -292,7 +292,7 @@ export default function CommentDetailsOffer({
                     <ListItemAvatar>
                         <Avatar alt={account.imageUrl}
                                 src={getUserAvatar(account.id, account.imageUrl, account?.sourceRegister)}
-                                sx={{border: '1px solid #b9b9b9'}}/>
+                                sx={{border: '1px solid #b9b9b9'}}>{getFullnameUser(account)?.charAt(0)}</Avatar>
                     </ListItemAvatar>
                     <ListItemText>
                         <AddComment parentCallbackAddComment={handleCallbackAddComment}

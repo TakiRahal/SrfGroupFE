@@ -79,8 +79,8 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                             id="email"
                             name="email"
                             sx={{ ml: 1, flex: 1 }}
-                            placeholder={t('common.label-email')}
-                            inputProps={{ 'aria-label': t('common.label-email') }}
+                            placeholder={t('common.label_email')}
+                            inputProps={{ 'aria-label': t('common.label_email') }}
                             size="small"
                             value={formik.values.email}
                             onChange={formik.handleChange}

@@ -392,7 +392,7 @@ export default function Header(props: any){
                                     alt={currentUser?.imageUrl}
                                     src={getUserAvatar(currentUser.id, currentUser.imageUrl, currentUser.sourceRegister)}
                                     sx={{ width: 30, height: 30, mr: 0.6, border: '1px solid #b9b9b9' }}
-                                />
+                                >{getFullnameUser(currentUser)?.charAt(0)}</Avatar>
                             </IconButton>
                         ) : (
                             <Link to={ALL_APP_ROUTES.LOGIN}  style={{color: 'transparent'}}>

@@ -2,11 +2,6 @@ import React from 'react';
 // Import Swiper React components
 import {Swiper, SwiperSlide} from 'swiper/react';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-
 // import Swiper core and required modules
 import SwiperCore, {EffectCoverflow, Pagination, Navigation, Autoplay} from 'swiper';
 import {connect} from 'react-redux';
@@ -18,6 +13,8 @@ import {getImageForOffer} from "../../../shared/utils/utils-functions";
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesExistOfferImages} from "../../../shared/reducers/offer-images.reducer";
 import Box from "@mui/material/Box/Box";
+
+import './BottomHomeSlides.scss';
 
 // install Swiper modules
 SwiperCore.use([EffectCoverflow, Pagination, Navigation, Autoplay]);
@@ -57,12 +54,10 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
     return slideListBottom && slideListBottom.length > 0 && !loadingExistOfferImages ? (
         <Box sx={{my: 5}} className="bottom-home-slides">
             <Swiper
-                effect={'coverflow'}
+                effect={"coverflow"}
                 grabCursor={true}
                 centeredSlides={true}
-                slidesPerView={'auto'}
-                loop={true}
-                navigation={true}
+                slidesPerView={"auto"}
                 coverflowEffect={{
                     rotate: 50,
                     stretch: 0,
@@ -70,12 +65,14 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
                     modifier: 1,
                     slideShadows: true,
                 }}
+                pagination={true}
+                modules={[EffectCoverflow, Pagination]}
+                className="mySwiper"
                 autoplay={{
-                    delay: 2500,
+                    delay: 3000,
                     disableOnInteraction: false,
                 }}
-                pagination={true}
-                className="mySwiper"
+                loop={true}
             >
                 {slideListBottom.map((offer: any, index: number) => (
                     <div key={`${index}-${offer[0]}`}>
@@ -85,6 +82,7 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
                     </div>
                 ))}
             </Swiper>
+
         </Box>
     ) : (
         <Box></Box>

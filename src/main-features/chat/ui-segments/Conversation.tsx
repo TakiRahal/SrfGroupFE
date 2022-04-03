@@ -72,7 +72,7 @@ export function Conversation({ loading, list, account, listMessages }: { loading
                         <Box key={`conversation-${index}`}>
                             <ListItemButton alignItems="flex-start" onClick={() => openListMessages(conversatioinMessage.conversation)}>
                                 <ListItemAvatar>
-                                    <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} />
+                                    <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} ></Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={getFullname(conversatioinMessage)}

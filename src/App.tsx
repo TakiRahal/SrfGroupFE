@@ -316,7 +316,7 @@ function App(props: IAppProps) {
                     onClick={() => handleDrawerToggleRight(false)}
                 >
                     <ListItemAvatar>
-                        <Avatar alt="Avatar" src={getUserAvatar(currentUser?.id, currentUser?.imageUrl, currentUser?.sourceProvider)} />
+                        <Avatar alt="Avatar" src={getUserAvatar(currentUser?.id, currentUser?.imageUrl, currentUser?.sourceProvider)} >{getFullnameUser(currentUser)?.charAt(0)}</Avatar>
                     </ListItemAvatar>
                     <ListItemText
                         primary={getFullnameUser(currentUser)}

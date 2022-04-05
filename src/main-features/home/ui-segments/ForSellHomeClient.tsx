@@ -20,7 +20,7 @@ import {Link} from "react-router-dom";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { EffectCube, Pagination } from "swiper";
+import { Pagination } from "swiper";
 
 import "swiper/css/effect-cube";
 import './ForSellHome.scss';
@@ -30,7 +30,9 @@ import {IOffer} from "../../../shared/model/offer.model";
 function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
         <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
-            <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
+
+            {/*For Desktop*/}
+            <Card sx={{ display: { xs: 'none', sm: 'flex' } }}>
                 {index % 2 === 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
@@ -76,6 +78,41 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                     )
                 ) : null}
             </Card>
+
+
+            {/*For Mobile*/}
+            <Card sx={{ display: { xs: 'block', sm: 'none' } }}>
+                {
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                        </CardMedia>
+                    )
+                }
+                <CardContent sx={{ flex: 1 }}>
+                    <Typography component="h2" variant="h5">
+                        {offer.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {offer.dateCreated}
+                    </Typography>
+                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
+                        <div dangerouslySetInnerHTML={{ __html: offer.description || '' }}></div>
+                    </Box>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
+                    </Typography>
+                </CardContent>
+            </Card>
+
         </CardActionArea>
     );
 }
@@ -115,21 +152,13 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
             </Grid>
             <Box sx={{display: {md: 'none'}}} className="box-swiper">
                 <Swiper
-                    effect={"cube"}
-                    grabCursor={true}
-                    cubeEffect={{
-                        shadow: true,
-                        slideShadows: true,
-                        shadowOffset: 20,
-                        shadowScale: 0.94,
-                    }}
+                    pagination={true}
                     loop={true}
                     autoplay={{
                         delay: 3500,
                         disableOnInteraction: false,
                     }}
-                    pagination={true}
-                    modules={[EffectCube, Pagination]}
+                    modules={[Pagination]}
                     className="mySwiper"
                 >
                     {listSellOffers.map((offer: any, index: number) => (

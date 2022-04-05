@@ -103,7 +103,7 @@ export const Chat = (props: IChatClientProps) => {
                 container
                 spacing={6}
                 style={{
-                    paddingTop: 50,
+                    marginTop: 50,
                 }}
                 className="container-chat"
             >

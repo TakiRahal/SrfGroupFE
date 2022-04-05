@@ -174,12 +174,12 @@ export const SignUp = (props: ISignUpProps) => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-email')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label_email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
                                                     type="email"
-                                                    label={t('common.label-email')}
+                                                    label={t('common.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                 />
@@ -188,12 +188,12 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.firstPassword && Boolean(formik.errors.firstPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-new-password')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label_new_password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="firstPassword"
                                                     name="firstPassword"
                                                     type={showPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('common.label-new-password')}
+                                                    label={t('common.label_new_password')}
                                                     value={formik.values.firstPassword}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -216,12 +216,12 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.secondPassword && Boolean(formik.errors.secondPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-confirm-password')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-confirm_password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="secondPassword"
                                                     name="secondPassword"
                                                     type={showConfPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('common.label-confirm-password')}
+                                                    label={t('common.label_confirm_password')}
                                                     value={formik.values.secondPassword}
                                                     onChange={formik.handleChange}
                                                     endAdornment={
@@ -261,7 +261,7 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                     </Grid>
                                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} color="neutral">
-                                        {t('common.label-register')}
+                                        {t('common.label_register')}
                                     </Button>
                                     <Grid container justifyContent="flex-end">
                                         <Grid item>

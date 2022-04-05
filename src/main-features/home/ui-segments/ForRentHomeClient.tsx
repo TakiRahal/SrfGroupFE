@@ -13,7 +13,7 @@ import {IRootState} from "../../../shared/reducers";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {IRentOffer} from "../../../shared/model/rent-offer.model";
 import {LazyImage} from "../../../shared/pages/lazy-image";
-import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
+import {getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {getEntitiesForRent} from "../../../shared/reducers/rent-offer.reducer";
 import {useTranslation} from "react-i18next";
@@ -21,15 +21,16 @@ import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {IOffer} from "../../../shared/model/offer.model";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import "swiper/css/effect-flip";
 import './ForRentHome.scss';
 
-import { EffectFlip, Pagination, Navigation } from "swiper";
+import {Pagination } from "swiper";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
         <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
-            <Card sx={{display: {xs: 'block', sm: 'flex'}}}>
+
+            {/*For Desktop*/}
+            <Card sx={{ display: { xs: 'none', sm: 'flex' } }}>
                 {index % 2 === 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{
@@ -93,6 +94,49 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                     )
                 ) : null}
             </Card>
+
+
+            {/*For Mobile*/}
+            <Card sx={{ display: { xs: 'block', sm: 'none' } }}>
+                {
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{
+                            width: {xs: '100%', sm: 250},
+                            height: {xs: '100%', sm: 200},
+                            backgroundColor: '#0000004f'
+                        }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
+                                       alt="Offer"/>
+                        </CardMedia>
+                    )
+                }
+                <CardContent sx={{flex: 1}}>
+                    <Typography component="h2" variant="h5">
+                        {offer.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {offer.dateCreated}
+                    </Typography>
+                    <Box className="truncate-string" style={{maxWidth: 400}}>
+                        <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
+                    </Box>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
+                    </Typography>
+                </CardContent>
+            </Card>
         </CardActionArea>
     );
 }
@@ -134,15 +178,13 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
             </Grid>
             <Box sx={{display: {md: 'none'}}} className="box-swiper">
                 <Swiper
-                    effect={"flip"}
-                    grabCursor={true}
                     pagination={true}
                     loop={true}
                     autoplay={{
                         delay: 3000,
                         disableOnInteraction: false,
                     }}
-                    modules={[EffectFlip, Pagination, Navigation]}
+                    modules={[Pagination]}
                     className="mySwiper"
                 >
                     {listRentOffers.map((offer: IRentOffer, index: number) => (

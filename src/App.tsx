@@ -5,7 +5,6 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import Header from "./shared/layout/header/header";
 import Footer from "./shared/layout/footer/footer";
 import AllRoutes from "./shared/routes/all-routes";
-import {ThemeApp} from "./shared/theme/ThemeApp";
 import Zoom from "@mui/material/Zoom/Zoom";
 import Box from "@mui/material/Box/Box";
 import useScrollTrigger from "@mui/material/useScrollTrigger/useScrollTrigger";
@@ -16,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './i18n/i18n';
 import {useTranslation} from "react-i18next";
 import {
-    BrowserRouter as Router, Link, useHistory
+    Link, useHistory
 } from "react-router-dom";
 import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
@@ -27,7 +26,7 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import List from "@mui/material/List/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
-import {checkMobileDesktopBrowser, getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
@@ -56,6 +55,7 @@ import Menu from '@mui/material/Menu/Menu';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
+import {getEntities as getEntitiesTopHomeSlidesImage} from '../src/shared/reducers/top-home-slides-image';
 
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
@@ -64,10 +64,10 @@ import Switch from '@mui/material/Switch';
 import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import {MessengerCustomerChat} from "typescript-react-facebook-messenger";
 import {OneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
+import createTheme from "@mui/material/styles/createTheme";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -172,10 +172,27 @@ function App(props: IAppProps) {
     const [openSubMenuSupport, setOpenSubMenuSupport] = React.useState(false);
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
+    const [darkMode, setDarkMode] = React.useState<'light' | 'dark'>('light');
 
     const { t, i18n } = useTranslation();
     const history = useHistory()
 
+
+    // const isDark = false;
+    const ThemeApp = createTheme({
+      palette: {
+        mode: darkMode==='dark' ? 'dark' : 'light',
+        neutral: {
+          main: 'rgb(63 63 64)',
+          contrastText: '#fff',
+        },
+      },
+    });
+
+    const toggleDarkMode = (event: any, checked: boolean) => {
+        console.log('event ', checked);
+        setDarkMode(checked ? 'light' : 'dark' );
+    }
 
     const { currentUser, getEntitiesAddresses, getCategories } = props;
 
@@ -195,6 +212,7 @@ function App(props: IAppProps) {
 
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
+        props.getEntitiesTopHomeSlidesImage();
 
         if(props.isAuthenticated){
             props.getNumberOfMessageNotSee();
@@ -297,6 +315,7 @@ function App(props: IAppProps) {
                     <FormGroup>
                         <FormControlLabel
                             control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+                            onChange={toggleDarkMode}
                             label="MUI switch"
                         />
                     </FormGroup>
@@ -489,7 +508,8 @@ const mapDispatchToProps = {
     setLocale,
     createEntityNewsLetter,
     getNumberOfMessageNotSee,
-    resetNotification
+    resetNotification,
+    getEntitiesTopHomeSlidesImage
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

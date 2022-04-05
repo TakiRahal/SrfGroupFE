@@ -1,16 +1,16 @@
 import React from 'react';
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
-const isDark = false;
-export const ThemeApp = createTheme({
-  palette: {
-    mode: isDark ? 'dark' : 'light',
-    neutral: {
-      main: 'rgb(63 63 64)',
-      contrastText: '#fff',
-    },
-  },
-});
+// const isDark = false;
+// export const ThemeApp = createTheme({
+//   palette: {
+//     mode: isDark ? 'dark' : 'light',
+//     neutral: {
+//       main: 'rgb(63 63 64)',
+//       contrastText: '#fff',
+//     },
+//   },
+// });
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -29,3 +29,4 @@ declare module '@mui/material/Button' {
     neutral: true;
   }
 }
+

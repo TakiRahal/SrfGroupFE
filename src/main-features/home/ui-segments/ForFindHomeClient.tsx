@@ -6,7 +6,6 @@ import Card from '@mui/material/Card/Card';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
 import CardContent from '@mui/material/CardContent/CardContent';
 import Typography from '@mui/material/Typography/Typography';
-import parse from 'html-react-parser';
 import Box from '@mui/material/Box/Box';
 import {LazyImage} from "../../../shared/pages/lazy-image";
 import {getImageForOffer} from "../../../shared/utils/utils-functions";
@@ -21,16 +20,17 @@ import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {Link} from "react-router-dom";
 import {IOffer} from "../../../shared/model/offer.model";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCards } from "swiper";
+import {Pagination} from "swiper";
 
-import "swiper/css/effect-cards";
 import './ForFindHome.scss';
 
 
 function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
         <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>
-            <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
+
+            {/*For Desktop*/}
+            <Card sx={{ display: { xs: 'none', sm: 'flex' } }}>
                 {index % 2 === 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
@@ -76,6 +76,40 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                     )
                 ) : null}
             </Card>
+
+
+            {/*For Mobile*/}
+            <Card sx={{ display: { xs: 'block', sm: 'none' } }}>
+                {
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage
+                                className="img-fluid"
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt={offer.offerImages[0].path}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                        </CardMedia>
+                    )
+                }
+                <CardContent sx={{ flex: 1 }}>
+                    <Typography component="h2" variant="h5">
+                        {offer.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {offer.dateCreated}
+                    </Typography>
+                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
+                        <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
+                    </Box>
+                    <Typography variant="subtitle1" color="primary">
+                        Continue reading...
+                    </Typography>
+                </CardContent>
+            </Card>
         </CardActionArea>
     );
 }
@@ -115,15 +149,13 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
             </Grid>
             <Box sx={{display: {md: 'none'}}} className="box-swiper">
                 <Swiper
-                    effect={"cards"}
-                    grabCursor={true}
-                    modules={[EffectCards]}
                     pagination={true}
                     loop={true}
                     autoplay={{
-                        delay: 3000,
+                        delay: 3500,
                         disableOnInteraction: false,
                     }}
+                    modules={[Pagination]}
                     className="mySwiper"
                 >
                     {listFindOffers.map((offer: any, index: number) => (

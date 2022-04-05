@@ -338,7 +338,7 @@ export default function Header(props: any){
                                         alt="Avatar"
                                         src={getUserAvatar(currentUser.id, currentUser.imageUrl, currentUser.sourceRegister)}
                                         sx={{ width: 24, height: 24, mr: 0.6, border: '1px solid #b9b9b9' }}
-                                    />
+                                    >{getFullnameUser(currentUser)?.charAt(0)}</Avatar>
                                     <Typography component="span" variant="body2" color="text.primary">
                                         {getFullnameUser(currentUser)}
                                     </Typography>

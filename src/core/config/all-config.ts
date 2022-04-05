@@ -4,7 +4,7 @@ export const AllAppConfig = {
     BASE_URL_FE: process.env.NODE_ENV === 'development' ? process.env.PUBLIC_URL + '' : 'https://raw.githubusercontent.com/TakiRahal/SrfGroupFE/gh-pages',
     MaxNbeImagePerOffer: 5,
     MaxWidthHome: 1600,
-    MainFeaturedPost: 'MainFeaturedPost',
+    HOME_TOP_SLIDES_IMAGE: 'HomeTopSlidesImage',
     HomeMediumPost: 'HomeMediumPost',
     SlideListBottom: 'SlideListBottom',
     DEFAULT_AVATAR: '/assets/images/defaults/avatar.png',

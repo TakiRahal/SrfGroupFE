@@ -120,12 +120,22 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 function ScrollToTop() {
     const history = useHistory();
     React.useEffect(() => {
+        let prevLocation: any;
         const unlisten = history.listen((location, action) => {
 
+            if(location.pathname != prevLocation?.pathname){
+
+                // Add track page Google Analytics
+                trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
+                    // console.log('Success track pages');
+                }, (error: boolean) => {console.log('Error track pages');})
+            }
+
+            prevLocation = location;
             // Add track page Google Analytics
-            trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
-                // console.log('Success track pages');
-            }, (error: boolean) => {console.log('Error track pages');})
+            // trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
+            //     // console.log('Success track pages');
+            // }, (error: boolean) => {console.log('Error track pages');})
 
             if (action !== 'POP') {
                 window.scrollTo(0, 0);

@@ -5,7 +5,7 @@ export const AllAppConfig = {
     MaxNbeImagePerOffer: 5,
     MaxWidthHome: 1600,
     HOME_TOP_SLIDES_IMAGE: 'HomeTopSlidesImage',
-    HomeMediumPost: 'HomeMediumPost',
+    POST_HOME_FEATURE: 'PostHomeFeature',
     SlideListBottom: 'SlideListBottom',
     DEFAULT_AVATAR: '/assets/images/defaults/avatar.png',
     DEFAULT_LAZY_IMAGE: '/assets/images/defaults/default_image.jpg',

@@ -16,6 +16,7 @@ export const ACTION_TYPES = {
     PARTIAL_UPDATE_OFFER: 'offer/PARTIAL_UPDATE_OFFER',
     DELETE_OFFER: 'offer/DELETE_OFFER',
     SET_BLOB: 'offer/SET_BLOB',
+    RESET_PUBLIC_ENTITIES: 'offer/RESET_PUBLIC_ENTITIES',
     RESET: 'offer/RESET',
 };
 
@@ -193,6 +194,12 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entity: action.payload.data,
             };
 
+        case ACTION_TYPES.RESET_PUBLIC_ENTITIES:
+            return {
+                ...state,
+                entities: []
+            };
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -313,6 +320,10 @@ export const uploadFiles: (entity: FormData) => void = (entity: FormData) => asy
     });
     return result;
 };
+
+export const resetPublicEntitiesOffers = () => ({
+    type: ACTION_TYPES.RESET_PUBLIC_ENTITIES,
+});
 
 export const reset = () => ({
     type: ACTION_TYPES.RESET,

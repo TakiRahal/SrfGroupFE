@@ -5,12 +5,12 @@ import FirstHorizentalListHomeClient from "./ui-segments/FirstHorizentalListHome
 import SecondHorizentalListHomeClient from "./ui-segments/SecondHorizentalListHomeClient";
 import ThirdHorizentalListHomeClient from "./ui-segments/ThirdHorizentalListHomeClient";
 import RecentlyAddedHomeClient from "./ui-segments/RecentlyAddedHomeClient";
-import HomeFullOffer from "./ui-segments/HomeFullOffer";
 import ForRentHomeClient from "./ui-segments/ForRentHomeClient";
 import ForFindHomeClient from "./ui-segments/ForFindHomeClient";
 import BottomHomeSlides from "./ui-segments/BottomHomeSlides";
 import './home.scss';
 import TopHomeSlides from "./ui-segments/TopHomeSlides";
+import PostHomeFeature from "./ui-segments/PostHomeFeature";
 
 export default function Home(props: any){
     return (
@@ -32,7 +32,7 @@ export default function Home(props: any){
 
             <RecentlyAddedHomeClient />
 
-            <HomeFullOffer />
+            <PostHomeFeature />
 
             <BottomHomeSlides {...props}/>
         </Box>

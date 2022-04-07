@@ -31,7 +31,7 @@ import OptionsFindAddOffer from "./ui-segments/OptionsFindAddOffer";
 import {useFormik} from "formik";
 import {
     convertDateTimeToServer,
-    dataUrlToFile,
+    dataUrlToFile, getBase64,
     getBaseImageUrl,
     getImageForOffer
 } from "../../../shared/utils/utils-functions";
@@ -263,6 +263,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             Array.from(event.target.files).forEach((file: any) => {
                 console.log('file ', file);
                 getImageUrl(file, 500)
+                // getBase64(file)
                     .then((resultBase64: any) => {
                         dataUrlToFile(resultBase64, file.name)
                             .then((valueFile: any) => {

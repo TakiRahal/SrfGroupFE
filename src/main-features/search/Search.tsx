@@ -11,7 +11,7 @@ import Button from "@mui/material/Button/Button";
 import {TypeDisplaySearchOffers} from "../../shared/enums/type-offer.enum";
 import {getFullUrlWithParams,} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
-import { getEntities as getEntitiesOffers } from '../../shared/reducers/offer.reducer';
+import {getEntities as getEntitiesOffers, resetPublicEntitiesOffers} from '../../shared/reducers/offer.reducer';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import queryString from 'query-string';
 import isEmpty from 'lodash/isEmpty';
@@ -23,6 +23,7 @@ import LeftSearch from './ui-segments/LeftSearch';
 import {useTranslation} from "react-i18next";
 import './Search.scss';
 import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
+import {IOffer} from "../../shared/model/offer.model";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -30,6 +31,8 @@ export const Search = (props: ISearchProps) => {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [activePage, setActivePage] = React.useState(-1);
+    const [listOffersPagination, setListOffersPagination] = React.useState<IOffer[]>([]);
+
     const history = useHistory();
     const { search } = useLocation();
 
@@ -39,7 +42,6 @@ export const Search = (props: ISearchProps) => {
 
     React.useEffect(() => {
         const values = queryString.parse(search);
-
         // Protect search page
         if(isEmpty(values)){
             history.push(ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE);
@@ -54,11 +56,23 @@ export const Search = (props: ISearchProps) => {
     }, [search]);
 
     React.useEffect(() => {
+        console.log('activePage ', activePage);
         if(activePage>=0){
             const values = queryString.parse(search);
             searchWithParams(values);
         }
     }, [activePage]);
+
+
+    React.useEffect(() => {
+        console.log('listOffers ', listOffers);
+        if(listOffers?.length){
+            setListOffersPagination([
+                ...listOffersPagination,
+                ...listOffers
+            ]);
+        }
+    }, [listOffers]);
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
@@ -69,6 +83,7 @@ export const Search = (props: ISearchProps) => {
     const searchWithParams = (values: any) => {
         let queryParams = getFullUrlWithParams(values);
         let urlSearch = '?page='+activePage+'&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
+        console.log('urlSearch ', urlSearch);
         history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
 
         getEntitiesOffers(activePage, AllAppConfig.OFFERS_PER_PAGE, urlSearch);
@@ -79,6 +94,10 @@ export const Search = (props: ISearchProps) => {
     }
 
     const searchCalback = (values: any) => {
+        console.log('searchCalback ', values);
+        setActivePage(0);
+        setListOffersPagination([]);
+        props.resetPublicEntitiesOffers();
         searchWithParams(values);
     }
 
@@ -125,7 +144,7 @@ export const Search = (props: ISearchProps) => {
                     </div>
 
 
-                    <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
+                    <ItemsOffer listOffers={listOffersPagination.slice()} typeDisplay={typeDisplayOffers}/>
 
                     {
                         loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null
@@ -161,6 +180,7 @@ const mapStateToProps = ({ user, offer, category }: IRootState) => ({
 
 const mapDispatchToProps = {
     getEntitiesOffers,
+    resetPublicEntitiesOffers
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

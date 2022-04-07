@@ -23,6 +23,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {Pagination} from "swiper";
 
 import './ForFindHome.scss';
+import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 
 
 function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -51,14 +52,11 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                         {offer.title}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
-                        {offer.dateCreated}
+                        <ConvertReactTimeAgo convertDate={offer.dateCreated} />
                     </Typography>
-                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
+                    <Box className="truncate-string-two-lines" style={{ maxWidth: 400 }}>
                         <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
                     </Box>
-                    <Typography variant="subtitle1" color="primary">
-                        Continue reading...
-                    </Typography>
                 </CardContent>
                 {index % 2 !== 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
@@ -100,14 +98,11 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                         {offer.title}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
-                        {offer.dateCreated}
+                        <ConvertReactTimeAgo convertDate={offer.dateCreated} />
                     </Typography>
-                    <Box className="truncate-string" style={{ maxWidth: 400 }}>
+                    <Box className="truncate-string-two-lines" style={{ maxWidth: 400 }}>
                         <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
                     </Box>
-                    <Typography variant="subtitle1" color="primary">
-                        Continue reading...
-                    </Typography>
                 </CardContent>
             </Card>
         </CardActionArea>

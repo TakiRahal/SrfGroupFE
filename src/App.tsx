@@ -56,6 +56,7 @@ import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/addr
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
 import {getEntities as getEntitiesTopHomeSlidesImage} from '../src/shared/reducers/top-home-slides-image';
+import {getEntity as getEntityPostHomeFeature} from '../src/shared/reducers/post-home-feature.reducer';
 
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
@@ -130,12 +131,7 @@ function ScrollToTop() {
                     // console.log('Success track pages');
                 }, (error: boolean) => {console.log('Error track pages');})
             }
-
             prevLocation = location;
-            // Add track page Google Analytics
-            // trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
-            //     // console.log('Success track pages');
-            // }, (error: boolean) => {console.log('Error track pages');})
 
             if (action !== 'POP') {
                 window.scrollTo(0, 0);
@@ -223,6 +219,7 @@ function App(props: IAppProps) {
         getEntitiesAddresses(0, 40, '');
         getCategories(0, 1, '');
         props.getEntitiesTopHomeSlidesImage();
+        props.getEntityPostHomeFeature();
 
         if(props.isAuthenticated){
             props.getNumberOfMessageNotSee();
@@ -519,7 +516,8 @@ const mapDispatchToProps = {
     createEntityNewsLetter,
     getNumberOfMessageNotSee,
     resetNotification,
-    getEntitiesTopHomeSlidesImage
+    getEntitiesTopHomeSlidesImage,
+    getEntityPostHomeFeature
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

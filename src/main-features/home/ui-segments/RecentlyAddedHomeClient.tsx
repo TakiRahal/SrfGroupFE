@@ -26,6 +26,7 @@ import {IOffer} from "../../../shared/model/offer.model";
 import Box from "@mui/material/Box/Box";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
+import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 
 
 function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -49,7 +50,7 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
                         </IconButton>
                     }
                     title={getFullnameUser(offer?.user)}
-                    subheader={offer.dateCreated}
+                    subheader={<ConvertReactTimeAgo convertDate={offer.dateCreated} />}
                 />
                 <CardMedia component="img" height="194" image={getImageForOffer(offer?.id, getPathImg(offer) || '')} alt="Image Offer" />
                 <CardContent className="card-content-offer">

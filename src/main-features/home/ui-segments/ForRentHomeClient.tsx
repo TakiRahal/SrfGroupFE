@@ -24,6 +24,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import './ForRentHome.scss';
 
 import {Pagination } from "swiper";
+import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -50,8 +51,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
-                                       alt="Offer"/>
+                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -60,14 +60,11 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                         {offer.title}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
-                        {offer.dateCreated}
+                        <ConvertReactTimeAgo convertDate={offer.dateCreated} />
                     </Typography>
-                    <Box className="truncate-string" style={{maxWidth: 400}}>
+                    <Box className="truncate-string-two-lines" style={{maxWidth: 400}}>
                         <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
                     </Box>
-                    <Typography variant="subtitle1" color="primary">
-                        Continue reading...
-                    </Typography>
                 </CardContent>
                 {index % 2 !== 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
@@ -127,14 +124,11 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                         {offer.title}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
-                        {offer.dateCreated}
+                        <ConvertReactTimeAgo convertDate={offer.dateCreated} />
                     </Typography>
-                    <Box className="truncate-string" style={{maxWidth: 400}}>
+                    <Box className="truncate-string-two-lines" style={{maxWidth: 400}}>
                         <div dangerouslySetInnerHTML={{__html: offer.description || ''}}></div>
                     </Box>
-                    <Typography variant="subtitle1" color="primary">
-                        Continue reading...
-                    </Typography>
                 </CardContent>
             </Card>
         </CardActionArea>

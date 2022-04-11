@@ -16,7 +16,7 @@ export const AllAppConfig = {
     PAGEFACEBOO__ID: '100054409273167',
     CLIENT_ID_GOOGLLE: '936898141282-neqsvsprrf7e1pchibhsui8nmki8496b.apps.googleusercontent.com',
     APP_ID_ONESIGNAL: '52e18c28-761d-409f-a363-f58a9bd41cfe',
-    OFFERS_PER_PAGE: 2,
+    OFFERS_PER_PAGE: 6,
     COMMENTS_PER_PAGE: 2,
     NOTIFICATIONS_PER_PAGE: 2,
     MESSAGES_PER_PAGE: 2,

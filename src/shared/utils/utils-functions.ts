@@ -84,6 +84,10 @@ export function getFullUrlWithParams(values: any) {
 }
 
 
+export function notIncludesAnyQueryParams(urlSearch: string) {
+    return urlSearch.includes('typeOffer');
+}
+
 /**
  *
  * @param file

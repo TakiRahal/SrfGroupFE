@@ -20,6 +20,10 @@ import Button from "@mui/material/Button/Button";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
 import {useHistory} from "react-router";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
+import Divider from "@mui/material/Divider/Divider";
+import Avatar from "@mui/material/Avatar/Avatar";
+import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
+import Typography from "@mui/material/Typography/Typography";
 
 export default function ListFavoriteUsers({ favorite, parentCallback }: { favorite: IFavoriteUser, parentCallback: Function }) {
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
@@ -37,7 +41,9 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
     };
 
     const redirectToPorfile = (userId: number) => {
-        history.push(ALL_APP_ROUTES.PROFILE + '/' + userId);
+        setTimeout(() => {
+            history.push(ALL_APP_ROUTES.PROFILE + '/' + userId);
+        }, 300)
     };
 
     const disFavoriteHandleClick = () => {
@@ -77,32 +83,65 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
 
     return (
         <Grid item xs={12} md={6}>
-            <CardActionArea component="a" onClick={() => redirectToPorfile(favoriteUser?.id)}>
-                <Card sx={{ display: 'flex' }}>
-                    <CardMedia
-                        component="img"
-                        sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-                        image={getUserAvatar(favoriteUser?.id, favoriteUser?.imageUrl, favoriteUser?.sourceRegister)}
-                        alt='User avatar'
+            <List sx={{ bgcolor: 'background.paper' }}>
+                <ListItem alignItems="flex-start"
+                          button
+                          onClick={() => redirectToPorfile(favoriteUser?.id)}
+                          secondaryAction={
+                              <IconButton edge="end" aria-label="delete" onClick={event => handleClickOpenFavoriteModal(event)}>
+                                  <DeleteIcon />
+                              </IconButton>
+                          }>
+                    <ListItemAvatar>
+                        <Avatar alt="Remy Sharp" src={getUserAvatar(favoriteUser?.id, favoriteUser?.imageUrl, favoriteUser?.sourceRegister)} >
+                            {getFullnameUser(favoriteUser)?.charAt(0)}
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={getFullnameUser(favoriteUser)}
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                    sx={{ display: 'inline' }}
+                                    component="span"
+                                    variant="body2"
+                                    color="text.primary"
+                                >
+                                    {favoriteUser?.email}
+                                </Typography>
+                                {favoriteUser?.address?.city} {favoriteUser?.address?.country}
+                            </React.Fragment>
+                        }
                     />
-                    <CardContent sx={{ flex: 1 }}>
-                        <List dense={false}>
-                            <ListItem
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" onClick={event => handleClickOpenFavoriteModal(event)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemText
-                                    primary={getFullnameUser(favoriteUser)}
-                                    secondary={favoriteUser?.email}
-                                />
-                            </ListItem>
-                        </List>
-                    </CardContent>
-                </Card>
-            </CardActionArea>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+            </List>
+            {/*<CardActionArea component="a" onClick={() => redirectToPorfile(favoriteUser?.id)}>*/}
+                {/*<Card sx={{ display: 'flex' }}>*/}
+                    {/*<CardMedia*/}
+                        {/*component="img"*/}
+                        {/*sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}*/}
+                        {/*image={getUserAvatar(favoriteUser?.id, favoriteUser?.imageUrl, favoriteUser?.sourceRegister)}*/}
+                        {/*alt='User avatar'*/}
+                    {/*/>*/}
+                    {/*<CardContent sx={{ flex: 1 }}>*/}
+                        {/*<List dense={false}>*/}
+                            {/*<ListItem*/}
+                                {/*secondaryAction={*/}
+                                    {/*<IconButton edge="end" aria-label="delete" onClick={event => handleClickOpenFavoriteModal(event)}>*/}
+                                        {/*<DeleteIcon />*/}
+                                    {/*</IconButton>*/}
+                                {/*}*/}
+                            {/*>*/}
+                                {/*<ListItemText*/}
+                                    {/*primary={getFullnameUser(favoriteUser)}*/}
+                                    {/*secondary={favoriteUser?.email}*/}
+                                {/*/>*/}
+                            {/*</ListItem>*/}
+                        {/*</List>*/}
+                    {/*</CardContent>*/}
+                {/*</Card>*/}
+            {/*</CardActionArea>*/}
             <div>{renderDialogDisFavoriteUser()}</div>
         </Grid>
 

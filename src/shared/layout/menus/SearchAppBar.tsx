@@ -47,7 +47,6 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
         initialValues,
         validationSchema: validationSchemSearchAppBar,
         onSubmit: (values: any) => {
-            console.log('values ', values);
             searchCalback(values);
         },
     });
@@ -88,6 +87,19 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
         return option.titleAr || '';
     }
 
+    const getOptionTranslateLabel = (option: string): string => {
+        if(option===TypeOfferEnum.Sell){
+            return t('common.for_sell');
+        }
+        else if(option===TypeOfferEnum.Rent){
+            return t('common.for_rent');
+        }
+        else if(option===TypeOfferEnum.Find){
+            return t('common.for_find');
+        }
+        return '';
+    }
+
     return (
         <Box>
             <form onSubmit={formik.handleSubmit}>
@@ -113,6 +125,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                             <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0,  mx: 1, width: {xs: '100%', md: 'auto'}}}>
                                 <TextField id="title"
                                            name="title"
+                                           type="search"
                                            label={t('common.label_search')}
                                            variant="standard"
                                            value={formik.values.title}
@@ -126,7 +139,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     value={formik.values.typeOffer}
                                     onChange={(e, value) => formik.setFieldValue('typeOffer', value || null)}
                                     autoHighlight
-                                    getOptionLabel={(option) => option}
+                                    getOptionLabel={(option) => getOptionTranslateLabel(option)}
                                     renderOption={(propsRender, option) => (
                                         <Box component="li" {...propsRender}>
                                             {option}
@@ -147,18 +160,6 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                         />
                                     )}
                                 />
-                                {/*<InputLabel id="demo-simple-select-label">{t('common.type_offer')}</InputLabel>*/}
-                                {/*<Select labelId="demo-simple-select-label"*/}
-                                        {/*id="typeOffer"*/}
-                                        {/*name="typeOffer"*/}
-                                        {/*value={formik.values.typeOffer}*/}
-                                        {/*onChange={formik.handleChange}*/}
-                                        {/*label="Type">*/}
-                                    {/*<MenuItem value=''><DeleteIcon /> Clear select</MenuItem>*/}
-                                    {/*<MenuItem value={TypeOfferEnum.Sell}>À vendre</MenuItem>*/}
-                                    {/*<MenuItem value={TypeOfferEnum.Rent}>À louer</MenuItem>*/}
-                                    {/*<MenuItem value={TypeOfferEnum.Find}>À trouver</MenuItem>*/}
-                                {/*</Select>*/}
                             </FormControl>
 
                             <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0, mx: 1, width: {xs: '100%', md: 'auto'}}}>

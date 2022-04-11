@@ -68,7 +68,7 @@ export default function LeftSearchClient() {
                 aria-labelledby="nested-list-subheader"
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">
-                        Nested List Items
+                        FILTRER PAR
                     </ListSubheader>
                 }
             >

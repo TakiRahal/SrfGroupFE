@@ -67,6 +67,8 @@ import {useTranslation} from "react-i18next";
 import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-anaylitics";
 import {getPublicEntity} from "../../../shared/reducers/description-add-offer.reducer";
 import i18n from "i18next";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import './AddUpdateOffer.scss';
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -404,7 +406,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                     className="form-control-type-offer"
                                                 >
                                                     <InputLabel id="label-component-helper-typeOffer" className="type-offer-select">
-                                                        {t('add_offer.label_type_offer')}
+                                                        <span>{t('add_offer.label_type_offer')}</span>
                                                     </InputLabel>
                                                     <Select
                                                         id="typeOffer"
@@ -529,6 +531,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                         id="panel1a-header"
                                                         className="bg-brown"
                                                         onClick={() => addNewEventGA()}>
+                                                        <ArrowCircleRightIcon className="zoom-in-out-box"  sx={{color: 'yellow', mr: 1}}/>
                                                         <Typography sx={{textDecoration: 'underline'}}>
                                                             {t('add_offer.label_more_options')}
                                                         </Typography>

@@ -17,6 +17,7 @@ export const ACTION_TYPES = {
     DELETE_OFFER: 'offer/DELETE_OFFER',
     SET_BLOB: 'offer/SET_BLOB',
     RESET_PUBLIC_ENTITIES: 'offer/RESET_PUBLIC_ENTITIES',
+    RESET_PRIVATE_ENTITIES: 'offer/RESET_PRIVATE_ENTITIES',
     RESET: 'offer/RESET',
 };
 
@@ -67,11 +68,11 @@ export default (state: OfferState = initialState, action: any): OfferState => {
             return {
                 ...state,
                 loadingEntities: false,
-                entities: action.payload.data.content,
-                // entities: [
-                //     ...state.entities,
-                //     ...action.payload.data.content
-                // ],
+                // entities: action.payload.data.content,
+                entities: [
+                    ...state.entities,
+                    ...action.payload.data.content
+                ],
                 totalItems: action.payload.data.totalElements,
                 totalPages: action.payload.data.totalPages
             };
@@ -131,7 +132,10 @@ export default (state: OfferState = initialState, action: any): OfferState => {
             return {
                 ...state,
                 loadingMyOffers: false,
-                entitiesMyOffers: action.payload.data.content,
+                entitiesMyOffers: [
+                    ...state.entitiesMyOffers,
+                    ...action.payload.data.content
+                ],
                 totalItemsMyOffers: action.payload.data.totalElements,
                 totalPagesMyOffers: action.payload.data.totalPages
             };
@@ -200,6 +204,13 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entities: []
             };
 
+
+        case ACTION_TYPES.RESET_PRIVATE_ENTITIES:
+            return {
+                ...state,
+                entitiesMyOffers: []
+            };
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -217,8 +228,8 @@ const apiUrl = 'api/offer';
 
 export const getEntities = (page: number, size: number, queryParams?: string) => {
     // const requestUrl = `${apiUrl}/public${queryParams}${queryParams ? `&` : `?`}page=${page}&size=${size}`;
-    // const requestUrl = `${apiUrl}/public?page=${page}&size=${size}${queryParams}`;
-    const requestUrl = `${apiUrl}/public${queryParams}`;
+    const requestUrl = `${apiUrl}/public?page=${page}&size=${size}${queryParams}`;
+    // const requestUrl = `${apiUrl}/public${queryParams}`;
     return {
         type: ACTION_TYPES.FETCH_OFFER_LIST,
         payload: axios.get<IOffer>(`${requestUrl}`),
@@ -227,7 +238,7 @@ export const getEntities = (page: number, size: number, queryParams?: string) =>
 
 export const getEntitiesForCurrentUser = (page: number, size: number, queryParams?: string) => {
     // const requestUrl = `${apiUrl + '/current-user'}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
-    const requestUrl = `${apiUrl + '/current-user'}${queryParams}`;
+    const requestUrl = `${apiUrl}/current-user?page=${page}&size=${size}${queryParams}`;
     return {
         type: ACTION_TYPES.FETCH_MY_OFFER_LIST,
         payload: axios.get<IOffer>(`${requestUrl}`),
@@ -323,6 +334,10 @@ export const uploadFiles: (entity: FormData) => void = (entity: FormData) => asy
 
 export const resetPublicEntitiesOffers = () => ({
     type: ACTION_TYPES.RESET_PUBLIC_ENTITIES,
+});
+
+export const resetPrivateEntitiesOffers = () => ({
+    type: ACTION_TYPES.RESET_PRIVATE_ENTITIES,
 });
 
 export const reset = () => ({

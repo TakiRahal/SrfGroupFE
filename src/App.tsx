@@ -55,6 +55,7 @@ import Menu from '@mui/material/Menu/Menu';
 import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
+import {reset as resetOffer} from '../src/shared/reducers/offer.reducer';
 import {getEntities as getEntitiesTopHomeSlidesImage} from '../src/shared/reducers/top-home-slides-image';
 import {getEntity as getEntityPostHomeFeature} from '../src/shared/reducers/post-home-feature.reducer';
 
@@ -231,6 +232,7 @@ function App(props: IAppProps) {
         handleDrawerToggleRight(false);
         props.logout();
         props.resetNotification();
+        props.resetOffer();
         history.push(ALL_APP_ROUTES.HOME);
     }
 
@@ -270,7 +272,7 @@ function App(props: IAppProps) {
                     <ListItemText primary={t('header.link_home')} />
                 </ListItem>
 
-                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE} onClick={() => handleDrawerToggle(false)}>
+                <ListItem button component={Link} to={ALL_APP_ROUTES.OFFER.LIST} onClick={() => handleDrawerToggle(false)}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>
@@ -517,7 +519,8 @@ const mapDispatchToProps = {
     getNumberOfMessageNotSee,
     resetNotification,
     getEntitiesTopHomeSlidesImage,
-    getEntityPostHomeFeature
+    getEntityPostHomeFeature,
+    resetOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

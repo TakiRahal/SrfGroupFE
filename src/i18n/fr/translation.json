@@ -14,6 +14,7 @@
     "label_register": "Inscrire",
     "label_update": "Modifier",
     "label_search": "Recherche",
+    "label_favorite": "Favoriser",
     "for_sell": "À vendre",
     "for_rent": "À louer",
     "for_find": "À trouver",
@@ -106,7 +107,11 @@
     "label_more_options": "Pour obtenir un meilleur résultat, vous devez ajouter des options",
     "label_select_offer_plz": "Sélectionnez un type d'offre s'il vous plaît",
     "label_update_offer": "Modifier l'offer",
-    "label_add_offer": "Ajouter une offre"
+    "label_add_offer": "Ajouter une offre",
+    "per_periode": "Periode",
+    "per_month": "Par mois",
+    "per_day": "Par jour",
+    "per_year": "Par année"
   },
   "news_letter": {
     "added_success": "Merci pour votre abonnement"
@@ -121,5 +126,14 @@
   "my_offers": {
     "title_page": "Mes offres",
     "no_offers_found": "Aucune offre trouvée"
+  },
+  "details_offer": {
+    "title_add_favrite_user": "Utilisateur favoris",
+    "description_add_favrite_user": "Ajouter cet utilisateur à votre liste de favoris",
+    "about_seller": "A propos du vendeur",
+    "send_message": "Envoyer un message",
+    "contact_with": "Contacter par",
+    "show_number": "Afficher le numéro",
+    "send_email": "Envoyer un email"
   }
 }

@@ -14,6 +14,7 @@
     "label_register": "Register",
     "label_update": "Update",
     "label_search": "Search",
+    "label_favorite": "Favorite",
     "for_sell": "For Sell",
     "for_rent": "For Rent",
     "for_find": "For find",
@@ -106,7 +107,11 @@
     "label_more_options": "To get a better result, you need to add options",
     "label_select_offer_plz": "Select one type offer please",
     "label_update_offer": "Update offer",
-    "label_add_offer": "Add offer"
+    "label_add_offer": "Add offer",
+    "per_periode": "Period",
+    "per_month": "Per month",
+    "per_day": "Per day",
+    "per_year": "Per year"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
@@ -121,5 +126,14 @@
   "my_offers": {
     "title_page": "My offers",
     "no_offers_found": "No Offers found"
+  },
+  "details_offer": {
+    "title_add_favrite_user": "Favorite user",
+    "description_add_favrite_user": "Add this user to your favorite list",
+    "about_seller": "About the seller",
+    "send_message": "Send a message",
+    "contact_with": "Contact with",
+    "show_number": "Show phone number",
+    "send_email": "Send an email"
   }
 }

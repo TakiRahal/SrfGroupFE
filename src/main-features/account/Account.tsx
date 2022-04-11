@@ -276,7 +276,7 @@ export const Account = (props: IAccountClientProps) => {
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.firstName && Boolean(formik.errors.firstName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_firstname')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_firstname')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="firstName"
                                                     name="firstName"
@@ -291,7 +291,7 @@ export const Account = (props: IAccountClientProps) => {
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.lastName && Boolean(formik.errors.lastName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_lastname')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_lastname')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="lastName"
                                                     name="lastName"
@@ -308,7 +308,7 @@ export const Account = (props: IAccountClientProps) => {
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.phone && Boolean(formik.errors.phone)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_phone')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_phone')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="phone"
                                                     name="phone"
@@ -325,7 +325,7 @@ export const Account = (props: IAccountClientProps) => {
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.address && Boolean(formik.errors.address)}>
                                                 <Autocomplete
-                                                    id="country-select"
+                                                    id="address"
                                                     fullWidth
                                                     size="small"
                                                     options={props.entitiesAddress}

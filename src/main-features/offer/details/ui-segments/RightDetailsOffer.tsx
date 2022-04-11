@@ -150,19 +150,19 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>
-                    Title
+                    {t('details_offer.title_add_favrite_user')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Add this user to your favorite list
+                        {t('details_offer.description_add_favrite_user')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseFavoriteModal}>
-                        Cancel
+                    <Button onClick={handleCloseFavoriteModal} color="neutral">
+                        {t('common.label_cancel')}
                     </Button>
-                    <Button onClick={handleAddFavoriteModal}>
-                        Favorite
+                    <Button onClick={handleAddFavoriteModal} color="success">
+                        {t('common.label_favorite')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -173,7 +173,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
         <Grid item xs={12} sm={12}>
             <Card>
                 <Typography paragraph sx={{m: 2}}>
-                    A propos du vendeur
+                    {t('details_offer.about_seller')}
                 </Typography>
                 <ListItemButton  onClick={() => redirectToPorfile(offerEntity?.user?.id)} sx={{display: 'block'}}>
                     <CardHeader
@@ -240,7 +240,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                         <Box sx={{'& > :not(style)': {m: 1}}}>
                             <form onSubmit={formik.handleSubmit}>
                                 <Typography paragraph className="text-center">
-                                    Envoyer un message
+                                    {t('details_offer.send_message')}
                                 </Typography>
                                 <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                                     <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}}/>
@@ -293,7 +293,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
 
                     <Grid item xs={12} sm={6} sx={{p: 2, borderLeft: '1px solid #cfcbcb;'}}>
                         <Typography paragraph className="text-center">
-                            Contacter par
+                            {t('details_offer.contact_with')}
                         </Typography>
 
                         <Button variant="outlined" startIcon={<FacebookIcon/>} fullWidth sx={{mt: 3}}>
@@ -301,11 +301,11 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                         </Button>
 
                         <Button variant="outlined" startIcon={<PhoneIcon/>} fullWidth sx={{mt: 3}}>
-                            Afficher le numéro
+                            {t('details_offer.show_number')}
                         </Button>
 
                         <Button variant="outlined" startIcon={<PhoneIcon/>} fullWidth sx={{mt: 3}}>
-                            Envoyer un email
+                            {t('details_offer.send_email')}
                         </Button>
                     </Grid>
                 </Grid>

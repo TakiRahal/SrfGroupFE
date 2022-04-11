@@ -84,12 +84,18 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                             size="small"
                             value={formik.values.email}
                             onChange={formik.handleChange}
+                            error
                         />
                         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                         <LoadingButton loading={false} variant="text" color="neutral" type="submit">
                             {t('common.label_subscribe')}
                         </LoadingButton>
                     </Paper>
+                    {
+                        formik.touched.email && formik.errors.email ? <Typography sx={{ mx: 1 }} color="error" display="flex">
+                            Email required
+                        </Typography> : null
+                    }
                 </Toolbar>
             </form>
             <div>

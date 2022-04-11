@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography/Typography";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import Button from "@mui/material/Button/Button";
 import {TypeDisplaySearchOffers} from "../../shared/enums/type-offer.enum";
-import {getFullUrlWithParams,} from "../../shared/utils/utils-functions";
+import {getFullUrlWithParams, notIncludesAnyQueryParams,} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import {getEntities as getEntitiesOffers, resetPublicEntitiesOffers} from '../../shared/reducers/offer.reducer';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -23,7 +23,7 @@ import LeftSearch from './ui-segments/LeftSearch';
 import {useTranslation} from "react-i18next";
 import './Search.scss';
 import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
-import {IOffer} from "../../shared/model/offer.model";
+import InfiniteScroll from 'react-infinite-scroller';
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -31,7 +31,6 @@ export const Search = (props: ISearchProps) => {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [activePage, setActivePage] = React.useState(-1);
-    const [listOffersPagination, setListOffersPagination] = React.useState<IOffer[]>([]);
 
     const history = useHistory();
     const { search } = useLocation();
@@ -40,65 +39,64 @@ export const Search = (props: ISearchProps) => {
 
     const { listOffers, loadingListOffers, getEntitiesOffers, totalItems, entitiesCategories } = props;
 
-    React.useEffect(() => {
-        const values = queryString.parse(search);
-        // Protect search page
-        if(isEmpty(values)){
-            history.push(ALL_APP_ROUTES.OFFER.LIST+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE);
-            return;
-        }
-        else{
-            if(listOffers.length===0){
-                setActivePage(Number(values.page) || 0);
-            }
-        }
-
-    }, [search]);
+    const resetAll = () => {
+        props.resetPublicEntitiesOffers();
+        setActivePage(0);
+    };
 
     React.useEffect(() => {
-        console.log('activePage ', activePage);
+        // console.log('search ', search);
+        setActivePage(-1);
+        resetAll();
+    }, []);
+
+    React.useEffect(() => {
+        // console.log('activePage ', activePage);
         if(activePage>=0){
             const values = queryString.parse(search);
-            searchWithParams(values);
+            let queryParams = getFullUrlWithParams(values);
+            getEntitiesOffers(activePage, AllAppConfig.OFFERS_PER_PAGE, queryParams);
         }
     }, [activePage]);
 
 
-    React.useEffect(() => {
-        console.log('listOffers ', listOffers);
-        if(listOffers?.length){
-            setListOffersPagination([
-                ...listOffersPagination,
-                ...listOffers
-            ]);
-        }
-    }, [listOffers]);
-
-    const rediretTo = (offerId?: number) => {
-        setTimeout(() => {
-            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
-        }, 300);
-    };
-
-    const searchWithParams = (values: any) => {
-        let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page='+activePage+'&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
-        console.log('urlSearch ', urlSearch);
-        history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
-
-        getEntitiesOffers(activePage, AllAppConfig.OFFERS_PER_PAGE, urlSearch);
-    }
+    // const rediretTo = (offerId?: number) => {
+    //     setTimeout(() => {
+    //         history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
+    //     }, 300);
+    // };
 
     const loadMore = () => {
         setActivePage(activePage+1);
     }
 
     const searchCalback = (values: any) => {
-        console.log('searchCalback ', values);
-        setActivePage(0);
-        setListOffersPagination([]);
-        props.resetPublicEntitiesOffers();
-        searchWithParams(values);
+        if(!values.title && !values.typeOffer && !values.category){
+            console.log('isEmpty(values) ', isEmpty(values) );
+            history.push({
+                pathname: 'search',
+            });
+        }
+        else{
+            const searchEntity: any = {};
+            if(values.title){
+                searchEntity.title = values.title;
+            }
+            if(values.typeOffer){
+                searchEntity.typeOffer = values.typeOffer;
+            }
+            if(values.category){
+                searchEntity.category = values.category;
+            }
+
+            history.push({
+                pathname: 'search',
+                search: "?" + new URLSearchParams(searchEntity).toString()
+            })
+        }
+
+        setActivePage(-1);
+        resetAll();
     }
 
     const typeDisplay = (value: TypeDisplaySearchOffers) => {
@@ -143,21 +141,21 @@ export const Search = (props: ISearchProps) => {
                         <SearchAppBar entitiesCategories={entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
                     </div>
 
+                    <InfiniteScroll
+                        pageStart={activePage}
+                        loadMore={loadMore}
+                        hasMore={props.totalPages-1 > activePage}
+                        loader={<div className="loader" key={0}><LoadingSearchOffers typeDisplay={typeDisplayOffers}/></div>}
+                        threshold={0}
+                        initialLoad={false}
+                    >
+                        <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
 
-                    <ItemsOffer listOffers={listOffersPagination.slice()} typeDisplay={typeDisplayOffers}/>
 
-                    {
-                        loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null
-                    }
+                        {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
+                    </InfiniteScroll>
 
 
-                    {
-                        props.totalPages-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
-                            <Button color="neutral" variant="contained" startIcon={<RefreshIcon />} onClick={loadMore}>Load More...</Button>
-                        </Box> : null
-                    }
-
-                    {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
 
                 </Grid>
 

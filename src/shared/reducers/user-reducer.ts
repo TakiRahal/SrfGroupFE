@@ -18,6 +18,8 @@ export const ACTION_TYPES = {
     UPDATE_PASSWORD_USER: 'account/UPDATE_PASSWORD_USER',
     ONE_SIGNAL_ID: 'account/ONE_SIGNAL_ID',
     FETCH_NUMBER_MESSAGE_NOT_SEE: 'account/FETCH_NUMBER_MESSAGE_NOT_SEE',
+    RESET_PASSWORD_INIT: 'passwordReset/RESET_PASSWORD_INIT',
+    RESET_PASSWORD_FINISH: 'passwordReset/RESET_PASSWORD_FINISH',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -59,7 +61,15 @@ const initialState = {
     updateSuccessInfosAccount: false,
 
     loadingPasswordAccount: false,
-    updateSuccessPasswordAccount: false
+    updateSuccessPasswordAccount: false,
+
+    loadingForgotPassword: false,
+    resetPasswordSuccess: false,
+    resetPasswordFailure: false,
+
+    loadingForgotPasswordFinish: false,
+    resetPasswordSuccessFinish: false,
+    resetPasswordFailureFinish: false,
 }
 
 export type UserState = Readonly<typeof initialState>;
@@ -246,6 +256,46 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
 
 
+        case REQUEST(ACTION_TYPES.RESET_PASSWORD_INIT):
+            return {
+                ...state,
+                loadingForgotPassword: true,
+                resetPasswordSuccess: false
+            };
+        case FAILURE(ACTION_TYPES.RESET_PASSWORD_INIT):
+            return {
+                ...state,
+                loadingForgotPassword: false,
+                resetPasswordSuccess: false
+            };
+        case SUCCESS(ACTION_TYPES.RESET_PASSWORD_INIT):
+            return {
+                ...state,
+                loadingForgotPassword: false,
+                resetPasswordSuccess: true,
+            };
+
+
+        case REQUEST(ACTION_TYPES.RESET_PASSWORD_FINISH):
+            return {
+                ...state,
+                loadingForgotPasswordFinish: true,
+                resetPasswordSuccessFinish: false
+            };
+        case FAILURE(ACTION_TYPES.RESET_PASSWORD_FINISH):
+            return {
+                ...state,
+                loadingForgotPasswordFinish: false,
+                resetPasswordSuccessFinish: false
+            };
+        case SUCCESS(ACTION_TYPES.RESET_PASSWORD_FINISH):
+            return {
+                ...state,
+                loadingForgotPasswordFinish: false,
+                resetPasswordSuccessFinish: true,
+            };
+
+
         case ACTION_TYPES.ONE_SIGNAL_ID:
             return {
                 ...state,
@@ -268,6 +318,7 @@ export default (state: UserState = initialState, action: any): UserState => {
 const apiUrl = 'api/user/';
 
 // Actions
+
 export const handleRegister = (email: string, password: string, sourceRegister: string, oneSignalId: string) => {
     const result = ({
         type: ACTION_TYPES.CREATE_ACCOUNT,
@@ -427,6 +478,25 @@ export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook
 
         await dispatch(getSession());
     }
+    return result;
+};
+
+export const handlePasswordResetInit: (mail: string) => void = (mail: string) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.RESET_PASSWORD_INIT,
+        payload: axios.post(`${apiUrl}public/forgot-password/init`, mail, { headers: { ['Content-Type']: 'text/plain' }})
+    })
+    return result;
+};
+
+
+export const handlePasswordResetFinish: (key: string, password: string) => void = (key: string, password: string) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.RESET_PASSWORD_FINISH,
+        payload: axios.post(`${apiUrl}public/forgot-password/finish`,{
+            key, password
+        })
+    })
     return result;
 };
 

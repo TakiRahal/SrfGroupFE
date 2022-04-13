@@ -18,6 +18,8 @@ import MyOffers from "../../main-features/offer/my-offers/MyOffers";
 import FavoriteUser from "../../main-features/favorite/user/FavoriteUser";
 import Chat from "../../main-features/chat/Chat";
 import Notification from "../../main-features/notification/Notification";
+import ForgotPassword from "../../main-features/login/ForgotPassword";
+import ForgotPasswordFinish from "../../main-features/login/ForgotPasswordFinish";
 
 export default function AllRoutes(props: IAppProps){
     return (
@@ -72,6 +74,12 @@ export default function AllRoutes(props: IAppProps){
             </Route>
             <Route path={ALL_APP_ROUTES.NOTIFICATION.LIST}>
                 <Notification />
+            </Route>
+            <Route path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}>
+                <ForgotPassword />
+            </Route>
+            <Route path={`${ALL_APP_ROUTES.FORGOT_PASSWORD_FINISH}/:key?`}>
+                <ForgotPasswordFinish />
             </Route>
 
             <Route path="*">

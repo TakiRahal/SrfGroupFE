@@ -13,6 +13,7 @@ import './TopHomeSlides.scss';
 import {StorageService} from "../../../shared/services/storage.service";
 import {ITopHomeSlidesImages} from "../../../shared/model/top-home-slides-images.model";
 import i18n from "i18next";
+import isEmpty from "lodash/isEmpty";
 
 
 // const defaultImage = getBaseImageUrl('/assets/images/home/default_top_home.jpg');
@@ -33,10 +34,29 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
     }, []);
 
     const searchCalback = (values: any) => {
-        console.log('searchCalback ', values);
-        let queryParams = getFullUrlWithParams(values);
-        let urlSearch = '?page=0&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
-        history.push(ALL_APP_ROUTES.OFFER.LIST+urlSearch);
+        if(!values.title && !values.typeOffer && !values.category){
+            console.log('isEmpty(values) ', isEmpty(values) );
+            history.push({
+                pathname: 'search',
+            });
+        }
+        else{
+            const searchEntity: any = {};
+            if(values.title){
+                searchEntity.title = values.title;
+            }
+            if(values.typeOffer){
+                searchEntity.typeOffer = values.typeOffer;
+            }
+            if(values.category){
+                searchEntity.category = values.category;
+            }
+
+            history.push({
+                pathname: 'search',
+                search: "?" + new URLSearchParams(searchEntity).toString()
+            })
+        }
     }
 
     React.useEffect(() => {

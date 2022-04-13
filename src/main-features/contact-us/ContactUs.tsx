@@ -22,9 +22,11 @@ import {initialValuesContactUs, validationSchemaContactUs} from "./validation/in
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {IRootState} from "../../shared/reducers";
 import { createEntity as createEntityContactUs } from '../../shared/reducers/contact-us.reducer';
-import { reset as resetContactUs } from '../../shared/reducers/contact-us.reducer';
+// import { reset as resetContactUs } from '../../shared/reducers/contact-us.reducer';
 import {getBaseImageUrl} from "../../shared/utils/utils-functions";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import ReCAPTCHA from "react-google-recaptcha";
+import {AllAppConfig} from "../../core/config/all-config";
 
 const initialValues = initialValuesContactUs;
 
@@ -32,27 +34,38 @@ export interface IContactUsUpdateProps extends StateProps, DispatchProps {}
 
 export const ContactUs = (props: IContactUsUpdateProps) => {
 
+    const [recaptcha, setRecaptcha] = React.useState('');
+    const recaptchaRef = React.createRef<any>();
 
     const {
         loadingEntity,
         addSuccessEntity,createEntityContactUs,
-        resetContactUs
+        // resetContactUs
     } = props;
 
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaContactUs,
         onSubmit: values => {
+            console.log('values ', values);
             createEntityContactUs(values);
         },
     });
 
     useEffect(() => {
+        console.log('addSuccessEntity ', addSuccessEntity);
         if (addSuccessEntity) {
             formik.resetForm();
-            resetContactUs();
+            // resetContactUs();
+            recaptchaRef?.current?.reset();
         }
     }, [addSuccessEntity]);
+
+    const onChange = (value: any) => {
+        console.log("Captcha value:", value);
+        // setRecaptcha(value);
+        formik.setFieldValue('captchaResponse', value);
+    }
 
     return (
         <div>
@@ -141,6 +154,15 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                                     </Grid>
 
                                     <Grid item xs={12} md={12}>
+                                        <ReCAPTCHA
+                                            sitekey={AllAppConfig.RECAPTCHA_CONTACT_US.SITE_KEY}
+                                            onChange={onChange}
+                                            ref={recaptchaRef}
+                                        />
+                                        <FormHelperText className="red-color">{formik.touched.captchaResponse && formik.errors.captchaResponse}</FormHelperText>
+                                    </Grid>
+
+                                    <Grid item xs={12} md={12}>
                                         <LoadingButton loading={loadingEntity} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} color="neutral" type="submit">
                                             Envoyer le message
                                         </LoadingButton>
@@ -200,7 +222,7 @@ const mapStateToProps = ({contactUs}: IRootState) => ({
 
 const mapDispatchToProps = {
     createEntityContactUs,
-    resetContactUs,
+    // resetContactUs,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

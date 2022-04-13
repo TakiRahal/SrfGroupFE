@@ -86,7 +86,8 @@
     "title_page_signin": "Sing In",
     "label_login": "Logged in",
     "label_forgot_password": "Did you forget your password?",
-    "label_register_account": "Register a new account"
+    "label_register_account": "Register a new account",
+    "title_page_forgot_password": "Forgot password"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Comment added succefully",
@@ -135,5 +136,9 @@
     "contact_with": "Contact with",
     "show_number": "Show phone number",
     "send_email": "Send an email"
+  },
+  "forgot_password_init": {
+    "message_send_mail_success": "Check your emails for details on how to reset your password.",
+    "reset_finish_messages_success": "Your password couldn't be reset. Remember a password request is only valid for 24 hours."
   }
 }

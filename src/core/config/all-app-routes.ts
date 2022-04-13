@@ -8,6 +8,8 @@ export const ALL_APP_ROUTES = {
     DETAILS_OFFER: process.env.PUBLIC_URL+'/details',
     PROFILE: process.env.PUBLIC_URL+'/profile',
     ACCOUNT: process.env.PUBLIC_URL+'/account',
+    FORGOT_PASSWORD_INIT: process.env.PUBLIC_URL+'/forgot-password-init',
+    FORGOT_PASSWORD_FINISH: process.env.PUBLIC_URL+'/forgot-password-finish',
     SUPPORT: {
         FAQ: process.env.PUBLIC_URL+'/cms/faq',
         ABOUT_US: process.env.PUBLIC_URL+'/cms/about-us',

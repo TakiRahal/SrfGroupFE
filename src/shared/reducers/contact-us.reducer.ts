@@ -25,11 +25,13 @@ export default (state: ContactUsState = initialState, action: any): ContactUsSta
             return {
                 ...state,
                 loadingEntity: true,
+                addSuccess: false,
             };
         case FAILURE(ACTION_TYPES.CREATE_CONTACTUS):
             return {
                 ...state,
                 loadingEntity: false,
+                addSuccess: false,
                 errorMessage: action.payload,
             };
         case SUCCESS(ACTION_TYPES.CREATE_CONTACTUS):
@@ -60,6 +62,6 @@ export const createEntity: (entity: IContactUs) => void = (entity: IContactUs) =
     return result;
 };
 
-export const reset = () => ({
-    type: ACTION_TYPES.RESET,
-});
+// export const reset = () => ({
+//     type: ACTION_TYPES.RESET,
+// });

@@ -23,7 +23,7 @@ export function OneSignalProviders() {
                     })
                 }
                 else{
-                    alert('Please check your setting browser and accept notif');
+                    // alert('Please check your setting browser and accept notif');
                 }
             })
         }, error => {

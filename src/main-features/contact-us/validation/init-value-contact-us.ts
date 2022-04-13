@@ -5,6 +5,7 @@ export const initialValuesContactUs = {
   email: '',
   subject: '',
   message: '',
+  captchaResponse: ''
 };
 
 export const validationSchemaContactUs = Yup.object({
@@ -12,4 +13,5 @@ export const validationSchemaContactUs = Yup.object({
   email: Yup.string().email().required('Email is required'),
   subject: Yup.string().required('Subject is required'),
   message: Yup.string().required('Message is required'),
+  captchaResponse: Yup.string().required('captchaResponse is required'),
 });

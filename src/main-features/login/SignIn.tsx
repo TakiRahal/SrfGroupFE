@@ -20,7 +20,8 @@ import OutlinedInput from '@mui/material/OutlinedInput/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
 import InputAdornment from '@mui/material/InputAdornment/InputAdornment';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs/Breadcrumbs';
 import Slide from '@mui/material/Slide';
@@ -201,7 +202,7 @@ export const SignIn = (props: ISignInProps) => {
                                 <Grid container>
                                     <Grid item>
                                         <Typography variant="subtitle2" component="p" sx={{ mt: 2 }}>
-                                            <Link to={''}>
+                                            <Link to={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}>
                                                 {t('signin.label_forgot_password')}
                                             </Link>
                                         </Typography>
@@ -256,7 +257,6 @@ export const SignIn = (props: ISignInProps) => {
         </Slide>
     );
 }
-
 
 const mapStateToProps = ({user}: IRootState) => ({
     loading: user.loginLoading,

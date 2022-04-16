@@ -115,12 +115,13 @@ export const Search = (props: ISearchProps) => {
                         pageStart={activePage}
                         loadMore={loadMore}
                         hasMore={props.totalPages-1 > activePage}
-                        loader={<div className="loader" key={0}><LoadingSearchOffers typeDisplay={typeDisplayOffers}/></div>}
+                        loader={<div className="loader" key={0}></div>}
                         threshold={0}
                         initialLoad={false}
                     >
                         <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
 
+                        { loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null }
 
                         {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
                     </InfiniteScroll>

@@ -89,7 +89,8 @@ export const SignIn = (props: ISignInProps) => {
             const requestData: IFacebook = {
                 ...response,
                 sourceProvider: SourceProvider.FACEBOOK,
-                idOneSignal: props.oneSignalId
+                idOneSignal: props.oneSignalId,
+                langKey: props.currentLocale
             };
             props.loginFacebook(requestData);
         }
@@ -101,7 +102,8 @@ export const SignIn = (props: ISignInProps) => {
             const requestData: IGooglePlus = {
                 ...response,
                 sourceProvider: SourceProvider.GOOGLE_PLUS,
-                idOneSignal: props.oneSignalId
+                idOneSignal: props.oneSignalId,
+                langKey: props.currentLocale
             };
             props.loginGooglePlus(requestData);
         }
@@ -258,12 +260,13 @@ export const SignIn = (props: ISignInProps) => {
     );
 }
 
-const mapStateToProps = ({user}: IRootState) => ({
+const mapStateToProps = ({user, locale}: IRootState) => ({
     loading: user.loginLoading,
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
     loginSuccess: user.loginSuccess,
-    oneSignalId: user.oneSignalId
+    oneSignalId: user.oneSignalId,
+    currentLocale: locale.currentLocale
 });
 
 const mapDispatchToProps = {

@@ -201,11 +201,14 @@ export const MyOffers = (props: IMyOfferProps) => {
                                 pageStart={activePage}
                                 loadMore={loadMore}
                                 hasMore={props.totalPagesMyOffers-1 > activePage}
-                                loader={<div className="loader" key={0}><LoadingSearchOffers typeDisplay={typeDisplayOffers}/></div>}
+                                loader={<div className="loader" key={0}></div>}
                                 threshold={0}
                                 initialLoad={false}
                             >
                                 <ItemsOffer listOffers={listMyOffers.slice()} typeDisplay={typeDisplayOffers}/>
+
+                                { loadingListMyOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null }
+
                             </InfiniteScroll>
 
                             {totalItemsMyOffers ===0 && !loadingListMyOffers ? <Alert severity="warning">No Offers found</Alert> : null}

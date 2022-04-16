@@ -120,11 +120,12 @@ export const Notification = (props: INotificationProps) => {
 
                 <Grid item xs={12} sm={6} md={6}>
 
+                    <br /><br /><br /><br /><br /><br />
                     <InfiniteScroll
                         pageStart={activePage}
                         loadMore={loadMore}
                         hasMore={props.totalPages-1 > activePage}
-                        loader={<div className="loader" key={0}><LoadingNotification/></div>}
+                        loader={<div className="loader" key={0}></div>}
                         threshold={0}
                         initialLoad={false}
                     >
@@ -145,6 +146,8 @@ export const Notification = (props: INotificationProps) => {
                                     <Divider variant="inset" component="li" />
                                 </React.Fragment>
                             ))}
+
+                            { props.loadingNotificationss ? <LoadingNotification/> : null }
                         </List>
                     </InfiniteScroll>
 

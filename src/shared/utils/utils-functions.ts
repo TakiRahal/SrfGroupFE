@@ -67,25 +67,18 @@ export function useQuery() {
 export function getFullUrlWithParams(values: any) {
     let queryParams = '';
     Object.keys(values).map((key) => {
-        if( key!=='page' && key!=='size'){
-            if(key==='category' && values[key] && values[key].id){
-                if(values[key]){
-                    queryParams += '&category.id='+ values[key].id;
-                }
+        if(key==='category' && values[key] && values[key].id){
+            if(values[key]){
+                queryParams += '&category.id='+ values[key].id;
             }
-            else{
-                if(values[key]){
-                    queryParams += '&'+key+ '='+ values[key];
-                }
+        }
+        else{
+            if(values[key]){
+                queryParams += '&'+key+ '='+ values[key];
             }
         }
     });
     return queryParams;
-}
-
-
-export function notIncludesAnyQueryParams(urlSearch: string) {
-    return urlSearch.includes('typeOffer');
 }
 
 /**

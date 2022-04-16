@@ -307,6 +307,9 @@ export default function CommentDetailsOffer({
 }
 
 function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallbackAddComment: any, loadingAddEntity: boolean }) {
+
+    const { t} = useTranslation();
+
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddCommentOffer,
@@ -322,7 +325,7 @@ function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallba
                 <TextField
                     id="content"
                     name="content"
-                    label="Add comment"
+                    label={t('comment_offer.label_add_comment')}
                     value={formik.values.content}
                     onChange={formik.handleChange}
                     multiline
@@ -338,7 +341,7 @@ function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallba
                     sx={{my: 1}}
                     color="neutral"
                 >
-                    comment
+                    {t('comment_offer.label_comment')}
                 </LoadingButton>
             </form>
         </React.Fragment>

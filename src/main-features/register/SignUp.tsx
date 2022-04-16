@@ -21,8 +21,8 @@ import Breadcrumbs from '@mui/material/Breadcrumbs/Breadcrumbs';
 import Slide from '@mui/material/Slide';
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {initialValuesSignUp, validationSchemaSignUp} from "./validation/validation-signup";
-import {connect} from "react-redux";
-import {ACTION_TYPES, handleRegister, resetRegister} from "../../shared/reducers/user-reducer";
+import {connect} from "react-redux/";
+import {handleRegister, resetRegister} from "../../shared/reducers/user-reducer";
 import {IRootState} from "../../shared/reducers";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
@@ -33,6 +33,7 @@ import Container from "@mui/material/Container/Container";
 import {TransitionModal} from "../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
 import {checkMobileDesktopBrowser} from "../../shared/utils/utils-functions";
+import {useHistory} from "react-router";
 
 const initialValues = initialValuesSignUp;
 
@@ -56,6 +57,7 @@ export const SignUp = (props: ISignUpProps) => {
     const [openDialogRegister, setOpenDialogRegister] = React.useState(false);
 
     const { t } = useTranslation();
+    const history = useHistory();
 
     React.useEffect(() => {
         setStartAnimation(true);
@@ -71,7 +73,7 @@ export const SignUp = (props: ISignUpProps) => {
         initialValues,
         validationSchema: validationSchemaSignUp,
         onSubmit: (values: ISignUP) => {
-            props.handleRegister(values.email, values.firstPassword, checkMobileDesktopBrowser(), props.oneSignalId);
+            props.handleRegister(values.email, values.firstPassword, checkMobileDesktopBrowser(), props.oneSignalId, props.currentLocale);
         },
     });
 
@@ -101,6 +103,7 @@ export const SignUp = (props: ISignUpProps) => {
         setOpenDialogRegister(false);
         props.resetRegister();
         formik.resetForm();
+        history.push(ALL_APP_ROUTES.LOGIN);
     }
 
     const shwDialogRegister = () => {
@@ -216,7 +219,7 @@ export const SignUp = (props: ISignUpProps) => {
                                         </Grid>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.secondPassword && Boolean(formik.errors.secondPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label-confirm_password')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('common.label_confirm_password')}</InputLabel>
                                                 <OutlinedInput
                                                     id="secondPassword"
                                                     name="secondPassword"
@@ -254,7 +257,7 @@ export const SignUp = (props: ISignUpProps) => {
                                                             onChange={formik.handleChange}
                                                         />
                                                     }
-                                                    label={t('signup.accept-cgu').toString()}
+                                                    label={`${t('signup.accept-cgu')}<Link href="qsd">ici</Link>`}
                                                 />
                                                 <FormHelperText id="component-helper-text">{formik.touched.accept && formik.errors.accept}</FormHelperText>
                                             </FormControl>
@@ -281,10 +284,11 @@ export const SignUp = (props: ISignUpProps) => {
 }
 
 
-const mapStateToProps = ({ user }: IRootState) => ({
+const mapStateToProps = ({ user, locale }: IRootState) => ({
     loading: user.registrationLoading,
     registrationSuccess: user.registrationSuccess,
-    oneSignalId: user.oneSignalId
+    oneSignalId: user.oneSignalId,
+    currentLocale: locale.currentLocale,
 });
 
 const mapDispatchToProps = {

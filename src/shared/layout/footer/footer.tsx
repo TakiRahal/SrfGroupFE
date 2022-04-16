@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -17,13 +16,15 @@ import {useFormik} from "formik";
 import {initialValuesSubscribeNewsLetter, validationSchemaSubscribeNewsLetter} from './validation/initial-values-subscribe-news-letter';
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import {useTranslation} from "react-i18next";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {Link} from "react-router-dom";
 
 function Copyright() {
     return (
         <Box>
             <Typography variant="body2" color="text.secondary" align="center" sx={{ pt: 3 }}>
                 {'Copyright © '}
-                <Link color="inherit" href="https://www.linkedin.com/in/rahal-taki-eddine-51952ba4/" target="_blank">
+                <Link color="inherit" to="https://www.linkedin.com/in/rahal-taki-eddine-51952ba4/" target="_blank">
                     Taki Eddine Rahal
                 </Link>{' '}
                 {new Date().getFullYear()}
@@ -137,23 +138,31 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
 
                     <Grid item xs={12} sm={3}>
                         <Typography variant="h6" align="center" gutterBottom>
-                            A Propos
+                            {t('footer.label_about_us')}
                         </Typography>
+
+                        <Link to={ALL_APP_ROUTES.SUPPORT.ABOUT_US}>
+                            <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
+                                {t('footer.label_Who_are_we')}
+                            </Typography>
+                        </Link>
+
                         <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                            Qui somme nous
-                        </Typography>
-                        <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                            Politique de confidentialité
+                            {t('footer.label_privacy_policy')}
                         </Typography>
                         <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
                             Politique des cookies
                         </Typography>
-                        <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                            Contact
-                        </Typography>
-                        <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                            FAQ
-                        </Typography>
+                        <Link to={ALL_APP_ROUTES.SUPPORT.CONTACT_US}>
+                            <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
+                                Contact
+                            </Typography>
+                        </Link>
+                        <Link to={ALL_APP_ROUTES.SUPPORT.FAQ}>
+                            <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
+                                FAQ
+                            </Typography>
+                        </Link>
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <Typography variant="h6" align="center" gutterBottom>

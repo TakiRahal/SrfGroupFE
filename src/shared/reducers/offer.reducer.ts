@@ -32,7 +32,7 @@ const initialState = {
     loadingEntities: false,
     errorMessage: null,
     totalItems: 0,
-    totalPages: 3,
+    totalPages: 0,
 
     entitiesForUser: [] as ReadonlyArray<IOffer>,
     loadingEntitiesForUser: false,

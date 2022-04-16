@@ -159,7 +159,7 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
     return (
         <Container maxWidth="xl" className="container-for-rent-home">
             <h3>
-                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Rent}`}>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Rent}`}>
                     {t('common.for_rent')}
                 </Link>
             </h3>

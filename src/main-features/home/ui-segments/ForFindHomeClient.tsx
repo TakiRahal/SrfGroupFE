@@ -131,7 +131,7 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
     return (
         <Container maxWidth="xl" className="container-for-find-home">
             <h3>
-                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Find}`}>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Find}`}>
                     {t('common.for_find')}
                 </Link>
             </h3>

@@ -193,7 +193,7 @@ export const SignIn = (props: ISignInProps) => {
                                         </Grid>
                                     </Grid>
 
-                                    <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+                                    <FormControlLabel control={<Checkbox value="remember" color="primary" />} label={t('signin.label_remember_me').toString()} />
 
                                     <LoadingButton loading={loading} fullWidth variant="contained" color="neutral" type="submit" sx={{ mt: 3, mb: 2 }}>
                                         {t('signin.label_login')}

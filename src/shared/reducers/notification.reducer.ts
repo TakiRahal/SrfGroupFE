@@ -15,6 +15,10 @@ const initialState = {
     errorMessage: null,
     entities: [] as ReadonlyArray<INotification>,
     totalItems: 0,
+    totalPages: 0,
+
+    loadIsRead: false,
+    addSuccessIsRead: false
 }
 
 export type NotificationState = Readonly<typeof initialState>;
@@ -43,7 +47,28 @@ export default (state: NotificationState = initialState, action: any): Notificat
                     ...state.entities,
                     ...action.payload.data.content
                 ],
-                totalItems: action.payload.data.totalElements
+                totalItems: action.payload.data.totalElements,
+                totalPages: action.payload.data.totalPages
+            };
+
+
+        case REQUEST(ACTION_TYPES.SET_IS_READ_NOTIFICATION_LIST):
+            return {
+                ...state,
+                loadIsRead: true,
+                addSuccessIsRead: false
+            };
+        case FAILURE(ACTION_TYPES.SET_IS_READ_NOTIFICATION_LIST):
+            return {
+                ...state,
+                loadIsRead: false,
+                addSuccessIsRead: false
+            };
+        case SUCCESS(ACTION_TYPES.SET_IS_READ_NOTIFICATION_LIST):
+            return {
+                ...state,
+                loadIsRead: false,
+                addSuccessIsRead: true
             };
 
 

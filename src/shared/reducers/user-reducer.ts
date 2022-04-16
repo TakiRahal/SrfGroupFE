@@ -20,6 +20,7 @@ export const ACTION_TYPES = {
     FETCH_NUMBER_MESSAGE_NOT_SEE: 'account/FETCH_NUMBER_MESSAGE_NOT_SEE',
     RESET_PASSWORD_INIT: 'passwordReset/RESET_PASSWORD_INIT',
     RESET_PASSWORD_FINISH: 'passwordReset/RESET_PASSWORD_FINISH',
+    RESET_NBENOTIFICATIONS_NOT_READ: 'account/RESET_NBENOTIFICATIONS_NOT_READ',
     LOGOUT: 'logout/LOGOUT'
 }
 
@@ -310,6 +311,13 @@ export default (state: UserState = initialState, action: any): UserState => {
                 currentUser: {}
             };
 
+
+        case ACTION_TYPES.RESET_NBENOTIFICATIONS_NOT_READ:
+            return {
+                ...state,
+                nbeNotificationsNotRead: 0
+            };
+
         default:
             return state;
     }
@@ -319,14 +327,15 @@ const apiUrl = 'api/user/';
 
 // Actions
 
-export const handleRegister = (email: string, password: string, sourceRegister: string, oneSignalId: string) => {
+export const handleRegister = (email: string, password: string, sourceRegister: string, oneSignalId: string, langKey: string) => {
     const result = ({
         type: ACTION_TYPES.CREATE_ACCOUNT,
         payload: axios.post(`${apiUrl}public/signup`, {
             email: email,
             password: password,
             sourceRegister: sourceRegister,
-            idOneSignal: oneSignalId
+            idOneSignal: oneSignalId,
+            langKey: langKey
         }),
         // meta: {
         //     successMessage: 'register.messages.success',
@@ -507,7 +516,6 @@ export const logout: () => void = () => (dispatch: any) => {
     });
 };
 
-
 export const clearAuthToken = () => {
     if (StorageService.local.get(AllAppConfig.NAME_TOKEN_CURRENT_USER)) {
         StorageService.local.remove(AllAppConfig.NAME_TOKEN_CURRENT_USER);
@@ -530,3 +538,7 @@ export const clearAuthentication = (messageKey: string) => (dispatch: any, getSt
     //     type: ACTION_TYPES.CLEAR_AUTH,
     // });
 };
+
+export const resetNbeNotificationsNotRead = () => ({
+    type: ACTION_TYPES.RESET_NBENOTIFICATIONS_NOT_READ,
+});

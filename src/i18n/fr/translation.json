@@ -87,13 +87,16 @@
     "label_login": "Se connecter",
     "label_forgot_password": "Avez-vous oublié votre mot de passe?",
     "label_register_account": "Enregistrer un nouveau compte",
-    "title_page_forgot_password": "Mot de passe oublié"
+    "title_page_forgot_password": "Mot de passe oublié",
+    "label_remember_me": "Rester connecté"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Commentaire ajouté avec succès",
     "show_comment_details_offer": "Afficher les commentaires",
     "hide_comment_details_offer": "Masquer les commentaires",
-    "show_more_comment": "Afficher plus de commentaires"
+    "show_more_comment": "Afficher plus de commentaires",
+    "label_add_comment": "Ajouter un commentaire",
+    "label_comment": "Commenter"
   },
   "profile": {
     "title_page_profile": "Profil",
@@ -130,6 +133,7 @@
   },
   "details_offer": {
     "title_add_favrite_user": "Utilisateur favoris",
+    "label_details_offer": "Détails de l'offre",
     "description_add_favrite_user": "Ajouter cet utilisateur à votre liste de favoris",
     "about_seller": "A propos du vendeur",
     "send_message": "Envoyer un message",
@@ -140,5 +144,10 @@
   "forgot_password_init": {
     "message_send_mail_success": "Veuillez vérifier vos nouveaux emails et suivre les instructions pour réinitialiser votre mot de passe.",
     "reset_finish_messages_success": "Votre mot de passe n'a pas pu être réinitialisé. La demande de réinitialisation n'est valable que 24 heures."
+  },
+  "footer": {
+    "label_about_us": "À propos de nous",
+    "label_Who_are_we": "Qui somme nous",
+    "label_privacy_policy": "Politique de confidentialité"
   }
 }

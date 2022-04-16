@@ -1,5 +1,4 @@
 import React from 'react';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button/Button';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,7 +11,7 @@ import IconButton from '@mui/material/IconButton/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterIcon from '@mui/icons-material/FilterListSharp';
 import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
-import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 import {
     initialValuesSearchAppBar,
     validationSchemSearchAppBar
@@ -28,6 +27,15 @@ import GridOnIcon from '@mui/icons-material/GridOn';
 import {TypeDisplaySearchOffers} from "../../enums/type-offer.enum";
 import {ICategory} from "../../model/category.model";
 import i18n from "i18next";
+import {TransitionModal} from "../../pages/transition-modal";
+import Dialog from "@mui/material/Dialog/Dialog";
+import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
+import DialogContent from "@mui/material/DialogContent/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
+import DialogActions from "@mui/material/DialogActions/DialogActions";
+import {FilterOffer} from "../../../main-features/search/ui-segments/FilterOffer";
+import {IAddress} from "../../model/address.model";
+import Typography from "@mui/material/Typography/Typography";
 
 const listTypeOffers: string[] = [
     TypeOfferEnum.Sell, TypeOfferEnum.Rent,TypeOfferEnum.Find
@@ -35,10 +43,12 @@ const listTypeOffers: string[] = [
 
 const initialValues = initialValuesSearchAppBar;
 
-export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCallback}: {entitiesCategories: ICategory[], searchCalback: any, typeDisplayCallback?: any}) {
+export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCallback, listAddress}:
+                             {entitiesCategories: ICategory[], searchCalback: any, typeDisplayCallback?: any, listAddress: IAddress[]}) {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+    const [openFilterOfferModal, setOpenFilterOfferModal] = React.useState(false);
     const { search } = useLocation();
 
     const { t } = useTranslation();
@@ -99,6 +109,60 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
         }
         return '';
     }
+
+    const handleCloseFilterOfferModal = () => {
+        setOpenFilterOfferModal(false);
+    }
+
+    const renderDialogFilterOffer = () => {
+        return (
+            <Dialog
+                fullScreen
+                open={openFilterOfferModal}
+                TransitionComponent={TransitionModal}
+                keepMounted
+                onClose={handleCloseFilterOfferModal}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleCloseFilterOfferModal}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                            Sound
+                        </Typography>
+                        <Button autoFocus color="inherit" onClick={handleCloseFilterOfferModal}>
+                            save
+                        </Button>
+                    </Toolbar>
+                </AppBar>
+                <DialogTitle>
+                    Filter offers
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        To subscribe to this website, please enter your email address here. We
+                        will send updates occasionally.
+                    </DialogContentText>
+                    <FilterOffer listAddress={listAddress}/>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseFilterOfferModal}>
+                        Cancel
+                    </Button>
+                    <Button color="success" >
+                        Filter
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
+    };
 
     return (
         <Box>
@@ -217,6 +281,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                         display: {xs: 'inline-flex', md: 'none'},
                                     }}
                                     color="neutral"
+                                    onClick={() => setOpenFilterOfferModal(true)}
                                 >
                                     <FilterIcon/>
                                 </Button>
@@ -240,6 +305,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                     </AppBar>
                 </Box>
             </form>
+            {renderDialogFilterOffer()}
         </Box>
     );
 }

@@ -89,7 +89,11 @@ export default () => (next: any) => (action: any) => {
                             break;
                         }
                         case 404:
-                            addErrorAlert('Not found', 'error.url.not.found');
+                            if (data?.message) {
+                                addErrorAlert(data.message);
+                            } else {
+                                addErrorAlert('Not found', 'error.url.not.found');
+                            }
                             break;
 
                         default:

@@ -56,6 +56,12 @@ import {addEventGA, AllModulesEventGA} from "../../../shared/providers/google-an
 import {useTranslation} from "react-i18next";
 import {createConversation} from "../../../shared/reducers/conversation.reducer";
 import {IConversationContent} from "../../../shared/model/conversation-content";
+import AccordionDetails from "@mui/material/AccordionDetails/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary/AccordionSummary";
+import Accordion from "@mui/material/Accordion/Accordion";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RWebShare } from "react-web-share";
+import CustomShare from "../../../shared/components/custom-share/CustomShare";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -64,6 +70,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const [isFavoriteUser, setIsFavoriteUser] = React.useState(false);
     const [openReportOfferModal, setOpenReportOfferModal] = React.useState(false);
     const [activeCommentPage, setActiveCommentPage] = React.useState(-1);
+    const [expandedDetailsOffer, setExpandedDetailsOffer] = React.useState<boolean>(true);
 
     const {id} = useParams<{ id: string }>();
 
@@ -253,6 +260,9 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         );
     };
 
+    const handleChangeDetailsOffer = () => {
+        setExpandedDetailsOffer(!expandedDetailsOffer);
+    }
     return (
         <Box>
             <Zoom in={startAnimation}>
@@ -310,13 +320,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
                                             {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
                                                 <Box>
-                                                    <Typography color="text.secondary" gutterBottom display="flex">
-                                                        <Box sx={{mr: 1}}>{t('common.label_start_date')}</Box>
-                                                        <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
+                                                    <Typography color="text.secondary" gutterBottom>
+                                                        {t('common.label_start_date')} <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
                                                     </Typography>
                                                     <Typography color="text.secondary" gutterBottom display="flex">
-                                                        <Box sx={{mr: 1}}>{t('common.label_end_date')}</Box>
-                                                        <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
+                                                        {t('common.label_end_date')} <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
                                                     </Typography>
                                                 </Box>
                                             ) : null}
@@ -343,13 +351,26 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                                         {favoriteUserOffer?.offer?.category.titleEn}
                                                     </Typography> : null
                                             }
-                                            <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
+
+                                            <Accordion sx={{mt: '40px !important'}} elevation={0} expanded={expandedDetailsOffer} onChange={handleChangeDetailsOffer}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon sx={{backgroundColor: 'yellow', borderRadius: '50%'}}/>}
+                                                    aria-controls="panel1a-content"
+                                                    id="panel1a-header"
+                                                    className="bg-brown">
+                                                    {t('details_offer.label_details_offer')}
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
+                                                </AccordionDetails>
+                                            </Accordion>
+
                                         </CardContent>
                                         <CardActions disableSpacing>
 
-                                            <IconButton>
+                                            <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
                                                 <ShareIcon/>
-                                            </IconButton>
+                                            </CustomShare>
 
                                             <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
                                                 <FlagIcon/>

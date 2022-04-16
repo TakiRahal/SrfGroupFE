@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import red from '@mui/material/colors/red';
 import Grid from '@mui/material/Grid/Grid';
 import Card from '@mui/material/Card/Card';
@@ -25,7 +25,6 @@ import Dialog from '@mui/material/Dialog/Dialog';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import DialogContent from '@mui/material/DialogContent/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
-import {FacebookShareButton} from 'react-share';
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IUser} from "../../../../shared/model/user.model";
 import {
@@ -44,12 +43,8 @@ import {
     validationSchemaAddMessageDetailsOffer
 } from "../validation/initial-values-add-comment-offer";
 import {useTranslation} from "react-i18next";
-import InputLabel from "@mui/material/InputLabel/InputLabel";
-import FormControl from "@mui/material/FormControl/FormControl";
-import Input from "@mui/material/Input/Input";
-import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import isEmpty from 'lodash/isEmpty';
-import {createConversation} from "../../../../shared/reducers/conversation.reducer";
+import CustomShare from "../../../../shared/components/custom-share/CustomShare";
 
 const initialValues = initialValuesAddMessageDetailsOffer;
 
@@ -223,13 +218,13 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                     >
                         <FavoriteIcon/>
                     </IconButton>
-                    <FacebookShareButton
-                        url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx"
-                        quote="fsdf"
-                        style={{color: '#fff'}}
-                    >
-                        <ShareIcon/>
-                    </FacebookShareButton>
+
+                    <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
+                        <Box sx={{color: '#fff'}}>
+                            <ShareIcon/>
+                        </Box>
+                    </CustomShare>
+
                     <IconButton sx={{marginLeft: 'auto', color: '#fff'}} onClick={handleExpandClick}>
                         <ExpandMoreIcon/>
                     </IconButton>

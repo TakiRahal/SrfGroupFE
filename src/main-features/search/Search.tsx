@@ -7,14 +7,11 @@ import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
-import Button from "@mui/material/Button/Button";
 import {TypeDisplaySearchOffers} from "../../shared/enums/type-offer.enum";
-import {getFullUrlWithParams, notIncludesAnyQueryParams,} from "../../shared/utils/utils-functions";
+import {getFullUrlWithParams} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import {getEntities as getEntitiesOffers, resetPublicEntitiesOffers} from '../../shared/reducers/offer.reducer';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import queryString from 'query-string';
-import isEmpty from 'lodash/isEmpty';
 import Alert from "@mui/material/Alert/Alert";
 import {SearchAppBar} from "../../shared/layout/menus/SearchAppBar";
 import ItemsOffer from "../../shared/components/item-offer/ItemsOffer";
@@ -59,42 +56,15 @@ export const Search = (props: ISearchProps) => {
         }
     }, [activePage]);
 
-
-    // const rediretTo = (offerId?: number) => {
-    //     setTimeout(() => {
-    //         history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
-    //     }, 300);
-    // };
-
     const loadMore = () => {
         setActivePage(activePage+1);
     }
 
     const searchCalback = (values: any) => {
-        if(!values.title && !values.typeOffer && !values.category){
-            console.log('isEmpty(values) ', isEmpty(values) );
-            history.push({
-                pathname: 'search',
-            });
-        }
-        else{
-            const searchEntity: any = {};
-            if(values.title){
-                searchEntity.title = values.title;
-            }
-            if(values.typeOffer){
-                searchEntity.typeOffer = values.typeOffer;
-            }
-            if(values.category){
-                searchEntity.category = values.category;
-            }
-
-            history.push({
-                pathname: 'search',
-                search: "?" + new URLSearchParams(searchEntity).toString()
-            })
-        }
-
+        history.push({
+            pathname: 'search',
+            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        })
         setActivePage(-1);
         resetAll();
     }
@@ -128,7 +98,7 @@ export const Search = (props: ISearchProps) => {
                 <Grid item xs={12} sm={6} md={1}></Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <LeftSearch />
+                    <LeftSearch listAddress={props.entitiesAddress.slice()}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6}>
@@ -138,7 +108,7 @@ export const Search = (props: ISearchProps) => {
                             marginBottom: 100,
                         }}
                     >
-                        <SearchAppBar entitiesCategories={entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
+                        <SearchAppBar entitiesCategories={entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay} listAddress={props.entitiesAddress.slice()}/>
                     </div>
 
                     <InfiniteScroll
@@ -167,13 +137,14 @@ export const Search = (props: ISearchProps) => {
         </Box>
     );
 }
-const mapStateToProps = ({ user, offer, category }: IRootState) => ({
+const mapStateToProps = ({ user, offer, category, address }: IRootState) => ({
     listOffers: offer.entities,
     loadingListOffers: offer.loadingEntities,
     totalItems: offer.totalItems,
     totalPages: offer.totalPages,
 
     entitiesCategories: category.entities,
+    entitiesAddress: address.entities
 });
 
 const mapDispatchToProps = {

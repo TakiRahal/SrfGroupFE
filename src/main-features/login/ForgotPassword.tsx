@@ -24,7 +24,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControl from "@mui/material/FormControl/FormControl";
 import InputLabel from "@mui/material/InputLabel/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
-import {useHistory} from "react-router";
 import Alert from "@mui/material/Alert/Alert";
 
 const initialValues = initialValuesForgotPassword;
@@ -36,7 +35,6 @@ export const ForgotPassword = (props: IForgotPasswordProps) => {
     const [startAnimation, setStartAnimation] = React.useState(false);
 
     const { t } = useTranslation();
-    const history = useHistory();
 
     React.useEffect(() => {
         setStartAnimation(true);

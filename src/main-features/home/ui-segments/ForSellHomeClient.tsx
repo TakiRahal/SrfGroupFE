@@ -134,7 +134,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     return(
         <Container maxWidth="xl" sx={{my: 20}} className="container-for-sell-home">
             <h3>
-                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?page=0&size=${AllAppConfig.OFFERS_PER_PAGE}&typeOffer=${TypeOfferEnum.Sell}`}>
+                <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Sell}`}>
                     {t('common.for_sell')}
                 </Link>
             </h3>

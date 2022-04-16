@@ -79,65 +79,12 @@ export const MyOffers = (props: IMyOfferProps) => {
         }
     }, [activePage]);
 
-    // React.useEffect(() => {
-    //     const values = queryString.parse(search);
-    //
-    //     // Protect search page
-    //     if(isEmpty(values)){
-    //         history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+'?page=0&size='+AllAppConfig.OFFERS_PER_PAGE);
-    //         return;
-    //     }
-    //     else{
-    //         setActivePage(Number(values.page) || 0);
-    //     }
-    //
-    // }, [search]);
-    //
-    // React.useEffect(() => {
-    //     if(activePage>=0){
-    //         const values = queryString.parse(search);
-    //         searchWithParams(values);
-    //     }
-    // }, [activePage]);
-
-    // const searchWithParams = (values: any) => {
-    //     let queryParams = getFullUrlWithParams(values);
-    //     let urlSearch = '?page='+activePage+'&size='+AllAppConfig.OFFERS_PER_PAGE+queryParams;
-    //     history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS+urlSearch);
-    //     getEntitiesForCurrentUser(activePage, AllAppConfig.OFFERS_PER_PAGE, urlSearch);
-    // }
-
-    // React.useEffect(() => {
-    //     // Persiste after update: Get entity
-    //     props.resetOffer();
-    //
-    //     getEntitiesForCurrentUser(1, 20, '');
-    // }, [])
-
     React.useEffect(() => {
         if(deleteSuccessOffer){
             setActivePage(-1);
             resetAll();
         }
     }, [deleteSuccessOffer])
-
-    // const rediretTo = (offerId?: number) => {
-    //     setTimeout(() => {
-    //         history.push(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
-    //     }, 300);
-    // };
-    //
-    // const handleClickOpenUpdateOffert = (event: any, offerId?: number) => {
-    //     event.stopPropagation();
-    //     history.push(`${ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}/${offerId}/edit`);
-    // };
-    //
-    //
-    // const handleClickOpenDeleteOffertModal = (event: any, offerId?: number) => {
-    //     event.stopPropagation();
-    //     setDeleteOfferId(offerId || -1);
-    //     setOpenDeleteOfferModal(true);
-    // };
 
     const handleClickCancelDeleteOfferModal = () => {
         setOpenDeleteOfferModal(false);
@@ -243,7 +190,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                                     maxWidth: '100%',
                                     marginBottom: 100,
                                 }} >
-                                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay}/>
+                                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay} listAddress={props.entitiesAddress.slice()}/>
                             </div>
 
                             <Typography  variant="subtitle2" color="text.secondary">
@@ -259,26 +206,9 @@ export const MyOffers = (props: IMyOfferProps) => {
                                 initialLoad={false}
                             >
                                 <ItemsOffer listOffers={listMyOffers.slice()} typeDisplay={typeDisplayOffers}/>
-
-
-                                {totalItemsMyOffers ===0 && !loadingListMyOffers ? <Alert severity="warning">No Offers found</Alert> : null}
                             </InfiniteScroll>
 
-
-                            {/*<ItemsOffer listOffers={listMyOffers.slice()} typeDisplay={typeDisplayOffers}/>*/}
-
-                            {/*{*/}
-                                {/*loadingListMyOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null*/}
-                            {/*}*/}
-
-                            {/*{*/}
-                                {/*props.totalPagesMyOffers-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>*/}
-                                    {/*<Button color="neutral" variant="contained" startIcon={<RefreshIcon />} onClick={loadMore}>Load More...</Button>*/}
-                                {/*</Box> : null*/}
-                            {/*}*/}
-
-                            {/*{totalItemsMyOffers ===0 && !loadingListMyOffers ? <Alert severity="warning">{t('my_offers.no_offers_found')}</Alert> : null}*/}
-
+                            {totalItemsMyOffers ===0 && !loadingListMyOffers ? <Alert severity="warning">No Offers found</Alert> : null}
 
                         </Grid>
                     </Grid>
@@ -290,7 +220,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     );
 }
 
-const mapStateToProps = ({ offer, category }: IRootState) => ({
+const mapStateToProps = ({ offer, category, address }: IRootState) => ({
     listMyOffers: offer.entitiesMyOffers,
     loadingListMyOffers: offer.loadingMyOffers,
     totalItemsMyOffers: offer.totalItemsMyOffers,
@@ -299,6 +229,7 @@ const mapStateToProps = ({ offer, category }: IRootState) => ({
     deleteSuccessOffer: offer.deleteSuccess,
 
     entitiesCategories: category.entities,
+    entitiesAddress: address.entities
 });
 
 const mapDispatchToProps = {

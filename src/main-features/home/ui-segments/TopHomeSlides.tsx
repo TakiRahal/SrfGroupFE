@@ -153,15 +153,17 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
                     zIndex: 9
                 }}
             >
-                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback}/>
+                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} listAddress={props.entitiesAddress.slice()}/>
             </Box>
         </div>
     )
 }
 
-const mapStateToProps = ({category, topHomeSlidesImages}: IRootState) => ({
+const mapStateToProps = ({category, topHomeSlidesImages, address}: IRootState) => ({
     entitiesCategories: category.entities,
     entitiesTopHomeSlidesImages: topHomeSlidesImages.entities,
+
+    entitiesAddress: address.entities
 });
 
 const mapDispatchToProps = {

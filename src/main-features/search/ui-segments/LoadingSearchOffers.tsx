@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card/Card';
 import Skeleton from '@mui/material/Skeleton/Skeleton';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
@@ -8,17 +8,11 @@ import PropTypes from 'prop-types';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
 import Box from "@mui/material/Box/Box";
 import Grid from "@mui/material/Grid/Grid";
-import {TypeDisplaySearchOffers, TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
-import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {TypeDisplaySearchOffers} from "../../../shared/enums/type-offer.enum";
 import {useTranslation} from "react-i18next";
-import {IOffer} from "../../../shared/model/offer.model";
-import {AllAppConfig} from "../../../core/config/all-config";
-import {LazyImage} from "../../../shared/pages/lazy-image";
 import List from "@mui/material/List/List";
 import ListItem from "@mui/material/ListItem/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
-import Avatar from "@mui/material/Avatar/Avatar";
-import FlagIcon from '@mui/icons-material/Flag';
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 
@@ -27,11 +21,31 @@ LoadingSearchOffers.propTypes = {
 };
 
 export default function LoadingSearchOffers({typeDisplay}: {typeDisplay: TypeDisplaySearchOffers}) {
-    // const { loading = false } = props;
 
     return (
         <Box sx={{my: 4}}>
             <Grid container spacing={{xs: 2, md: 6}}>
+
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
+
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
+
+                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
+                    {
+                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                    }
+                </Grid>
 
                 <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
                       sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>

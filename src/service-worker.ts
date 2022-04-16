@@ -79,8 +79,7 @@ self.addEventListener('fetch', async (event: any) => {
 
     // console.log('event.request ', event.request);
     if ( event.request.url.startsWith('https://srf-group-be.herokuapp.com/api/') &&
-         event.request.method === "GET" )
-    {
+         event.request.method === "GET" ) {
         const networkResponse = await fetch(event.request);
         const runtimeCache = await caches.open(RUNTIME_CACHE);
 

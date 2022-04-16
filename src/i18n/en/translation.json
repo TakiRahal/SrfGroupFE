@@ -87,13 +87,16 @@
     "label_login": "Logged in",
     "label_forgot_password": "Did you forget your password?",
     "label_register_account": "Register a new account",
-    "title_page_forgot_password": "Forgot password"
+    "title_page_forgot_password": "Forgot password",
+    "label_remember_me": "Remember me"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Comment added succefully",
     "show_comment_details_offer": "Show comments",
     "hide_comment_details_offer": "Hide comments",
-    "show_more_comment": "Show more comments"
+    "show_more_comment": "Show more comments",
+    "label_add_comment": "Add comment",
+    "label_comment": "Comment"
   },
   "profile": {
     "title_page_profile": "Profile",
@@ -130,6 +133,7 @@
   },
   "details_offer": {
     "title_add_favrite_user": "Favorite user",
+    "label_details_offer": "Offer details",
     "description_add_favrite_user": "Add this user to your favorite list",
     "about_seller": "About the seller",
     "send_message": "Send a message",
@@ -140,5 +144,10 @@
   "forgot_password_init": {
     "message_send_mail_success": "Check your emails for details on how to reset your password.",
     "reset_finish_messages_success": "Your password couldn't be reset. Remember a password request is only valid for 24 hours."
+  },
+  "footer": {
+    "label_about_us": "About us",
+    "label_Who_are_we": "Who are we",
+    "label_privacy_policy": "Privacy Policy"
   }
 }

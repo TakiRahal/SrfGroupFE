@@ -8,6 +8,9 @@ axios.defaults.baseURL = process.env.REACT_APP_API_END_POINT;
 
 const setupAxiosInterceptors = (onUnauthenticated: any) => {
     const onRequestSuccess = (config: any) => {
+
+        // config.headers.localTest = 'ar';
+
         const token = StorageService.local.get(AllAppConfig.NAME_TOKEN_CURRENT_USER) || StorageService.session.get(AllAppConfig.NAME_TOKEN_CURRENT_USER);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -23,7 +26,6 @@ const setupAxiosInterceptors = (onUnauthenticated: any) => {
         return response;
     };
     const onResponseError = (err: any) => {
-        console.log('err ', err);
         const status = err.status || (err.response ? err.response.status : 0);
         if (status === 403 || status === 401) {
             onUnauthenticated();

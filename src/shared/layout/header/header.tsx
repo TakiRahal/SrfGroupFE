@@ -32,6 +32,10 @@ import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 import {languages, locales} from "../../reducers/locale.reducer";
 import {Translation, useTranslation} from "react-i18next";
 import Tooltip from "@mui/material/Tooltip/Tooltip";
+import Divider from "@mui/material/Divider/Divider";
+import {MaterialUISwitch} from "../../pages/material-ui-switch";
+import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup/FormGroup";
 
 
 const sections = [
@@ -258,6 +262,11 @@ export default function Header(props: any){
         }, 1000)
     };
 
+    const toggleDarkMode = (event: any, checked: boolean) => {
+        console.log('event ', checked);
+        props.parentCallbackDarkMode(event, checked)
+        // setDarkMode(checked ? 'light' : 'dark' );
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -303,6 +312,15 @@ export default function Header(props: any){
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {isAuthenticated ? (
                             <div>
+                                <Button size="small">
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
+                                            onChange={toggleDarkMode}
+                                            label=""
+                                        />
+                                    </FormGroup>
+                                </Button>
                                 <Tooltip title="Messages">
                                     <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
                                                 to={ALL_APP_ROUTES.CHAT.LIST}>
@@ -346,14 +364,23 @@ export default function Header(props: any){
                             </div>
                         ) : (
                             <div>
+
+                                <Button size="small">
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
+                                            onChange={toggleDarkMode}
+                                            label=""
+                                        />
+                                    </FormGroup>
+                                </Button>
                                 <Link to={ALL_APP_ROUTES.LOGIN} style={{color: 'transparent'}}>
                                     <IconButton
                                         size="large"
                                         edge="end"
                                         aria-label="account of current user"
                                         aria-controls=""
-                                        aria-haspopup="true"
-                                    >
+                                        aria-haspopup="true" >
                                         <AccountCircle />
                                     </IconButton>
                                 </Link>

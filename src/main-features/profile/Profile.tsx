@@ -233,6 +233,10 @@ export const Profile = (props: IProfileProps) => {
                                             Send a message
                                         </Button>
                                     </Toolbar>
+
+                                    {/*<Fab size="medium" color="secondary" aria-label="add">*/}
+                                        {/*<PhoneIcon />*/}
+                                    {/*</Fab>*/}
                                 </Paper>
 
                             </div>

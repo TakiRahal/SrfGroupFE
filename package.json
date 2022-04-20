@@ -1,11 +1,9 @@
 {
   "name": "srf-group",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://takirahal.github.io/SrfGroupFE",
   "private": true,
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "19.0.0",
-    "@ckeditor/ckeditor5-react": "2.1.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.4.2",
@@ -52,7 +50,6 @@
     "react-share": "^4.4.0",
     "react-time-ago": "^7.1.9",
     "react-toastify": "^8.2.0",
-    "react-web-share": "^1.1.5",
     "redux": "^4.1.2",
     "redux-devtools": "^3.7.0",
     "redux-devtools-dock-monitor": "^1.2.0",

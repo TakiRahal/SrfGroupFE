@@ -1,21 +1,23 @@
 import * as Yup from 'yup';
 
 export const initialValuesAccount = {
-    username: '',
+    email: '',
+    langKey: '',
     firstName: '',
     lastName: '',
-    email: '',
     phone: '',
     address: null,
+    linkProfileFacebook: ''
 };
 
 export const validationSchemaAccount = Yup.object({
-    username: Yup.string().required('login is required'),
+    email: Yup.string().required('Email is required'),
+    langKey: Yup.string().required('login is required'),
     firstName: Yup.string().required('firstName is required'),
     lastName: Yup.string().required('lastName is required'),
-    email: Yup.string().required('Email is required'),
     phone: Yup.string().required('Phone is required'),
     address: Yup.object().nullable().notRequired(),
+    linkProfileFacebook: Yup.string().nullable().notRequired(),
 });
 
 

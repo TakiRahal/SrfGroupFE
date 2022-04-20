@@ -289,9 +289,6 @@ export const Profile = (props: IProfileProps) => {
                                                             primary="Email"
                                                             secondary={
                                                                 <React.Fragment>
-                                                                    <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                                                                        {/*Ali Connors*/}
-                                                                    </Typography>
                                                                     {profileLoading ? <Skeleton animation="wave" height={30} /> : profile.email}
                                                                 </React.Fragment>
                                                             }
@@ -311,9 +308,6 @@ export const Profile = (props: IProfileProps) => {
                                                             primary="Phone number"
                                                             secondary={
                                                                 <React.Fragment>
-                                                                    <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                                                                        {/*Ali Connors*/}
-                                                                    </Typography>
                                                                     {profileLoading ? <Skeleton animation="wave" height={30} /> : profile.phone}
                                                                 </React.Fragment>
                                                             }
@@ -329,9 +323,6 @@ export const Profile = (props: IProfileProps) => {
                                                             primary="Adresse"
                                                             secondary={
                                                                 <React.Fragment>
-                                                                    <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                                                                        {/*Ali Connors*/}
-                                                                    </Typography>
                                                                     {'Sousse'}
                                                                 </React.Fragment>
                                                             }
@@ -339,7 +330,16 @@ export const Profile = (props: IProfileProps) => {
                                                     </ListItem>
                                                 </Grid>
                                                 <Grid item xs={12} md={6}>
-
+                                                    <ListItem alignItems="flex-start">
+                                                        <ListItemText
+                                                            primary={t('profile.label_link_profile_facebook')}
+                                                            secondary={
+                                                                <React.Fragment>
+                                                                    <a href={profile.linkProfileFacebook || ''} target={'_blank'}>Facebook</a>
+                                                                </React.Fragment>
+                                                            }
+                                                        />
+                                                    </ListItem>
                                                 </Grid>
                                             </Grid>
                                         </List>

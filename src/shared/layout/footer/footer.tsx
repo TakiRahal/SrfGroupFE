@@ -109,8 +109,12 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                             Follow us
                         </Typography>
                         <Stack direction="row" spacing={2} sx={{ justifyContent: 'center', mb: 3 }}>
-                            <Avatar alt="facebook" src={getBaseImageUrl('/assets/images/footer/facebook.png')} />
-                            <Avatar alt="instagram" src={getBaseImageUrl('/assets/images/footer/instagram.png')}/>
+                            <a href="https://www.facebook.com/profile.php?id=100054409273167" target="_blank">
+                                <Avatar alt="facebook" src={getBaseImageUrl('/assets/images/footer/facebook.png')} />
+                            </a>
+                            <a href="https://www.instagram.com/srfgroup/" target="_blank">
+                                <Avatar alt="instagram" src={getBaseImageUrl('/assets/images/footer/instagram.png')}/>
+                            </a>
                             <Avatar alt="youtube" src={getBaseImageUrl('/assets/images/footer/youtube.png')} />
                         </Stack>
                     </Grid>

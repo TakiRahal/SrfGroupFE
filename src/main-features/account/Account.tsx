@@ -37,6 +37,11 @@ import TextField from "@mui/material/TextField/TextField";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {useTranslation} from "react-i18next";
+import Select from "@mui/material/Select/Select";
+import MenuItem from "@mui/material/MenuItem/MenuItem";
+import {languages, locales} from "../../shared/reducers/locale.reducer";
+import {AllAppConfig} from "../../core/config/all-config";
+import {StorageService} from "../../shared/services/storage.service";
 
 const initialValues = initialValuesAccount;
 const initialValuesPassword = initialValuesPasswordAccount;
@@ -84,7 +89,6 @@ export const Account = (props: IAccountClientProps) => {
         initialValues: initialValuesPassword,
         validationSchema: validationSchemaPasswordAccount,
         onSubmit: values => {
-            console.log('values ', values);
             props.updatePasswordUser(values);
         },
     });
@@ -126,12 +130,13 @@ export const Account = (props: IAccountClientProps) => {
             setFileState(getUserAvatar(props.account.id, props.account.imageUrl, props.account.sourceRegister));
 
             formik.setValues({
-                username: account.username ? account.username : '',
+                email: account.email ? account.email : '',
+                langKey: account.langKey ? account.langKey : '',
                 firstName: account.firstName ? account.firstName : '',
                 lastName: account.lastName ? account.lastName : '',
-                email: account.email ? account.email : '',
                 phone: account.phone ? account.phone : '',
                 address: account.address ? account.address : null,
+                linkProfileFacebook: account.linkProfileFacebook ? account.linkProfileFacebook : '',
             });
         }
     }, [account]);
@@ -139,6 +144,12 @@ export const Account = (props: IAccountClientProps) => {
     React.useEffect(() => {
         if(props.updateSuccessInfosAccount){
             setShowEditInfos(false);
+            const currentUser = JSON.parse(StorageService.local.get(AllAppConfig.VALUE_CURRENT_USER));
+            const updateCurrentUser = {
+                ...currentUser,
+                ...props.entityUpdateInfosAccount
+            }
+            StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
         }
     }, [props.updateSuccessInfosAccount])
 
@@ -242,20 +253,6 @@ export const Account = (props: IAccountClientProps) => {
                                         ) : null}
                                     </h5>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formik.touched.username && Boolean(formik.errors.username)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_username')}</InputLabel>
-                                                <OutlinedInput
-                                                    id="login"
-                                                    name="login"
-                                                    label="Login"
-                                                    value={formik.values.username}
-                                                    onChange={formik.handleChange}
-                                                    disabled
-                                                />
-                                                <FormHelperText id="component-helper-text">{formik.touched.username && formik.errors.username}</FormHelperText>
-                                            </FormControl>
-                                        </Grid>
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)} size="small">
@@ -271,6 +268,32 @@ export const Account = (props: IAccountClientProps) => {
                                                 <FormHelperText id="component-helper-text">{formik.touched.email && formik.errors.email}</FormHelperText>
                                             </FormControl>
                                         </Grid>
+
+                                        <Grid item xs={12} md={6}>
+                                            <FormControl fullWidth error={formik.touched.langKey && Boolean(formik.errors.langKey)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_languages')}</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    label={t('account.label_languages')}
+                                                    value={formik.values.langKey}
+                                                    onChange={e => {
+                                                        formik.setFieldValue('langKey', e.target.value);
+                                                    }}
+                                                    disabled={!showEditInfos}>
+
+                                                    {Object.keys(languages).length > 1
+                                                        ? locales.map(locale => (
+                                                            <MenuItem key={locale} value={locale}>
+                                                                {languages[locale].name}
+                                                            </MenuItem>
+                                                        ))
+                                                        : null}
+                                                </Select>
+                                                <FormHelperText id="component-helper-text">{formik.touched.langKey && formik.errors.langKey}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+
                                     </Grid>
 
                                     <Grid container spacing={2} sx={{mt: 1}}>
@@ -356,6 +379,28 @@ export const Account = (props: IAccountClientProps) => {
                                                 <FormHelperText
                                                     id="component-helper-text">{formik.touched.address && formik.errors.address}</FormHelperText>
                                             </FormControl>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container spacing={2} sx={{mt: 1}}>
+                                        <Grid item xs={12} md={6}>
+                                            <FormControl fullWidth error={formik.touched.linkProfileFacebook && Boolean(formik.errors.linkProfileFacebook)} size="small">
+                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_link_profile_facebook')}</InputLabel>
+                                                <OutlinedInput
+                                                    id="linkProfileFacebook"
+                                                    name="linkProfileFacebook"
+                                                    type="url"
+                                                    label={t('account.label_link_profile_facebook')}
+                                                    value={formik.values.linkProfileFacebook}
+                                                    onChange={formik.handleChange}
+                                                    disabled={!showEditInfos}
+                                                />
+                                                <FormHelperText id="component-helper-text">{formik.touched.linkProfileFacebook && formik.errors.linkProfileFacebook}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+
+                                        <Grid item xs={12} md={6}>
+
                                         </Grid>
                                     </Grid>
 

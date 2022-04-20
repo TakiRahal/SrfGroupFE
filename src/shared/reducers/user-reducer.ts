@@ -108,7 +108,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 updateSuccessInfosAccount: false
             };
         case FAILURE(ACTION_TYPES.UPDATE_INFOS_USER):
-            console.log('action = ', action);
             return {
                 ...state,
                 loadingUpdateInfosAccount: false,
@@ -118,8 +117,10 @@ export default (state: UserState = initialState, action: any): UserState => {
             return {
                 ...state,
                 entityUpdateInfosAccount: action.payload.data,
+                currentUser: action.payload.data,
                 loadingUpdateInfosAccount: false,
                 updateSuccessInfosAccount: true
+
             };
 
 

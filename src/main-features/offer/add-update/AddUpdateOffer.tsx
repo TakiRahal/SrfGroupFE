@@ -260,9 +260,8 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             const newOrigSelectedFiles: File[] = [];
 
             Array.from(event.target.files).forEach((file: any) => {
-                console.log('file ', file);
-                getImageUrl(file, 500)
-                // getBase64(file)
+                // getImageUrl(file, 500)
+                getBase64(file)
                     .then((resultBase64: any) => {
                         dataUrlToFile(resultBase64, file.name)
                             .then((valueFile: any) => {

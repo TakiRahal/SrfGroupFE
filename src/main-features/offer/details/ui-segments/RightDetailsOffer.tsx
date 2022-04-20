@@ -45,6 +45,7 @@ import {
 import {useTranslation} from "react-i18next";
 import isEmpty from 'lodash/isEmpty';
 import CustomShare from "../../../../shared/components/custom-share/CustomShare";
+import Snackbar from "@mui/material/Snackbar/Snackbar";
 
 const initialValues = initialValuesAddMessageDetailsOffer;
 
@@ -60,6 +61,9 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                               }) {
 
     const [defaultValues, setDefaultValues] = React.useState<any>();
+    const [messageAlert, setMessageAlert] = React.useState('');
+    const [openAlert, setOpenAlert] = React.useState(false);
+    const [contactWithPhone, setContactWithPhone] = React.useState(false);
 
     const history = useHistory();
     const { t } = useTranslation();
@@ -163,6 +167,47 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
             </Dialog>
         );
     };
+
+    const openPositionInGoogleMap = () => {
+        console.log('offerEntity ', offerEntity);
+        if(!offerEntity?.address){
+            setMessageAlert(t('details_offer.not_address_found_itenarary'));
+            setOpenAlert(true);
+        }
+        else{
+            window.open('https://www.google.com/maps/@35.8235978,10.6309176,15z', '_new');
+        }
+
+    }
+
+    const openItenraireGoogleMap = () => {
+        console.log('offerEntity ', offerEntity);
+        if(!offerEntity?.address){
+            setMessageAlert(t('details_offer.not_address_found_itenarary'));
+            setOpenAlert(true);
+        }
+        else if(!currentUser?.address){
+            setMessageAlert(t('details_offer.miss_address_account'));
+            setOpenAlert(true);
+        }
+        else{
+            window.open('https://www.google.com/maps/dir/'+currentUser?.address?.lng+','+currentUser?.address?.lng+'/'+offerEntity?.address?.lng+','+offerEntity?.address?.lng+'', '_new');
+        }
+
+    }
+
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    }
+
+    const contactWithFacebookcontactWithFacebook = () => {
+        if(!offerEntity?.user?.linkProfileFacebook){
+            setMessageAlert(t('details_offer.message_not_link_profile_facebook_exist'));
+            setOpenAlert(true);
+        }else{
+            window.open(offerEntity?.user?.linkProfileFacebook, '_new');
+        }
+    }
 
     return (
         <Grid item xs={12} sm={12}>
@@ -291,24 +336,26 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                             {t('details_offer.contact_with')}
                         </Typography>
 
-                        <Button variant="outlined" startIcon={<FacebookIcon/>} fullWidth sx={{mt: 3}}>
+                        <Button variant="outlined" startIcon={<FacebookIcon/>} fullWidth sx={{mt: 3}} onClick={() => contactWithFacebookcontactWithFacebook()}>
                             Facebook
                         </Button>
 
-                        <Button variant="outlined" startIcon={<PhoneIcon/>} fullWidth sx={{mt: 3}}>
-                            {t('details_offer.show_number')}
+                        <Button variant="outlined" startIcon={<PhoneIcon/>} fullWidth sx={{mt: 3}} onClick={() => setContactWithPhone(!contactWithPhone)}>
+                            {contactWithPhone ? offerEntity?.user?.phone : t('details_offer.show_number')}
                         </Button>
 
-                        <Button variant="outlined" startIcon={<PhoneIcon/>} fullWidth sx={{mt: 3}}>
-                            {t('details_offer.send_email')}
-                        </Button>
+                        <a href={`mailto:${offerEntity?.user?.email}`} style={{textDecoration: 'none'}}>
+                            <Button variant="outlined" startIcon={<EmailIcon/>} fullWidth sx={{mt: 3}}>
+                                {t('details_offer.send_email')}
+                            </Button>
+                        </a>
                     </Grid>
                 </Grid>
             </Card>
 
             <Grid container item spacing={2} sx={{mt: 1}}>
                 <Grid item xs={12} sm={6}>
-                    <Card>
+                    <Card onClick={openPositionInGoogleMap}>
                         <CardContent>
                             <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                 Découvrir le quartier
@@ -325,7 +372,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                    <Card>
+                    <Card onClick={openItenraireGoogleMap}>
                         <CardContent>
                             <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                 Découvrir le quartier
@@ -342,6 +389,14 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                 </Grid>
             </Grid>
             <div>{renderDialogFavoriteUser()}</div>
+            <div>
+                <Snackbar
+                    open={openAlert}
+                    autoHideDuration={5000}
+                    onClose={handleCloseAlert}
+                    message={messageAlert}
+                />
+            </div>
         </Grid>
     );
 }

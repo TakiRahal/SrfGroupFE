@@ -63,7 +63,7 @@
     "title": "Account",
     "label_personnel_details": "Personal Details",
     "label_password_details": "Password Details",
-    "label_username": "Username",
+    "label_languages": "User language",
     "label_email": "Email",
     "label_firstname": "Firstname",
     "label_lastname": "Lastname",
@@ -72,7 +72,8 @@
     "label_new_password": "New password",
     "label_conf_new_password": "Confirm New password",
     "label_update_infos": "Update informations",
-    "label_update_password": "Update password"
+    "label_update_password": "Update password",
+    "label_link_profile_facebook": "Link Profile Facebook"
   },
   "signup": {
     "title-dialog-register": "Register succefully",
@@ -101,7 +102,8 @@
   "profile": {
     "title_page_profile": "Profile",
     "title_send_message": "Send a message",
-    "write_your_message": "Write your message..."
+    "write_your_message": "Write your message...",
+    "label_link_profile_facebook": "Link Profile Facebook"
   },
   "add_offer": {
     "title_page": "Create new Offer",
@@ -139,7 +141,13 @@
     "send_message": "Send a message",
     "contact_with": "Contact with",
     "show_number": "Show phone number",
-    "send_email": "Send an email"
+    "send_email": "Send an email",
+    "label_show_more": " Show more",
+    "label_show_less": " Show less",
+    "not_address_found_itenarary": "Not available address",
+    "miss_address_account": "Please add address in your account",
+    "message_not_link_profile_facebook_exist": "Not link facebook exist"
+
   },
   "forgot_password_init": {
     "message_send_mail_success": "Check your emails for details on how to reset your password.",

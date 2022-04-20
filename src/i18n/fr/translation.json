@@ -63,7 +63,7 @@
     "title": "Compte",
     "label_personnel_details": "Détails personnels",
     "label_password_details": "Détails du mot de passe",
-    "label_username": "Nom d'utilisateur",
+    "label_languages": "Language d'utilisateur",
     "label_email": "Email",
     "label_firstname": "Prénom",
     "label_lastname": "Nom de famille",
@@ -72,7 +72,8 @@
     "label_new_password": "Nouveau mot de passe",
     "label_conf_new_password": "Confirmer le nouveau mot de passe",
     "label_update_infos": "Mettre à jour les informations",
-    "label_update_password": "Modifier"
+    "label_update_password": "Modifier",
+    "label_link_profile_facebook": "Lien Profil Facebook"
   },
   "signup": {
     "title-dialog-register": "Inscription avec succès",
@@ -101,7 +102,8 @@
   "profile": {
     "title_page_profile": "Profil",
     "title_send_message": "Envoyer un message",
-    "write_your_message": "Ecrire votre message..."
+    "write_your_message": "Ecrire votre message...",
+    "label_link_profile_facebook": "Lien Profil Facebook"
   },
   "add_offer": {
     "title_page": "Créer une nouvelle offre",
@@ -139,7 +141,12 @@
     "send_message": "Envoyer un message",
     "contact_with": "Contacter par",
     "show_number": "Afficher le numéro",
-    "send_email": "Envoyer un email"
+    "send_email": "Envoyer un email",
+    "label_show_more": " Montre plus",
+    "label_show_less": " Montrer moins",
+    "not_address_found_itenarary": "Adresse non disponible",
+    "miss_address_account": "Veuillez ajouter l'adresse dans votre compte",
+    "message_not_link_profile_facebook_exist": "Le lien facebook n'existe pas"
   },
   "forgot_password_init": {
     "message_send_mail_success": "Veuillez vérifier vos nouveaux emails et suivre les instructions pour réinitialiser votre mot de passe.",

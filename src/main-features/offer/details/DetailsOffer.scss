@@ -67,4 +67,10 @@
   .mySwiper .swiper-slide-thumb-active {
     opacity: 1;
   }
+
+  .rm-more-button, .rm-less-button{
+    text-decoration: underline;
+    color: #c7a676;
+    cursor: pointer;
+  }
 }

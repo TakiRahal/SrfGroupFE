@@ -18,6 +18,7 @@ export interface IUser {
     sourceRegister?: string;
     address?: IAddress;
     phone?: string;
+    linkProfileFacebook?: string;
 }
 
 export const defaultValue: Readonly<IUser> = {

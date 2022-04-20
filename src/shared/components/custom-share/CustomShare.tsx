@@ -1,24 +1,38 @@
 import React from "react";
 import {checkMobileDesktopBrowser} from "../../utils/utils-functions";
-import {RWebShare} from "react-web-share";
 import FacebookShareButton from "react-share/lib/FacebookShareButton";
+import {SourceProvider} from "../../enums/source-provider";
+import IconButton from "@mui/material/IconButton/IconButton";
 
 class CustomShare extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+        this.state = {
+            shareData: {
+                title: 'MDN',
+                text: 'Learn web development on MDN!',
+                url: 'https://developer.mozilla.org'
+            }
+        }
+        this.handleShare = this.handleShare.bind(this);
+    }
+
+    handleShare(){
+        try {
+            navigator.share(this.state.shareData).then((result) => {
+
+            });
+        } catch(err) {
+            alert('Error shared: ' + err);
+        }
     }
 
     render() {
-        return !checkMobileDesktopBrowser() ?
-            <RWebShare
-                data={{
-                    text: "Like humans, flamingos make friends for life",
-                    url: this.props.url,
-                    title: "Flamingos",
-                }}
-                onClick={() => console.log("shared successfully!")} >
+        return checkMobileDesktopBrowser()===SourceProvider.MOBILE_BROWSER ?
+            <IconButton onClick={this.handleShare}>
                 {this.props.children}
-            </RWebShare> :
+            </IconButton>
+            :
             <FacebookShareButton
                 url={this.props.url}
                 quote="quote" >

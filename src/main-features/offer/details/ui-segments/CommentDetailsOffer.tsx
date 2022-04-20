@@ -34,6 +34,7 @@ import {IUser} from "../../../../shared/model/user.model";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
 import {ConvertReactTimeAgo} from "../../../../shared/pages/react-time-ago";
+import ReadMoreText from "../../../../shared/components/read-more-text/ReadMoreText";
 
 const initialValues = initialValuesAddCommentOffer;
 
@@ -71,6 +72,7 @@ export default function CommentDetailsOffer({
     const [showComments, setShowComments] = React.useState<boolean>(false);
     const [openReportCommentOfferModal, setOpenReportCommentOfferModal] = React.useState(false);
     const [commentReport, setCommentReport] = React.useState<ICommentOffer>(defaultValue);
+    const [showMoreComment, setShowMoreComment] = React.useState(false);
 
 
     const { t} = useTranslation();
@@ -204,11 +206,11 @@ export default function CommentDetailsOffer({
                                             <ListItem
                                                 alignItems="flex-start"
                                                 secondaryAction={
-                                                    <div>
+                                                    <Box>
                                                         {isAuthenticated && comment?.user?.id === account.id ? (
                                                             <IconButton edge="end" aria-label="edit" color="success"
                                                                         onClick={() => setUpdateComment(comment.id || -1)}
-                                                                        sx={{mr: 0.5}}>
+                                                                        sx={{mr: 0.5, display: 'block'}}>
                                                                 <ModeEditIcon/>
                                                             </IconButton>
                                                         ) : null}
@@ -218,18 +220,18 @@ export default function CommentDetailsOffer({
                                                                 aria-label="delete"
                                                                 color="error"
                                                                 onClick={() => handleClickOpenDeleteCommentModal(comment.id || -1)}
-                                                            >
+                                                                sx={{display: 'block'}}>
                                                                 <DeleteIcon/>
                                                             </IconButton>
                                                         ) : null}
                                                         {isAuthenticated && comment?.user?.id !== account.id ? (
                                                             <IconButton edge="end" aria-label="report"
                                                                         onClick={() => reportCommentOffer(comment)}
-                                                                        sx={{mr: 0.5}}>
+                                                                        sx={{mr: 0.5, display: 'block'}}>
                                                                 <FlagIcon/>
                                                             </IconButton>
                                                         ) : null}
-                                                    </div>
+                                                    </Box>
                                                 }
                                             >
                                                 <ListItemAvatar>
@@ -245,7 +247,13 @@ export default function CommentDetailsOffer({
                                                                         color="text.primary">
                                                                 <ConvertReactTimeAgo convertDate={comment.createdDate} />
                                                             </Typography>
-                                                            {commentUpdateId !== comment.id ? comment.content : null}
+                                                            {
+                                                                commentUpdateId !== comment.id ? <ReadMoreText
+                                                                    lines={2}
+                                                                    text={comment.content || ''}
+                                                                    readMoreText={t('details_offer.label_show_more')}
+                                                                    readLessText={t('details_offer.label_show_less')}/> : null
+                                                            }
                                                         </React.Fragment>
                                                     }
                                                 />

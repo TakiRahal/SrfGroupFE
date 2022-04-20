@@ -24,7 +24,8 @@ export const AllAppConfig = {
     RECAPTCHA_CONTACT_US: {
         SITE_KEY: '6LfkFmsfAAAAAHOTmt8ApKvUBuyka8e4Oa8undvt',
         SECRET_KEY: '6LfkFmsfAAAAAIzBdH6gAR5VjWAo93Kcb0xBVdB_'
-    }
+    },
+    NBE_WORD_SHOW_MORE_LESS: 250
 };
 
 

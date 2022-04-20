@@ -60,7 +60,6 @@ import AccordionDetails from "@mui/material/AccordionDetails/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary/AccordionSummary";
 import Accordion from "@mui/material/Accordion/Accordion";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { RWebShare } from "react-web-share";
 import CustomShare from "../../../shared/components/custom-share/CustomShare";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
@@ -103,6 +102,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     React.useEffect(() => {
         resetAllFavoriteOfferUser();
+        resetCommentOffer();
     }, [])
 
     React.useEffect(() => {
@@ -463,7 +463,7 @@ const mapDispatchToProps = {
     deleteComment,
     createEntityReportOffer,
     reportComment,
-    createConversation
+    createConversation,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

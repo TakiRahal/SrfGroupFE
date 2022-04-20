@@ -28,6 +28,7 @@ import {ModuleNotification} from "../../shared/enums/module-notification";
 import {AllAppConfig} from "../../core/config/all-config";
 import InfiniteScroll from 'react-infinite-scroller';
 import {resetNbeNotificationsNotRead} from "../../shared/reducers/user-reducer";
+import './Notification.scss';
 
 export interface INotificationProps extends StateProps, DispatchProps {}
 
@@ -50,6 +51,7 @@ export const Notification = (props: INotificationProps) => {
     }, []);
 
     React.useEffect(() => {
+        console.log('activePage ', activePage);
         if(activePage>=0){
             props.getEntitiesNotification(activePage, AllAppConfig.NOTIFICATIONS_PER_PAGE, '');
         }
@@ -78,6 +80,7 @@ export const Notification = (props: INotificationProps) => {
     }, [props.addSuccessIsRead]);
 
     const loadMore = () => {
+        console.log('loadMore');
         setActivePage(activePage+1);
     }
 
@@ -118,38 +121,40 @@ export const Notification = (props: INotificationProps) => {
             >
                 <Grid item xs={12} sm={6} md={3}></Grid>
 
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} sm={6} md={6} className="my-container">
 
-                    <br /><br /><br /><br /><br /><br />
-                    <InfiniteScroll
-                        pageStart={activePage}
-                        loadMore={loadMore}
-                        hasMore={props.totalPages-1 > activePage}
-                        loader={<div className="loader" key={0}></div>}
-                        threshold={0}
-                        initialLoad={false}
-                    >
-                        <List>
-                            {props.listNotifications.map((notification: INotification, index: number) => (
-                                <React.Fragment key={`notification-${notification.id}-${index}`}>
-                                    <ListItem button sx={{
-                                        bgcolor: notification.isRead ? '' : 'background.paper',
-                                    }} onClick={() => redirect(notification)}>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <CircleNotificationsIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={<ConvertReactTimeAgo convertDate={notification.dateCreated} />}
-                                                      secondary={notification.content} />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                </React.Fragment>
-                            ))}
+                    <List>
+                        <InfiniteScroll
+                            pageStart={activePage}
+                            loadMore={loadMore}
+                            hasMore={props.totalPages-1 > activePage && !props.loadingNotificationss}
+                            loader={<div className="loader" key={0}></div>}
+                            threshold={0}
+                            initialLoad={false}
+                        >
 
-                            { props.loadingNotificationss ? <LoadingNotification/> : null }
-                        </List>
-                    </InfiniteScroll>
+                                {props.listNotifications.map((notification: INotification, index: number) => (
+                                    <React.Fragment key={`notification-${notification.id}-${index}`}>
+                                        <ListItem button sx={{
+                                            bgcolor: notification.isRead ? '' : 'background.paper',
+                                        }} onClick={() => redirect(notification)}>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <CircleNotificationsIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={<ConvertReactTimeAgo convertDate={notification.dateCreated} />}
+                                                          secondary={notification.content} />
+                                        </ListItem>
+                                        <Divider variant="inset" component="li" />
+                                    </React.Fragment>
+                                ))}
+
+                        </InfiniteScroll>
+
+                        { props.loadingNotificationss ? <LoadingNotification/> : null }
+
+                    </List>
 
                 </Grid>
             </Grid>

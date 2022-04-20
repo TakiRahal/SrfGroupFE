@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {getBaseImageUrl, getFullUrlWithParams} from "../../../shared/utils/utils-functions";
 import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
 import {IRootState} from "../../../shared/reducers";
 import {connect} from "react-redux";
@@ -37,7 +36,7 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
         if(!values.title && !values.typeOffer && !values.category){
             console.log('isEmpty(values) ', isEmpty(values) );
             history.push({
-                pathname: 'search',
+                pathname: ALL_APP_ROUTES.SEARCH,
             });
         }
         else{

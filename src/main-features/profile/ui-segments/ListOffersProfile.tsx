@@ -10,6 +10,9 @@ import CardContent from "@mui/material/CardContent/CardContent";
 import Typography from "@mui/material/Typography/Typography";
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
+import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
+import {AllAppConfig} from "../../../core/config/all-config";
+import {LazyImage} from "../../../shared/pages/lazy-image";
 
 
 export function ListOffersProfile({listOffers, loading}: {listOffers: any, loading: boolean}) {
@@ -28,24 +31,25 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                 <Grid item key={offer.id} xs={12} sm={6} md={4}>
                                     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                                         <CardMedia
-                                            component="img"
-                                            sx={{
-                                                // 16:9
-                                                // pt: '',
-                                                maxHeight: 150,
-                                            }}
-                                            image="https://source.unsplash.com/random"
-                                            alt="random"
-                                        />
+                                            sx={{ height: 150 }} >
+                                            {offer.offerImages && offer.offerImages.length ? (
+                                                <LazyImage className="img-fluid"
+                                                           src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                                           alt={offer.offerImages[0].path}/>
+                                            ) : (
+                                                <Box sx={{display: {xs: 'none', md: 'block'}}}>
+                                                    <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
+                                                </Box>
+                                            )}
+                                        </CardMedia>
                                         <CardContent sx={{ flexGrow: 1 }}>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                Heading
+                                            <Typography gutterBottom variant="h5" component="h2" className="truncate-text">
+                                                {offer?.title}
                                             </Typography>
-                                            <Typography>This is a media card. You can use this section to describe the content.</Typography>
+                                            <div className="truncate-text" dangerouslySetInnerHTML={{ __html: offer?.description || '' }}></div>
                                         </CardContent>
                                         <CardActions>
                                             <Button size="small">View</Button>
-                                            <Button size="small">Edit</Button>
                                         </CardActions>
                                     </Card>
                                 </Grid>

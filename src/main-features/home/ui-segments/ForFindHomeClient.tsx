@@ -7,8 +7,7 @@ import CardMedia from '@mui/material/CardMedia/CardMedia';
 import CardContent from '@mui/material/CardContent/CardContent';
 import Typography from '@mui/material/Typography/Typography';
 import Box from '@mui/material/Box/Box';
-import {LazyImage} from "../../../shared/pages/lazy-image";
-import {getImageForOffer} from "../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useHistory} from "react-router";
@@ -24,6 +23,7 @@ import {Pagination} from "swiper";
 
 import './ForFindHome.scss';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
+import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
 
 
 function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -35,15 +35,11 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {index % 2 === 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 ) : null}
@@ -61,15 +57,11 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {index % 2 !== 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 ) : null}
@@ -81,15 +73,11 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer" />
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 }

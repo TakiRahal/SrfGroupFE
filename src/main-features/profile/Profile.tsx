@@ -39,6 +39,8 @@ import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import {ListOffersProfile} from "./ui-segments/ListOffersProfile";
 import {TransitionModal} from "../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ProblemeDeclaration from "../probleme-declaration/ProblemeDeclaration";
 
 const initialValues = initialValuesAddMessage;
 
@@ -196,7 +198,7 @@ export const Profile = (props: IProfileProps) => {
                 }}>
                     <Grid item xs={12} sm={3} sx={{ textAlign: 'center' }}>
                         <Slide direction="left" in={startAnimation}>
-                            <div>
+                            <Box>
                                 <Paper elevation={3} sx={{ p: 1 }}>
                                     <Avatar
                                         alt={profile.imageUrl}
@@ -220,7 +222,6 @@ export const Profile = (props: IProfileProps) => {
                                             </React.Fragment>
                                         )}
                                     </h4>
-                                    <p>{profileLoading ? <Skeleton animation="wave" height={30} /> : profile.email}</p>
                                     <Toolbar sx={{ justifyContent: 'center' }}>
                                         <Button
                                             variant="outlined"
@@ -234,13 +235,24 @@ export const Profile = (props: IProfileProps) => {
                                         </Button>
                                     </Toolbar>
 
+                                    <Typography component="h5" color="text.secondary" display="flex" sx={{justifyContent: 'center', mb: 2, textDecoration: 'underline', cursor: 'pointer'}}>
+                                        <FavoriteIcon fontSize="small" sx={{mr: 0.9}}/>
+                                        Favorite user
+                                    </Typography>
+
                                     {/*<Fab size="medium" color="secondary" aria-label="add">*/}
                                         {/*<PhoneIcon />*/}
                                     {/*</Fab>*/}
                                 </Paper>
 
-                            </div>
+                            </Box>
                         </Slide>
+
+                        <Box sx={{my: 3}}>
+                            <ProblemeDeclaration />
+                        </Box>
+
+
                     </Grid>
                     <Grid item xs={12} sm={8}>
                         <Slide direction="right" in={startAnimation}>

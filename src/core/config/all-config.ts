@@ -9,6 +9,7 @@ export const AllAppConfig = {
     SlideListBottom: 'SlideListBottom',
     DEFAULT_AVATAR: '/assets/images/defaults/avatar.png',
     DEFAULT_LAZY_IMAGE: '/assets/images/defaults/default_image.jpg',
+    DEFAULT_LAZY_IMAGE_LOADING: '/assets/images/defaults/default_image_loading.gif',
     KeyGoogleMaps: 'AIzaSyAe3rSYWX0QyDedMkgg9Mguzj-zd_1sO9k',
     NAME_TOKEN_CURRENT_USER: 'tokenCurrentUser',
     VALUE_CURRENT_USER: 'currentUser',

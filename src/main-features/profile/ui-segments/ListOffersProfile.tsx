@@ -12,10 +12,23 @@ import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
 import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
-import {LazyImage} from "../../../shared/pages/lazy-image";
+import {useTranslation} from "react-i18next";
+import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {useHistory} from "react-router-dom";
+import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
 
 
 export function ListOffersProfile({listOffers, loading}: {listOffers: any, loading: boolean}) {
+
+    const history = useHistory();
+    const { t } = useTranslation();
+
+    const rediretTo = (offerId: number) => {
+        setTimeout(() => {
+            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
+        }, 300);
+    };
 
     return (
         <Box>
@@ -24,34 +37,34 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                     <CircularProgress color="inherit" />
                 </Box> :
 
-                    <Container sx={{ py: 4 }} maxWidth="lg" className="pl-0 pr-0">
-                        <h3>List of offers by user</h3>
+                    <Container sx={{ py: 4 }} maxWidth="lg">
+                        <h3>{t('profile.title_list_offers_by_user')}</h3>
                         <Grid container spacing={4}>
                             {listOffers.map((offer: IOffer) => (
                                 <Grid item key={offer.id} xs={12} sm={6} md={4}>
-                                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <CardMedia
-                                            sx={{ height: 150 }} >
-                                            {offer.offerImages && offer.offerImages.length ? (
-                                                <LazyImage className="img-fluid"
-                                                           src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                           alt={offer.offerImages[0].path}/>
-                                            ) : (
-                                                <Box sx={{display: {xs: 'none', md: 'block'}}}>
-                                                    <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
-                                                </Box>
-                                            )}
-                                        </CardMedia>
-                                        <CardContent sx={{ flexGrow: 1 }}>
-                                            <Typography gutterBottom variant="h5" component="h2" className="truncate-text">
-                                                {offer?.title}
-                                            </Typography>
-                                            <div className="truncate-text" dangerouslySetInnerHTML={{ __html: offer?.description || '' }}></div>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small">View</Button>
-                                        </CardActions>
-                                    </Card>
+                                    <CardActionArea component="a" onClick={() => rediretTo(offer?.id || -1 )}>
+                                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                            <CardMedia
+                                                sx={{ height: 150 }} >
+                                                {offer.offerImages && offer.offerImages.length ? (
+                                                    <LazyImageLoading src={getImageForOffer(offer.id, offer.offerImages[0].path)} />
+                                                ) : (
+                                                    <Box sx={{height: '100%', display: {xs: 'none', md: 'block'}}}>
+                                                        <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                                                    </Box>
+                                                )}
+                                            </CardMedia>
+                                            <CardContent sx={{ flexGrow: 1 }}>
+                                                <Typography gutterBottom variant="h5" component="h2" className="truncate-text">
+                                                    {offer?.title}
+                                                </Typography>
+                                                <div className="truncate-text" dangerouslySetInnerHTML={{ __html: offer?.description || '' }}></div>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button size="small">View</Button>
+                                            </CardActions>
+                                        </Card>
+                                    </CardActionArea>
                                 </Grid>
                             ))}
                         </Grid>

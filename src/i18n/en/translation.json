@@ -103,7 +103,8 @@
     "title_page_profile": "Profile",
     "title_send_message": "Send a message",
     "write_your_message": "Write your message...",
-    "label_link_profile_facebook": "Link Profile Facebook"
+    "label_link_profile_facebook": "Link Profile Facebook",
+    "title_list_offers_by_user": "List of offers for user"
   },
   "add_offer": {
     "title_page": "Create new Offer",

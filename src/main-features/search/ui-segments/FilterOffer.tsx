@@ -43,7 +43,7 @@ export function FilterOffer({listAddress}: { listAddress: IAddress[] }) {
                 <ListItem sx={{my: 2}}>
                     <FormControl fullWidth variant="standard">
                         <Autocomplete
-                            id="typeOffer"
+                            id="addressOffer"
                             options={listAddress}
                             autoHighlight
                             getOptionLabel={(option) => option.city || ''}

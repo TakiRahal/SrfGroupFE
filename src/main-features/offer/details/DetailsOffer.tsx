@@ -302,7 +302,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                     <Card sx={{mb: 3}}>
                                         <CardContent>
                                             {favoriteUserOffer?.offer?.amount ? (
-                                                <Typography variant="h4" sx={{ textAlign: 'center', color: 'red', fontWeight: 600 }}>
+                                                <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}  className="red-color">
                                                     $ {favoriteUserOffer?.offer?.amount} DT
                                                 </Typography>
                                             ) : null}

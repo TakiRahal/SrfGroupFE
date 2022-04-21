@@ -25,6 +25,7 @@ const Image = styled.img`
   &.has-error {
     // fallback to placeholder image on error
     content: url(${placeHolder});
+    transform: scale(1);
   }
 `;
 

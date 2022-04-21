@@ -12,8 +12,7 @@ import Box from '@mui/material/Box/Box';
 import {IRootState} from "../../../shared/reducers";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {IRentOffer} from "../../../shared/model/rent-offer.model";
-import {LazyImage} from "../../../shared/pages/lazy-image";
-import {getImageForOffer} from "../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {getEntitiesForRent} from "../../../shared/reducers/rent-offer.reducer";
 import {useTranslation} from "react-i18next";
@@ -25,6 +24,7 @@ import './ForRentHome.scss';
 
 import {Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
+import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -39,11 +39,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -51,7 +47,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE} alt="Offer"/>
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 ) : null}
@@ -73,11 +69,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -85,8 +77,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
-                                       alt="Offer"/>
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 ) : null}
@@ -102,11 +93,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage
-                                className="img-fluid"
-                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt={offer.offerImages[0].path}
-                            />
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -114,8 +101,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImage className="img-fluid" src={AllAppConfig.DEFAULT_LAZY_IMAGE}
-                                       alt="Offer"/>
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </CardMedia>
                     )
                 }

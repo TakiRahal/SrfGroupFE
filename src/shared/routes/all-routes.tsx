@@ -2,6 +2,8 @@ import React from 'react';
 import {Route, Switch} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {IAppProps} from "../../App";
+import {PrivateRoute} from "./private-route";
+import {PublicRoute} from "./public-route";
 
 const LazyHome = React.lazy(
     () => import('../../main-features/home/home')
@@ -67,36 +69,43 @@ export default function AllRoutes(props: IAppProps){
                     <LazyHome />
                 </React.Suspense>
             </Route>
-            <Route path={ALL_APP_ROUTES.REGISTER}>
+
+            <PublicRoute isAuthenticated={props.isAuthenticated}  path={ALL_APP_ROUTES.REGISTER}>
                 <React.Suspense fallback={<>...</>}>
                     <LazySignUp />
                 </React.Suspense>
-            </Route>
-            <Route path={ALL_APP_ROUTES.LOGIN}>
+            </PublicRoute>
+
+            <PublicRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.LOGIN} >
                 <React.Suspense fallback={<>...</>}>
                     <LazySignIn />
                 </React.Suspense>
-            </Route>
-            <Route path={`${ALL_APP_ROUTES.ACTIVATION_ACCOUNT}/:key?`}>
+            </PublicRoute>
+
+            <PublicRoute isAuthenticated={props.isAuthenticated} path={`${ALL_APP_ROUTES.ACTIVATION_ACCOUNT}/:key?`}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyActivationAccount />
                 </React.Suspense>
-            </Route>
+            </PublicRoute>
+
             <Route path={ALL_APP_ROUTES.SEARCH}>
                 <React.Suspense fallback={<>...</>}>
                     <LazySearch />
                 </React.Suspense>
             </Route>
+
             <Route exact path={ALL_APP_ROUTES.ADD_UPDATE_OFFER}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyAddUpdateOffer />
                 </React.Suspense>
             </Route>
+
             <Route path={ALL_APP_ROUTES.ADD_UPDATE_OFFER + '/:id/edit'}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyAddUpdateOffer />
                 </React.Suspense>
             </Route>
+
             <Route path={ALL_APP_ROUTES.DETAILS_OFFER + '/:id'}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyDetailsOffer />
@@ -107,11 +116,15 @@ export default function AllRoutes(props: IAppProps){
                     <LazyProfile />
                 </React.Suspense>
             </Route>
-            <Route path={ALL_APP_ROUTES.ACCOUNT}>
-                <React.Suspense fallback={<>...</>}>
-                    <LazyAccount />
-                </React.Suspense>
-            </Route>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.ACCOUNT}>
+                <Route path={ALL_APP_ROUTES.ACCOUNT}>
+                    <React.Suspense fallback={<>...</>}>
+                        <LazyAccount/>
+                    </React.Suspense>
+                </Route>
+            </PrivateRoute>
+
             <Route path={ALL_APP_ROUTES.SUPPORT.CONTACT_US}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyContactUs />
@@ -155,6 +168,12 @@ export default function AllRoutes(props: IAppProps){
             <Route path={`${ALL_APP_ROUTES.FORGOT_PASSWORD_FINISH}/:key?`}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyForgotPasswordFinish />
+                </React.Suspense>
+            </Route>
+
+            <Route path="*">
+                <React.Suspense fallback={<>...</>}>
+                    <LazyHome />
                 </React.Suspense>
             </Route>
 

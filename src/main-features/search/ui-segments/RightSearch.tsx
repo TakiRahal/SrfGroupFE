@@ -13,6 +13,7 @@ import CardMedia from "@mui/material/CardMedia/CardMedia";
 import Typography from "@mui/material/Typography/Typography";
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
+import ProblemeDeclaration from "../../probleme-declaration/ProblemeDeclaration";
 
 
 export default function RightSearch() {
@@ -89,7 +90,7 @@ export default function RightSearch() {
                 </ListItemButton>
             </List>
 
-            <Card  className="mb-5">
+            <Card sx={{my: 3}}>
                 <CardContent>
                     <iframe
                         width="100%"
@@ -102,6 +103,8 @@ export default function RightSearch() {
                     ></iframe>
                 </CardContent>
             </Card>
+
+            <ProblemeDeclaration />
         </Box>
     );
 }

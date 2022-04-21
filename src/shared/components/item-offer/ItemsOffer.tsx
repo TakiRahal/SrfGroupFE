@@ -2,7 +2,6 @@ import React from 'react';
 import Box from "@mui/material/Box/Box";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import Grid from "@mui/material/Grid/Grid";
-import {red} from "@mui/material/colors";
 import Card from "@mui/material/Card/Card";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import Avatar from "@mui/material/Avatar/Avatar";
@@ -11,12 +10,8 @@ import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardContent from "@mui/material/CardContent/CardContent";
 import Typography from "@mui/material/Typography/Typography";
 import CardActions from "@mui/material/CardActions/CardActions";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import AddLocationAltIcon from '@mui/icons-material/AddLocation';
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
-import Button from "@mui/material/Button/Button";
 import {TypeDisplaySearchOffers, TypeOfferEnum} from "../../enums/type-offer.enum";
 import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../utils/utils-functions";
 import List from "@mui/material/List/List";
@@ -30,9 +25,9 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import {IOffer} from "../../model/offer.model";
 import {ConvertReactTimeAgo} from "../../pages/react-time-ago";
 import {AllAppConfig} from "../../../core/config/all-config";
-import {LazyImage} from "../../pages/lazy-image";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
+import {LazyImageLoading} from "../../pages/lazy-image-loading";
 
 
 export default function ItemOffer({listOffers, typeDisplay}: {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers}) {
@@ -74,12 +69,10 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                 <CardMedia
                     sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
                     {offer.offerImages && offer.offerImages.length ? (
-                        <LazyImage className="img-fluid"
-                                   src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                   alt={offer.offerImages[0].path}/>
+                        <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}}}>
-                            <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         </Box>
                     )}
                 </CardMedia>
@@ -90,8 +83,7 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                                 <Avatar
                                     alt={offer.user?.imageUrl}
                                     src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
-                                    sx={{border: '1px solid #b9b9b9'}}
-                                >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
+                                    sx={{border: '1px solid #b9b9b9'}} >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
                             </ListItemAvatar>
                             <ListItemText
                                 primary={getFullnameUser(offer?.user)}
@@ -133,7 +125,7 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
 
                         {offer.amount ? (
                             <Grid item xs={4}>
-                                <Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}}>
+                                <Typography variant="subtitle1" color="text.secondary" display="flex" sx={{justifyContent: 'end'}} className="red-color">
                                     <AttachMoneyIcon />
                                     {offer.amount} TND
                                 </Typography>
@@ -175,11 +167,9 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                 />
                     <CardMedia sx={{ height: {xs: 150, md: 200} }}>
                         {offer.offerImages && offer.offerImages.length ? (
-                            <LazyImage className="img-fluid"
-                                       src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                       alt={offer.offerImages[0].path}/>
+                            <LazyImageLoading src={getImageForOffer(offer.id, offer.offerImages[0].path)} />
                         ) : (
-                            <LazyImage className="img-fluid" src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} alt="Offer" />
+                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                         )}
                     </CardMedia>
                     <CardContent className="card-content">
@@ -206,7 +196,7 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                     </CardContent>
                 <CardActions>
                     {offer.amount ? (
-                        <IconButton aria-label="amount" size="small" sx={{fontSize: {xs: '0.9rem', md: '1.125rem' }}}>
+                        <IconButton aria-label="amount" size="small" sx={{fontSize: {xs: '0.9rem', md: '1.125rem' }}}  className="red-color">
                             <AttachMoneyIcon sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' }}}/>
                             {offer.amount} TND
                         </IconButton>

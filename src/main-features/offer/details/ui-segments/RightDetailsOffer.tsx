@@ -33,7 +33,6 @@ import {
     getFullnameUser,
     getUserAvatar
 } from "../../../../shared/utils/utils-functions";
-import {LazyImage} from "../../../../shared/pages/lazy-image";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
 import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
@@ -46,6 +45,7 @@ import {useTranslation} from "react-i18next";
 import isEmpty from 'lodash/isEmpty';
 import CustomShare from "../../../../shared/components/custom-share/CustomShare";
 import Snackbar from "@mui/material/Snackbar/Snackbar";
+import ProblemeDeclaration from "../../../probleme-declaration/ProblemeDeclaration";
 
 const initialValues = initialValuesAddMessageDetailsOffer;
 
@@ -361,7 +361,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                 Découvrir le quartier
                             </Typography>
                             <div style={{maxHeight: 400, marginTop: 30}}>
-                                <LazyImage
+                                <img
                                     className="img-fluid"
                                     src={`${getBaseImageUrl('/assets/images/offer/details-offer/desktop-map-neighbourhood.ext.svg')}`}
                                     alt="desktop-map-neighbourhood"
@@ -378,7 +378,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                 Découvrir le quartier
                             </Typography>
                             <div style={{maxHeight: 400, marginTop: 30}}>
-                                <LazyImage
+                                <img
                                     className="img-fluid"
                                     src={`${getBaseImageUrl('/assets/images/offer/details-offer/desktop-time-of-travel-address.ext.svg')}`}
                                     alt="desktop-time-of-travel-address"
@@ -388,6 +388,13 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                     </Card>
                 </Grid>
             </Grid>
+
+            <Grid container item spacing={2} sx={{mt: 1}}>
+                <Grid item xs={12} sm={6}>
+                    <ProblemeDeclaration />
+                </Grid>
+            </Grid>
+
             <div>{renderDialogFavoriteUser()}</div>
             <div>
                 <Snackbar

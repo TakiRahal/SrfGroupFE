@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.8d926e0c.css",
-    "main.js": "/SrfGroupFE/static/js/main.97edd02a.js",
+    "main.js": "/SrfGroupFE/static/js/main.01219a4c.js",
     "static/css/791.f6703944.chunk.css": "/SrfGroupFE/static/css/791.f6703944.chunk.css",
     "static/js/791.94b11f1a.chunk.js": "/SrfGroupFE/static/js/791.94b11f1a.chunk.js",
     "static/js/444.2988a749.chunk.js": "/SrfGroupFE/static/js/444.2988a749.chunk.js",
@@ -16,7 +16,7 @@
     "static/js/12.dc1126f6.chunk.js": "/SrfGroupFE/static/js/12.dc1126f6.chunk.js",
     "static/js/268.6930ea99.chunk.js": "/SrfGroupFE/static/js/268.6930ea99.chunk.js",
     "static/js/212.4b97d007.chunk.js": "/SrfGroupFE/static/js/212.4b97d007.chunk.js",
-    "static/js/311.00c4ad70.chunk.js": "/SrfGroupFE/static/js/311.00c4ad70.chunk.js",
+    "static/js/311.2bd8b035.chunk.js": "/SrfGroupFE/static/js/311.2bd8b035.chunk.js",
     "static/js/417.64ce6e6e.chunk.js": "/SrfGroupFE/static/js/417.64ce6e6e.chunk.js",
     "static/js/939.de0b68e8.chunk.js": "/SrfGroupFE/static/js/939.de0b68e8.chunk.js",
     "static/js/280.aa925e17.chunk.js": "/SrfGroupFE/static/js/280.aa925e17.chunk.js",
@@ -50,6 +50,6 @@
   },
   "entrypoints": [
     "static/css/main.8d926e0c.css",
-    "static/js/main.97edd02a.js"
+    "static/js/main.01219a4c.js"
   ]
 }

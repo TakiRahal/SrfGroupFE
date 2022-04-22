@@ -27,6 +27,7 @@ import {getBaseImageUrl} from "../../shared/utils/utils-functions";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import ReCAPTCHA from "react-google-recaptcha";
 import {AllAppConfig} from "../../core/config/all-config";
+import {useTranslation} from "react-i18next";
 
 const initialValues = initialValuesContactUs;
 
@@ -34,8 +35,8 @@ export interface IContactUsUpdateProps extends StateProps, DispatchProps {}
 
 export const ContactUs = (props: IContactUsUpdateProps) => {
 
-    const [recaptcha, setRecaptcha] = React.useState('');
     const recaptchaRef = React.createRef<any>();
+    const { t } = useTranslation();
 
     const {
         loadingEntity,
@@ -81,7 +82,7 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                             <Link color="inherit" to={ALL_APP_ROUTES.HOME}>
                                 SRF
                             </Link>
-                            <Typography color="text.primary">ContactUS</Typography>
+                            <Typography color="text.primary">{t('contact_us.title_contact_us')}</Typography>
                         </Breadcrumbs>
                     </Grid>
                 </Grid>
@@ -89,67 +90,79 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                 <Grid container sx={{ mt: 6 }}>
                     <Grid item xs={12} sm={6}>
                         <Paper elevation={3} sx={{ p: 2 }}>
-                            <h3 className="mb-3">Ecrivez-nous</h3>
+                            <h3 className="mb-3">{t('contact_us.label_write_us')}</h3>
 
                             <form onSubmit={formik.handleSubmit}>
                                 <Grid container spacing={1}>
                                     <Grid item xs={12} md={6}>
                                         <FormControl fullWidth error={formik.touched.name && Boolean(formik.errors.name)} size="small">
-                                            <InputLabel htmlFor="outlined-adornment-title">Name</InputLabel>
+                                            <InputLabel htmlFor="outlined-adornment-title">{t('contact_us.label_name')}</InputLabel>
                                             <OutlinedInput
                                                 id="name"
                                                 name="name"
-                                                label="Name"
+                                                label={t('contact_us.label_name')}
                                                 value={formik.values.name}
                                                 onChange={formik.handleChange}
                                             />
-                                            <FormHelperText id="component-helper-text">{formik.touched.name && formik.errors.name}</FormHelperText>
+                                            {
+                                                formik.touched.name && formik.errors.name ?
+                                                    <FormHelperText id="component-helper-text">{t(formik.errors.name)}</FormHelperText> : null
+                                            }
                                         </FormControl>
                                     </Grid>
 
                                     <Grid item xs={12} md={6}>
                                         <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)} size="small">
-                                            <InputLabel htmlFor="outlined-adornment-title">Email</InputLabel>
+                                            <InputLabel htmlFor="outlined-adornment-title">{t('contact_us.label_email')}</InputLabel>
                                             <OutlinedInput
                                                 id="email"
                                                 name="email"
-                                                label="Email"
+                                                label={t('contact_us.label_email')}
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 type="email"
                                             />
-                                            <FormHelperText id="component-helper-text">{formik.touched.email && formik.errors.email}</FormHelperText>
+                                            {
+                                                formik.touched.email && formik.errors.email ?
+                                                    <FormHelperText id="component-helper-text">{t(formik.errors.email)}</FormHelperText> : null
+                                            }
                                         </FormControl>
                                     </Grid>
 
                                     <Grid item xs={12}>
                                         <FormControl fullWidth error={formik.touched.subject && Boolean(formik.errors.subject)} size="small">
-                                            <InputLabel htmlFor="outlined-adornment-title">Subject</InputLabel>
+                                            <InputLabel htmlFor="outlined-adornment-title">{t('contact_us.label_subject')}</InputLabel>
                                             <OutlinedInput
                                                 id="subject"
                                                 name="subject"
-                                                label="Subject"
+                                                label={t('contact_us.label_subject')}
                                                 value={formik.values.subject}
                                                 onChange={formik.handleChange}
                                             />
-                                            <FormHelperText id="component-helper-text">{formik.touched.subject && formik.errors.subject}</FormHelperText>
+                                            {
+                                                formik.touched.subject && formik.errors.subject ?
+                                                    <FormHelperText id="component-helper-text">{t(formik.errors.subject)}</FormHelperText> : null
+                                            }
                                         </FormControl>
                                     </Grid>
 
                                     <Grid item xs={12} md={12}>
                                         <FormControl fullWidth sx={{ mt: 3 }} error={formik.touched.message && Boolean(formik.errors.message)} size="small">
-                                            <InputLabel htmlFor="outlined-adornment-amount">Message</InputLabel>
+                                            <InputLabel htmlFor="outlined-adornment-amount">{t('contact_us.label_message')}</InputLabel>
                                             <OutlinedInput
                                                 id="message"
                                                 name="message"
-                                                label="Message"
+                                                label={t('contact_us.label_message')}
                                                 value={formik.values.message}
                                                 onChange={formik.handleChange}
                                                 multiline
                                                 maxRows={4}
                                                 rows={4}
                                             />
-                                            <FormHelperText id="component-helper-text">{formik.touched.message && formik.errors.message}</FormHelperText>
+                                            {
+                                                formik.touched.message && formik.errors.message ?
+                                                    <FormHelperText id="component-helper-text">{t(formik.errors.message)}</FormHelperText> : null
+                                            }
                                         </FormControl>
                                     </Grid>
 
@@ -159,12 +172,15 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                                             onChange={onChange}
                                             ref={recaptchaRef}
                                         />
-                                        <FormHelperText className="red-color">{formik.touched.captchaResponse && formik.errors.captchaResponse}</FormHelperText>
+                                        {
+                                            formik.touched.captchaResponse && formik.errors.captchaResponse ?
+                                                <FormHelperText className="red-color">{t(formik.errors.captchaResponse)}</FormHelperText> : null
+                                        }
                                     </Grid>
 
                                     <Grid item xs={12} md={12}>
                                         <LoadingButton loading={loadingEntity} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} color="neutral" type="submit">
-                                            Envoyer le message
+                                            {t('contact_us.label_send_message')}
                                         </LoadingButton>
                                     </Grid>
                                 </Grid>
@@ -174,7 +190,7 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
 
                     <Grid item xs={12} sm={6} sx={{ p: 2 }}>
                         <Typography variant="h5" color="text.secondary">
-                            A votre écoute
+                            {t('contact_us.label_at_your_service')}
                         </Typography>
 
                         <List sx={{}}>
@@ -182,28 +198,28 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
                                 <ListItemAvatar>
                                     <Avatar alt="Email" src={`${getBaseImageUrl('/assets/images/contact-us/mail.png')}`} />
                                 </ListItemAvatar>
-                                <ListItemText primary="Email" secondary="srfgroup.contact@gmail.com" />
+                                <ListItemText primary={t('common.label_email')} secondary="srfgroup.contact@gmail.com" />
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     <Avatar alt="Call" src={`${getBaseImageUrl('/assets/images/contact-us/call.png')}`} />
                                 </ListItemAvatar>
-                                <ListItemText primary="Phone" secondary="+216 21 636 339 -  +216 73 900 850" />
+                                <ListItemText primary={t('common.label_phone')} secondary="+216 21 636 339 -  +216 73 900 850" />
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     <Avatar alt="Location" src={`${getBaseImageUrl('/assets/images/contact-us/location.png')}`} />
                                 </ListItemAvatar>
-                                <ListItemText primary="Address" secondary="Rue Montreal Skanes ElMechref, 5000, Monastir, Tunisia" />
+                                <ListItemText primary={t('common.label_address')} secondary="Rue Montreal Skanes ElMechref, 5000, Monastir, Tunisia" />
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     <Avatar alt="Location" src={`${getBaseImageUrl('/assets/images/contact-us/location.png')}`} />
                                 </ListItemAvatar>
-                                <ListItemText primary="Google Maps" secondary="Tunis, Tunisia" />
+                                <ListItemText primary={t('common.label_google_maps')} secondary="Tunis, Tunisia" />
                             </ListItem>
                         </List>
                     </Grid>

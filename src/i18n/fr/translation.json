@@ -6,6 +6,9 @@
     "label_subscribe": "Inscrire",
     "label_name": "Nom",
     "label_email": "Email",
+    "label_phone": "Téléphoner",
+    "label_address": "Adresse",
+    "label_google_maps": "Google Maps",
     "label_firstname": "Prenom",
     "label_lastname": "Nom",
     "label_password": "Mot de passe",
@@ -32,7 +35,7 @@
     "link_support": {
       "link_label_support": "Support",
       "link_contact_us": "Contact-nous",
-      "link_about": "A propos",
+      "link_about": "À propos",
       "link_faq": "FAQ"
     },
     "chat": "Chat",
@@ -138,7 +141,7 @@
     "title_add_favrite_user": "Utilisateur favoris",
     "label_details_offer": "Détails de l'offre",
     "description_add_favrite_user": "Ajouter cet utilisateur à votre liste de favoris",
-    "about_seller": "A propos du vendeur",
+    "about_seller": "À propos du vendeur",
     "send_message": "Envoyer un message",
     "contact_with": "Contacter par",
     "show_number": "Afficher le numéro",
@@ -157,5 +160,20 @@
     "label_about_us": "À propos de nous",
     "label_Who_are_we": "Qui somme nous",
     "label_privacy_policy": "Politique de confidentialité"
+  },
+  "contact_us": {
+    "title_contact_us": "Contactez nous",
+    "label_write_us": "Ecrivez-nous",
+    "label_name": "Name",
+    "label_email": "Email",
+    "label_subject": "Objet",
+    "label_message": "Message",
+    "label_send_message": "Envoyer le message",
+    "name_is_required": "Nom obligatoire",
+    "email_is_required": "Email obligatoire",
+    "subject_is_required": "Objet obligatoire",
+    "message_is_required": "Message obligatoire",
+    "recaptcha_is_required": "Recaptcha obligatoire",
+    "label_at_your_service": "À votre écoute"
   }
 }

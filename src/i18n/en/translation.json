@@ -6,6 +6,9 @@
     "label_subscribe": "Subscribe",
     "label_name": "Name",
     "label_email": "Email",
+    "label_phone": "Phone",
+    "label_address": "Address",
+    "label_google_maps": "Google Maps",
     "label_firstname": "FirstName",
     "label_lastname": "LastName",
     "label_password": "Password",
@@ -158,5 +161,20 @@
     "label_about_us": "About us",
     "label_Who_are_we": "Who are we",
     "label_privacy_policy": "Privacy Policy"
+  },
+  "contact_us": {
+    "title_contact_us": "Contact us",
+    "label_write_us": "Write U.S",
+    "label_name": "Name",
+    "label_email": "Email",
+    "label_subject": "Subject",
+    "label_message": "Message",
+    "label_send_message": "Send a message",
+    "name_is_required": "Name is required",
+    "email_is_required": "Email is required",
+    "subject_is_required": "Subject is required",
+    "message_is_required": "Message is required",
+    "recaptcha_is_required": "Recaptcha is required",
+    "label_at_your_service": "At your service"
   }
 }

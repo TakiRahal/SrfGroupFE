@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.8d926e0c.css",
-    "main.js": "/SrfGroupFE/static/js/main.01219a4c.js",
+    "main.js": "/SrfGroupFE/static/js/main.f309c221.js",
     "static/css/791.f6703944.chunk.css": "/SrfGroupFE/static/css/791.f6703944.chunk.css",
     "static/js/791.94b11f1a.chunk.js": "/SrfGroupFE/static/js/791.94b11f1a.chunk.js",
     "static/js/444.2988a749.chunk.js": "/SrfGroupFE/static/js/444.2988a749.chunk.js",
@@ -50,6 +50,6 @@
   },
   "entrypoints": [
     "static/css/main.8d926e0c.css",
-    "static/js/main.01219a4c.js"
+    "static/js/main.f309c221.js"
   ]
 }

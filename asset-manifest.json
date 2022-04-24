@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/SrfGroupFE/static/css/main.8d926e0c.css",
-    "main.js": "/SrfGroupFE/static/js/main.d5459cb0.js",
-    "static/css/791.f6703944.chunk.css": "/SrfGroupFE/static/css/791.f6703944.chunk.css",
-    "static/js/791.d37475f4.chunk.js": "/SrfGroupFE/static/js/791.d37475f4.chunk.js",
+    "main.css": "/SrfGroupFE/static/css/main.4ba1f2e9.css",
+    "main.js": "/SrfGroupFE/static/js/main.d0843241.js",
+    "static/css/791.13f5c274.chunk.css": "/SrfGroupFE/static/css/791.13f5c274.chunk.css",
+    "static/js/791.7a896b18.chunk.js": "/SrfGroupFE/static/js/791.7a896b18.chunk.js",
     "static/js/444.2988a749.chunk.js": "/SrfGroupFE/static/js/444.2988a749.chunk.js",
     "static/css/346.10a0351c.chunk.css": "/SrfGroupFE/static/css/346.10a0351c.chunk.css",
     "static/js/346.84cc4bce.chunk.js": "/SrfGroupFE/static/js/346.84cc4bce.chunk.js",
     "static/js/458.88443f8a.chunk.js": "/SrfGroupFE/static/js/458.88443f8a.chunk.js",
     "static/css/98.f8f1a4f6.chunk.css": "/SrfGroupFE/static/css/98.f8f1a4f6.chunk.css",
-    "static/js/98.33a6bf3b.chunk.js": "/SrfGroupFE/static/js/98.33a6bf3b.chunk.js",
+    "static/js/98.1ae2c867.chunk.js": "/SrfGroupFE/static/js/98.1ae2c867.chunk.js",
     "static/css/912.ea119431.chunk.css": "/SrfGroupFE/static/css/912.ea119431.chunk.css",
     "static/js/912.c775d2aa.chunk.js": "/SrfGroupFE/static/js/912.c775d2aa.chunk.js",
     "static/css/12.547b9121.chunk.css": "/SrfGroupFE/static/css/12.547b9121.chunk.css",
     "static/js/12.dc1126f6.chunk.js": "/SrfGroupFE/static/js/12.dc1126f6.chunk.js",
-    "static/js/268.6930ea99.chunk.js": "/SrfGroupFE/static/js/268.6930ea99.chunk.js",
+    "static/js/268.1878414e.chunk.js": "/SrfGroupFE/static/js/268.1878414e.chunk.js",
     "static/js/212.4b97d007.chunk.js": "/SrfGroupFE/static/js/212.4b97d007.chunk.js",
     "static/js/311.2bd8b035.chunk.js": "/SrfGroupFE/static/js/311.2bd8b035.chunk.js",
     "static/js/417.64ce6e6e.chunk.js": "/SrfGroupFE/static/js/417.64ce6e6e.chunk.js",
@@ -49,7 +49,7 @@
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
-    "static/css/main.8d926e0c.css",
-    "static/js/main.d5459cb0.js"
+    "static/css/main.4ba1f2e9.css",
+    "static/js/main.d0843241.js"
   ]
 }

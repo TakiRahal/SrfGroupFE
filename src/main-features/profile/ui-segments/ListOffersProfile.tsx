@@ -45,11 +45,11 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                     <CardActionArea component="a" onClick={() => rediretTo(offer?.id || -1 )}>
                                         <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                                             <CardMedia
-                                                sx={{ height: 150 }} >
+                                                sx={{ height: { xs: '100%', sm: 200 } }} >
                                                 {offer.offerImages && offer.offerImages.length ? (
                                                     <LazyImageLoading src={getImageForOffer(offer.id, offer.offerImages[0].path)} />
                                                 ) : (
-                                                    <Box sx={{height: '100%', display: {xs: 'none', md: 'block'}}}>
+                                                    <Box sx={{height: '100%',display: {xs: 'none', md: 'block'}}}>
                                                         <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
                                                     </Box>
                                                 )}
@@ -58,7 +58,7 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                                 <Typography gutterBottom variant="h5" component="h2" className="truncate-text">
                                                     {offer?.title}
                                                 </Typography>
-                                                <div className="truncate-text" dangerouslySetInnerHTML={{ __html: offer?.description || '' }}></div>
+                                                <div className="truncate-string-two-lines" dangerouslySetInnerHTML={{ __html: offer?.description || '' }}></div>
                                             </CardContent>
                                             <CardActions>
                                                 <Button size="small">View</Button>

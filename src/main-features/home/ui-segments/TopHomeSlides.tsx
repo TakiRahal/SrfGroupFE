@@ -13,6 +13,7 @@ import {StorageService} from "../../../shared/services/storage.service";
 import {ITopHomeSlidesImages} from "../../../shared/model/top-home-slides-images.model";
 import i18n from "i18next";
 import isEmpty from "lodash/isEmpty";
+import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
 
 
 // const defaultImage = getBaseImageUrl('/assets/images/home/default_top_home.jpg');
@@ -33,6 +34,11 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
     }, []);
 
     const searchCalback = (values: any) => {
+        history.push({
+            pathname: ALL_APP_ROUTES.SEARCH,
+            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        })
+        /*
         if(!values.title && !values.typeOffer && !values.category){
             console.log('isEmpty(values) ', isEmpty(values) );
             history.push({
@@ -56,6 +62,7 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
                 search: "?" + new URLSearchParams(searchEntity).toString()
             })
         }
+        */
     }
 
     React.useEffect(() => {
@@ -115,25 +122,6 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
                             </SwiperSlide>
                         ))
                     }
-                    {/*<SwiperSlide>*/}
-                    {/*<div className="title" data-swiper-parallax="-300">*/}
-                    {/*Slide 1*/}
-                    {/*</div>*/}
-                    {/*<div className="subtitle" data-swiper-parallax="-200">*/}
-                    {/*Subtitle*/}
-                    {/*</div>*/}
-                    {/*<div className="text" data-swiper-parallax="-100">*/}
-                    {/*<p>*/}
-                    {/*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam*/}
-                    {/*dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla*/}
-                    {/*laoreet justo vitae porttitor porttitor. Suspendisse in sem justo.*/}
-                    {/*Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod.*/}
-                    {/*Aliquam hendrerit lorem at elit facilisis rutrum. Ut at*/}
-                    {/*ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec,*/}
-                    {/*tincidunt ut libero. Aenean feugiat non eros quis feugiat.*/}
-                    {/*</p>*/}
-                    {/*</div>*/}
-                    {/*</SwiperSlide>*/}
                 </Swiper> : null
             }
 
@@ -152,7 +140,7 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
                     zIndex: 9
                 }}
             >
-                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} listAddress={props.entitiesAddress.slice()}/>
+                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} listAddress={props.entitiesAddress.slice()} hideFilter={true}/>
             </Box>
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 import SunEditor, {buttonList} from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
-export function CustomSunEditor({ defaultValue, callbcakHandleChange }: { defaultValue: string, callbcakHandleChange: any }) {
+export function CustomSunEditor({ defaultValue, callbcakHandleChange, placeholder }: { defaultValue: string, callbcakHandleChange: any, placeholder: string }) {
 
     const handleChange = (content: any) => {
         callbcakHandleChange(content);
@@ -15,6 +15,7 @@ export function CustomSunEditor({ defaultValue, callbcakHandleChange }: { defaul
     return (
         <SunEditor lang="en"
            defaultValue={defaultValue || ''}
+           placeholder={placeholder}
            setOptions={{
                height: '200',
                buttonList: [

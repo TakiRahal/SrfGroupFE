@@ -14,9 +14,9 @@ export const initialValuesAddOffer = {
 };
 
 export const validationSchemaAddOffer = Yup.object({
-    typeOffer: Yup.string().required('Type Offer is required'),
-    title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
+    typeOffer: Yup.string().required('add_offer.type_offer_require'),
+    title: Yup.string().required('add_offer.title_required'),
+    description: Yup.string().required('add_offer.description_required'),
     amount: Yup.number().nullable().notRequired(),
     startDate: Yup.date().nullable().notRequired(),
     endDate: Yup.date().nullable().notRequired(),

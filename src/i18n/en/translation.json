@@ -92,7 +92,8 @@
     "label_forgot_password": "Did you forget your password?",
     "label_register_account": "Register a new account",
     "title_page_forgot_password": "Forgot password",
-    "label_remember_me": "Remember me"
+    "label_remember_me": "Remember me",
+    "message_welcome": "Welcome"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Comment added succefully",
@@ -121,7 +122,12 @@
     "per_periode": "Period",
     "per_month": "Per month",
     "per_day": "Per day",
-    "per_year": "Per year"
+    "per_year": "Per year",
+    "check_required_fileds": "Please check the required fields",
+    "placeholder_description": "Please type here your description...",
+    "type_offer_require": "Type offer is required",
+    "title_required": "Title is required",
+    "description_required": "Description is required"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"

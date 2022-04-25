@@ -140,36 +140,42 @@ export default function AllRoutes(props: IAppProps){
                     <LazyFaq />
                 </React.Suspense>
             </Route>
-            <Route path={ALL_APP_ROUTES.OFFER.MY_OFFERS}>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.OFFER.MY_OFFERS}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyMyOffers />
                 </React.Suspense>
-            </Route>
-            <Route path={ALL_APP_ROUTES.FAVORITE.USER}>
+            </PrivateRoute>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.FAVORITE.USER}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyFavoriteUser />
                 </React.Suspense>
-            </Route>
-            <Route path={ALL_APP_ROUTES.CHAT.LIST}>
+            </PrivateRoute>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.CHAT.LIST}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyChat />
                 </React.Suspense>
-            </Route>
-            <Route path={ALL_APP_ROUTES.NOTIFICATION.LIST}>
+            </PrivateRoute>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.NOTIFICATION.LIST}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyNotification />
                 </React.Suspense>
-            </Route>
-            <Route path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}>
+            </PrivateRoute>
+
+            <PublicRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT} >
                 <React.Suspense fallback={<>...</>}>
                     <LazyForgotPassword />
                 </React.Suspense>
-            </Route>
-            <Route path={`${ALL_APP_ROUTES.FORGOT_PASSWORD_FINISH}/:key?`}>
+            </PublicRoute>
+
+            <PublicRoute isAuthenticated={props.isAuthenticated} path={`${ALL_APP_ROUTES.FORGOT_PASSWORD_FINISH}/:key?`}>
                 <React.Suspense fallback={<>...</>}>
                     <LazyForgotPasswordFinish />
                 </React.Suspense>
-            </Route>
+            </PublicRoute>
 
             <Route path="*">
                 <React.Suspense fallback={<>...</>}>

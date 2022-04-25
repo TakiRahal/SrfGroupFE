@@ -49,7 +49,7 @@ export default function OptionsSellAddOffer(props: any) {
                             aria-labelledby="demo-radio-buttons-group-label"
                             name="radio-buttons-group"
                         >
-                            <FormControlLabel value="female" control={<Radio/>} label="Le client doit contacter vous directement"/>
+                            <FormControlLabel value="female" control={<Radio/>} label="Le client doit me contacter"/>
                             <FormControlLabel value="male" control={<Radio/>} label="Le client peut passer une commande"/>
                         </RadioGroup>
                     </FormControl>

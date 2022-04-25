@@ -48,7 +48,7 @@ export default function OptionsCommonAddOffer(props: any) {
                             getOptionLabel={option => getValueTitle(option) || ''}
                             renderOption={(propsRender, option) => (
                                 <Box component="li" {...propsRender}>
-                                    {option.titleEn}
+                                    {getValueTitle(option)}
                                 </Box>
                             )}
                             renderInput={params => (

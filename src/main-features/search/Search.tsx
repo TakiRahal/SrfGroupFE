@@ -62,7 +62,7 @@ export const Search = (props: ISearchProps) => {
 
     const searchCalback = (values: any) => {
         history.push({
-            pathname: 'search',
+            pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
         })
         setActivePage(-1);
@@ -75,7 +75,7 @@ export const Search = (props: ISearchProps) => {
 
     return (
         <Box  sx={{ px: { xs: 2, md: 0 } }}>
-            <Grid container sx={{ pt: 1, pl: { xs: 1, md: 0 } }}>
+            <Grid container sx={{ pt: 2 }}>
                 <Grid item xs={12} sm={6} md={1}></Grid>
 
                 <Grid item xs={12} sm={6} md={2}>
@@ -91,17 +91,14 @@ export const Search = (props: ISearchProps) => {
             <Grid
                 container
                 spacing={6}
-                style={{
-                    paddingTop: 50,
-                }}
-            >
+                sx={{mt: 0}}>
                 <Grid item xs={12} sm={6} md={1}></Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <LeftSearch listAddress={props.entitiesAddress.slice()}/>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} sm={6} md={6} sx={{pt: {xs: '0 !important', md: '48px !important'}}}>
                     <div
                         style={{
                             maxWidth: '100%',

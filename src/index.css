@@ -33,6 +33,15 @@
     text-overflow: ellipsis;
 }
 
+.truncate-string-two-lines {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
 /*@media only screen and (max-width: 576px) {*/
     /*.truncate-text-mobile {*/
         /*white-space: nowrap;*/

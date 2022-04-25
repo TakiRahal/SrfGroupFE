@@ -300,13 +300,16 @@ function App(props: IAppProps) {
                         <Avatar alt="Avatar" src={getUserAvatar(currentUser?.id, currentUser?.imageUrl, currentUser?.sourceProvider)} >{getFullnameUser(currentUser)?.charAt(0)}</Avatar>
                     </ListItemAvatar>
                     <ListItemText
+                        className="list-item-text-user"
                         primary={getFullnameUser(currentUser)}
                         secondary={
                             <React.Fragment>
-                                <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                                <Typography component="span" variant="body2" color="text.primary">
                                     {currentUser.email}
                                 </Typography>
-                                {" — I'll be in your neighborhood doing errands this…"}
+                                {
+                                    currentUser?.address?.city ? '— '+currentUser?.address?.city : null
+                                }
                             </React.Fragment>
                         }
                     />

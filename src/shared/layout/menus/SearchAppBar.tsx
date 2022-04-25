@@ -43,8 +43,8 @@ const listTypeOffers: string[] = [
 
 const initialValues = initialValuesSearchAppBar;
 
-export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCallback, listAddress}:
-                             {entitiesCategories: ICategory[], searchCalback: any, typeDisplayCallback?: any, listAddress: IAddress[]}) {
+export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCallback, listAddress, hideFilter}:
+                             {entitiesCategories: ICategory[], searchCalback: any, typeDisplayCallback?: any, listAddress: IAddress[], hideFilter?: boolean}) {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
@@ -175,17 +175,19 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                             paddingRight: {md: 0},
                             paddingLeft: {md: 0},
                         }}>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="open drawer"
-                                sx={{ mx: 1, display: {xs: 'none', md: 'inline-flex'} }}
-                                onClick={() => changeTypeDisplayOffers()}
-                            >
-                                {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
+                            {
+                                !hideFilter ? <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    sx={{ mx: 1, display: {xs: 'none', md: 'inline-flex'} }}
+                                    onClick={() => changeTypeDisplayOffers()}
+                                >
+                                    {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
 
-                            </IconButton>
+                                </IconButton> : null
+                            }
                             <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0,  mx: 1, width: {xs: '100%', md: 'auto'}}}>
                                 <TextField id="title"
                                            name="title"
@@ -217,9 +219,9 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                             inputProps={{
                                                 ...params.inputProps,
                                                 form: {
-                                                    autocomplete: 'off',
+                                                    autoComplete:'off',
                                                 },
-                                                autoComplete: 'off', // disable autocomplete and autofill
+                                                autoComplete:'off', // disable autocomplete and autofill
                                             }}
                                         />
                                     )}
@@ -228,7 +230,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
 
                             <FormControl variant="standard" sx={{flexGrow: 1, flexShrink: 1, flexBasis: 0, mx: 1, width: {xs: '100%', md: 'auto'}}}>
                                 <Autocomplete
-                                    id="country-select"
+                                    id="category-select"
                                     options={entitiesCategories}
                                     value={formik.values.category}
                                     onChange={(e, value) => formik.setFieldValue('category', value || '')}
@@ -247,9 +249,10 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                             inputProps={{
                                                 ...params.inputProps,
                                                 form: {
-                                                    autocomplete: 'off',
+                                                    autoComplete:'off',
                                                 },
-                                                autoComplete: 'off', // disable autocomplete and autofill
+                                                name:'category-name',
+                                                autoComplete:'off', // disable autocomplete and autofill
                                             }}
                                         />
                                     )}

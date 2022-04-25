@@ -69,6 +69,7 @@ import {getPublicEntity} from "../../../shared/reducers/description-add-offer.re
 import i18n from "i18next";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import './AddUpdateOffer.scss';
+import TextField from "@mui/material/TextField/TextField";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -106,7 +107,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
         loadingEntitySellerOffer,
         loadingEntityRentOffer,
         isAuthenticated,
-        currentUser,
         getEntityOffer,
         entitiesAddress,
         entitiesCategory,
@@ -402,13 +402,13 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                     className="form-control-type-offer"
                                                 >
                                                     <InputLabel id="label-component-helper-typeOffer" className="type-offer-select">
-                                                        <span>{t('add_offer.label_type_offer')}</span>
+                                                        {t('add_offer.label_type_offer')}
                                                     </InputLabel>
                                                     <Select
                                                         id="typeOffer"
                                                         name="typeOffer"
-                                                        label="Type"
-                                                        labelId="demo-simple-select-label"
+                                                        label={t('add_offer.label_type_offer')}
+                                                        labelId="add_offer.label_type_offer"
                                                         value={formik.values.typeOffer}
                                                         onChange={formik.handleChange}>
                                                         <MenuItem value={TypeOfferEnum.Sell}>
@@ -421,8 +421,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                             {t('common.for_find')}
                                                         </MenuItem>
                                                     </Select>
-                                                    <FormHelperText
-                                                        id="component-helper-text-typeOffer">{formik.touched.typeOffer && formik.errors.typeOffer}</FormHelperText>
+                                                    {formik.touched.typeOffer && formik.errors.typeOffer ? <FormHelperText id="component-helper-text-typeOffer">{t(formik.errors.typeOffer)}</FormHelperText> : null}
                                                 </FormControl>
                                             </Grid>
 
@@ -433,12 +432,11 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                     <OutlinedInput
                                                         id="title"
                                                         name="title"
-                                                        label="Title"
+                                                        label={t('add_offer.label_title_offer')}
                                                         value={formik.values.title}
                                                         onChange={formik.handleChange}
                                                     />
-                                                    <FormHelperText
-                                                        id="component-helper-text">{formik.touched.title && formik.errors.title}</FormHelperText>
+                                                    {formik.touched.title && formik.errors.title ? <FormHelperText id="component-helper-text">{t(formik.errors.title)}</FormHelperText> : null}
                                                 </FormControl>
                                             </Grid>
 
@@ -446,12 +444,10 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                                 <FormControl fullWidth sx={{mt: 3}}
                                                              error={formik.touched.description && Boolean(formik.errors.description)}>
                                                     {
-                                                        id && entityOffer?.description ? <CustomSunEditor defaultValue={entityOffer?.description} callbcakHandleChange={onChangeValue}/> :
-                                                            <CustomSunEditor defaultValue='' callbcakHandleChange={onChangeValue}/>
+                                                        id && entityOffer?.description ? <CustomSunEditor defaultValue={entityOffer?.description} callbcakHandleChange={onChangeValue} placeholder={t('add_offer.placeholder_description')}/> :
+                                                            <CustomSunEditor defaultValue='' callbcakHandleChange={onChangeValue} placeholder={t('add_offer.placeholder_description')}/>
                                                     }
-
-                                                    <FormHelperText
-                                                        id="component-helper-text">{formik.touched.description && formik.errors.description}</FormHelperText>
+                                                    {formik.touched.description && formik.errors.description ? <FormHelperText id="component-helper-text">{t(formik.errors.description)}</FormHelperText> : null}
                                                 </FormControl>
                                             </Grid>
 
@@ -567,6 +563,10 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
                                                 </LoadingButton>
                                             </Grid>
+
+                                            <Typography variant="subtitle2" color="error" sx={{textAlign: 'center', width: '100%'}}>
+                                                { !formik.isValid ? t('add_offer.check_required_fileds') : null }
+                                            </Typography>
                                         </Grid>
                                     </form>
                                 </Box>

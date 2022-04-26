@@ -208,7 +208,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     getOptionLabel={(option) => getOptionTranslateLabel(option)}
                                     renderOption={(propsRender, option) => (
                                         <Box component="li" {...propsRender}>
-                                            {option}
+                                            {getOptionTranslateLabel(option)}
                                         </Box>
                                     )}
                                     renderInput={params => (
@@ -261,17 +261,20 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
 
                             <Box sx={{my: {xs: 2, md: 'auto'}}}>
 
-                                <IconButton
-                                    size="large"
-                                    edge="start"
-                                    color="inherit"
-                                    aria-label="open drawer"
-                                    sx={{ mx: 1, display: {xs: 'inline-flex', md: 'none'} }}
-                                    onClick={() => changeTypeDisplayOffers()}
-                                >
-                                    {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
+                                {
+                                    !hideFilter ? <IconButton
+                                            size="large"
+                                            edge="start"
+                                            color="inherit"
+                                            aria-label="open drawer"
+                                            sx={{ mx: 1, display: {xs: 'inline-flex', md: 'none'} }}
+                                            onClick={() => changeTypeDisplayOffers()}
+                                        >
+                                            {typeDisplayOffers===TypeDisplaySearchOffers.Grid ? <FormatListBulletedIcon /> : <GridOnIcon />}
 
-                                </IconButton>
+                                        </IconButton> : null
+                                }
+
                                 <Button
                                     variant="contained"
                                     sx={{

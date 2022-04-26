@@ -157,7 +157,7 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                         >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
                     }
                     action={''}
-                    title={<span className="truncate-text">{getFullnameUser(offer?.user)}</span>}
+                    title={<Typography className="truncate-text">{getFullnameUser(offer?.user)}</Typography>}
                     subheader={
                         <Typography  variant="subtitle2" color="text.secondary" display="flex" sx={{fontSize: {xs: '0.6rem', md: '0.875rem' }}}>
                             <AccessTimeFilledIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' } }}/>

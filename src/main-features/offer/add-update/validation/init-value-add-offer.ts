@@ -7,7 +7,7 @@ export const initialValuesAddOffer = {
     amount: '',
     startDate: '',
     endDate: '',
-    periodRent: '',
+    typePeriodRent: '',
     address: null,
     category: null,
     typeFindOffer: ''
@@ -20,7 +20,7 @@ export const validationSchemaAddOffer = Yup.object({
     amount: Yup.number().nullable().notRequired(),
     startDate: Yup.date().nullable().notRequired(),
     endDate: Yup.date().nullable().notRequired(),
-    periodRent: Yup.string().nullable().notRequired(),
+    typePeriodRent: Yup.string().nullable().notRequired(),
     address: Yup.object().nullable().notRequired().default(null),
     category: Yup.object().nullable().notRequired().default(null),
     typeFindOffer: Yup.string().nullable().notRequired()

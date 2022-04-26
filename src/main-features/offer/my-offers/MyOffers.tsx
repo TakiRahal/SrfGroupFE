@@ -125,29 +125,10 @@ export const MyOffers = (props: IMyOfferProps) => {
     };
 
     const searchCalback = (values: any) => {
-        if(!values.title && !values.typeOffer && !values.category){
-            console.log('isEmpty(values) ', isEmpty(values) );
-            history.push({
-                pathname: 'search',
-            });
-        }
-        else{
-            const searchEntity: any = {};
-            if(values.title){
-                searchEntity.title = values.title;
-            }
-            if(values.typeOffer){
-                searchEntity.typeOffer = values.typeOffer;
-            }
-            if(values.category){
-                searchEntity.category = values.category;
-            }
-
-            history.push({
-                pathname: 'search',
-                search: "?" + new URLSearchParams(searchEntity).toString()
-            })
-        }
+        history.push({
+            pathname: ALL_APP_ROUTES.OFFER.MY_OFFERS,
+            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        })
 
         setActivePage(-1);
         resetAll();

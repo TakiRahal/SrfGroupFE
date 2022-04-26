@@ -72,7 +72,6 @@ export default function CommentDetailsOffer({
     const [showComments, setShowComments] = React.useState<boolean>(false);
     const [openReportCommentOfferModal, setOpenReportCommentOfferModal] = React.useState(false);
     const [commentReport, setCommentReport] = React.useState<ICommentOffer>(defaultValue);
-    const [showMoreComment, setShowMoreComment] = React.useState(false);
 
 
     const { t} = useTranslation();

@@ -27,7 +27,11 @@
     "email_is_required": "Email is required",
     "label_load_more": "Load More",
     "label_start_date": "Start date",
-    "label_end_date": "End date"
+    "label_end_date": "End date",
+    "type_periode_rent_PerYear": "Per year",
+    "type_periode_rent_PerMonth": "Per month",
+    "type_periode_rent_PerDay": "Per day",
+    "label_period": "Period"
   },
   "header": {
     "label_add_offer": "Add offer",
@@ -127,7 +131,8 @@
     "placeholder_description": "Please type here your description...",
     "type_offer_require": "Type offer is required",
     "title_required": "Title is required",
-    "description_required": "Description is required"
+    "description_required": "Description is required",
+    "message_create_offer_succefull": "Offer created successfully"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
@@ -156,7 +161,8 @@
     "label_show_less": " Show less",
     "not_address_found_itenarary": "Not available address",
     "miss_address_account": "Please add address in your account",
-    "message_not_link_profile_facebook_exist": "Not link facebook exist"
+    "message_not_link_profile_facebook_exist": "Not link facebook exist",
+    "label_category": "Category: "
 
   },
   "forgot_password_init": {

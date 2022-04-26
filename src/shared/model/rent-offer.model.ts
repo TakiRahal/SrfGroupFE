@@ -5,6 +5,7 @@ export interface IRentOffer extends IOffer {
   amount?: number | null;
   startDate?: string | null;
   endDate?: string | null;
+  typePeriodRent?: string | null;
 }
 
 export const defaultValue: Readonly<IRentOffer> = {};

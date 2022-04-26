@@ -61,8 +61,7 @@ import {getEntity as getEntityPostHomeFeature} from '../src/shared/reducers/post
 
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
-import { styled } from '@mui/material/styles';
-import Switch from '@mui/material/Switch';
+import GoogleOneTapLogin from 'react-google-one-tap-login';
 import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
@@ -447,6 +446,9 @@ function App(props: IAppProps) {
                     {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>
                 <Footer sendCallback={sendNewsLetter} addSuccess={props.addSuccessNewsLetter} loadingEntity={props.loadingEntityNewsLetter}/>
+                <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}
+                                   onSuccess={(response: any) => console.log('response ', response)}
+                                   googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} />
                 {renderMenuLanguages}
             </ThemeProvider>
         </>

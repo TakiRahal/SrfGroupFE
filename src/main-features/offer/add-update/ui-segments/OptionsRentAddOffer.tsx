@@ -41,17 +41,17 @@ export default function OptionsRentAddOffer(props: any) {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    <FormControl fullWidth error={formik.touched.periodRent && Boolean(formik.errors.periodRent)}
+                    <FormControl fullWidth error={formik.touched.typePeriodRent && Boolean(formik.errors.typePeriodRent)}
                                  className="form-control-type-offer" size="small">
                         <InputLabel id="demo-simple-select-label" className="type-offer-select">
                             {t('add_offer.per_periode')}
                         </InputLabel>
                         <Select
-                            id="periodRent"
-                            name="periodRent"
-                            label="Type"
+                            id="typePeriodRent"
+                            name="typePeriodRent"
+                            label={t('add_offer.per_periode')}
                             labelId="demo-simple-select-label"
-                            value={formik.values.periodRent}
+                            value={formik.values.typePeriodRent}
                             onChange={formik.handleChange}
                         >
                             <MenuItem value={PeriodeRent.PerMonth}>

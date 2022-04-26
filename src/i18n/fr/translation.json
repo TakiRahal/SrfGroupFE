@@ -27,7 +27,12 @@
     "email_is_required": "Email obligatoire",
     "label_load_more": "Charger plus",
     "label_start_date": "Date de début",
-    "label_end_date": "Date de fin"
+    "label_end_date": "Date de fin",
+    "type_periode_rent_PerYear": "Par année",
+    "type_periode_rent_PerMonth": "Par mois",
+    "type_periode_rent_PerDay": "Par jour",
+    "label_period": "Periode"
+
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -127,7 +132,8 @@
     "placeholder_description": "Veuillez saisir ici votre description...",
     "type_offer_require": "Le type d'offre est obligatoire",
     "title_required": "Le titre est obligatoire",
-    "description_required": "La description est obligatoire"
+    "description_required": "La description est obligatoire",
+    "message_create_offer_succefull": "Offre créée avec succès"
   },
   "news_letter": {
     "added_success": "Merci pour votre abonnement"
@@ -156,7 +162,8 @@
     "label_show_less": " Montrer moins",
     "not_address_found_itenarary": "Adresse non disponible",
     "miss_address_account": "Veuillez ajouter l'adresse dans votre compte",
-    "message_not_link_profile_facebook_exist": "Le lien facebook n'existe pas"
+    "message_not_link_profile_facebook_exist": "Le lien facebook n'existe pas",
+    "label_category": "Categorie: "
   },
   "forgot_password_init": {
     "message_send_mail_success": "Veuillez vérifier vos nouveaux emails et suivre les instructions pour réinitialiser votre mot de passe.",

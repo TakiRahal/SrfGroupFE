@@ -26,7 +26,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddLocation from '@mui/icons-material/AddLocation';
-import ApprovalIcon from '@mui/icons-material/Approval';
+import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import CardActions from "@mui/material/CardActions/CardActions";
 import Button from "@mui/material/Button/Button";
 import FlagIcon from '@mui/icons-material/Flag';
@@ -61,6 +61,7 @@ import AccordionSummary from "@mui/material/AccordionSummary/AccordionSummary";
 import Accordion from "@mui/material/Accordion/Accordion";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomShare from "../../../shared/components/custom-share/CustomShare";
+import i18n from "i18next";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -70,6 +71,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const [openReportOfferModal, setOpenReportOfferModal] = React.useState(false);
     const [activeCommentPage, setActiveCommentPage] = React.useState(-1);
     const [expandedDetailsOffer, setExpandedDetailsOffer] = React.useState<boolean>(true);
+    const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
     const {id} = useParams<{ id: string }>();
 
@@ -101,6 +103,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     } = props;
 
     React.useEffect(() => {
+        i18n.on('languageChanged', (lang: any) => {
+            setDefaultLanguage(lang);
+        });
+
         resetAllFavoriteOfferUser();
         resetCommentOffer();
     }, [])
@@ -263,6 +269,17 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     const handleChangeDetailsOffer = () => {
         setExpandedDetailsOffer(!expandedDetailsOffer);
     }
+
+    const getNameCategory = (): string => {
+        if( defaultLanguage==='en' ){
+            return favoriteUserOffer?.offer?.category?.titleEn || '';
+        }
+        else if( defaultLanguage==='fr' ){
+            return favoriteUserOffer?.offer?.category?.titleFr || '';
+        }
+        return favoriteUserOffer?.offer?.category?.titleAr || '';
+    }
+
     return (
         <Box>
             <Zoom in={startAnimation}>
@@ -321,13 +338,21 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
                                                 <Box>
                                                     <Typography color="text.secondary" gutterBottom>
-                                                        {t('common.label_start_date')} <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
+                                                        {t('common.label_start_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
                                                     </Typography>
                                                     <Typography color="text.secondary" gutterBottom display="flex">
-                                                        {t('common.label_end_date')} <strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
+                                                        {t('common.label_end_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
                                                     </Typography>
                                                 </Box>
                                             ) : null}
+                                            
+                                            {
+                                                favoriteUserOffer?.offer?.typePeriodRent ? <Typography color="text.secondary" gutterBottom display="flex">
+                                                    {t('common.label_period')}:&nbsp;
+                                                    <strong>{t('common.type_periode_rent_'+favoriteUserOffer?.offer?.typePeriodRent)}&nbsp;</strong>
+                                                </Typography> : null
+                                            }
+                                            
 
                                             <Typography variant="h5" component="div" sx={{ mt: 2 }}>
                                                 {favoriteUserOffer?.offer?.title}
@@ -347,8 +372,8 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             {
                                                 favoriteUserOffer?.offer?.category ?
                                                     <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                                        <ApprovalIcon fontSize="small" sx={{mr: 0.9}}/>
-                                                        {favoriteUserOffer?.offer?.category.titleEn}
+                                                        <EmojiObjectsIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                        {t('details_offer.label_category')} {getNameCategory()}
                                                     </Typography> : null
                                             }
 

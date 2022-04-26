@@ -5,9 +5,9 @@ export enum TypeOfferEnum {
 }
 
 export enum PeriodeRent {
-  PerYear = 'PER_YEAR',
-  PerMonth = 'PER_MONTH',
-  PerDay = 'PER_DAY',
+  PerYear = 'PerYear',
+  PerMonth = 'PerMonth',
+  PerDay = 'PerDay',
 }
 
 export enum TypesFindOffer{

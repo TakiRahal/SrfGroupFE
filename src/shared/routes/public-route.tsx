@@ -10,9 +10,6 @@ import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
  * @constructor
  */
 export function PublicRoute ({ children, isAuthenticated, path,  ...rest }: { children: any, isAuthenticated: boolean, path: string }){
-
-    console.log('props.isAuthenticated ', isAuthenticated);
-    console.log('children ', children);
     return (
         <Route
             path={path}

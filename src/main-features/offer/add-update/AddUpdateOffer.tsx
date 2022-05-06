@@ -44,7 +44,7 @@ import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import Slide from "@mui/material/Slide/Slide";
 import {IRootState} from "../../../shared/reducers";
-import { reset as resetOffer } from '../../../shared/reducers/offer.reducer';
+import {reset as resetOffer, resetFetchOffer} from '../../../shared/reducers/offer.reducer';
 import { createEntity as createEntitySellerOffer } from '../../../shared/reducers/seller-offer.reducer';
 import { updateEntity as updateEntitySell } from '../../../shared/reducers/seller-offer.reducer';
 import { reset as resetSellerOffer } from '../../../shared/reducers/seller-offer.reducer';
@@ -131,12 +131,14 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const {id} = useParams<{ id: string }>();
 
     React.useEffect(() => {
+        console.log('id ', id);
         if(id){ // For update
             getEntityOffer(Number(id) || -1);
         }
         else{ // For new offer
             formik.resetForm();
             setFileState(defaultValueFiles);
+            props.resetFetchOffer();
         }
     }, [id])
 
@@ -285,7 +287,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     };
 
     const upladAllFiles = (offerId: number) => {
-        console.log('upladAllFiles');
         if(originalListFiles.length){
             const formData = new FormData();
             for (const file of originalListFiles) {
@@ -340,7 +341,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     };
 
     const onChangeValue = (newValue: any) => {
-        console.log('onChangeValue ', newValue);
         formik.setFieldValue('description', newValue ? newValue : '');
     }
 
@@ -443,10 +443,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
                                             <Grid item xs={12} md={12}>
                                                 <FormControl fullWidth sx={{mt: 3}}
                                                              error={formik.touched.description && Boolean(formik.errors.description)}>
-                                                    {
-                                                        id && entityOffer?.description ? <CustomSunEditor defaultValue={entityOffer?.description} callbcakHandleChange={onChangeValue} placeholder={t('add_offer.placeholder_description')}/> :
-                                                            <CustomSunEditor defaultValue='' callbcakHandleChange={onChangeValue} placeholder={t('add_offer.placeholder_description')}/>
-                                                    }
+                                                    <CustomSunEditor defaultValue={entityOffer?.description || ''} callbcakHandleChange={onChangeValue} placeholder={t('add_offer.placeholder_description')}/>
                                                     {formik.touched.description && formik.errors.description ? <FormHelperText id="component-helper-text">{t(formik.errors.description)}</FormHelperText> : null}
                                                 </FormControl>
                                             </Grid>
@@ -639,7 +636,8 @@ const mapDispatchToProps = {
     updateEntitySell,
     updateEntityRent,
     updateEntityFind,
-    getPublicEntity
+    getPublicEntity,
+    resetFetchOffer
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -31,8 +31,9 @@
     "type_periode_rent_PerYear": "Par année",
     "type_periode_rent_PerMonth": "Par mois",
     "type_periode_rent_PerDay": "Par jour",
-    "label_period": "Periode"
-
+    "label_period": "Periode",
+    "label_delete": "Supprimer",
+    "label_disfavorite": "Disfavorite"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -48,7 +49,10 @@
     "my_favorite_users": "Mes favoris",
     "notifications": "Notifications",
     "logout": "Deconnecter",
-    "signup": "S'inscrire"
+    "signup": "S'inscrire",
+    "label_account": "Mon compte",
+    "label_my_offers": "Mes offres",
+    "lable_favorties_users": "Mes favoris"
   },
   "home":{
     "steps": {
@@ -98,7 +102,8 @@
     "label_register_account": "Enregistrer un nouveau compte",
     "title_page_forgot_password": "Mot de passe oublié",
     "label_remember_me": "Rester connecté",
-    "message_welcome": "Bienvenue"
+    "message_welcome": "Bienvenue",
+    "blocked_by_admin": "Vous êtes bloqué, merci de contacter l'administration"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Commentaire ajouté avec succès",
@@ -147,7 +152,9 @@
   },
   "my_offers": {
     "title_page": "Mes offres",
-    "no_offers_found": "Aucune offre trouvée"
+    "no_offers_found": "Aucune offre trouvée",
+    "title_dialog_delete_offer": "Supprimer l offre",
+    "description_dialog_delete_offer": "Voulez-vous vraiment supprimer cette offre ?"
   },
   "details_offer": {
     "title_add_favrite_user": "Utilisateur favoris",
@@ -163,7 +170,10 @@
     "not_address_found_itenarary": "Adresse non disponible",
     "miss_address_account": "Veuillez ajouter l'adresse dans votre compte",
     "message_not_link_profile_facebook_exist": "Le lien facebook n'existe pas",
-    "label_category": "Categorie: "
+    "label_category": "Categorie: ",
+    "label_report": "Signaler",
+    "title_dialog_report_offer": "Signaler l offre",
+    "description_dialog_report_offer": "Vous souhaitez signaler cette offre !"
   },
   "forgot_password_init": {
     "message_send_mail_success": "Veuillez vérifier vos nouveaux emails et suivre les instructions pour réinitialiser votre mot de passe.",
@@ -188,5 +198,15 @@
     "message_is_required": "Message obligatoire",
     "recaptcha_is_required": "Recaptcha obligatoire",
     "label_at_your_service": "À votre écoute"
+  },
+  "favorite": {
+    "user":{
+      "title_favorite_users": "Utilisateurs favoris",
+      "message_no_favorite_found": "Aucun utilisateur favori trouvé",
+      "message_add_favorite_user_succefully": "Utilisateur ajouté avec succès",
+      "message_remove_favorite_user": "Utilisateur supprimé avec succès",
+      "title_remove_favrite_user": "DisFavorite utilisateur",
+      "description_remove_favrite_user": "Supprimer cet utilisateur de votre liste de favoris"
+    }
   }
 }

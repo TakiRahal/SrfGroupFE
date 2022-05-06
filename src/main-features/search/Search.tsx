@@ -42,13 +42,11 @@ export const Search = (props: ISearchProps) => {
     };
 
     React.useEffect(() => {
-        // console.log('search ', search);
         setActivePage(-1);
         resetAll();
     }, []);
 
     React.useEffect(() => {
-        // console.log('activePage ', activePage);
         if(activePage>=0){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);

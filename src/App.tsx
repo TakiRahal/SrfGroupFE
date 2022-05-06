@@ -78,7 +78,7 @@ function ScrollToTop() {
         let prevLocation: any;
         const unlisten = history.listen((location, action) => {
 
-            if(location.pathname != prevLocation?.pathname){
+            if(location.pathname !== prevLocation?.pathname){
 
                 // Add track page Google Analytics
                 trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {

@@ -36,6 +36,7 @@ import ItemsOffer from '../../../shared/components/item-offer/ItemsOffer';
 import {useTranslation} from "react-i18next";
 import InfiniteScroll from 'react-infinite-scroller';
 import queryString from "query-string";
+import {IOffer} from "../../../shared/model/offer.model";
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
@@ -86,6 +87,16 @@ export const MyOffers = (props: IMyOfferProps) => {
         }
     }, [deleteSuccessOffer])
 
+    const handleClickOpenUpdateOffert = (offer: IOffer) => {
+        history.push(`${ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}/${offer.id}/edit`);
+    };
+
+
+    const handleClickOpenDeleteOffertModal = (offer: IOffer) => {
+        setDeleteOfferId(offer.id || -1);
+        setOpenDeleteOfferModal(true);
+    };
+
     const handleClickCancelDeleteOfferModal = () => {
         setOpenDeleteOfferModal(false);
     };
@@ -105,19 +116,19 @@ export const MyOffers = (props: IMyOfferProps) => {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>
-                    Confirm delete operation
+                    {t('my_offers.title_dialog_delete_offer')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Are you sure you want to delete this CommentOffer?
+                        {t('my_offers.description_dialog_delete_offer')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClickCancelDeleteOfferModal}>
-                        Cancel
+                    <Button onClick={handleClickCancelDeleteOfferModal} color="neutral">
+                        {t('common.label_cancel')}
                     </Button>
                     <Button onClick={handleClickDeleteDeleteOfferModal} color="error">
-                        Delete
+                        {t('common.label_delete')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -186,7 +197,11 @@ export const MyOffers = (props: IMyOfferProps) => {
                                 threshold={0}
                                 initialLoad={false}
                             >
-                                <ItemsOffer listOffers={listMyOffers.slice()} typeDisplay={typeDisplayOffers}/>
+                                <ItemsOffer listOffers={listMyOffers.slice()}
+                                            typeDisplay={typeDisplayOffers}
+                                            forMe={true}
+                                            callbackEditOffer={handleClickOpenUpdateOffert}
+                                            callbackDeleteOffer={handleClickOpenDeleteOffertModal}/>
 
                                 { loadingListMyOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null }
 

@@ -31,7 +31,9 @@
     "type_periode_rent_PerYear": "Per year",
     "type_periode_rent_PerMonth": "Per month",
     "type_periode_rent_PerDay": "Per day",
-    "label_period": "Period"
+    "label_period": "Period",
+    "label_delete": "Delete",
+    "label_disfavorite": "Disfavorite"
   },
   "header": {
     "label_add_offer": "Add offer",
@@ -47,7 +49,10 @@
     "my_favorite_users": "My favorite users",
     "notifications": "Notifications",
     "logout": "Logout",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "label_account": "My account",
+    "label_my_offers": "My offers",
+    "lable_favorties_users": "My favorite users"
   },
   "home": {
     "steps": {
@@ -97,7 +102,8 @@
     "label_register_account": "Register a new account",
     "title_page_forgot_password": "Forgot password",
     "label_remember_me": "Remember me",
-    "message_welcome": "Welcome"
+    "message_welcome": "Welcome",
+    "blocked_by_admin": "You are blocked, please contact the administration"
   },
   "comment_offer": {
     "comment_offer_added_succefully": "Comment added succefully",
@@ -146,7 +152,9 @@
   },
   "my_offers": {
     "title_page": "My offers",
-    "no_offers_found": "No Offers found"
+    "no_offers_found": "No Offers found",
+    "title_dialog_delete_offer": "Delete offer",
+    "description_dialog_delete_offer": "Are you sure you want to delete this offer?"
   },
   "details_offer": {
     "title_add_favrite_user": "Favorite user",
@@ -162,7 +170,10 @@
     "not_address_found_itenarary": "Not available address",
     "miss_address_account": "Please add address in your account",
     "message_not_link_profile_facebook_exist": "Not link facebook exist",
-    "label_category": "Category: "
+    "label_category": "Category: ",
+    "label_report": "Report",
+    "title_dialog_report_offer": "Repoprt offer",
+    "description_dialog_report_offer": "Do you want report this offer !"
 
   },
   "forgot_password_init": {
@@ -188,5 +199,15 @@
     "message_is_required": "Message is required",
     "recaptcha_is_required": "Recaptcha is required",
     "label_at_your_service": "At your service"
+  },
+  "favorite": {
+    "user":{
+      "title_favorite_users": "Favorites users",
+      "message_no_favorite_found": "No Favorite user found",
+      "message_add_favorite_user_succefully": "User added succefully",
+      "message_remove_favorite_user": "User removed succefully",
+      "title_remove_favrite_user": "DisFavorite user",
+      "description_remove_favrite_user": "Remove this user to your favorite list"
+    }
   }
 }

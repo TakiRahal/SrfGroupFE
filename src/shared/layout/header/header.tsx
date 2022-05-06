@@ -166,7 +166,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <AccountCircle fontSize="small" />
                 </ListItemIcon>
-                My account
+                {t('header.label_account')}
             </MenuItem>
 
             <MenuItem
@@ -193,7 +193,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <PostAddIcon fontSize="small" />
                 </ListItemIcon>
-                My offers
+                {t('header.label_my_offers')}
             </MenuItem>
 
             <MenuItem
@@ -206,7 +206,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <FavoriteIcon fontSize="small" />
                 </ListItemIcon>
-                My favorite users
+                {t('header.lable_favorties_users')}
             </MenuItem>
 
             <MenuItem

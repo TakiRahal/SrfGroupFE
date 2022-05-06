@@ -18,6 +18,7 @@ export const ACTION_TYPES = {
     SET_BLOB: 'offer/SET_BLOB',
     RESET_PUBLIC_ENTITIES: 'offer/RESET_PUBLIC_ENTITIES',
     RESET_PRIVATE_ENTITIES: 'offer/RESET_PRIVATE_ENTITIES',
+    RESET_FETCH_OFFER: 'offer/RESET_FETCH_OFFER',
     RESET: 'offer/RESET',
 };
 
@@ -211,6 +212,12 @@ export default (state: OfferState = initialState, action: any): OfferState => {
                 entitiesMyOffers: []
             };
 
+        case ACTION_TYPES.RESET_FETCH_OFFER:
+            return {
+                ...state,
+                entity: {}
+            };
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -339,6 +346,10 @@ export const resetPublicEntitiesOffers = () => ({
 export const resetPrivateEntitiesOffers = () => ({
     type: ACTION_TYPES.RESET_PRIVATE_ENTITIES,
 });
+
+export const resetFetchOffer = () => ({
+    type: ACTION_TYPES.RESET_FETCH_OFFER,
+})
 
 export const reset = () => ({
     type: ACTION_TYPES.RESET,

@@ -244,22 +244,21 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                 TransitionComponent={TransitionModal}
                 keepMounted
                 onClose={handleCloseReportOfferModal}
-                aria-describedby="alert-dialog-slide-description"
-            >
+                aria-describedby="alert-dialog-slide-description" >
                 <DialogTitle>
-                    Repoprt offer
+                    {t('details_offer.title_dialog_report_offer')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Do you want report this offer !
+                        {t('details_offer.description_dialog_report_offer')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseReportOfferModal}>
-                        Cancel
+                    <Button onClick={handleCloseReportOfferModal} color="neutral">
+                        {t('common.label_cancel')}
                     </Button>
                     <Button color="success" onClick={handleAddReportOfferModal}>
-                        Report
+                        {t('details_offer.label_report')}
                     </Button>
                 </DialogActions>
             </Dialog>

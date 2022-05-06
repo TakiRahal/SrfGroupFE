@@ -8,20 +8,16 @@ export function CustomSunEditor({ defaultValue, callbcakHandleChange, placeholde
         callbcakHandleChange(content);
     }
 
-    React.useEffect(() => {
-        console.log('defaultValue ', defaultValue);
-    }, [defaultValue])
-
     return (
         <SunEditor lang="en"
-           defaultValue={defaultValue || ''}
-           placeholder={placeholder}
-           setOptions={{
-               height: '200',
-               buttonList: [
-                   ['undo', 'redo', 'font', 'fontSize', 'formatBlock']
-               ]
-           }}
-           onChange={handleChange}/>
+                   setContents={defaultValue}
+                   placeholder={placeholder}
+                   setOptions={{
+                       height: '200',
+                       buttonList: [
+                           ['undo', 'redo', 'font', 'fontSize', 'formatBlock']
+                       ]
+                   }}
+                   onChange={handleChange}/>
     );
 }

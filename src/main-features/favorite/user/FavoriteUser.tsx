@@ -13,6 +13,7 @@ import ListFavoriteUsers from "./ui-segments/ListFavoriteUsers";
 import Box from "@mui/material/Box/Box";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Alert from "@mui/material/Alert/Alert";
+import {useTranslation} from "react-i18next";
 
 
 export interface IFavoriteUserProps extends StateProps, DispatchProps {}
@@ -20,6 +21,7 @@ export interface IFavoriteUserProps extends StateProps, DispatchProps {}
 export const FavoriteUser = (props: IFavoriteUserProps) => {
 
     const {loadingEntitiesFavoriteUsers, listFavoriteUsers, getEntitiesByUser} = props;
+    const { t } = useTranslation();
 
     React.useEffect(() => {
         getEntitiesByUser(1, 20, '');
@@ -69,7 +71,7 @@ export const FavoriteUser = (props: IFavoriteUserProps) => {
                     ))
                     : !loadingEntitiesFavoriteUsers && (
                     <Grid item xs={12}>
-                        <Alert severity="warning">No Favorites found</Alert>
+                        <Alert severity="warning">{t('favorite.user.message_no_favorite_found')}</Alert>
                     </Grid>
                 )}
 

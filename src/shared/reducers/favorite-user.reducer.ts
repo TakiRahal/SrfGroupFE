@@ -31,11 +31,13 @@ export default (state: FavoriteUserState = initialState, action: any): FavoriteU
         case REQUEST(ACTION_TYPES.CREATE_FAVORITE):
             return {
                 ...state,
+                addSuccess: false,
                 loadingEntity: true,
             };
         case FAILURE(ACTION_TYPES.CREATE_FAVORITE):
             return {
                 ...state,
+                addSuccess: false,
                 loadingEntity: false,
                 errorMessage: action.payload,
             };
@@ -105,9 +107,9 @@ export const createEntity: (entity: IFavoriteUser) => void = (entity: IFavoriteU
     const result = await dispatch({
         type: ACTION_TYPES.CREATE_FAVORITE,
         payload: axios.post(`${apiUrl}/create`, entity),
-        meta: {
-            successMessage: 'User added successfuly',
-        }
+        // meta: {
+        //     successMessage: 'User added successfuly',
+        // }
     });
     return result;
 };

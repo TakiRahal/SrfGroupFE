@@ -24,10 +24,12 @@ import Divider from "@mui/material/Divider/Divider";
 import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Typography from "@mui/material/Typography/Typography";
+import {useTranslation} from "react-i18next";
 
 export default function ListFavoriteUsers({ favorite, parentCallback }: { favorite: IFavoriteUser, parentCallback: Function }) {
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
     const history = useHistory();
+    const { t } = useTranslation();
 
     const { favoriteUser, id } = favorite;
 
@@ -62,19 +64,19 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>
-                    Title
+                    {t('favorite.user.title_remove_favrite_user')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Description
+                        {t('favorite.user.description_remove_favrite_user')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseFavoriteModal}>
-                        Cancel
+                        {t('common.label_cancel')}
                     </Button>
                     <Button onClick={disFavoriteHandleClick} color="error">
-                        DisFavorite
+                        {t('common.label_disfavorite')}
                     </Button>
                 </DialogActions>
             </Dialog>

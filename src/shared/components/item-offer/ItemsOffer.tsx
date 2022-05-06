@@ -28,9 +28,14 @@ import {AllAppConfig} from "../../../core/config/all-config";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import {LazyImageLoading} from "../../pages/lazy-image-loading";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import './ItemsOffer.scss';
 
 
-export default function ItemOffer({listOffers, typeDisplay}: {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers}) {
+export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditOffer, callbackDeleteOffer}:
+                                    {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers, forMe?: boolean,
+                                        callbackEditOffer?: any, callbackDeleteOffer?: any}) {
 
     const history = useHistory();
 
@@ -48,7 +53,16 @@ export default function ItemOffer({listOffers, typeDisplay}: {listOffers: IOffer
                         <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
                               sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12} key={`entity-${index}`}>
                             {
-                                typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGrid offer={offer} rediretToCallback={rediretTo}/> : <CardList offer={offer} rediretToCallback={rediretTo}/>
+                                typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGrid offer={offer}
+                                                                                       rediretToCallback={rediretTo}
+                                                                                       forMe={forMe}
+                                                                                       callbackEditOffer={callbackEditOffer}
+                                                                                       callbackDeleteOffer={callbackDeleteOffer}/> :
+                                    <CardList offer={offer}
+                                              rediretToCallback={rediretTo}
+                                              forMe={forMe}
+                                              callbackEditOffer={callbackEditOffer}
+                                              callbackDeleteOffer={callbackDeleteOffer}/>
                             }
                         </Grid>
                     ))
@@ -59,9 +73,20 @@ export default function ItemOffer({listOffers, typeDisplay}: {listOffers: IOffer
     );
 }
 
-function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback: any}){
+function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackDeleteOffer}:
+                      {offer: IOffer, rediretToCallback: any, forMe?: boolean, callbackEditOffer: any, callbackDeleteOffer?: any}){
 
     const { t } = useTranslation();
+
+    const editOffer = (event: any) => {
+        event.stopPropagation();
+        callbackEditOffer(offer)
+    }
+
+    const deleteOffer = (event: any) => {
+        event.stopPropagation();
+        callbackDeleteOffer(offer);
+    }
 
     return (
         <CardActionArea component="a" onClick={() => rediretToCallback(offer.id)}>
@@ -78,7 +103,24 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                 </CardMedia>
                 <CardContent sx={{ flex: 1 }}>
                     <List sx={{ width: '100%', pt: 0, pb: 0, bgcolor: 'background.paper' }}>
-                        <ListItem sx={{ pl: 0 }} secondaryAction={<FlagIcon onClick={(event: any) => event.stopPropagation()} />}>
+                        <ListItem sx={{ pl: 0 }}
+                                  secondaryAction={
+                                      <React.Fragment>
+                                          <FlagIcon onClick={(event: any) => event.stopPropagation()} />
+
+                                          {
+                                              forMe ? <CardActions>
+
+                                                  <IconButton aria-label="amount" size="small" color="success" onClick={(event) => editOffer(event)}>
+                                                      <EditIcon />
+                                                  </IconButton>
+
+                                                  <IconButton aria-label="report" size="small" sx={{ml: 'auto !important'}} color="error" onClick={(event) => deleteOffer(event)}>
+                                                      <DeleteIcon />
+                                                  </IconButton>
+                                              </CardActions> : null
+                                          }
+                                      </React.Fragment>}>
                             <ListItemAvatar>
                                 <Avatar
                                     alt={offer.user?.imageUrl}
@@ -141,13 +183,24 @@ function CardList({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
 
 
 
-function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback: any}){
+function CardGrid({offer, rediretToCallback, forMe, callbackEditOffer, callbackDeleteOffer}:
+                      {offer: IOffer, rediretToCallback: any, forMe?: boolean, callbackEditOffer?: any, callbackDeleteOffer?: any}){
 
     const { t } = useTranslation();
 
+    const editOffer = (event: any) => {
+        event.stopPropagation();
+        callbackEditOffer(offer)
+    }
+
+    const deleteOffer = (event: any) => {
+        event.stopPropagation();
+        callbackDeleteOffer(offer);
+    }
+
     return (
         <CardActionArea component="a" onClick={() => rediretToCallback(offer.id)}>
-            <Card>
+            <Card className="card-item-offer">
                 <CardHeader
                     avatar={
                         <Avatar
@@ -206,6 +259,20 @@ function CardGrid({offer, rediretToCallback}: {offer: IOffer, rediretToCallback:
                         <FlagIcon/>
                     </IconButton>
                 </CardActions>
+
+                {
+                    forMe ? <CardActions>
+
+                        <IconButton aria-label="amount" size="small" color="success" onClick={(event) => editOffer(event)}>
+                            <EditIcon />
+                        </IconButton>
+
+                        <IconButton aria-label="report" size="small" sx={{ml: 'auto !important'}} color="error" onClick={(event) => deleteOffer(event)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </CardActions> : null
+                }
+
             </Card>
         </CardActionArea>
     );

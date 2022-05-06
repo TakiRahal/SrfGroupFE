@@ -34,7 +34,7 @@ export default function Home(props: any){
 
             <PostHomeFeature />
 
-            <BottomHomeSlides {...props}/>
+            {/*<BottomHomeSlides {...props}/>*/}
         </Box>
     );
 }

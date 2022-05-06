@@ -446,9 +446,12 @@ function App(props: IAppProps) {
                     {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>
                 <Footer sendCallback={sendNewsLetter} addSuccess={props.addSuccessNewsLetter} loadingEntity={props.loadingEntityNewsLetter}/>
-                <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}
-                                   onSuccess={(response: any) => console.log('response ', response)}
-                                   googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} />
+                {
+                    !props.isAuthenticated ? <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}
+                                                                onSuccess={(response: any) => console.log('response ', response)}
+                                                                googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} /> : null
+                }
+
                 {renderMenuLanguages}
             </ThemeProvider>
         </>

@@ -33,7 +33,8 @@
     "type_periode_rent_PerDay": "Par jour",
     "label_period": "Periode",
     "label_delete": "Supprimer",
-    "label_disfavorite": "Disfavorite"
+    "label_disfavorite": "Disfavorite",
+    "label_report": "Signaler"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -111,7 +112,9 @@
     "hide_comment_details_offer": "Masquer les commentaires",
     "show_more_comment": "Afficher plus de commentaires",
     "label_add_comment": "Ajouter un commentaire",
-    "label_comment": "Commenter"
+    "label_comment": "Commenter",
+    "comment_offer_update_succefully": "Commentaire mis à jour avec succès",
+    "comment_offer_delete_succefully": "Commentaire supprimé avec succès"
   },
   "profile": {
     "title_page_profile": "Profil",
@@ -171,9 +174,12 @@
     "miss_address_account": "Veuillez ajouter l'adresse dans votre compte",
     "message_not_link_profile_facebook_exist": "Le lien facebook n'existe pas",
     "label_category": "Categorie: ",
-    "label_report": "Signaler",
     "title_dialog_report_offer": "Signaler l offre",
-    "description_dialog_report_offer": "Vous souhaitez signaler cette offre !"
+    "description_dialog_report_offer": "Vous souhaitez signaler cette offre !",
+    "title_dialog_delete_comment": "Supprimer le commentaire",
+    "description_dialog_delete_comment": "Voulez-vous supprimer ce commentaire !",
+    "title_dialog_report_comment": "Signaler un commentaire",
+    "description_dialog_report_comment": "Voulez-vous signaler ce commentaire !"
   },
   "forgot_password_init": {
     "message_send_mail_success": "Veuillez vérifier vos nouveaux emails et suivre les instructions pour réinitialiser votre mot de passe.",

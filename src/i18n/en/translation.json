@@ -33,7 +33,8 @@
     "type_periode_rent_PerDay": "Per day",
     "label_period": "Period",
     "label_delete": "Delete",
-    "label_disfavorite": "Disfavorite"
+    "label_disfavorite": "Disfavorite",
+    "label_report": "Report"
   },
   "header": {
     "label_add_offer": "Add offer",
@@ -111,7 +112,9 @@
     "hide_comment_details_offer": "Hide comments",
     "show_more_comment": "Show more comments",
     "label_add_comment": "Add comment",
-    "label_comment": "Comment"
+    "label_comment": "Comment",
+    "comment_offer_update_succefully": "Comment update succefully",
+    "comment_offer_delete_succefully": "Comment delete succefully"
   },
   "profile": {
     "title_page_profile": "Profile",
@@ -171,10 +174,12 @@
     "miss_address_account": "Please add address in your account",
     "message_not_link_profile_facebook_exist": "Not link facebook exist",
     "label_category": "Category: ",
-    "label_report": "Report",
     "title_dialog_report_offer": "Repoprt offer",
-    "description_dialog_report_offer": "Do you want report this offer !"
-
+    "description_dialog_report_offer": "Do you want report this offer !",
+    "title_dialog_delete_comment": "Delete comment",
+    "description_dialog_delete_comment": "Do you want delete this comment !",
+    "title_dialog_report_comment": "Report comment",
+    "description_dialog_report_comment": "Do you want report this comment !"
   },
   "forgot_password_init": {
     "message_send_mail_success": "Check your emails for details on how to reset your password.",

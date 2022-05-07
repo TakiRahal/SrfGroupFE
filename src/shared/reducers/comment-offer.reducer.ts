@@ -171,9 +171,9 @@ export const updateEntity: (entity: ICommentOffer) => void = (entity: ICommentOf
     const result = await dispatch({
         type: ACTION_TYPES.UPDATE_COMMENTOFFER,
         payload: axios.put(`${apiUrl}/${entity.id}`, entity),
-        meta: {
-            successMessage: 'Comment update succefully',
-        },
+        // meta: {
+        //     successMessage: 'Comment update succefully',
+        // },
     });
     return result;
 };
@@ -183,9 +183,9 @@ export const deleteEntity: (id: number) => void = (id: number) => async (dispatc
     const result = await dispatch({
         type: ACTION_TYPES.DELETE_COMMENTOFFER,
         payload: axios.delete(requestUrl),
-        meta: {
-            successMessage: 'Comment delete succefully',
-        },
+        // meta: {
+        //     successMessage: 'Comment delete succefully',
+        // },
     });
     return result;
 };

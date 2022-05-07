@@ -117,19 +117,19 @@ export default function CommentDetailsOffer({
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>
-                    Confirm delete operation
+                    {t('details_offer.title_dialog_delete_comment')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Are you sure you want to delete this CommentOffer?
+                        {t('details_offer.description_dialog_delete_comment')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClickCancelDeleteCommentModal}>
-                        Cancel
+                    <Button onClick={handleClickCancelDeleteCommentModal} color="neutral">
+                        {t('common.label_cancel')}
                     </Button>
                     <Button onClick={handleClickDeleteDeleteCommentModal} color="error">
-                        Delete
+                        {t('common.label_delete')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -157,19 +157,19 @@ export default function CommentDetailsOffer({
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>
-                    Repoprt comment offer
+                    {t('details_offer.title_dialog_report_comment')}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Do you want report this comment offer !
+                        {t('details_offer.description_dialog_report_comment')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseReportCommentOfferModal}>
-                        Cancel
+                        {t('common.label_cancel')}
                     </Button>
                     <Button color="success" onClick={handleAddReportCommentOfferModal}>
-                        Report
+                        {t('common.label_report')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -360,7 +360,7 @@ function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateC
 
     const [valueBeforCancelUpdate, setValueBeforCancelUpdate] = React.useState(defaultValueUpdate);
 
-
+    const { t} = useTranslation();
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddCommentOffer,
@@ -400,7 +400,7 @@ function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateC
                         color="neutral"
                         onClick={cancelUpdate}
                     >
-                        Cancel
+                        {t('common.label_cancel')}
                     </LoadingButton>
                     <LoadingButton
                         loading={loadingUpdateEntity}
@@ -410,7 +410,7 @@ function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateC
                         disabled={!formik.values.content}
                         color="success"
                     >
-                        Update
+                        {t('common.label_update')}
                     </LoadingButton>
                 </Box>
             </form>

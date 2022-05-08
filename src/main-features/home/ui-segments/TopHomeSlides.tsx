@@ -12,7 +12,6 @@ import './TopHomeSlides.scss';
 import {StorageService} from "../../../shared/services/storage.service";
 import {ITopHomeSlidesImages} from "../../../shared/model/top-home-slides-images.model";
 import i18n from "i18next";
-import isEmpty from "lodash/isEmpty";
 import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
 
 
@@ -22,7 +21,7 @@ export interface ITopHomeSlidesProp extends StateProps, DispatchProps {}
 
 export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
 
-    const [listTopSlidesImage, setListTopSlidesImage] = React.useState<ITopHomeSlidesImages[]>(StorageService.local.get(AllAppConfig.HOME_TOP_SLIDES_IMAGE))
+    const [listTopSlidesImage] = React.useState<ITopHomeSlidesImages[]>(StorageService.local.get(AllAppConfig.HOME_TOP_SLIDES_IMAGE))
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
     const history = useHistory();

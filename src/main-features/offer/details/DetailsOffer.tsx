@@ -118,11 +118,6 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         }
     }, [favoriteUserOffer])
 
-
-    React.useEffect(() => {
-        console.log('loadingEntityFavoriteUserOffer ', loadingEntityFavoriteUserOffer);
-    }, [loadingEntityFavoriteUserOffer])
-
     React.useEffect(() => {
         if(activeCommentPage>=0){
             if(isAuthenticated){

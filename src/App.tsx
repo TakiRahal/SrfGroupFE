@@ -134,6 +134,13 @@ function App(props: IAppProps) {
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
     const [darkMode, setDarkMode] = React.useState<'light' | 'dark'>('light');
 
+
+    //'Empty block statement' code smell
+    try{
+    }
+    catch(e){
+    }
+
     const { t, i18n } = useTranslation();
     const history = useHistory()
 
@@ -151,14 +158,16 @@ function App(props: IAppProps) {
 
     const toggleDarkMode = (event: any, checked: boolean) => {
         setDarkMode(checked ? 'light' : 'dark' );
-    }
+    };
 
     const { currentUser, getEntitiesAddresses, getCategories } = props;
 
     React.useEffect(() => {
 
-        // OneSignal Platform
-        OneSignalProviders();
+        if(process.env.NODE_ENV === 'production'){
+            // OneSignal Platform
+            OneSignalProviders();
+        }
 
         // Init Google Analyticd
         initGoogleAnalytics().then((result: boolean) => {

@@ -32,7 +32,6 @@ import {getFullnameUser, getUserAvatar} from "../../utils/utils-functions";
 import {languages, locales} from "../../reducers/locale.reducer";
 import {Translation, useTranslation} from "react-i18next";
 import Tooltip from "@mui/material/Tooltip/Tooltip";
-import Divider from "@mui/material/Divider/Divider";
 import {MaterialUISwitch} from "../../pages/material-ui-switch";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";

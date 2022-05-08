@@ -1,2 +1,3 @@
 "docker:elasticsearch:up": "docker-compose -f elasticsearch.yml up -d",
-docker-compose -f kibana.yml up
+"docker:kibana:up": "docker-compose -f kibana.yml up",
+"docker:sonar:up": "docker-compose -f sonar.yml up"

@@ -22,3 +22,9 @@ Deploy the React app:
     - git commit + git push
     - npm run deploy
     => if not working: try to delete folder ./build and run : npm run deploy
+    
+    
+## SonarQube
+- Start sonar server with docker compose script
+- Run script sonar
+- View dashboard Sonar

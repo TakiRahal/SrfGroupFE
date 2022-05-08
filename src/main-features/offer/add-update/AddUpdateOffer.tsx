@@ -59,7 +59,6 @@ import isEmpty from 'lodash/isEmpty';
 import OptionsCommonAddOffer from "./ui-segments/OoptionsCommonAddOffer";
 import {IOfferImages} from "../../../shared/model/offer-images.model";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
-import {getImageUrl} from "../../../shared/utils/image-url";
 import {CustomSunEditor} from "../../../shared/components/sun-editor/CustomSunEditor";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Box from "@mui/material/Box/Box";
@@ -69,7 +68,6 @@ import {getPublicEntity} from "../../../shared/reducers/description-add-offer.re
 import i18n from "i18next";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import './AddUpdateOffer.scss';
-import TextField from "@mui/material/TextField/TextField";
 
 interface initStateFiles {
     selectedFiles: string[];

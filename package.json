@@ -92,6 +92,7 @@
     "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
     "test": "react-scripts test",
+    "test-with-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",
     "sonar": "node sonar-project.js"
@@ -120,6 +121,7 @@
     "@types/styled-components": "^5.1.22",
     "env-cmd": "^10.1.0",
     "gh-pages": "^3.2.3",
+    "jest-sonar-reporter": "^2.0.0",
     "sonarqube-scanner": "^2.8.1"
   }
 }

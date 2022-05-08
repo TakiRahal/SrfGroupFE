@@ -1,0 +1,5 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.8'
+services:
+  srfgroup-logstash:
+    image: docker.elastic.co/logstash/logstash:7.6.1

@@ -1,0 +1,2 @@
+"docker:elasticsearch:up": "docker-compose -f elasticsearch.yml up -d",
+docker-compose -f kibana.yml up

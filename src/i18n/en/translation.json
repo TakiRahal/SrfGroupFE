@@ -7,7 +7,6 @@
     "label_name": "Name",
     "label_email": "Email",
     "label_phone": "Phone",
-    "label_address": "Address",
     "label_google_maps": "Google Maps",
     "label_firstname": "FirstName",
     "label_lastname": "LastName",
@@ -21,7 +20,8 @@
     "for_sell": "For Sell",
     "for_rent": "For Rent",
     "for_find": "For find",
-    "address": "Address",
+    "label_address": "Address",
+    "label_category": "Category: ",
     "cateory": "Category",
     "type_offer": "Type offer",
     "email_is_required": "Email is required",
@@ -34,7 +34,8 @@
     "label_period": "Period",
     "label_delete": "Delete",
     "label_disfavorite": "Disfavorite",
-    "label_report": "Report"
+    "label_report": "Report",
+    "label_amount": "Amouont"
   },
   "header": {
     "label_add_offer": "Add offer",
@@ -86,7 +87,9 @@
     "label_conf_new_password": "Confirm New password",
     "label_update_infos": "Update informations",
     "label_update_password": "Update password",
-    "label_link_profile_facebook": "Link Profile Facebook"
+    "label_link_profile_facebook": "Link Profile Facebook",
+    "message_update_infos_succefully": "Update infos succefully",
+    "message_update_password_succefully": "Update password succefully"
   },
   "signup": {
     "title-dialog-register": "Register succefully",
@@ -141,7 +144,10 @@
     "type_offer_require": "Type offer is required",
     "title_required": "Title is required",
     "description_required": "Description is required",
-    "message_create_offer_succefull": "Offer created successfully"
+    "message_create_offer_succefull": "Offer created successfully",
+    "label_type_contact_client": "Contact type",
+    "direct_type_contact_client": "The customer must contact me directly",
+    "per_commande_type_contact_client": "The customer can place an order"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
@@ -173,7 +179,6 @@
     "not_address_found_itenarary": "Not available address",
     "miss_address_account": "Please add address in your account",
     "message_not_link_profile_facebook_exist": "Not link facebook exist",
-    "label_category": "Category: ",
     "title_dialog_report_offer": "Repoprt offer",
     "description_dialog_report_offer": "Do you want report this offer !",
     "title_dialog_delete_comment": "Delete comment",
@@ -214,5 +219,8 @@
       "title_remove_favrite_user": "DisFavorite user",
       "description_remove_favrite_user": "Remove this user to your favorite list"
     }
+  },
+  "report_probleme": {
+    "report_probleme_added_succefully": "Declaration sent successfully"
   }
 }

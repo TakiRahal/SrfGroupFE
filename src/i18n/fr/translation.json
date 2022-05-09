@@ -7,7 +7,6 @@
     "label_name": "Nom",
     "label_email": "Email",
     "label_phone": "Téléphoner",
-    "label_address": "Adresse",
     "label_google_maps": "Google Maps",
     "label_firstname": "Prenom",
     "label_lastname": "Nom",
@@ -21,8 +20,8 @@
     "for_sell": "À vendre",
     "for_rent": "À louer",
     "for_find": "À trouver",
-    "address": "Addresse",
-    "cateory": "Categorie",
+    "label_address": "Addresse",
+    "label_category": "Categorie",
     "type_offer": "Type offre",
     "email_is_required": "Email obligatoire",
     "label_load_more": "Charger plus",
@@ -34,7 +33,8 @@
     "label_period": "Periode",
     "label_delete": "Supprimer",
     "label_disfavorite": "Disfavorite",
-    "label_report": "Signaler"
+    "label_report": "Signaler",
+    "label_amount": "Montant"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -86,7 +86,9 @@
     "label_conf_new_password": "Confirmer le nouveau mot de passe",
     "label_update_infos": "Mettre à jour les informations",
     "label_update_password": "Modifier",
-    "label_link_profile_facebook": "Lien Profil Facebook"
+    "label_link_profile_facebook": "Lien Profil Facebook",
+    "message_update_infos_succefully": "Mettre à jour les infos avec succès",
+    "message_update_password_succefully": "Mettre à jour le mot de passe avec succès"
   },
   "signup": {
     "title-dialog-register": "Inscription avec succès",
@@ -141,7 +143,10 @@
     "type_offer_require": "Le type d'offre est obligatoire",
     "title_required": "Le titre est obligatoire",
     "description_required": "La description est obligatoire",
-    "message_create_offer_succefull": "Offre créée avec succès"
+    "message_create_offer_succefull": "Offre créée avec succès",
+    "label_type_contact_client": "Type de contact",
+    "direct_type_contact_client": "Le client doit me contacter directement",
+    "per_commande_type_contact_client": "Le client peut passer une commande"
   },
   "news_letter": {
     "added_success": "Merci pour votre abonnement"
@@ -214,5 +219,8 @@
       "title_remove_favrite_user": "DisFavorite utilisateur",
       "description_remove_favrite_user": "Supprimer cet utilisateur de votre liste de favoris"
     }
+  },
+  "report_probleme": {
+    "report_probleme_added_succefully": "Déclaration envoyée avec succès"
   }
 }

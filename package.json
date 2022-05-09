@@ -43,6 +43,7 @@
     "react-i18next": "11.8.x",
     "react-image-lightbox": "^5.1.4",
     "react-infinite-scroller": "^1.2.5",
+    "react-lazy-images": "^1.1.0",
     "react-onesignal": "^2.0.3",
     "react-redux": "^7.2.6",
     "react-redux-loading-bar": "^5.0.2",

@@ -24,7 +24,7 @@ import './ForRentHome.scss';
 
 import {Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
+import {LazyImage} from "../../../shared/components/lazy-image";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -39,7 +39,20 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
+                            <LazyImage
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt="Buildings with tiled exteriors, lit by the sunset."
+                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                )}
+                            />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -47,7 +60,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -69,7 +82,20 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
+                            <LazyImage
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt="Buildings with tiled exteriors, lit by the sunset."
+                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                )}
+                            />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -77,7 +103,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -93,7 +119,20 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
+                            <LazyImage
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt="Buildings with tiled exteriors, lit by the sunset."
+                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                )}
+                            />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{
@@ -101,7 +140,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         </CardMedia>
                     )
                 }

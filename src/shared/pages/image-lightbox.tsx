@@ -103,12 +103,12 @@ interface IImageLightBox {
     captions: (string | JSX.Element)[];
 }
 
-const listImagesLightBox: IImageLightBox = {
-    images: images,
-    thumbs: thumbs,
-    titles: titles,
-    captions: captions
-}
+// let listImagesLightBox: IImageLightBox = {
+//     images: [],
+//     thumbs: [],
+//     titles: [],
+//     captions: []
+// }
 
 class ImageLightbox extends Component<any, any> {
 
@@ -118,13 +118,18 @@ class ImageLightbox extends Component<any, any> {
         this.state = {
             index: 0,
             isOpen: false,
+            listImagesLightBox : {
+                images: this.props.listImages,
+                thumbs: this.props.listImages,
+                titles: this.props.listTitles,
+                captions: []// this.props.listCaptions
+            }
         };
 
         this.openLightbox = this.openLightbox.bind(this);
         this.closeLightbox = this.closeLightbox.bind(this);
         this.moveNext = this.moveNext.bind(this);
         this.movePrev = this.movePrev.bind(this);
-
     }
 
     static onImageLoadError(): void {
@@ -153,32 +158,33 @@ class ImageLightbox extends Component<any, any> {
     }
 
     render() {
+
         let lightbox;
         if (this.props.openLightBox) {
             lightbox = (
                 <Lightbox
-                    mainSrc={listImagesLightBox.images[this.state.index]}
-                    nextSrc={listImagesLightBox.images[(this.state.index + 1) % images.length]}
+                    mainSrc={this.state.listImagesLightBox.images[this.state.index]}
+                    nextSrc={this.state.listImagesLightBox.images[(this.state.index + 1) % images.length]}
                     prevSrc={
-                        listImagesLightBox.images[(this.state.index + images.length - 1) % images.length]
+                        this.state.listImagesLightBox.images[(this.state.index + images.length - 1) % images.length]
                     }
-                    mainSrcThumbnail={listImagesLightBox.thumbs[this.state.index]}
-                    nextSrcThumbnail={listImagesLightBox.thumbs[(this.state.index + 1) % images.length]}
+                    mainSrcThumbnail={this.state.listImagesLightBox.thumbs[this.state.index]}
+                    nextSrcThumbnail={this.state.listImagesLightBox.thumbs[(this.state.index + 1) % images.length]}
                     prevSrcThumbnail={
-                        listImagesLightBox.thumbs[(this.state.index + images.length - 1) % images.length]
+                        this.state.listImagesLightBox.thumbs[(this.state.index + images.length - 1) % images.length]
                     }
                     onCloseRequest={this.closeLightbox}
                     onMovePrevRequest={this.movePrev}
                     onMoveNextRequest={this.moveNext}
                     onImageLoadError={ImageLightbox.onImageLoadError}
-                    imageTitle={listImagesLightBox.titles[this.state.index]}
-                    imageCaption={listImagesLightBox.captions[this.state.index]}
+                    imageTitle={this.state.listImagesLightBox.titles[this.state.index]}
+                    imageCaption={this.state.listImagesLightBox.captions[this.state.index]}
                 />
             );
         }
 
         return (
-            <div>
+            <div  onContextMenu={(e) => e.preventDefault()}>
                 {lightbox}
             </div>
         );

@@ -7,11 +7,12 @@ import TextField from '@mui/material/TextField/TextField';
 import Grid from '@mui/material/Grid/Grid';
 import i18n from "i18next";
 import {ICategory} from "../../../../shared/model/category.model";
+import {useTranslation} from "react-i18next";
 
 export default function OptionsCommonAddOffer(props: any) {
     const {formik, cities, listCategories} = props;
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
-
+    const { t } = useTranslation();
 
     React.useEffect(() => {
 
@@ -53,7 +54,7 @@ export default function OptionsCommonAddOffer(props: any) {
                             renderInput={params => (
                                 <TextField
                                     {...params}
-                                    label="Category"
+                                    label={t('common.label_category')}
                                     inputProps={{
                                         ...params.inputProps,
                                         form: {
@@ -86,7 +87,7 @@ export default function OptionsCommonAddOffer(props: any) {
                             renderInput={params => (
                                 <TextField
                                     {...params}
-                                    label="Address"
+                                    label={t('common.label_address')}
                                     inputProps={{
                                         ...params.inputProps,
                                         form: {

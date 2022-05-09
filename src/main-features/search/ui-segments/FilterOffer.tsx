@@ -55,7 +55,7 @@ export function FilterOffer({listAddress}: { listAddress: IAddress[] }) {
                             renderInput={params => (
                                 <TextField
                                     {...params}
-                                    label={t('common.address')}
+                                    label={t('common.label_address')}
                                     variant="standard"
                                     inputProps={{
                                         ...params.inputProps,
@@ -72,7 +72,7 @@ export function FilterOffer({listAddress}: { listAddress: IAddress[] }) {
                 <ListItem>
                     <Box sx={{width: '100%', my: 2}}>
                         <Typography id="input-slider" gutterBottom>
-                            Price
+                            {t('common.label_amount')}
                         </Typography>
                         <Grid container spacing={2} alignItems="center">
                             <Grid item>
@@ -94,9 +94,6 @@ export function FilterOffer({listAddress}: { listAddress: IAddress[] }) {
                         </Grid>
                     </Box>
                 </ListItem>
-                <ListItemButton>
-                    Drafts
-                </ListItemButton>
             </List>
         </Box>
     );

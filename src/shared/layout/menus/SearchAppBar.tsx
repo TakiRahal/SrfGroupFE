@@ -241,7 +241,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     renderInput={params => (
                                         <TextField
                                             {...params}
-                                            label={t('common.cateory')}
+                                            label={t('common.label_category')}
                                             variant="standard"
                                             inputProps={{
                                                 ...params.inputProps,

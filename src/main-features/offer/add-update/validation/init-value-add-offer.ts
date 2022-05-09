@@ -10,7 +10,8 @@ export const initialValuesAddOffer = {
     typePeriodRent: '',
     address: null,
     category: null,
-    typeFindOffer: ''
+    typeFindOffer: '',
+    typeContactClient: ''
 };
 
 export const validationSchemaAddOffer = Yup.object({
@@ -23,7 +24,8 @@ export const validationSchemaAddOffer = Yup.object({
     typePeriodRent: Yup.string().nullable().notRequired(),
     address: Yup.object().nullable().notRequired().default(null),
     category: Yup.object().nullable().notRequired().default(null),
-    typeFindOffer: Yup.string().nullable().notRequired()
+    typeFindOffer: Yup.string().nullable().notRequired(),
+    typeContactClient: Yup.string().nullable().notRequired()
 });
 
 export const setDefaultsValues = (formik: any, offerEntity: any) => {

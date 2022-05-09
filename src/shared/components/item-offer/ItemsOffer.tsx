@@ -27,10 +27,10 @@ import {ConvertReactTimeAgo} from "../../pages/react-time-ago";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import {LazyImageLoading} from "../../pages/lazy-image-loading";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './ItemsOffer.scss';
+import {LazyImage} from "../lazy-image";
 
 
 export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditOffer, callbackDeleteOffer}:
@@ -94,10 +94,23 @@ function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
                 <CardMedia
                     sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
                     {offer.offerImages && offer.offerImages.length ? (
-                        <LazyImageLoading src={getImageForOffer(offer.id, offer?.offerImages[0]?.path)} />
+                        <LazyImage
+                            src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                            alt="Buildings with tiled exteriors, lit by the sunset."
+                            actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                            placeholder={({ ref }) => <div ref={ref} />}
+                            loading={() => (
+                                <div>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                </div>
+                            )}
+                            error={() => (
+                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            )}
+                        />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}}}>
-                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         </Box>
                     )}
                 </CardMedia>
@@ -220,9 +233,22 @@ function CardGrid({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
                 />
                     <CardMedia sx={{ height: {xs: 150, md: 200} }}>
                         {offer.offerImages && offer.offerImages.length ? (
-                            <LazyImageLoading src={getImageForOffer(offer.id, offer.offerImages[0].path)} />
+                            <LazyImage
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt="Buildings with tiled exteriors, lit by the sunset."
+                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                )}
+                            />
                         ) : (
-                            <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         )}
                     </CardMedia>
                     <CardContent className="card-content">

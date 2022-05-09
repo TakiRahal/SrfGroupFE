@@ -19,7 +19,7 @@ import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesRecentlyAdded} from "../../../shared/reducers/offer.reducer";
 import {connect} from "react-redux";
-import {getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useHistory} from "react-router-dom";
 import {IOffer} from "../../../shared/model/offer.model";
@@ -27,6 +27,8 @@ import Box from "@mui/material/Box/Box";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
+import {AllAppConfig} from "../../../core/config/all-config";
+import {LazyImage} from "../../../shared/components/lazy-image";
 
 
 function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -52,7 +54,33 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
                     title={getFullnameUser(offer?.user)}
                     subheader={<ConvertReactTimeAgo convertDate={offer.dateCreated} />}
                 />
-                <CardMedia component="img" height="194" image={getImageForOffer(offer?.id, getPathImg(offer) || '')} alt="Image Offer" />
+                {/*<CardMedia component="img" height="194" image={getImageForOffer(offer?.id, getPathImg(offer) || '')} alt="Image Offer" />*/}
+
+                {
+                    offer.offerImages && offer.offerImages.length ? (
+                        <CardMedia sx={{height:200}}>
+                            <LazyImage
+                                src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                alt="Buildings with tiled exteriors, lit by the sunset."
+                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" style={{height:200}}/>
+                                )}
+                            />
+                        </CardMedia>
+                    ) : (
+                        <CardMedia sx={{height:200 }}>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                        </CardMedia>
+                    )
+                }
+
                 <CardContent className="card-content-offer">
                     <Typography variant="body2" color="text.secondary" className="truncate-string-two-lines">
                         <span dangerouslySetInnerHTML={{ __html: offer.description || '' }}></span>

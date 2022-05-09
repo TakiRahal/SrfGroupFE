@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import Card from '@mui/material/Card/Card';
-import { Autoplay, EffectFade, Lazy, Navigation, Thumbs, Zoom } from 'swiper';
+import {Autoplay, EffectFade, Lazy, Navigation, Thumbs, Zoom} from 'swiper';
 import SwiperCore from 'swiper';
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IOfferImages} from "../../../../shared/model/offer-images.model";
@@ -35,50 +35,67 @@ export default function SwiperDetailsOffer(offerEntity: IOffer) {
         setOpenLightBox(false);
     }
 
-  return offerEntity && offerEntity.offerImages && offerEntity.offerImages.length > 0 ? (
+    const getFullListImages = (): string[] | undefined => {
+        return offerEntity?.offerImages?.map(item => getImageForOffer(offerEntity.id, item.path));
+    }
 
-      <Box>
-          <ImageLightbox openLightBox={openLightBox} callbackClose={closeLightBox}/>
+    const getFullListTitles = (): string[] | undefined => {
+        return offerEntity?.offerImages?.map(item => (offerEntity?.title || '').toString());
+    }
 
-          <Card sx={{ mb: 2 }}>
-              <Swiper
-                  spaceBetween={10}
-                  navigation
-                  pagination={{ clickable: true }}
-                  thumbs={{ swiper: thumbsSwiper }}
-                  zoom={true}
-                  lazy={true}
-                  effect={'fade'}
-                  loop={true}
-                  autoplay={{
-                      delay: 5000,
-                      disableOnInteraction: false,
-                  }}
-                  className="mySwiper2"
-              >
-                  {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
-                      <SwiperSlide key={offerImage.id}>
-                          <div className="swiper-zoom-container">
-                              <img src={getImageForOffer(offerEntity.id, offerImage.path)} onClick={() => setOpenLightBox(true)} />
-                          </div>
-                      </SwiperSlide>
-                  ))}
-              </Swiper>
-              <Swiper
-                  onSwiper={setThumbsSwiper}
-                  spaceBetween={10}
-                  slidesPerView={4}
-                  freeMode={true}
-                  watchSlidesProgress={true}
-                  className="mySwiper"
-              >
-                  {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
-                      <SwiperSlide key={offerImage.id}>
-                          <img src={getImageForOffer(offerEntity.id, offerImage.path)} />
-                      </SwiperSlide>
-                  ))}
-              </Swiper>
-          </Card>
-      </Box>
-  ) : null;
+    const getFullListCaptions = (): string[] | undefined => {
+        return offerEntity?.offerImages?.map(item => (offerEntity?.description || '').toString());
+    }
+
+    return offerEntity && offerEntity.offerImages && offerEntity.offerImages.length > 0 ? (
+
+        <Box>
+            <ImageLightbox openLightBox={openLightBox}
+                           callbackClose={closeLightBox}
+                           listImages={getFullListImages()}
+                           listTitles={getFullListTitles()}
+                           listCaptions={getFullListCaptions()}/>
+
+            <Card sx={{mb: 2}}>
+                <Swiper
+                    spaceBetween={10}
+                    navigation
+                    pagination={{clickable: true}}
+                    thumbs={{swiper: thumbsSwiper}}
+                    zoom={true}
+                    lazy={true}
+                    effect={'fade'}
+                    loop={true}
+                    autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    }}
+                    className="mySwiper2"
+                >
+                    {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
+                        <SwiperSlide key={offerImage.id}>
+                            <div className="swiper-zoom-container">
+                                <img src={getImageForOffer(offerEntity.id, offerImage.path)}
+                                     onClick={() => setOpenLightBox(true)} onContextMenu={(e) => e.preventDefault()}/>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={10}
+                    slidesPerView={4}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    className="mySwiper"
+                >
+                    {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
+                        <SwiperSlide key={offerImage.id}>
+                            <img src={getImageForOffer(offerEntity.id, offerImage.path)}/>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </Card>
+        </Box>
+    ) : null;
 }

@@ -10,6 +10,7 @@ import Button from "@mui/material/Button/Button";
 import {createEntity} from "../../shared/reducers/report-probleme.reducer";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
+import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
 
 const initialValuesAddMessage = {
     content: '',
@@ -60,6 +61,9 @@ export const ProblemeDeclaration = (props: IProblemeDeclarationProps) => {
                                        error={formik.touched.content && Boolean(formik.errors.content)}
                                        rows={4}/>
                         </Box>
+                        {
+                            formik.touched.content && Boolean(formik.errors.content) ? <Box className="red-color">{formik.errors.content}</Box> : null
+                        }
                         <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                             <Button variant="outlined" size="small" fullWidth sx={{mt: 2}}
                                     color="neutral"

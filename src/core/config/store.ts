@@ -7,6 +7,7 @@ import loggerMiddleware from './logger-middleware';
 import {loadingBarMiddleware} from 'react-redux-loading-bar';
 import reducer, {IRootState} from "../../shared/reducers";
 import notificationMiddleware from './notification-middleware';
+import websocketMiddleware from './websocket-middleware';
 
 
 const defaultMiddlewares = [
@@ -16,6 +17,7 @@ const defaultMiddlewares = [
     promiseMiddleware,
     loadingBarMiddleware(),
     loggerMiddleware,
+    websocketMiddleware
 ];
 const composedMiddlewares = (middlewares: any) =>
     process.env.NODE_ENV === 'development'

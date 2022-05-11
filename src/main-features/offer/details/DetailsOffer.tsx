@@ -258,7 +258,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                         {t('common.label_cancel')}
                     </Button>
                     <Button color="success" onClick={handleAddReportOfferModal}>
-                        {t('details_offer.label_report')}
+                        {t('common.label_report')}
                     </Button>
                 </DialogActions>
             </Dialog>

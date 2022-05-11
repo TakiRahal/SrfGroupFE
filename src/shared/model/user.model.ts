@@ -62,3 +62,26 @@ export interface IFacebook {
     sourceProvider: string;
     idOneSignal: string;
 }
+
+export interface IGooglePlusOneTap {
+    alg: string;
+    aud: string;
+    azp: string;
+    email: string;
+    email_verified: string;
+    exp: string;
+    family_name: string;
+    given_name: string;
+    iat: string;
+    iss: string;
+    jti: string;
+    kid: string;
+    name: string;
+    nbf: string;
+    picture: string;
+    sub: string;
+    typ: string;
+    sourceProvider: string;
+    idOneSignal: string;
+    langKey: string;
+}

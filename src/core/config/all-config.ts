@@ -1,6 +1,7 @@
 export const AllAppConfig = {
     VERSION: process.env.VERSION,
-    BASE_URL: process.env.NODE_ENV === 'development' ? 'http://192.168.100.104:8080/' : 'http://192.168.100.104:8080/srf-group/',
+    BASE_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : 'http://192.168.100.104:8080/srf-group/',
+    BASE_URL_BE: process.env.REACT_APP_API_END_POINT,
     BASE_URL_FE: process.env.NODE_ENV === 'development' ? process.env.PUBLIC_URL + '' : 'https://raw.githubusercontent.com/TakiRahal/SrfGroupFE/gh-pages',
     MaxNbeImagePerOffer: 5,
     MaxWidthHome: 1600,

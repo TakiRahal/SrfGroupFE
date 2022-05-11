@@ -20,7 +20,11 @@ import {
 import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
 import { hot } from 'react-hot-loader';
-import {getNumberOfMessageNotSee, logout} from "./shared/reducers/user-reducer";
+import {
+    getNumberOfMessageNotSee,
+    loginGooglePlusOneTap,
+    logout
+} from "./shared/reducers/user-reducer";
 import Drawer from "@mui/material/Drawer/Drawer";
 import ListItem from "@mui/material/ListItem/ListItem";
 import List from "@mui/material/List/List";
@@ -70,6 +74,12 @@ import {initGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anayl
 import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
 import createTheme from "@mui/material/styles/createTheme";
 import {MaterialUISwitch} from "./shared/pages/material-ui-switch";
+import {IGooglePlusOneTap} from "./shared/model/user.model";
+import {SourceProvider} from "./shared/enums/source-provider";
+import {
+    dispatchSuccessSession,
+    getWebsocketListConnectedUsers
+} from "./shared/reducers/web-socket.reducer";
 
 
 function ScrollToTop() {
@@ -134,13 +144,6 @@ function App(props: IAppProps) {
     const isLanguagesMenuOpen = Boolean(languagesAnchorEl);
     const [darkMode, setDarkMode] = React.useState<'light' | 'dark'>('light');
 
-
-    //'Empty block statement' code smell
-    try{
-    }
-    catch(e){
-    }
-
     const { t, i18n } = useTranslation();
     const history = useHistory()
 
@@ -184,9 +187,18 @@ function App(props: IAppProps) {
         props.getEntityPostHomeFeature();
 
         if(props.isAuthenticated){
+            props.dispatchSuccessSession(); // For WebSocket
             props.getNumberOfMessageNotSee();
+            // setTimeout(() => {
+            //     props.getWebsocketListConnectedUsers();
+            // }, 3000);
         }
     }, [])
+
+
+    React.useEffect(() => {
+        console.log('listConnectedUsers ', props.listConnectedUsers);
+    }, [props.listConnectedUsers])
 
     // Callback From header and menu mobile
     const handleLogout = () => {
@@ -412,6 +424,19 @@ function App(props: IAppProps) {
         props.createEntityNewsLetter(newsLetter);
     }
 
+    const responseGoogle = (response: any) => {
+        console.log('responseGoogle ', response);
+        if (!response.error) {
+            const requestData: IGooglePlusOneTap = {
+                ...response,
+                sourceProvider: SourceProvider.GOOGLE_PLUS,
+                idOneSignal: props.oneSignalId,
+                langKey: props.currentLocale
+            };
+            props.loginGooglePlusOneTap(requestData);
+        }
+    };
+
     return (
         <>
 
@@ -457,7 +482,7 @@ function App(props: IAppProps) {
                 <Footer sendCallback={sendNewsLetter} addSuccess={props.addSuccessNewsLetter} loadingEntity={props.loadingEntityNewsLetter}/>
                 {
                     !props.isAuthenticated ? <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}
-                                                                onSuccess={(response: any) => console.log('response ', response)}
+                                                                onSuccess={(response: any) => responseGoogle(response)}
                                                                 googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} /> : null
                 }
 
@@ -467,7 +492,7 @@ function App(props: IAppProps) {
     );
 }
 
-const mapStateToProps = ({user, address, locale, newsLetter}: IRootState) => ({
+const mapStateToProps = ({user, address, locale, newsLetter, webSocketState}: IRootState) => ({
     currentLocale: locale.currentLocale,
 
     isAuthenticated: user.isAuthenticated,
@@ -479,6 +504,10 @@ const mapStateToProps = ({user, address, locale, newsLetter}: IRootState) => ({
 
     loadingEntityNewsLetter: newsLetter.loadingEntity,
     addSuccessNewsLetter: newsLetter.addSuccess,
+
+    oneSignalId: user.oneSignalId,
+
+    listConnectedUsers: webSocketState.listConnectedUsers
 });
 
 const mapDispatchToProps = {
@@ -491,7 +520,10 @@ const mapDispatchToProps = {
     resetNotification,
     getEntitiesTopHomeSlidesImage,
     getEntityPostHomeFeature,
-    resetOffer
+    resetOffer,
+    loginGooglePlusOneTap,
+    getWebsocketListConnectedUsers,
+    dispatchSuccessSession
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

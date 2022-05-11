@@ -23,6 +23,7 @@ import newsLetter, {NewsLetterState} from "./news-letter.reducer";
 import topHomeSlidesImages, {TopHomeSlidesImagesState} from "./top-home-slides-image";
 import postHomeFeature, {PostHomeFeatureState} from "./post-home-feature.reducer";
 import reportProbleme, {ReportProblemeState} from "./report-probleme.reducer";
+import webSocketState, {WebSocketState} from "./web-socket.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -49,6 +50,7 @@ export interface IRootState {
     readonly topHomeSlidesImages: TopHomeSlidesImagesState;
     readonly postHomeFeature: PostHomeFeatureState;
     readonly reportProbleme: ReportProblemeState;
+    readonly webSocketState: WebSocketState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -75,7 +77,8 @@ const rootReducer = combineReducers<IRootState>({
     newsLetter,
     topHomeSlidesImages,
     postHomeFeature,
-    reportProbleme
+    reportProbleme,
+    webSocketState
 });
 
 export default rootReducer;

@@ -2,8 +2,9 @@ import axios from "axios";
 import {REQUEST, FAILURE, SUCCESS} from "./action-type.util";
 import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
-import {IFacebook, IGooglePlus, IUser} from "../model/user.model";
+import {IFacebook, IGooglePlus, IGooglePlusOneTap, IUser} from "../model/user.model";
 import {IUpdatePassword} from "../model/update-password.model";
+import {dispatchSuccessSession, getWebsocketListConnectedUsers} from "./web-socket.reducer";
 
 export const ACTION_TYPES = {
     CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
@@ -231,7 +232,6 @@ export default (state: UserState = initialState, action: any): UserState => {
                 uploadAvatarSuccess: false
             };
         case SUCCESS(ACTION_TYPES.UPLOAD_AVATAR):
-            console.log('action.payload.data.imageUrl ', action.payload.data.imageUrl);
             return {
                 ...state,
                 currentUser: {
@@ -385,7 +385,13 @@ export const login: (email: string, password: string, oneSignalId: string, remem
         }
 
         await dispatch(getSession());
+        await dispatch(dispatchSuccessSession());
         await dispatch(getNumberOfMessageNotSee());
+
+        // setTimeout(() => {
+        //     dispatch(getWebsocketListConnectedUsers());
+        // }, 3000);
+
     }
     return result;
 };
@@ -476,6 +482,21 @@ export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: I
     return result;
 };
 
+export const loginGooglePlusOneTap: (googlePlus: IGooglePlusOneTap) => void = (googlePlus: IGooglePlusOneTap) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus-one-tap`, googlePlus),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+    }
+    return result;
+};
+
 export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook) => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.LOGIN,
@@ -539,6 +560,7 @@ export const clearAuthentication = (messageKey: string) => (dispatch: any, getSt
     //     type: ACTION_TYPES.CLEAR_AUTH,
     // });
 };
+
 
 export const resetNbeNotificationsNotRead = () => ({
     type: ACTION_TYPES.RESET_NBENOTIFICATIONS_NOT_READ,

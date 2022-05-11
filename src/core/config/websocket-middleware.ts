@@ -34,9 +34,35 @@ export const sendActivity = (page: string) => {
     });
 };
 
-const subscribe = () => {
+
+export const sendConnectedNewUser = () => {
+    connection?.then(() => {
+        stompClient?.send(
+            '/topic/user.connectedUser', // destination
+            JSON.stringify({
+                userEmail: 'test@taki.com'
+            }), // body
+            {} // header
+        );
+    });
+};
+
+const subscribeConnectedUsers = () => {
     connection.then(() => {
-        subscriber = stompClient.subscribe('/topic/tracker', (data: any) => {
+        subscriber = stompClient.subscribe('/topic/connected-user', (data: any) => {
+            console.log('data connected ', JSON.parse(data.body));
+            listenerObserver.next(JSON.parse(data.body));
+        });
+
+
+    });
+};
+
+
+const subscribeDisConnectedUsers = () => {
+    connection.then(() => {
+        subscriber = stompClient.subscribe('/topic/disconnected-user', (data: any) => {
+            console.log('data disconnected ', JSON.parse(data.body));
             listenerObserver.next(JSON.parse(data.body));
         });
     });
@@ -68,8 +94,10 @@ const connect = () => {
     stompClient.connect(headers, () => {
         connectedPromise('success');
         connectedPromise = null;
-        sendActivity(window.location.pathname);
+        // sendActivity(window.location.pathname);
         alreadyConnectedOnce = true;
+
+        sendConnectedNewUser();
     });
 };
 
@@ -96,7 +124,8 @@ export default (store: any) => (next: any) => (action: any) => {
     if (action.type === SUCCESS(WS_ACTIONS.CONNECTED_WEBSOCKET)) {
 
         connect();
-        // subscribe();
+        subscribeConnectedUsers();
+        subscribeDisConnectedUsers();
 
 
         connection.then((result) => {
@@ -106,6 +135,23 @@ export default (store: any) => (next: any) => (action: any) => {
             }
         }, error => {
             console.log('connection error ', error);
+        })
+
+
+        receive().subscribe(activity => {
+            console.log('new subscribe ', activity);
+            if( activity.nameModule === 'ConnectedUser' ){
+                return store.dispatch({
+                    type: WS_ACTIONS.PUSH_LISTE_CONNECTED_USER,
+                    payload: activity.userEmail,
+                });
+            }
+            else if( activity.nameModule ==='DisconnectedUser' ){
+                return store.dispatch({
+                    type: WS_ACTIONS.POP_LISTE_CONNECTED_USER,
+                    payload: activity.userEmail,
+                });
+            }
         })
         //
 

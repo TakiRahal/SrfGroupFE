@@ -82,7 +82,7 @@ export const AboutUs = (props: IAboutUsClientProps) => {
 
                 <Grid item xs={12}>
                     {aboutUsEntity && aboutUsEntity.contentEn ?
-                        <div dangerouslySetInnerHTML={{ __html: getContentByLang() }}></div> :
+                        <Box dangerouslySetInnerHTML={{ __html: getContentByLang() }}></Box> :
                         <Alert severity="warning">No About Us found</Alert>}
                 </Grid>
             </Grid>

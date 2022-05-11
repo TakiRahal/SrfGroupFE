@@ -189,9 +189,6 @@ function App(props: IAppProps) {
         if(props.isAuthenticated){
             props.dispatchSuccessSession(); // For WebSocket
             props.getNumberOfMessageNotSee();
-            // setTimeout(() => {
-            //     props.getWebsocketListConnectedUsers();
-            // }, 3000);
         }
     }, [])
 

@@ -31,6 +31,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './ItemsOffer.scss';
 import {LazyImage} from "../lazy-image";
+import {StyledBadge} from "../../pages/styled-badge";
 
 
 export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditOffer, callbackDeleteOffer}:
@@ -135,10 +136,16 @@ function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
                                           }
                                       </React.Fragment>}>
                             <ListItemAvatar>
-                                <Avatar
-                                    alt={offer.user?.imageUrl}
-                                    src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
-                                    sx={{border: '1px solid #b9b9b9'}} >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
+                                <StyledBadge
+                                    overlap="circular"
+                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                    variant="dot"
+                                    color="success">
+                                    <Avatar
+                                        alt={offer.user?.imageUrl}
+                                        src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
+                                        sx={{border: '1px solid #b9b9b9'}} >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
+                                </StyledBadge>
                             </ListItemAvatar>
                             <ListItemText
                                 primary={getFullnameUser(offer?.user)}
@@ -216,11 +223,17 @@ function CardGrid({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
             <Card className="card-item-offer">
                 <CardHeader
                     avatar={
-                        <Avatar
-                            alt={offer.user?.imageUrl}
-                            src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
-                            sx={{border: '1px solid #b9b9b9'}}
-                        >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
+                        <StyledBadge
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            variant="dot"
+                            color="success" >
+                            <Avatar
+                                alt={offer.user?.imageUrl}
+                                src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
+                                sx={{border: '1px solid #b9b9b9'}}
+                            >{getFullnameUser(offer.user)?.charAt(0)}</Avatar>
+                        </StyledBadge>
                     }
                     action={''}
                     title={<Typography className="truncate-text">{getFullnameUser(offer?.user)}</Typography>}

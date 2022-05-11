@@ -21,6 +21,7 @@ import {useTranslation} from "react-i18next";
 import './Search.scss';
 import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
 import InfiniteScroll from 'react-infinite-scroller';
+import {isOnLine} from "../../shared/reducers/web-socket.reducer";
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -145,7 +146,8 @@ const mapStateToProps = ({ user, offer, category, address }: IRootState) => ({
 
 const mapDispatchToProps = {
     getEntitiesOffers,
-    resetPublicEntitiesOffers
+    resetPublicEntitiesOffers,
+    isOnLine
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

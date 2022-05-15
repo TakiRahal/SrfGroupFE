@@ -78,7 +78,7 @@ import {IGooglePlusOneTap} from "./shared/model/user.model";
 import {SourceProvider} from "./shared/enums/source-provider";
 import {
     dispatchSuccessSession,
-    getWebsocketListConnectedUsers
+    getWebsocketListConnectedUsers, removeEmailFromListConnectedUsers
 } from "./shared/reducers/web-socket.reducer";
 
 
@@ -200,9 +200,11 @@ function App(props: IAppProps) {
     // Callback From header and menu mobile
     const handleLogout = () => {
         handleDrawerToggleRight(false);
-        props.logout();
+
+        props.removeEmailFromListConnectedUsers(props.currentUser.email); // remove user from list
         props.resetNotification();
         props.resetOffer();
+        props.logout();
         history.push(ALL_APP_ROUTES.HOME);
     }
 
@@ -520,7 +522,8 @@ const mapDispatchToProps = {
     resetOffer,
     loginGooglePlusOneTap,
     getWebsocketListConnectedUsers,
-    dispatchSuccessSession
+    dispatchSuccessSession,
+    removeEmailFromListConnectedUsers
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

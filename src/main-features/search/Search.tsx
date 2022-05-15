@@ -21,7 +21,10 @@ import {useTranslation} from "react-i18next";
 import './Search.scss';
 import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
 import InfiniteScroll from 'react-infinite-scroller';
-import {isOnLine} from "../../shared/reducers/web-socket.reducer";
+
+const isOnLine = (list:any[], email: string): boolean => {
+    return list.findIndex(item => item.principal.email==email) >=0;
+}
 
 export interface ISearchProps extends StateProps, DispatchProps {}
 
@@ -72,6 +75,13 @@ export const Search = (props: ISearchProps) => {
         setTypeDisplayOffers(value);
     }
 
+    const isUserOnline = (email: string) => {
+        // console.log('email ', email);
+        // console.log('props.listConnectedUsers.slice() ', props.listConnectedUsers.slice());
+        return isOnLine(props.listConnectedUsers.slice(), email);
+        // return props.isOnLine(props.listConnectedUsers.slice(), email);
+    }
+
     return (
         <Box  sx={{ px: { xs: 2, md: 0 } }}>
             <Grid container sx={{ pt: 2 }}>
@@ -115,7 +125,7 @@ export const Search = (props: ISearchProps) => {
                         threshold={0}
                         initialLoad={false}
                     >
-                        <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers}/>
+                        <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers} isOnLine={(email: string) => isUserOnline(email)}/>
 
                         { loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null }
 
@@ -134,14 +144,16 @@ export const Search = (props: ISearchProps) => {
         </Box>
     );
 }
-const mapStateToProps = ({ user, offer, category, address }: IRootState) => ({
+const mapStateToProps = ({ user, offer, category, address, webSocketState }: IRootState) => ({
     listOffers: offer.entities,
     loadingListOffers: offer.loadingEntities,
     totalItems: offer.totalItems,
     totalPages: offer.totalPages,
 
     entitiesCategories: category.entities,
-    entitiesAddress: address.entities
+    entitiesAddress: address.entities,
+
+    listConnectedUsers: webSocketState.listConnectedUsers
 });
 
 const mapDispatchToProps = {

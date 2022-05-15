@@ -38,6 +38,10 @@ import InfiniteScroll from 'react-infinite-scroller';
 import queryString from "query-string";
 import {IOffer} from "../../../shared/model/offer.model";
 
+const isOnLine = (list:any[], email: string): boolean => {
+    return list.findIndex(item => item.principal.email==email) >=0;
+}
+
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
 export const MyOffers = (props: IMyOfferProps) => {
@@ -153,6 +157,13 @@ export const MyOffers = (props: IMyOfferProps) => {
         setTypeDisplayOffers(value);
     }
 
+    const isUserOnline = (email: string) => {
+        // console.log('email ', email);
+        // console.log('props.listConnectedUsers.slice() ', props.listConnectedUsers.slice());
+        // return isOnLine(props.listConnectedUsers.slice(), email);
+        // return props.isOnLine(props.listConnectedUsers.slice(), email);
+    }
+
     return(
         <Box>
             <Container maxWidth="xl" className="details-offer-client">
@@ -199,6 +210,7 @@ export const MyOffers = (props: IMyOfferProps) => {
                             >
                                 <ItemsOffer listOffers={listMyOffers.slice()}
                                             typeDisplay={typeDisplayOffers}
+                                            isOnLine={(email: string) => isUserOnline(email)}
                                             forMe={true}
                                             callbackEditOffer={handleClickOpenUpdateOffert}
                                             callbackDeleteOffer={handleClickOpenDeleteOffertModal}/>
@@ -238,7 +250,7 @@ const mapDispatchToProps = {
     resetRentOffer,
     resetFindOffer,
     resetOffer,
-    resetPrivateEntitiesOffers
+    resetPrivateEntitiesOffers,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

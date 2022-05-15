@@ -68,6 +68,12 @@ export const dispatchSuccessSession: () => void = () => (dispatch: any) => {
     })
 };
 
+
+export const removeEmailFromListConnectedUsers = (email: string) => ({
+    type: ACTION_TYPES.POP_LISTE_CONNECTED_USER,
+    payload: email
+});
+
 // Add item
 function pushListConnectedUser (list: any[], email: string): any[] {
     const index = list.findIndex((item: any) => item.name == email);
@@ -87,11 +93,10 @@ function pophListConnectedUser (list: any[], email: string): any[] {
     if(index>=0){
         list.splice(index, 1);
     }
-    console.log('list', list);
     return list;
 }
 
 export function isOnLine(list:any[], email: string): boolean {
-
+    console.log('email ', email);
     return false;
 }

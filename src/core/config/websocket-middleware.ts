@@ -167,7 +167,7 @@ export default (store: any) => (next: any) => (action: any) => {
         //         });
         //     });
         // }
-    } else if (action.type === FAILURE(AUTH_ACTIONS.GET_SESSION) || action.type === AUTH_ACTIONS.LOGOUT) {
+    } else if (action.type === AUTH_ACTIONS.LOGOUT) {
         unsubscribe();
         disconnect();
     }

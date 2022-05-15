@@ -34,8 +34,8 @@ import {LazyImage} from "../lazy-image";
 import {StyledBadge} from "../../pages/styled-badge";
 
 
-export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditOffer, callbackDeleteOffer}:
-                                    {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers, forMe?: boolean,
+export default function ItemOffer({listOffers, typeDisplay, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
+                                    {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers, isOnLine: any, forMe?: boolean,
                                         callbackEditOffer?: any, callbackDeleteOffer?: any}) {
 
     const history = useHistory();
@@ -56,11 +56,13 @@ export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditO
                             {
                                 typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGrid offer={offer}
                                                                                        rediretToCallback={rediretTo}
+                                                                                       isOnLine={isOnLine}
                                                                                        forMe={forMe}
                                                                                        callbackEditOffer={callbackEditOffer}
                                                                                        callbackDeleteOffer={callbackDeleteOffer}/> :
                                     <CardList offer={offer}
                                               rediretToCallback={rediretTo}
+                                              isOnLine={isOnLine}
                                               forMe={forMe}
                                               callbackEditOffer={callbackEditOffer}
                                               callbackDeleteOffer={callbackDeleteOffer}/>
@@ -74,8 +76,8 @@ export default function ItemOffer({listOffers, typeDisplay, forMe, callbackEditO
     );
 }
 
-function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackDeleteOffer}:
-                      {offer: IOffer, rediretToCallback: any, forMe?: boolean, callbackEditOffer: any, callbackDeleteOffer?: any}){
+function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
+                      {offer: IOffer, rediretToCallback: any, isOnLine: any, forMe?: boolean, callbackEditOffer: any, callbackDeleteOffer?: any}){
 
     const { t } = useTranslation();
 
@@ -140,7 +142,7 @@ function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
                                     overlap="circular"
                                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                     variant="dot"
-                                    color="success">
+                                    color={isOnLine(offer.user?.email) ? 'success' : 'error'}>
                                     <Avatar
                                         alt={offer.user?.imageUrl}
                                         src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
@@ -203,8 +205,8 @@ function CardList({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
 
 
 
-function CardGrid({offer, rediretToCallback, forMe, callbackEditOffer, callbackDeleteOffer}:
-                      {offer: IOffer, rediretToCallback: any, forMe?: boolean, callbackEditOffer?: any, callbackDeleteOffer?: any}){
+function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
+                      {offer: IOffer, rediretToCallback: any,isOnLine: any, forMe?: boolean, callbackEditOffer?: any, callbackDeleteOffer?: any}){
 
     const { t } = useTranslation();
 
@@ -227,7 +229,7 @@ function CardGrid({offer, rediretToCallback, forMe, callbackEditOffer, callbackD
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             variant="dot"
-                            color="success" >
+                            color={isOnLine(offer.user?.email) ? 'success' : 'error'} >
                             <Avatar
                                 alt={offer.user?.imageUrl}
                                 src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}

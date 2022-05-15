@@ -68,6 +68,7 @@ import {getPublicEntity} from "../../../shared/reducers/description-add-offer.re
 import i18n from "i18next";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import './AddUpdateOffer.scss';
+import {getImageUrl} from "../../../shared/utils/image-url";
 
 interface initStateFiles {
     selectedFiles: string[];
@@ -260,8 +261,8 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             const newOrigSelectedFiles: File[] = [];
 
             Array.from(event.target.files).forEach((file: any) => {
-                // getImageUrl(file, 500)
-                getBase64(file)
+                getImageUrl(file, 1000)
+                // getBase64(file)
                     .then((resultBase64: any) => {
                         dataUrlToFile(resultBase64, file.name)
                             .then((valueFile: any) => {

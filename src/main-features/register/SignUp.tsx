@@ -257,7 +257,12 @@ export const SignUp = (props: ISignUpProps) => {
                                                             onChange={formik.handleChange}
                                                         />
                                                     }
-                                                    label={`${t('signup.accept-cgu')}<Link href="qsd">ici</Link>`}
+                                                    label={
+                                                        <React.Fragment>
+                                                            {t('signup.accept-cgu')}
+                                                            <Link to="qsd">ici</Link>
+                                                        </React.Fragment>
+                                                    }
                                                 />
                                                 <FormHelperText id="component-helper-text">{formik.touched.accept && formik.errors.accept}</FormHelperText>
                                             </FormControl>

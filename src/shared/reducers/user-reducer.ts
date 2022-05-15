@@ -387,14 +387,73 @@ export const login: (email: string, password: string, oneSignalId: string, remem
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
         await dispatch(getNumberOfMessageNotSee());
-
-        // setTimeout(() => {
-        //     dispatch(getWebsocketListConnectedUsers());
-        // }, 3000);
-
     }
     return result;
 };
+
+export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: IGooglePlus) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus`, googlePlus),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+        await dispatch(dispatchSuccessSession());
+        await dispatch(getNumberOfMessageNotSee());
+    }
+    return result;
+};
+
+export const loginGooglePlusOneTap: (googlePlus: IGooglePlusOneTap) => void = (googlePlus: IGooglePlusOneTap) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus-one-tap`, googlePlus),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+        await dispatch(dispatchSuccessSession());
+        await dispatch(getNumberOfMessageNotSee());
+    }
+    return result;
+};
+
+export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.LOGIN,
+        payload: axios.post<IFacebook>(`${apiUrl}public/signin-facebook`, facebook),
+    })
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+        await dispatch(dispatchSuccessSession());
+        await dispatch(getNumberOfMessageNotSee());
+    }
+    return result;
+};
+
+
+const saveToken: (rememberMe: boolean, result: any, dispatch: any) => void = (result: any, dispatch: any) => async () => {
+    const bearerToken = result.value.headers.authorization;
+    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+        const jwt = bearerToken.slice(7, bearerToken.length);
+        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+
+        await dispatch(getSession());
+        await dispatch(dispatchSuccessSession());
+        await dispatch(getNumberOfMessageNotSee());
+    }
+}
 
 export const getSession: () => void = () => async (dispatch: any, getState: any) => {
     const result = await dispatch({
@@ -464,51 +523,6 @@ export const updatePasswordUser: (updatePassword: IUpdatePassword) => void = (up
         type: ACTION_TYPES.UPDATE_PASSWORD_USER,
         payload: axios.put(`${apiUrl}update-password-current-user`, updatePassword),
     });
-    return result;
-};
-
-export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: IGooglePlus) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.LOGIN,
-        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus`, googlePlus),
-    })
-    const bearerToken = result.value.headers.authorization;
-    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
-        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
-
-        await dispatch(getSession());
-    }
-    return result;
-};
-
-export const loginGooglePlusOneTap: (googlePlus: IGooglePlusOneTap) => void = (googlePlus: IGooglePlusOneTap) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.LOGIN,
-        payload: axios.post<IGooglePlus>(`${apiUrl}public/signin-google-plus-one-tap`, googlePlus),
-    })
-    const bearerToken = result.value.headers.authorization;
-    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
-        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
-
-        await dispatch(getSession());
-    }
-    return result;
-};
-
-export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook) => async (dispatch: any) => {
-    const result = await dispatch({
-        type: ACTION_TYPES.LOGIN,
-        payload: axios.post<IFacebook>(`${apiUrl}public/signin-facebook`, facebook),
-    })
-    const bearerToken = result.value.headers.authorization;
-    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
-        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
-
-        await dispatch(getSession());
-    }
     return result;
 };
 

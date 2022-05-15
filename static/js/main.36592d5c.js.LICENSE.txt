@@ -4,6 +4,8 @@ object-assign
 @license MIT
 */
 
+/*! For license information please see index.js.LICENSE.txt */
+
 /** @license MUI v5.4.2
  *
  * This source code is licensed under the MIT license found in the

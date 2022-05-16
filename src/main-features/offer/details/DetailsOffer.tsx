@@ -63,6 +63,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomShare from "../../../shared/components/custom-share/CustomShare";
 import i18n from "i18next";
 
+const isOnLine = (list:any[], email: string): boolean => {
+    return list.findIndex(item => item.principal.email==email) >=0;
+}
+
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
 export const DetailsOffer = (props: IDetailsOfferProps) => {
@@ -279,6 +283,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         return favoriteUserOffer?.offer?.category?.titleAr || '';
     }
 
+    const isOnLine = (email: string) => {
+        return props.listConnectedUsers.findIndex(item => item.principal.email==email) >=0;
+    }
+
     return (
         <Box>
             {
@@ -436,6 +444,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         myFavoriteUser={isFavoriteUser}
                                         createConversationCallback={createConversation}
                                         addSuccessConversation={props.addSuccessConversation}
+                                        isOnLine={isOnLine}
                                     />
                                 </Grid>
                             </Grid>
@@ -449,7 +458,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 }
 
 
-const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer, conversation }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer, conversation, webSocketState }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -476,7 +485,9 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, repo
     addSuccessReportCommentOffer: reportCommentOffer.reportSuccess,
     loadingEntityReportCommentOffer: reportCommentOffer.loadingReportEntity,
 
-    addSuccessConversation: conversation.addSuccess
+    addSuccessConversation: conversation.addSuccess,
+
+    listConnectedUsers: webSocketState.listConnectedUsers
 });
 
 const mapDispatchToProps = {

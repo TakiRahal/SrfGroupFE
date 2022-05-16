@@ -323,7 +323,7 @@ export default function Header(props: any){
                                 <Tooltip title="Messages">
                                     <IconButton size="large" aria-label="show 4 new mails" color="inherit" component={Link}
                                                 to={ALL_APP_ROUTES.CHAT.LIST}>
-                                        <Badge badgeContent={null} color="error">
+                                        <Badge badgeContent={props.nbeMessagesNotRead > 0 ? props.nbeMessagesNotRead : null} color="error">
                                             <MailIcon />
                                         </Badge>
                                     </IconButton>

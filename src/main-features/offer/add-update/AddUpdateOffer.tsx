@@ -209,7 +209,9 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             ...entityOffer,
             dateCreated: convertDateTimeToServer(new Date()),
             ...values,
-            user: {},
+            user: {
+                id: props.currentUser.id
+            },
             offerImages: tempOfferImages.slice()
         };
 

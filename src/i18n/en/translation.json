@@ -147,7 +147,8 @@
     "message_create_offer_succefull": "Offer created successfully",
     "label_type_contact_client": "Contact type",
     "direct_type_contact_client": "The customer must contact me directly",
-    "per_commande_type_contact_client": "The customer can place an order"
+    "per_commande_type_contact_client": "The customer can place an order",
+    "message_update_offer_succefull": "L offre update succefully"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
@@ -222,5 +223,8 @@
   },
   "report_probleme": {
     "report_probleme_added_succefully": "Declaration sent successfully"
+  },
+  "contact-us": {
+    "messages.success": "Message sent succefully"
   }
 }

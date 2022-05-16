@@ -25,8 +25,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import Typography from "@mui/material/Typography/Typography";
-import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import {getStompClient} from "../../../core/config/websocket-middleware";
 
 const initialValues = initialValuesMessage;
 
@@ -35,6 +35,7 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                                         loadingAddMessage: boolean, totalPagesMessages: number, activePage: number, callbackLoadMoreMessages: any, calbackBackToConversations: any}) {
 
     const [listCurrentMessages, setListCurrentMessages] = React.useState<IMessage[]>([]);
+    const [newMessage, setNewMessage] = React.useState<any>(null);
     const messagesEndRef = React.useRef<any>();
 
     const formik = useFormik({
@@ -46,20 +47,33 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                 dateCreated: convertDateTimeToServer(new Date()),
                 isRead: false,
                 senderUser: {
-                    id: account.id
+                    id: account.id,
+                    email: account.email,
+                    imageUrl: account.imageUrl,
+                    sourceRegister: account.sourceRegister
                 },
                 receiverUser: {
                     id: getReceiverUser()?.id,
-                    email: getReceiverUser()?.email
+                    email: getReceiverUser()?.email,
+                    imageUrl: getReceiverUser()?.imageUrl,
+                    sourceRegister: getReceiverUser()?.sourceRegister
                 },
                 conversation: {
                     id: conversation.id
                 }
             }
+
+            // Whene me send a message
             setListCurrentMessages([
                 ...listCurrentMessages,
                 entity
             ]);
+
+            getStompClient()?.send(
+                '/topic/sendChatMessages', // destination
+                JSON.stringify(entity), // body
+                {} // header
+            );
             callbackAddMessage(entity);
             formik.resetForm();
 
@@ -69,6 +83,9 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
         },
     });
 
+    React.useEffect(() => {
+        subscribeChatMessages();
+    }, [])
 
     const getReceiverUser = (): IUser | null | undefined => {
         if(conversation?.senderUser?.id ===account.id){
@@ -85,8 +102,19 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
     }
 
     React.useEffect(() => {
-        setListCurrentMessages(listMessages);
+        if( listMessages.length ) {
+            setListCurrentMessages(listMessages.slice());
+        }
     }, [listMessages]);
+
+    React.useEffect(() => {
+        if( newMessage ){
+            setListCurrentMessages([
+                ...listCurrentMessages,
+                newMessage
+            ]);
+        }
+    }, [newMessage])
 
     const isMe = (message: IMessage) => {
         if(message?.senderUser?.id === account?.id){
@@ -109,6 +137,15 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
     const backToConversations = () => {
         calbackBackToConversations();
     }
+
+    /**
+     *
+     */
+    const subscribeChatMessages = () => {
+        getStompClient()?.subscribe(`/topic/chat-message/${getReceiverUser()?.id}/${account.id}`, (data: any) => {
+            setNewMessage(JSON.parse(data.body));
+        })
+    };
 
     return (
         <div className="container-messages">

@@ -21,7 +21,8 @@ import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
 import { hot } from 'react-hot-loader';
 import {
-    getNumberOfMessageNotSee,
+    getNumberOfMessagesNotSee,
+    getNumberOfNotificationsNotSee,
     loginGooglePlusOneTap,
     logout
 } from "./shared/reducers/user-reducer";
@@ -60,6 +61,8 @@ import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/addr
 import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
 import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
 import {reset as resetOffer} from '../src/shared/reducers/offer.reducer';
+import {reset as resetConversations} from '../src/shared/reducers/conversation.reducer';
+import {reset as resetMessages} from '../src/shared/reducers/message.reducer';
 import {getEntities as getEntitiesTopHomeSlidesImage} from '../src/shared/reducers/top-home-slides-image';
 import {getEntity as getEntityPostHomeFeature} from '../src/shared/reducers/post-home-feature.reducer';
 
@@ -80,6 +83,7 @@ import {
     dispatchSuccessSession,
     getWebsocketListConnectedUsers, removeEmailFromListConnectedUsers
 } from "./shared/reducers/web-socket.reducer";
+import CookieConsent from "react-cookie-consent";
 
 
 function ScrollToTop() {
@@ -188,7 +192,8 @@ function App(props: IAppProps) {
 
         if(props.isAuthenticated){
             props.dispatchSuccessSession(); // For WebSocket
-            props.getNumberOfMessageNotSee();
+            props.getNumberOfNotificationsNotSee();
+            props.getNumberOfMessagesNotSee();
         }
     }, [])
 
@@ -204,6 +209,8 @@ function App(props: IAppProps) {
         props.removeEmailFromListConnectedUsers(props.currentUser.email); // remove user from list
         props.resetNotification();
         props.resetOffer();
+        props.resetConversations();
+        props.resetMessages();
         props.logout();
         history.push(ALL_APP_ROUTES.HOME);
     }
@@ -337,7 +344,7 @@ function App(props: IAppProps) {
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.CHAT.LIST} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>
-                        <Badge badgeContent={4} color="error">
+                        <Badge badgeContent={props.nbeMessagesNotRead > 0 ? props.nbeMessagesNotRead : null} color="error">
                             <MailIcon />
                         </Badge>
                     </ListItemIcon>
@@ -462,7 +469,8 @@ function App(props: IAppProps) {
                         currentLocale={props.currentLocale}
                         onLocaleChange={props.setLocale}
                         nbeNotificationsNotSee={props.nbeNotificationsNotRead}
-                        parentCallbackDarkMode={(event: any, checked: boolean) => toggleDarkMode(event, checked)}/>
+                        parentCallbackDarkMode={(event: any, checked: boolean) => toggleDarkMode(event, checked)}
+                        nbeMessagesNotRead={props.nbeMessagesNotRead}/>
                 <main
                     style={{
                         background: '#F2F3F7',
@@ -486,6 +494,18 @@ function App(props: IAppProps) {
                 }
 
                 {renderMenuLanguages}
+
+                <CookieConsent
+                    location="bottom"
+                    buttonText="Sure man!!"
+                    cookieName="myAwesomeCookieName2"
+                    style={{ background: "#2B373B" }}
+                    buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+                    expires={150}
+                >
+                    This website uses cookies to enhance the user experience.{" "}
+                    <span style={{ fontSize: "10px" }}>This bit of text is smaller :O</span>
+                </CookieConsent>
             </ThemeProvider>
         </>
     );
@@ -497,6 +517,7 @@ const mapStateToProps = ({user, address, locale, newsLetter, webSocketState}: IR
     isAuthenticated: user.isAuthenticated,
     currentUser: user.currentUser,
     nbeNotificationsNotRead: user.nbeNotificationsNotRead,
+    nbeMessagesNotRead: user.nbeMessagesNotRead,
 
     loadingAddress: address.loadingEntities,
     entitiesAddress: address.entities,
@@ -515,7 +536,7 @@ const mapDispatchToProps = {
     getCategories,
     setLocale,
     createEntityNewsLetter,
-    getNumberOfMessageNotSee,
+    getNumberOfNotificationsNotSee,
     resetNotification,
     getEntitiesTopHomeSlidesImage,
     getEntityPostHomeFeature,
@@ -523,7 +544,10 @@ const mapDispatchToProps = {
     loginGooglePlusOneTap,
     getWebsocketListConnectedUsers,
     dispatchSuccessSession,
-    removeEmailFromListConnectedUsers
+    removeEmailFromListConnectedUsers,
+    resetConversations,
+    resetMessages,
+    getNumberOfMessagesNotSee
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

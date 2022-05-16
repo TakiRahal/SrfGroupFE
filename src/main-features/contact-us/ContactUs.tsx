@@ -48,7 +48,6 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
         initialValues,
         validationSchema: validationSchemaContactUs,
         onSubmit: values => {
-            console.log('values ', values);
             createEntityContactUs(values);
         },
     });
@@ -57,14 +56,11 @@ export const ContactUs = (props: IContactUsUpdateProps) => {
         console.log('addSuccessEntity ', addSuccessEntity);
         if (addSuccessEntity) {
             formik.resetForm();
-            // resetContactUs();
             recaptchaRef?.current?.reset();
         }
     }, [addSuccessEntity]);
 
     const onChange = (value: any) => {
-        console.log("Captcha value:", value);
-        // setRecaptcha(value);
         formik.setFieldValue('captchaResponse', value);
     }
 

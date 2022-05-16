@@ -59,7 +59,7 @@ export default function SwiperDetailsOffer(offerEntity: IOffer) {
             <Card sx={{mb: 2}}>
                 <Swiper
                     spaceBetween={10}
-                    navigation
+                    navigation={offerEntity.offerImages.length>1 ? true : false}
                     pagination={{clickable: true}}
                     thumbs={{swiper: thumbsSwiper}}
                     zoom={true}

@@ -76,6 +76,12 @@ export default (state: ConversationState = initialState, action: any): Conversat
                 addSuccess: true,
             };
 
+
+        case ACTION_TYPES.RESET:
+            return {
+                ...initialState,
+            };
+
         default:
             return state;
     }
@@ -99,3 +105,7 @@ export const createConversation = (entity: IConversationContent) => {
         payload: axios.post(`${apiUrl}create/message`, entity),
     };
 };
+
+export const reset = () => ({
+    type: ACTION_TYPES.RESET,
+});

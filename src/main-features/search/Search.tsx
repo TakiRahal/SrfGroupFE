@@ -78,7 +78,7 @@ export const Search = (props: ISearchProps) => {
     const isUserOnline = (email: string) => {
         // console.log('email ', email);
         // console.log('props.listConnectedUsers.slice() ', props.listConnectedUsers.slice());
-        return isOnLine(props.listConnectedUsers.slice(), email);
+        return isOnLine(props.listConnectedUsers, email);
         // return props.isOnLine(props.listConnectedUsers.slice(), email);
     }
 

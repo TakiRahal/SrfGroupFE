@@ -13,7 +13,7 @@ import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
-import {getUserAvatar} from "../../../shared/utils/utils-functions";
+import {getFullnameUser, getUserAvatar} from "../../../shared/utils/utils-functions";
 import Typography from "@mui/material/Typography/Typography";
 import Divider from "@mui/material/Divider/Divider";
 import Alert from "@mui/material/Alert/Alert";
@@ -41,9 +41,9 @@ export function Conversation({ loading, list, account, listMessages }: { loading
 
     const getFullname = (conversatioinMessage: IConversationMessage) => {
         if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
-            return conversatioinMessage?.conversation?.receiverUser?.firstName + ' ' + conversatioinMessage?.conversation?.receiverUser?.lastName;
+            return getFullnameUser(conversatioinMessage?.conversation?.receiverUser);
         } else {
-            return conversatioinMessage?.conversation?.senderUser?.firstName+ ' ' + conversatioinMessage?.conversation?.senderUser?.lastName;
+            return getFullnameUser(conversatioinMessage?.conversation?.senderUser);
         }
     };
 
@@ -75,6 +75,7 @@ export function Conversation({ loading, list, account, listMessages }: { loading
                                     <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} ></Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
+                                    className="item-conversation-infos"
                                     primary={getFullname(conversatioinMessage)}
                                     secondary={
                                         <React.Fragment>

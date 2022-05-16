@@ -18,6 +18,7 @@ export const ACTION_TYPES = {
     UPDATE_INFOS_USER: 'account/UPDATE_INFOS_USER',
     UPDATE_PASSWORD_USER: 'account/UPDATE_PASSWORD_USER',
     ONE_SIGNAL_ID: 'account/ONE_SIGNAL_ID',
+    FETCH_NUMBER_NOTIFICATIONS_NOT_SEE: 'account/FETCH_NUMBER_NOTIFICATIONS_NOT_SEE',
     FETCH_NUMBER_MESSAGE_NOT_SEE: 'account/FETCH_NUMBER_MESSAGE_NOT_SEE',
     RESET_PASSWORD_INIT: 'passwordReset/RESET_PASSWORD_INIT',
     RESET_PASSWORD_FINISH: 'passwordReset/RESET_PASSWORD_FINISH',
@@ -31,6 +32,7 @@ const initialState = {
     isAuthenticated: CURRENT_USER ? true : false,
     currentUser: CURRENT_USER ? CURRENT_USER : {},
     nbeNotificationsNotRead: 0,
+    nbeMessagesNotRead: 0,
     oneSignalId: '',
 
     registrationLoading: false,
@@ -243,6 +245,21 @@ export default (state: UserState = initialState, action: any): UserState => {
             };
 
 
+        case REQUEST(ACTION_TYPES.FETCH_NUMBER_NOTIFICATIONS_NOT_SEE):
+            return {
+                ...state,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_NUMBER_NOTIFICATIONS_NOT_SEE):
+            return {
+                ...state,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_NUMBER_NOTIFICATIONS_NOT_SEE):
+            return {
+                ...state,
+                nbeNotificationsNotRead: action.payload.data,
+            };
+
+
         case REQUEST(ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE):
             return {
                 ...state,
@@ -254,9 +271,8 @@ export default (state: UserState = initialState, action: any): UserState => {
         case SUCCESS(ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE):
             return {
                 ...state,
-                nbeNotificationsNotRead: action.payload.data,
+                nbeMessagesNotRead: action.payload.data,
             };
-
 
         case REQUEST(ACTION_TYPES.RESET_PASSWORD_INIT):
             return {
@@ -386,7 +402,8 @@ export const login: (email: string, password: string, oneSignalId: string, remem
 
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfMessageNotSee());
+        await dispatch(getNumberOfNotificationsNotSee());
+        await dispatch(getNumberOfMessagesNotSee());
     }
     return result;
 };
@@ -403,7 +420,8 @@ export const loginGooglePlus: (googlePlus: IGooglePlus) => void = (googlePlus: I
 
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfMessageNotSee());
+        await dispatch(getNumberOfNotificationsNotSee());
+        await dispatch(getNumberOfMessagesNotSee());
     }
     return result;
 };
@@ -420,7 +438,8 @@ export const loginGooglePlusOneTap: (googlePlus: IGooglePlusOneTap) => void = (g
 
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfMessageNotSee());
+        await dispatch(getNumberOfNotificationsNotSee());
+        await dispatch(getNumberOfMessagesNotSee());
     }
     return result;
 };
@@ -437,7 +456,8 @@ export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook
 
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfMessageNotSee());
+        await dispatch(getNumberOfNotificationsNotSee());
+        await dispatch(getNumberOfMessagesNotSee());
     }
     return result;
 };
@@ -451,7 +471,7 @@ const saveToken: (rememberMe: boolean, result: any, dispatch: any) => void = (re
 
         await dispatch(getSession());
         await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfMessageNotSee());
+        await dispatch(getNumberOfNotificationsNotSee());
     }
 }
 
@@ -476,10 +496,18 @@ export const getProfile: (userId: number) => void = (userId: number) => async (d
     return result;
 };
 
-export const getNumberOfMessageNotSee: () => void = () => async (dispatch: any) => {
+export const getNumberOfNotificationsNotSee: () => void = () => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.FETCH_NUMBER_NOTIFICATIONS_NOT_SEE,
+        payload: axios.get<IUser>(`${apiUrl}count-not-see-notifications`),
+    });
+    return result;
+};
+
+export const getNumberOfMessagesNotSee: () => void = () => async (dispatch: any) => {
     const result = await dispatch({
         type: ACTION_TYPES.FETCH_NUMBER_MESSAGE_NOT_SEE,
-        payload: axios.get<IUser>(`${apiUrl}count-not-see-notifications`),
+        payload: axios.get<IUser>(`${apiUrl}count-not-see-messages`),
     });
     return result;
 };

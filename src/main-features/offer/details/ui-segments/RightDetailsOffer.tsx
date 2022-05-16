@@ -46,10 +46,14 @@ import isEmpty from 'lodash/isEmpty';
 import CustomShare from "../../../../shared/components/custom-share/CustomShare";
 import Snackbar from "@mui/material/Snackbar/Snackbar";
 import ProblemeDeclaration from "../../../probleme-declaration/ProblemeDeclaration";
+import {StyledBadge} from "../../../../shared/pages/styled-badge";
+
+
+
 
 const initialValues = initialValuesAddMessageDetailsOffer;
 
-export default function RightDetailsOffer({offerEntity, parentCallback, currentUser, isAuthenticated, myFavoriteUser, createConversationCallback, addSuccessConversation}:
+export default function RightDetailsOffer({offerEntity, parentCallback, currentUser, isAuthenticated, myFavoriteUser, createConversationCallback, addSuccessConversation, isOnLine}:
                                               {
                                                   offerEntity: IOffer | undefined,
                                                   parentCallback: any,
@@ -57,7 +61,8 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                                                   isAuthenticated: boolean,
                                                   myFavoriteUser: boolean,
                                                   createConversationCallback: any,
-                                                  addSuccessConversation: boolean
+                                                  addSuccessConversation: boolean,
+                                                  isOnLine: any
                                               }) {
 
     const [defaultValues, setDefaultValues] = React.useState<any>();
@@ -219,12 +224,18 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                     <CardHeader
                         avatar={
                             offerEntity ? (
-                                <Avatar
-                                    aria-label="recipe"
-                                    alt={offerEntity.user?.imageUrl}
-                                    src={getUserAvatar(offerEntity.user?.id, offerEntity.user?.imageUrl, offerEntity.user?.sourceRegister)}
-                                    sx={{border: '1px solid #b9b9b9'}}
-                                >{getFullnameUser(offerEntity?.user)?.charAt(0)}</Avatar>
+                                    <StyledBadge
+                                        overlap="circular"
+                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                        variant="dot"
+                                        color={isOnLine(offerEntity.user?.email) ? 'success' : 'error'}>
+                                            <Avatar
+                                                aria-label="recipe"
+                                                alt={offerEntity.user?.imageUrl}
+                                                src={getUserAvatar(offerEntity.user?.id, offerEntity.user?.imageUrl, offerEntity.user?.sourceRegister)}
+                                                sx={{border: '1px solid #b9b9b9'}}
+                                            >{getFullnameUser(offerEntity?.user)?.charAt(0)}</Avatar>
+                                    </StyledBadge>
                             ) : null
                         }
                         action={

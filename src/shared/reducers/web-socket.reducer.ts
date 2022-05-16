@@ -96,7 +96,7 @@ function pophListConnectedUser (list: any[], email: string): any[] {
     return list;
 }
 
-export function isOnLine(list:any[], email: string): boolean {
-    console.log('email ', email);
-    return false;
-}
+// export function isOnLine(list:any[], email: string): boolean {
+//     console.log('email ', email);
+//     return false;
+// }

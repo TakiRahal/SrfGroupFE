@@ -12,7 +12,7 @@ import Container from "@mui/material/Container/Container";
 import {MessageConversation} from "./ui-segments/MessageConversation";
 import './Chat.scss';
 import {IConversation} from "../../shared/model/conversation.model";
-import {addMessage, getMessagesByConversation} from "../../shared/reducers/message.reducer";
+import {addMessage, getMessagesByConversation, reset as resetMessages} from "../../shared/reducers/message.reducer";
 import {IMessage} from "../../shared/model/message.model";
 import isEmpty from 'lodash/isEmpty';
 import Box from "@mui/material/Box/Box";
@@ -42,9 +42,12 @@ export const Chat = (props: IChatClientProps) => {
     }
 
     const getListMessages = (conversation: IConversation) => {
+        props.resetMessages();
+        setListCurrentMessages([]);
         setCurrentConversation(conversation);
-        setActivePageMessages(activePageMessages+1);
-        setOpenCntainerMessagesMobile(true)
+        setActivePageMessages(0);
+        setOpenCntainerMessagesMobile(true);
+        props.getMessagesByConversation(0, AllAppConfig.MESSAGES_PER_PAGE, '', conversation.id);
     }
 
     React.useEffect(() => {
@@ -53,9 +56,7 @@ export const Chat = (props: IChatClientProps) => {
             let tmpListCurrentMessages: IMessage[] = [];
             props.listMessageByConversation.forEach((message: IMessage, index: number) => {
                 tmpListCurrentMessages.unshift(message);
-            })
-            console.log('tmpListCurrentMessages ', tmpListCurrentMessages);
-
+            });
 
             setListCurrentMessages([
                 ...tmpListCurrentMessages,
@@ -66,7 +67,7 @@ export const Chat = (props: IChatClientProps) => {
 
 
     React.useEffect(() => {
-        if( activePageMessages>=0 ){
+        if(activePageMessages > 0){ // Just for load more not first time
             props.getMessagesByConversation(activePageMessages, AllAppConfig.MESSAGES_PER_PAGE, '', currentConversation.id);
         }
     }, [activePageMessages])
@@ -129,7 +130,6 @@ export const Chat = (props: IChatClientProps) => {
                                 <Alert severity="warning">Please select a conversation</Alert>
                             </Box>
                     }
-
                 </Grid>
             </Grid>
 
@@ -153,8 +153,8 @@ const mapStateToProps = ({ conversation, user, message }: IRootState) => ({
 const mapDispatchToProps = {
     getEntitiesCurrentUser,
     getMessagesByConversation,
-    addMessage
-    // reset,
+    addMessage,
+    resetMessages
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

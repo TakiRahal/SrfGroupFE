@@ -5,6 +5,7 @@ import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 export const ACTION_TYPES = {
     FETCH_MESSAGE_LIST: 'message/FETCH_MESSAGE_LIST',
     CREATE_MESSAGE: 'message/CREATE_MESSAGE',
+    RESET: 'message/RESET',
 }
 
 const initialState = {
@@ -67,6 +68,13 @@ export default (state: MessageState = initialState, action: any): MessageState =
                 entity: action.payload.data,
             };
 
+
+        case ACTION_TYPES.RESET:
+            return {
+                ...initialState,
+            };
+
+            
         default:
             return state;
     }
@@ -93,3 +101,7 @@ export const getMessagesByConversation = (page: number, size: number, sort: stri
         payload: axios.get<IMessage>(`${requestUrl}`),
     };
 };
+
+export const reset = () => ({
+    type: ACTION_TYPES.RESET,
+});

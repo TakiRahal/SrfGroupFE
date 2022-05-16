@@ -31,7 +31,6 @@ export const ProblemeDeclaration = (props: IProblemeDeclarationProps) => {
         validationSchema: validationSchemaAddMessage,
         onSubmit: values => {
             if (props.isAuthenticated) {
-                console.log('values ', values);
                 props.createEntity(values);
             }
         },

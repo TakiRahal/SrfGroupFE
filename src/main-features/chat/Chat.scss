@@ -1,15 +1,14 @@
 .container-chat{
     min-height: 600px;
-    .container-chat-conversation{
+    overflow-x: hidden;
+    .container-chat-conversation{}
+}
 
-    }
-    .container-chat-message{
-        @media only screen and (max-width: 576px) {
-            //position: absolute;
-            //top: 35px;
-            //right: 5px;
-            //z-index: 9;
-        }
+.item-conversation-infos{
+    p{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -22,6 +21,8 @@
             z-index: 9;
             right: 0;
             left: 0;
+            top: -50px;
+            bottom: 0;
             visibility: hidden;
             -webkit-transform: translateX(100%);
             transform: translateX(100%);

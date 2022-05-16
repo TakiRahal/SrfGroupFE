@@ -1,6 +1,6 @@
 import SockJS from 'sockjs-client';
 
-import Stomp from 'webstomp-client';
+import Stomp, {Client} from 'webstomp-client';
 import {Observable} from 'rxjs';
 import {StorageService} from "../../shared/services/storage.service";
 import {AllAppConfig} from "./all-config";
@@ -47,6 +47,10 @@ export const sendConnectedNewUser = () => {
     });
 };
 
+
+/**
+ *
+ */
 const subscribeConnectedUsers = () => {
     connection.then(() => {
         subscriber = stompClient.subscribe('/topic/connected-user', (data: any) => {
@@ -58,7 +62,9 @@ const subscribeConnectedUsers = () => {
     });
 };
 
-
+/**
+ *
+ */
 const subscribeDisConnectedUsers = () => {
     connection.then(() => {
         subscriber = stompClient.subscribe('/topic/disconnected-user', (data: any) => {
@@ -67,6 +73,14 @@ const subscribeDisConnectedUsers = () => {
         });
     });
 };
+
+/**
+ *
+ * @returns {any}
+ */
+export const getStompClient = (): Client => {
+    return stompClient;
+}
 
 const connect = () => {
     console.log('connect WS');

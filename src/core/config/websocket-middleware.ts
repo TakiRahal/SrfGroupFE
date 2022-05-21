@@ -54,11 +54,8 @@ export const sendConnectedNewUser = () => {
 const subscribeConnectedUsers = () => {
     connection.then(() => {
         subscriber = stompClient.subscribe('/topic/connected-user', (data: any) => {
-            console.log('data connected ', JSON.parse(data.body));
             listenerObserver.next(JSON.parse(data.body));
         });
-
-
     });
 };
 
@@ -68,7 +65,6 @@ const subscribeConnectedUsers = () => {
 const subscribeDisConnectedUsers = () => {
     connection.then(() => {
         subscriber = stompClient.subscribe('/topic/disconnected-user', (data: any) => {
-            console.log('data disconnected ', JSON.parse(data.body));
             listenerObserver.next(JSON.parse(data.body));
         });
     });
@@ -83,7 +79,6 @@ export const getStompClient = (): Client => {
 }
 
 const connect = () => {
-    console.log('connect WS');
     if (connectedPromise !== null || alreadyConnectedOnce) {
         // the connection is already being established
         return;
@@ -104,6 +99,10 @@ const connect = () => {
     }
     const socket = new SockJS(url);
     stompClient = Stomp.over(socket, {protocols: ['v12.stomp']});
+
+    if(process.env.NODE_ENV === 'production'){
+        stompClient.debug = () => {};
+    }
 
     stompClient.connect(headers, () => {
         connectedPromise('success');
@@ -143,7 +142,6 @@ export default (store: any) => (next: any) => (action: any) => {
 
 
         connection.then((result) => {
-            console.log('connection result ', result);
             if(result==='success'){
                 store.dispatch(getWebsocketListConnectedUsers());
             }
@@ -153,7 +151,6 @@ export default (store: any) => (next: any) => (action: any) => {
 
 
         receive().subscribe(activity => {
-            console.log('new subscribe ', activity);
             if( activity.nameModule === 'ConnectedUser' ){
                 return store.dispatch({
                     type: WS_ACTIONS.PUSH_LISTE_CONNECTED_USER,

@@ -84,7 +84,6 @@ export const SignIn = (props: ISignInProps) => {
     });
 
     const responseFacebook = (response: any) => {
-        console.log('responseFacebook ', response);
         if(!response.status){
             const requestData: IFacebook = {
                 ...response,
@@ -97,7 +96,6 @@ export const SignIn = (props: ISignInProps) => {
     };
 
     const responseGoogle = (response: any) => {
-        console.log('responseGoogle ', response);
         if (!response.error) {
             const requestData: IGooglePlus = {
                 ...response,
@@ -224,7 +222,6 @@ export const SignIn = (props: ISignInProps) => {
                                 appId={AllAppConfig.APP_ID_FACEBOOK}
                                 autoLoad={false}
                                 fields="name,email,picture"
-                                tag="div"
                                 textButton=""
                                 icon={
                                     <Fab color="primary" aria-label="facebook" sx={{ m: 1 }}>

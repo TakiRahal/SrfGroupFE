@@ -62,10 +62,8 @@ import Accordion from "@mui/material/Accordion/Accordion";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomShare from "../../../shared/components/custom-share/CustomShare";
 import i18n from "i18next";
-
-const isOnLine = (list:any[], email: string): boolean => {
-    return list.findIndex(item => item.principal.email==email) >=0;
-}
+import CartSellDetailsOffer from "./ui-segments/CartSellDetailsOffer";
+import Tooltip from "@mui/material/Tooltip/Tooltip";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -404,11 +402,23 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         <CardActions disableSpacing>
 
                                             <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
-                                                <ShareIcon/>
+                                                <Tooltip title={
+                                                    <React.Fragment>
+                                                        {t('common.label_share')}
+                                                    </React.Fragment>
+                                                }>
+                                                    <ShareIcon/>
+                                                </Tooltip>
                                             </CustomShare>
 
                                             <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
-                                                <FlagIcon/>
+                                                <Tooltip title={
+                                                    <React.Fragment>
+                                                        {t('common.label_report')}
+                                                    </React.Fragment>
+                                                }>
+                                                    <FlagIcon/>
+                                                </Tooltip>
                                             </IconButton>
 
                                         </CardActions>
@@ -433,6 +443,9 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                             />
                                         </Box>
                                     ) : null}
+
+                                    <CartSellDetailsOffer />
+
                                 </Grid>
 
                                 <Grid container item xs={12} sm={6} sx={{ pl: { xs: 0, sm: 4 } }} spacing={2}>

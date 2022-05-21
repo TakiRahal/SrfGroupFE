@@ -21,7 +21,6 @@ import {
     reset as resetNotification
 } from '../../shared/reducers/notification.reducer';
 import {INotification} from "../../shared/model/notification.model";
-import Alert from "@mui/material/Alert/Alert";
 import {useTranslation} from "react-i18next";
 import {ConvertReactTimeAgo} from "../../shared/pages/react-time-ago";
 import {ModuleNotification} from "../../shared/enums/module-notification";
@@ -123,7 +122,7 @@ export const Notification = (props: INotificationProps) => {
 
                 <Grid item xs={12} sm={6} md={6} className="my-container">
 
-                    <List>
+
                         <InfiniteScroll
                             pageStart={activePage}
                             loadMore={loadMore}
@@ -132,7 +131,7 @@ export const Notification = (props: INotificationProps) => {
                             threshold={0}
                             initialLoad={false}
                         >
-
+                            <List>
                                 {props.listNotifications.map((notification: INotification, index: number) => (
                                     <React.Fragment key={`notification-${notification.id}-${index}`}>
                                         <ListItem button sx={{
@@ -150,11 +149,10 @@ export const Notification = (props: INotificationProps) => {
                                     </React.Fragment>
                                 ))}
 
+                                { props.loadingNotificationss ? <LoadingNotification/> : null }
+
+                            </List>
                         </InfiniteScroll>
-
-                        { props.loadingNotificationss ? <LoadingNotification/> : null }
-
-                    </List>
 
                 </Grid>
             </Grid>

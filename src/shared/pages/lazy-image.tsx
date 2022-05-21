@@ -29,7 +29,7 @@ const Image = styled.img`
   }
 `;
 
-export const LazyImage = ({src, alt, className}: {src: string, alt?: string, className?: string}) => {
+export const LazyImage0 = ({src, alt, className}: {src: string, alt?: string, className?: string}) => {
     const [imageSrc, setImageSrc] = React.useState(placeHolder);
     const [imageRef, setImageRef] = React.useState<HTMLDivElement | null>(null);
 

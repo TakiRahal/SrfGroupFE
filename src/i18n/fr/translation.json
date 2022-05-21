@@ -34,7 +34,8 @@
     "label_delete": "Supprimer",
     "label_disfavorite": "Disfavorite",
     "label_report": "Signaler",
-    "label_amount": "Montant"
+    "label_amount": "Montant",
+    "label_share": "Partager"
   },
   "header":{
     "label_add_offer": "Ajouter l offre",
@@ -226,5 +227,10 @@
   },
   "contact-us": {
     "messages.success": "Message envoyé avec succès"
+  },
+  "chat": {
+    "title_delete_conversation": "Supprimer la conversation",
+    "description_delete_conversation": "Ete vous sur de supprimer cette conversation ?",
+    "conversation_delete_succefully": "Conversation supprimée avec succès"
   }
 }

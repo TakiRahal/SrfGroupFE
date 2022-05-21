@@ -9,7 +9,7 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     placeholderImg?: string;
     errorImg?: string;
 }
-export const LazyImageLoading = ({ src, placeholderImg, errorImg, ...props }: ImageProps) => {
+export const LazyImageLoading0 = ({ src, placeholderImg, errorImg, ...props }: ImageProps) => {
     const [imgSrc, setSrc] = React.useState(placeholderImg || placeHolder || src);
     React.useEffect(() => {
         let observer: any;

@@ -44,7 +44,7 @@ export const getImageForOffer = (offerId?: number, path?: string) => {
  * @returns {string}
  */
 export const getUserAvatar = (userId: number, imageUrl?: string, sourceRegister?: string): string => {
-    if (sourceRegister === SourceProvider.WEB_BROWSER || sourceRegister === SourceProvider.MOBILE_BROWSER || sourceRegister === SourceProvider.MOBILE) {
+    if (sourceRegister === SourceProvider.WEB_BROWSER || sourceRegister === SourceProvider.MOBILE_BROWSER) {
         if (!imageUrl) {
             return `${process.env.REACT_APP_BASE_URL_FE +  (process.env?.REACT_APP_PUBLIC_URL || '')}` + AllAppConfig.DEFAULT_AVATAR;
         }

@@ -178,7 +178,7 @@ function App(props: IAppProps) {
 
         // Init Google Analyticd
         initGoogleAnalytics().then((result: boolean) => {
-            console.log('Success init Google Analytics');
+            // console.log('Success init Google Analytics');
         }, (error: boolean) => {console.log('Error init Google Analytics');})
 
         // Set Default configs
@@ -196,11 +196,6 @@ function App(props: IAppProps) {
             props.getNumberOfMessagesNotSee();
         }
     }, [])
-
-
-    React.useEffect(() => {
-        console.log('listConnectedUsers ', props.listConnectedUsers);
-    }, [props.listConnectedUsers])
 
     // Callback From header and menu mobile
     const handleLogout = () => {
@@ -232,7 +227,7 @@ function App(props: IAppProps) {
             <List>
                 <ListItem button component={Link} to={ALL_APP_ROUTES.HOME} onClick={() => handleDrawerToggle(false)}>
                     <ListItemIcon>
-                        <Avatar alt="Logo" src={AllAppConfig.DEFAULT_AVATAR} sx={{ width: 30, height: 30, mr: 0.6 }} />
+                        <Avatar alt="Logo" src={getUserAvatar(-1)} sx={{ width: 30, height: 30, mr: 0.6 }} />
                     </ListItemIcon>
                     <ListItemText primary="SRF" />
                 </ListItem>
@@ -426,12 +421,10 @@ function App(props: IAppProps) {
     );
 
     const sendNewsLetter =(newsLetter: INewsLetter) => {
-        console.log('email ', newsLetter);
         props.createEntityNewsLetter(newsLetter);
     }
 
     const responseGoogle = (response: any) => {
-        console.log('responseGoogle ', response);
         if (!response.error) {
             const requestData: IGooglePlusOneTap = {
                 ...response,
@@ -445,7 +438,6 @@ function App(props: IAppProps) {
 
     return (
         <>
-
             <ScrollToTop />
             <ThemeProvider theme={ThemeApp}>
                 <CssBaseline/>

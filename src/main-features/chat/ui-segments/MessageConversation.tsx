@@ -24,9 +24,10 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
-import Typography from "@mui/material/Typography/Typography";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {getStompClient} from "../../../core/config/websocket-middleware";
+import {useHistory} from "react-router";
+import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 
 const initialValues = initialValuesMessage;
 
@@ -37,6 +38,7 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
     const [listCurrentMessages, setListCurrentMessages] = React.useState<IMessage[]>([]);
     const [newMessage, setNewMessage] = React.useState<any>(null);
     const messagesEndRef = React.useRef<any>();
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues,
@@ -142,10 +144,23 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
      *
      */
     const subscribeChatMessages = () => {
-        getStompClient()?.subscribe(`/topic/chat-message/${getReceiverUser()?.id}/${account.id}`, (data: any) => {
+        getStompClient()?.subscribe(`/topic/chat-message/${account.id}/${getReceiverUser()?.id}`, (data: any) => {
             setNewMessage(JSON.parse(data.body));
         })
     };
+
+    const redirectProfile = () => {
+        if(conversation?.senderUser?.id ===account.id){
+            setTimeout(() => {
+                history.push(ALL_APP_ROUTES.PROFILE + '/' + conversation?.receiverUser?.id);
+            }, 300);
+        }
+        else{
+            setTimeout(() => {
+                history.push(ALL_APP_ROUTES.PROFILE + '/' + conversation?.senderUser?.id);
+            }, 300);
+        }
+    }
 
     return (
         <div className="container-messages">
@@ -155,29 +170,30 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                         <div className="chat">
                             <div className="chat-header clearfix">
                                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                                    <ListItem alignItems="center">
+                                    <ListItem button alignItems="center">
                                         <IconButton aria-label="upload picture"
                                                     component="span"
                                                     onClick={backToConversations}
                                                     sx={{display: {xs: 'inline-flex', md: 'none'}}}>
                                             <ArrowBackIosIcon />
                                         </IconButton>
-                                        <ListItemAvatar>
+                                        <ListItemAvatar onClick={() => redirectProfile()}>
                                             <Avatar alt="Remy Sharp" src={getAvatarReceiverUser()} >{getFullnameUser(getReceiverUser())?.charAt(0)}</Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={getFullnameUser(getReceiverUser())}
+                                            onClick={() => redirectProfile()}
                                             secondary={
                                                 <React.Fragment>
-                                                    <Typography
-                                                        sx={{ display: 'inline' }}
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                    >
-                                                        Ali Connors
-                                                    </Typography>
-                                                    {" — I'll be in your neighborhood doing errands this…"}
+                                                    {/*<Typography*/}
+                                                        {/*sx={{ display: 'inline' }}*/}
+                                                        {/*component="span"*/}
+                                                        {/*variant="body2"*/}
+                                                        {/*color="text.primary"*/}
+                                                    {/*>*/}
+                                                        {/*Ali Connors*/}
+                                                    {/*</Typography>*/}
+                                                    {/*{" — I'll be in your neighborhood doing errands this…"}*/}
                                                 </React.Fragment>
                                             }
                                         />
@@ -186,15 +202,16 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
                             </div>
                             <div className="chat-history">
 
-                                {
-                                    loadingListMessages ? <Box sx={{ pt: 5, textAlign: 'center' }}>
-                                        <CircularProgress color="inherit"  />
-                                    </Box> : null
-                                }
 
                                 {
                                     totalPagesMessages-1 > activePage ? <Box sx={{ paddingTop: 5, textAlign: 'center' }}>
                                         <Button color="neutral" variant="outlined"  onClick={loadMoreMessages}>Load More...</Button>
+                                    </Box> : null
+                                }
+
+                                {
+                                    loadingListMessages ? <Box sx={{ pt: 5, textAlign: 'center' }}>
+                                        <CircularProgress color="inherit"  />
                                     </Box> : null
                                 }
 

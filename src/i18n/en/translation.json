@@ -35,7 +35,8 @@
     "label_delete": "Delete",
     "label_disfavorite": "Disfavorite",
     "label_report": "Report",
-    "label_amount": "Amouont"
+    "label_amount": "Amouont",
+    "label_share": "Partager"
   },
   "header": {
     "label_add_offer": "Add offer",
@@ -226,5 +227,10 @@
   },
   "contact-us": {
     "messages.success": "Message sent succefully"
+  },
+  "chat": {
+    "title_delete_conversation": "Delete conversation",
+    "description_delete_conversation": "Are you sur to delete this conversation ?",
+    "conversation_delete_succefully": "Conversation delete succfully"
   }
 }

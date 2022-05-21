@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
 import {Link} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
-import {getEntitiesCurrentUser} from "../../shared/reducers/conversation.reducer";
+import {deleteConversation, getEntitiesCurrentUser} from "../../shared/reducers/conversation.reducer";
 import {Conversation} from "./ui-segments/Conversation";
 import Container from "@mui/material/Container/Container";
 import {MessageConversation} from "./ui-segments/MessageConversation";
@@ -80,6 +80,20 @@ export const Chat = (props: IChatClientProps) => {
         setOpenCntainerMessagesMobile(false);
     }
 
+    const isOnLine = (email: string) => {
+        return props.listConnectedUsers.findIndex(item => item.principal.email==email) >=0;
+    }
+
+    const deleteConversation = (conversation?: IConversation) => {
+        props.deleteConversation(conversation?.id);
+    }
+
+    React.useEffect(() => {
+        if(props.deleteSuccessConversation){
+            getEntitiesCurrentUser(0, 20, '');
+        }
+    }, [props.deleteSuccessConversation])
+
     return (
         <Container maxWidth="xl">
             <Grid
@@ -111,7 +125,13 @@ export const Chat = (props: IChatClientProps) => {
                 <Grid item xs={12} sm={6} md={2} sx={{display: { xs: 'none', md: 'flex' }}}></Grid>
 
                 <Grid item xs={12} sm={6} md={3} className="container-chat-conversation">
-                    <Conversation loading={loadingEntitiesConversation} list={listConversations.slice()} account={account} listMessages={getListMessages} />
+                    <Conversation
+                        loading={loadingEntitiesConversation}
+                        list={listConversations.slice()}
+                        account={account}
+                        listMessages={getListMessages}
+                        isOnLine={isOnLine}
+                        deleteConversation={deleteConversation}/>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={5} className={openCntainerMessagesMobile ? 'container-chat-message open': 'container-chat-message'}>
@@ -137,9 +157,10 @@ export const Chat = (props: IChatClientProps) => {
     );
 }
 
-const mapStateToProps = ({ conversation, user, message }: IRootState) => ({
+const mapStateToProps = ({ conversation, user, message, webSocketState }: IRootState) => ({
     loadingEntitiesConversation: conversation.loadingEntities,
     listConversations: conversation.entities,
+    deleteSuccessConversation: conversation.deleteSuccess,
 
     account: user.currentUser,
 
@@ -147,14 +168,17 @@ const mapStateToProps = ({ conversation, user, message }: IRootState) => ({
     listMessageByConversation: message.entities,
     loadingEntityMessage: message.loadingEntity,
     addSuccessMessage: message.addSuccess,
-    totalPagesMessages: message.totalPages
+    totalPagesMessages: message.totalPages,
+
+    listConnectedUsers: webSocketState.listConnectedUsers
 });
 
 const mapDispatchToProps = {
     getEntitiesCurrentUser,
     getMessagesByConversation,
     addMessage,
-    resetMessages
+    resetMessages,
+    deleteConversation
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

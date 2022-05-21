@@ -42,6 +42,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import {languages, locales} from "../../shared/reducers/locale.reducer";
 import {AllAppConfig} from "../../core/config/all-config";
 import {StorageService} from "../../shared/services/storage.service";
+import {SourceProvider} from "../../shared/enums/source-provider";
 
 const initialValues = initialValuesAccount;
 const initialValuesPassword = initialValuesPasswordAccount;
@@ -217,18 +218,26 @@ export const Account = (props: IAccountClientProps) => {
                                             border: '1px solid #f2f3f7',
                                         }}
                                     >{getFullnameUser(props.account)?.charAt(0)}</Avatar>
-                                    <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
-                                        <CameraAltIcon />
-                                    </Box>
+                                    {
+                                        account.sourceRegister===SourceProvider.MOBILE_BROWSER || account.sourceRegister===SourceProvider.WEB_BROWSER ?
+                                            <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
+                                                <CameraAltIcon />
+                                            </Box> : null
+                                    }
+
                                 </Box>
 
-                                <Box>
-                                    <input
-                                        type="file"
-                                        onChange={selectFile}
-                                        style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, opacity: 0 }}
-                                    />
-                                </Box>
+                                {
+                                    account.sourceRegister===SourceProvider.MOBILE_BROWSER || account.sourceRegister===SourceProvider.WEB_BROWSER ?
+                                        <Box>
+                                            <input
+                                                type="file"
+                                                onChange={selectFile}
+                                                style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, opacity: 0 }}
+                                            />
+                                        </Box> : null
+                                }
+
                             </Box>
                             <h3>{getFullnameUser(props.account)}</h3>
                             <p>{props.account.email}</p>
@@ -433,144 +442,147 @@ export const Account = (props: IAccountClientProps) => {
 
                         </Paper>
 
-                        <Paper elevation={3} sx={{ p: 2, mt: 4 }}>
-                            <form onSubmit={formikPassword.handleSubmit}>
-                                <Box sx={{ mt: 2 }}>
-                                    <h5 className="mb-4">
-                                        {t('account.label_password_details')}
-                                        {!showEditPassword ? (
-                                            <IconButton
-                                                aria-label="upload picture"
-                                                className="float-right"
-                                                component="span"
-                                                color="success"
-                                                onClick={() => setShowEditPassword(true)}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                        ) : null}
-                                    </h5>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12}>
-                                            <FormControl fullWidth error={formikPassword.touched.currentPassword && Boolean(formikPassword.errors.currentPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_current_password')}</InputLabel>
-                                                <OutlinedInput
-                                                    id="currentPassword"
-                                                    name="currentPassword"
-                                                    type={showCurrentUserPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('account.label_current_password')}
-                                                    value={formikPassword.values.currentPassword}
-                                                    onChange={formikPassword.handleChange}
-                                                    disabled={!showEditPassword}
-                                                    endAdornment={
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                aria-label="toggle password visibility"
-                                                                onClick={handleClickShowCurrentUserPassword}
-                                                                onMouseDown={handleMouseDownPassword}
-                                                                edge="end"
-                                                            >
-                                                                {showCurrentUserPassword.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    }
-                                                />
-                                                <FormHelperText id="component-helper-text">
-                                                    {formikPassword.touched.currentPassword && formikPassword.errors.currentPassword}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        </Grid>
-                                    </Grid>
-
-                                    <Grid container spacing={2} sx={{mt: 1}}>
-                                        <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formikPassword.touched.newPassword && Boolean(formikPassword.errors.newPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_new_password')}</InputLabel>
-                                                <OutlinedInput
-                                                    id="newPassword"
-                                                    name="newPassword"
-                                                    type={showNewPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('account.label_new_password')}
-                                                    value={formikPassword.values.newPassword}
-                                                    onChange={formikPassword.handleChange}
-                                                    disabled={!showEditPassword}
-                                                    endAdornment={
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                aria-label="toggle password visibility"
-                                                                onClick={handleClickShowNewPassword}
-                                                                onMouseDown={handleMouseDownPassword}
-                                                                edge="end"
-                                                            >
-                                                                {showNewPassword.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    }
-                                                />
-                                                <FormHelperText id="component-helper-text">
-                                                    {formikPassword.touched.newPassword && formikPassword.errors.newPassword}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        </Grid>
-
-                                        <Grid item xs={12} md={6}>
-                                            <FormControl fullWidth error={formikPassword.touched.confirmNewPassword && Boolean(formikPassword.errors.confirmNewPassword)}>
-                                                <InputLabel htmlFor="outlined-adornment-title">{t('account.label_conf_new_password')}</InputLabel>
-                                                <OutlinedInput
-                                                    id="confirmNewPassword"
-                                                    name="confirmNewPassword"
-                                                    type={showConfPassword.showPassword ? 'text' : 'password'}
-                                                    label={t('account.label_conf_new_password')}
-                                                    value={formikPassword.values.confirmNewPassword}
-                                                    onChange={formikPassword.handleChange}
-                                                    disabled={!showEditPassword}
-                                                    endAdornment={
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                aria-label="toggle password visibility"
-                                                                onClick={handleClickShowConfPassword}
-                                                                onMouseDown={handleMouseDownPassword}
-                                                                edge="end"
-                                                            >
-                                                                {showConfPassword.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    }
-                                                />
-                                                <FormHelperText id="component-helper-text">
-                                                    {formikPassword.touched.confirmNewPassword && formikPassword.errors.confirmNewPassword}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        </Grid>
-                                    </Grid>
-
-                                    {showEditPassword ? (
-                                        <Grid container spacing={2} sx={{mt: 2}}>
-                                            <Grid item xs={12} md={12}>
-                                                <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
-                                                    <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditPassword(false)}>
-                                                        {t('common.label_cancel')}
-                                                    </Button>
-
-                                                    <LoadingButton
+                        {
+                            account.sourceRegister===SourceProvider.MOBILE_BROWSER || account.sourceRegister===SourceProvider.WEB_BROWSER ?
+                                <Paper elevation={3} sx={{ p: 2, mt: 4 }}>
+                                    <form onSubmit={formikPassword.handleSubmit}>
+                                        <Box sx={{ mt: 2 }}>
+                                            <h5 className="mb-4">
+                                                {t('account.label_password_details')}
+                                                {!showEditPassword ? (
+                                                    <IconButton
+                                                        aria-label="upload picture"
+                                                        className="float-right"
+                                                        component="span"
                                                         color="success"
-                                                        type="submit"
-                                                        loading={props.loadingPasswordAccount}
-                                                        loadingPosition="start"
-                                                        startIcon={<CheckIcon />}
-                                                        variant="contained"
-                                                        size="small"
+                                                        onClick={() => setShowEditPassword(true)}
                                                     >
-                                                        {t('account.label_update_password')}
-                                                    </LoadingButton>
-
-                                                </ButtonGroup>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                ) : null}
+                                            </h5>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={12}>
+                                                    <FormControl fullWidth error={formikPassword.touched.currentPassword && Boolean(formikPassword.errors.currentPassword)}>
+                                                        <InputLabel htmlFor="outlined-adornment-title">{t('account.label_current_password')}</InputLabel>
+                                                        <OutlinedInput
+                                                            id="currentPassword"
+                                                            name="currentPassword"
+                                                            type={showCurrentUserPassword.showPassword ? 'text' : 'password'}
+                                                            label={t('account.label_current_password')}
+                                                            value={formikPassword.values.currentPassword}
+                                                            onChange={formikPassword.handleChange}
+                                                            disabled={!showEditPassword}
+                                                            endAdornment={
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="toggle password visibility"
+                                                                        onClick={handleClickShowCurrentUserPassword}
+                                                                        onMouseDown={handleMouseDownPassword}
+                                                                        edge="end"
+                                                                    >
+                                                                        {showCurrentUserPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            }
+                                                        />
+                                                        <FormHelperText id="component-helper-text">
+                                                            {formikPassword.touched.currentPassword && formikPassword.errors.currentPassword}
+                                                        </FormHelperText>
+                                                    </FormControl>
+                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                    ) : null}
-                                </Box>
-                            </form>
-                        </Paper>
+
+                                            <Grid container spacing={2} sx={{mt: 1}}>
+                                                <Grid item xs={12} md={6}>
+                                                    <FormControl fullWidth error={formikPassword.touched.newPassword && Boolean(formikPassword.errors.newPassword)}>
+                                                        <InputLabel htmlFor="outlined-adornment-title">{t('account.label_new_password')}</InputLabel>
+                                                        <OutlinedInput
+                                                            id="newPassword"
+                                                            name="newPassword"
+                                                            type={showNewPassword.showPassword ? 'text' : 'password'}
+                                                            label={t('account.label_new_password')}
+                                                            value={formikPassword.values.newPassword}
+                                                            onChange={formikPassword.handleChange}
+                                                            disabled={!showEditPassword}
+                                                            endAdornment={
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="toggle password visibility"
+                                                                        onClick={handleClickShowNewPassword}
+                                                                        onMouseDown={handleMouseDownPassword}
+                                                                        edge="end"
+                                                                    >
+                                                                        {showNewPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            }
+                                                        />
+                                                        <FormHelperText id="component-helper-text">
+                                                            {formikPassword.touched.newPassword && formikPassword.errors.newPassword}
+                                                        </FormHelperText>
+                                                    </FormControl>
+                                                </Grid>
+
+                                                <Grid item xs={12} md={6}>
+                                                    <FormControl fullWidth error={formikPassword.touched.confirmNewPassword && Boolean(formikPassword.errors.confirmNewPassword)}>
+                                                        <InputLabel htmlFor="outlined-adornment-title">{t('account.label_conf_new_password')}</InputLabel>
+                                                        <OutlinedInput
+                                                            id="confirmNewPassword"
+                                                            name="confirmNewPassword"
+                                                            type={showConfPassword.showPassword ? 'text' : 'password'}
+                                                            label={t('account.label_conf_new_password')}
+                                                            value={formikPassword.values.confirmNewPassword}
+                                                            onChange={formikPassword.handleChange}
+                                                            disabled={!showEditPassword}
+                                                            endAdornment={
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="toggle password visibility"
+                                                                        onClick={handleClickShowConfPassword}
+                                                                        onMouseDown={handleMouseDownPassword}
+                                                                        edge="end"
+                                                                    >
+                                                                        {showConfPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            }
+                                                        />
+                                                        <FormHelperText id="component-helper-text">
+                                                            {formikPassword.touched.confirmNewPassword && formikPassword.errors.confirmNewPassword}
+                                                        </FormHelperText>
+                                                    </FormControl>
+                                                </Grid>
+                                            </Grid>
+
+                                            {showEditPassword ? (
+                                                <Grid container spacing={2} sx={{mt: 2}}>
+                                                    <Grid item xs={12} md={12}>
+                                                        <ButtonGroup variant="contained" aria-label="outlined primary button group" style={{ float: 'right' }}>
+                                                            <Button color="neutral" variant="outlined" startIcon={<BlockIcon />} onClick={() => setShowEditPassword(false)}>
+                                                                {t('common.label_cancel')}
+                                                            </Button>
+
+                                                            <LoadingButton
+                                                                color="success"
+                                                                type="submit"
+                                                                loading={props.loadingPasswordAccount}
+                                                                loadingPosition="start"
+                                                                startIcon={<CheckIcon />}
+                                                                variant="contained"
+                                                                size="small"
+                                                            >
+                                                                {t('account.label_update_password')}
+                                                            </LoadingButton>
+
+                                                        </ButtonGroup>
+                                                    </Grid>
+                                                </Grid>
+                                            ) : null}
+                                        </Box>
+                                    </form>
+                                </Paper> : null
+                        }
 
                     </Grid>
                 </Grid>

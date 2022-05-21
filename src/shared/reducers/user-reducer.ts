@@ -4,7 +4,7 @@ import {StorageService} from "../services/storage.service";
 import {AllAppConfig} from "../../core/config/all-config";
 import {IFacebook, IGooglePlus, IGooglePlusOneTap, IUser} from "../model/user.model";
 import {IUpdatePassword} from "../model/update-password.model";
-import {dispatchSuccessSession, getWebsocketListConnectedUsers} from "./web-socket.reducer";
+import {dispatchSuccessSession} from "./web-socket.reducer";
 
 export const ACTION_TYPES = {
     CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
@@ -96,6 +96,8 @@ export default (state: UserState = initialState, action: any): UserState => {
                 ...initialState,
                 registrationSuccess: true,
             };
+
+
         case ACTION_TYPES.RESET_CREATE_ACCOUNT:
             return {
                 ...state,

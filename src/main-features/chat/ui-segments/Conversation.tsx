@@ -19,9 +19,25 @@ import Divider from "@mui/material/Divider/Divider";
 import Alert from "@mui/material/Alert/Alert";
 import {IConversation} from "../../../shared/model/conversation.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
+import {StyledBadge} from "../../../shared/pages/styled-badge";
+import DeleteIcon from '@mui/icons-material/Delete';
+import ListItem from "@mui/material/ListItem/ListItem";
+import {TransitionModal} from "../../../shared/pages/transition-modal";
+import Dialog from "@mui/material/Dialog/Dialog";
+import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
+import DialogContent from "@mui/material/DialogContent/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
+import DialogActions from "@mui/material/DialogActions/DialogActions";
+import Button from "@mui/material/Button/Button";
+import {useTranslation} from "react-i18next";
 
 
-export function Conversation({ loading, list, account, listMessages }: { loading: boolean, list: IConversationMessage[], account: IUser, listMessages: any }) {
+export function Conversation({ loading, list, account, listMessages, isOnLine, deleteConversation }:
+                                 { loading: boolean, list: IConversationMessage[], account: IUser, listMessages: any, isOnLine: Function, deleteConversation: any }) {
+
+    const [openDeleteConvModal, setOpenDeleteConvModal] = React.useState(false);
+    const [conversationDel, setConversationDel] = React.useState<IConversation | undefined>(undefined);
+    const { t } = useTranslation();
 
     const getAvatar = (conversatioinMessage: IConversationMessage) => {
         if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
@@ -39,6 +55,14 @@ export function Conversation({ loading, list, account, listMessages }: { loading
         }
     };
 
+    const isUserOnLine  = (conversatioinMessage: IConversationMessage) => {
+        if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
+            return isOnLine(conversatioinMessage?.conversation?.receiverUser?.email);
+        } else {
+            return isOnLine(conversatioinMessage?.conversation?.senderUser?.email);
+        }
+    };
+
     const getFullname = (conversatioinMessage: IConversationMessage) => {
         if (conversatioinMessage?.conversation?.senderUser?.id === account.id) {
             return getFullnameUser(conversatioinMessage?.conversation?.receiverUser);
@@ -50,6 +74,51 @@ export function Conversation({ loading, list, account, listMessages }: { loading
     const openListMessages = (conversation?: IConversation) => {
         listMessages(conversation);
     }
+
+    const deleteConv = (event: any, conversation?: IConversation) => {
+        event.stopPropagation();
+        setOpenDeleteConvModal(true);
+        setConversationDel(conversation);
+
+    }
+
+    const handleCloseDeleteConvModal = () => {
+        setOpenDeleteConvModal(false);
+    }
+
+    const handleDeleteConvModal = () => {
+        setOpenDeleteConvModal(false);
+        deleteConversation(conversationDel);
+    }
+
+    const renderDialogFavoriteUser = () => {
+        return (
+            <Dialog
+                open={openDeleteConvModal}
+                TransitionComponent={TransitionModal}
+                keepMounted
+                onClose={handleCloseDeleteConvModal}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>
+                    {t('chat.title_delete_conversation')}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        {t('chat.description_delete_conversation')}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteConvModal} color="neutral">
+                        {t('common.label_cancel')}
+                    </Button>
+                    <Button onClick={handleDeleteConvModal} color="success">
+                        {t('common.label_delete')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        );
+    };
 
     return(
         <Box>
@@ -70,9 +139,22 @@ export function Conversation({ loading, list, account, listMessages }: { loading
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {list.map((conversatioinMessage: IConversationMessage, index: number) => (
                         <Box key={`conversation-${index}`}>
-                            <ListItemButton alignItems="flex-start" onClick={() => openListMessages(conversatioinMessage.conversation)}>
+                            <ListItem button
+                                alignItems="flex-start"
+                                onClick={() => openListMessages(conversatioinMessage.conversation)}
+                                secondaryAction={
+                                    <IconButton edge="end" aria-label="delete" onClick={(event: any) => deleteConv(event, conversatioinMessage.conversation)}>
+                                        <DeleteIcon color="error"/>
+                                    </IconButton>
+                                }>
                                 <ListItemAvatar>
-                                    <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} ></Avatar>
+                                    <StyledBadge
+                                        overlap="circular"
+                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                        variant="dot"
+                                        color={isUserOnLine(conversatioinMessage) ? 'success' : 'error'}>
+                                        <Avatar alt="User avatar" src={getAvatar(conversatioinMessage)} ></Avatar>
+                                    </StyledBadge>
                                 </ListItemAvatar>
                                 <ListItemText
                                     className="item-conversation-infos"
@@ -86,7 +168,7 @@ export function Conversation({ loading, list, account, listMessages }: { loading
                                         </React.Fragment>
                                     }
                                 />
-                            </ListItemButton>
+                            </ListItem>
                             <Divider variant="inset" component="li" />
                         </Box>
                     ))}
@@ -98,7 +180,7 @@ export function Conversation({ loading, list, account, listMessages }: { loading
                     </ListItemButton>
                 </List>
             )}
-
+            <div>{renderDialogFavoriteUser()}</div>
         </Box>
     );
 }

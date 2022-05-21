@@ -16,8 +16,7 @@ import {useTranslation} from "react-i18next";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useHistory} from "react-router-dom";
-import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
-
+import {LazyImage} from "../../../shared/components/lazy-image";
 
 export function ListOffersProfile({listOffers, loading}: {listOffers: any, loading: boolean}) {
 
@@ -47,10 +46,23 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                             <CardMedia
                                                 sx={{ height: { xs: '100%', sm: 200 } }} >
                                                 {offer.offerImages && offer.offerImages.length ? (
-                                                    <LazyImageLoading src={getImageForOffer(offer.id, offer.offerImages[0].path)} />
+                                                    <LazyImage
+                                                        src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                                        alt="Buildings with tiled exteriors, lit by the sunset."
+                                                        actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                                        placeholder={({ ref }) => <div ref={ref} />}
+                                                        loading={() => (
+                                                            <div>
+                                                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                                            </div>
+                                                        )}
+                                                        error={() => (
+                                                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                                        )}
+                                                    />
                                                 ) : (
                                                     <Box sx={{height: '100%',display: {xs: 'none', md: 'block'}}}>
-                                                        <LazyImageLoading src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} />
+                                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                                                     </Box>
                                                 )}
                                             </CardMedia>

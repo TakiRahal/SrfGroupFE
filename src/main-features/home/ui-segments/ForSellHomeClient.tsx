@@ -25,7 +25,6 @@ import "swiper/css/effect-cube";
 import './ForSellHome.scss';
 import {IOffer} from "../../../shared/model/offer.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-import {LazyImageLoading} from "../../../shared/pages/lazy-image-loading";
 import {LazyImage} from "../../../shared/components/lazy-image";
 
 

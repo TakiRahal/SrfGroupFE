@@ -26,6 +26,7 @@ const initialState = {
     entity: defaultValue,
     addSuccess: false,
     updateSuccess: false,
+    deleteSuccess: false,
     totalItems: 0,
 }
 
@@ -77,6 +78,23 @@ export default (state: ConversationState = initialState, action: any): Conversat
             };
 
 
+        case REQUEST(ACTION_TYPES.DELETE_CONVERSATION):
+            return {
+                ...state,
+                deleteSuccess: false,
+            };
+        case FAILURE(ACTION_TYPES.DELETE_CONVERSATION):
+            return {
+                ...state,
+                deleteSuccess: false,
+            };
+        case SUCCESS(ACTION_TYPES.DELETE_CONVERSATION):
+            return {
+                ...state,
+                deleteSuccess: true,
+            };
+
+
         case ACTION_TYPES.RESET:
             return {
                 ...initialState,
@@ -103,6 +121,14 @@ export const createConversation = (entity: IConversationContent) => {
     return {
         type: ACTION_TYPES.CREATE_CONVERSATION_MESSAGE,
         payload: axios.post(`${apiUrl}create/message`, entity),
+    };
+};
+
+
+export const deleteConversation = (id: number | undefined) => {
+    return {
+        type: ACTION_TYPES.DELETE_CONVERSATION,
+        payload: axios.delete(`${apiUrl}delete/${id}`),
     };
 };
 

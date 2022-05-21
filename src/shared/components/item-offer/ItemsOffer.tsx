@@ -263,7 +263,7 @@ function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                                 )}
                             />
                         ) : (
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         )}
                     </CardMedia>
                     <CardContent className="card-content">

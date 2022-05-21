@@ -18,9 +18,9 @@ export const AllAppConfig = {
     PAGEFACEBOO__ID: '100054409273167',
     CLIENT_ID_GOOGLLE: '936898141282-neqsvsprrf7e1pchibhsui8nmki8496b.apps.googleusercontent.com',
     APP_ID_ONESIGNAL: '52e18c28-761d-409f-a363-f58a9bd41cfe',
-    OFFERS_PER_PAGE: 6,
+    OFFERS_PER_PAGE: 10,
     COMMENTS_PER_PAGE: 2,
-    NOTIFICATIONS_PER_PAGE: 7,
+    NOTIFICATIONS_PER_PAGE: 10,
     MESSAGES_PER_PAGE: 2,
     GOOGLE_ANALYTICS_MEASUREMENT_ID: 'G-T8KR5P5CC4',
     RECAPTCHA_CONTACT_US: {
@@ -31,10 +31,10 @@ export const AllAppConfig = {
 };
 
 
-export const APP_DATE_FORMAT = 'DD/MM/YY HH:mm';
-export const APP_TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss';
-export const APP_LOCAL_DATE_FORMAT = 'DD/MM/YYYY';
+// export const APP_DATE_FORMAT = 'DD/MM/YY HH:mm';
+// export const APP_TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss';
+// export const APP_LOCAL_DATE_FORMAT = 'DD/MM/YYYY';
 export const APP_LOCAL_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm';
-export const APP_LOCAL_DATETIME_FORMAT_Z = 'YYYY-MM-DDTHH:mm Z';
-export const APP_WHOLE_NUMBER_FORMAT = '0,0';
-export const APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT = '0,0.[00]';
+// export const APP_LOCAL_DATETIME_FORMAT_Z = 'YYYY-MM-DDTHH:mm Z';
+// export const APP_WHOLE_NUMBER_FORMAT = '0,0';
+// export const APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT = '0,0.[00]';

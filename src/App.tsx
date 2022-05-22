@@ -177,9 +177,9 @@ function App(props: IAppProps) {
         }
 
         // Init Google Analyticd
-        initGoogleAnalytics().then((result: boolean) => {
-            // console.log('Success init Google Analytics');
-        }, (error: boolean) => {console.log('Error init Google Analytics');})
+        // initGoogleAnalytics().then((result: boolean) => {
+        //     // console.log('Success init Google Analytics');
+        // }, (error: boolean) => {console.log('Error init Google Analytics');})
 
         // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));

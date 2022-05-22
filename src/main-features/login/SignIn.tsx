@@ -161,6 +161,9 @@ export const SignIn = (props: ISignInProps) => {
                                                     label={t('common.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
+                                                    inputProps={{
+                                                        'data-testid': 'email'
+                                                    }}
                                                 />
                                                 <FormHelperText id="component-helper-text">{formik.touched.email && formik.errors.email}</FormHelperText>
                                             </FormControl>
@@ -175,6 +178,9 @@ export const SignIn = (props: ISignInProps) => {
                                                     label={t('common.label_password')}
                                                     value={formik.values.password}
                                                     onChange={formik.handleChange}
+                                                    inputProps={{
+                                                        'data-testid': 'password'
+                                                    }}
                                                     endAdornment={
                                                         <InputAdornment position="end">
                                                             <IconButton
@@ -195,7 +201,12 @@ export const SignIn = (props: ISignInProps) => {
 
                                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label={t('signin.label_remember_me').toString()} />
 
-                                    <LoadingButton loading={loading} fullWidth variant="contained" color="neutral" type="submit" sx={{ mt: 3, mb: 2 }}>
+                                    <LoadingButton loading={loading} fullWidth
+                                                   variant="contained"
+                                                   color="neutral"
+                                                   type="submit"
+                                                   data-testid='submit'
+                                                   sx={{ mt: 3, mb: 2 }}>
                                         {t('signin.label_login')}
                                     </LoadingButton>
                                 </form>
@@ -218,18 +229,18 @@ export const SignIn = (props: ISignInProps) => {
                         </Box>
 
                         <Box sx={{ textAlign: 'center', my: 4 }}>
-                            <FacebookLogin
-                                appId={AllAppConfig.APP_ID_FACEBOOK}
-                                autoLoad={false}
-                                fields="name,email,picture"
-                                textButton=""
-                                icon={
-                                    <Fab color="primary" aria-label="facebook" sx={{ m: 1 }}>
-                                        <FacebookIcon />
-                                    </Fab>
-                                }
-                                callback={responseFacebook}
-                            ></FacebookLogin>
+                            {/*<FacebookLogin*/}
+                            {/*    appId={AllAppConfig.APP_ID_FACEBOOK}*/}
+                            {/*    autoLoad={false}*/}
+                            {/*    fields="name,email,picture"*/}
+                            {/*    textButton=""*/}
+                            {/*    icon={*/}
+                            {/*        <Fab color="primary" aria-label="facebook" sx={{ m: 1 }}>*/}
+                            {/*            <FacebookIcon />*/}
+                            {/*        </Fab>*/}
+                            {/*    }*/}
+                            {/*    callback={responseFacebook}*/}
+                            {/*></FacebookLogin>*/}
 
                             <GoogleLogin
                                 clientId={AllAppConfig.CLIENT_ID_GOOGLLE}

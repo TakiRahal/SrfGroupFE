@@ -97,7 +97,7 @@
     "build": "react-scripts build",
     "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
-    "test": "react-scripts test  --transformIgnorePatterns 'node_modules/(?!@mui)/'",
+    "test": "react-scripts test  --transformIgnorePatterns 'node_modules/(?!@mui)/' --verbose",
     "test-with-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",

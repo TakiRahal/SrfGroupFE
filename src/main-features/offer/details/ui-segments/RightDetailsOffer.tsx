@@ -374,7 +374,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                             <div style={{maxHeight: 400, marginTop: 30}}>
                                 <img
                                     className="img-fluid"
-                                    src={`${getBaseImageUrl('/assets/images/offer/details-offer/desktop-map-neighbourhood.ext.svg')}`}
+                                    src={getBaseImageUrl('/assets/images/offer/details-offer/desktop-map-neighbourhood.ext.svg')}
                                     alt="desktop-map-neighbourhood"
                                 />
                             </div>
@@ -391,7 +391,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
                             <div style={{maxHeight: 400, marginTop: 30}}>
                                 <img
                                     className="img-fluid"
-                                    src={`${getBaseImageUrl('/assets/images/offer/details-offer/desktop-time-of-travel-address.ext.svg')}`}
+                                    src={getBaseImageUrl('/assets/images/offer/details-offer/desktop-time-of-travel-address.ext.svg')}
                                     alt="desktop-time-of-travel-address"
                                 />
                             </div>

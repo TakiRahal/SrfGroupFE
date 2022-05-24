@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/SrfGroupFE/static/css/main.4ba1f2e9.css",
-    "main.js": "/SrfGroupFE/static/js/main.3d1b070e.js",
+    "main.css": "/SrfGroupFE/static/css/main.495bd2ff.css",
+    "main.js": "/SrfGroupFE/static/js/main.eb381246.js",
     "static/css/791.13f5c274.chunk.css": "/SrfGroupFE/static/css/791.13f5c274.chunk.css",
     "static/js/791.3047cf4f.chunk.js": "/SrfGroupFE/static/js/791.3047cf4f.chunk.js",
     "static/js/444.9856afd8.chunk.js": "/SrfGroupFE/static/js/444.9856afd8.chunk.js",
@@ -51,7 +51,7 @@
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
-    "static/css/main.4ba1f2e9.css",
-    "static/js/main.3d1b070e.js"
+    "static/css/main.495bd2ff.css",
+    "static/js/main.eb381246.js"
   ]
 }

@@ -41,6 +41,9 @@ const LazyAboutUs = React.lazy(
 const LazyFaq = React.lazy(
     () => import('../../main-features/faq/Faq')
 )
+const LazyCart = React.lazy(
+    () => import('../../main-features/cart/Cart')
+)
 const LazyMyOffers = React.lazy(
     () => import('../../main-features/offer/my-offers/MyOffers')
 )
@@ -176,6 +179,12 @@ export default function AllRoutes(props: IAppProps){
                     <LazyForgotPasswordFinish />
                 </React.Suspense>
             </PublicRoute>
+
+            <PrivateRoute isAuthenticated={props.isAuthenticated} path={ALL_APP_ROUTES.CART.LIST}>
+                <React.Suspense fallback={<>...</>}>
+                    <LazyCart />
+                </React.Suspense>
+            </PrivateRoute>
 
             <Route path="*">
                 <React.Suspense fallback={<>...</>}>

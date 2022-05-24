@@ -79,6 +79,7 @@ import createTheme from "@mui/material/styles/createTheme";
 import {MaterialUISwitch} from "./shared/pages/material-ui-switch";
 import {IGooglePlusOneTap} from "./shared/model/user.model";
 import {SourceProvider} from "./shared/enums/source-provider";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
     dispatchSuccessSession,
     getWebsocketListConnectedUsers, removeEmailFromListConnectedUsers
@@ -336,6 +337,15 @@ function App(props: IAppProps) {
                     />
                 </ListItem>
                 <Divider />
+
+                <ListItem button component={Link} to={ALL_APP_ROUTES.CART.LIST} onClick={() => handleDrawerToggleRight(false)}>
+                    <ListItemIcon>
+                        <Badge badgeContent={props.nbeMessagesNotRead > 0 ? props.nbeMessagesNotRead : null} color="error">
+                            <ShoppingCartIcon />
+                        </Badge>
+                    </ListItemIcon>
+                    <ListItemText primary={t('header.label_cart')} />
+                </ListItem>
 
                 <ListItem button component={Link} to={ALL_APP_ROUTES.CHAT.LIST} onClick={() => handleDrawerToggleRight(false)}>
                     <ListItemIcon>

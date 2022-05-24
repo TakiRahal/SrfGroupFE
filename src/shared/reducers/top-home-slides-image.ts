@@ -1,6 +1,7 @@
 import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import {defaultValue, ITopHomeSlidesImages} from "../model/top-home-slides-images.model";
+import {invokeWS} from "../../core/config/api-service";
 
 
 export const ACTION_TYPES = {
@@ -66,7 +67,11 @@ export const getEntities = () => {
     const requestUrl = `${apiUrl}/public/slides`;
     return {
         type: ACTION_TYPES.FETCH_TOP_HOME_SLIDE_IMAGE_LIST,
-        payload: axios.get<ITopHomeSlidesImages>(`${requestUrl}`),
+        // payload: axios.get<ITopHomeSlidesImages>(`${requestUrl}`),
+        payload: invokeWS({
+            url: `${requestUrl}`,
+            method: 'GET'
+        }, {}),
     };
 };
 

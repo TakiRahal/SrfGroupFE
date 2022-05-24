@@ -2,6 +2,7 @@ import axios from 'axios';
 import {defaultValue, IPostHomeFeature} from "../model/post-home-feature.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import {ITopHomeSlidesImages} from "../model/top-home-slides-images.model";
+import {invokeWS} from "../../core/config/api-service";
 
 export const ACTION_TYPES = {
     FETCH_POST_HOME_FEATURE_LAST: 'postHomeFeature/FETCH_POST_HOME_FEATURE_LAST',
@@ -57,7 +58,11 @@ export const getEntity = () => {
     const requestUrl = `${apiUrl}/public/last`;
     return {
         type: ACTION_TYPES.FETCH_POST_HOME_FEATURE_LAST,
-        payload: axios.get<ITopHomeSlidesImages>(requestUrl),
+        // payload: axios.get<ITopHomeSlidesImages>(requestUrl),
+        payload: invokeWS({
+            url: `${requestUrl}`,
+            method: 'GET'
+        }, {}),
     };
 };
 

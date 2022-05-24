@@ -7,6 +7,7 @@
     "label_name": "Nom",
     "label_email": "Email",
     "label_phone": "Téléphoner",
+    "label_add": "Ajouter",
     "label_google_maps": "Google Maps",
     "label_firstname": "Prenom",
     "label_lastname": "Nom",
@@ -54,7 +55,8 @@
     "signup": "S'inscrire",
     "label_account": "Mon compte",
     "label_my_offers": "Mes offres",
-    "lable_favorties_users": "Mes favoris"
+    "lable_favorties_users": "Mes favoris",
+    "label_cart": "Panier"
   },
   "home":{
     "steps": {
@@ -232,5 +234,8 @@
     "title_delete_conversation": "Supprimer la conversation",
     "description_delete_conversation": "Ete vous sur de supprimer cette conversation ?",
     "conversation_delete_succefully": "Conversation supprimée avec succès"
+  },
+  "cart": {
+    "message_add_cart_succefull": "Cart added succfully"
   }
 }

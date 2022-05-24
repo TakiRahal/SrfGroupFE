@@ -29,5 +29,8 @@ export const ALL_APP_ROUTES = {
     },
     NOTIFICATION: {
         LIST: process.env.PUBLIC_URL+'/notifications',
+    },
+    CART: {
+        LIST: process.env.PUBLIC_URL+'/carts',
     }
 }

@@ -24,6 +24,7 @@ import topHomeSlidesImages, {TopHomeSlidesImagesState} from "./top-home-slides-i
 import postHomeFeature, {PostHomeFeatureState} from "./post-home-feature.reducer";
 import reportProbleme, {ReportProblemeState} from "./report-probleme.reducer";
 import webSocketState, {WebSocketState} from "./web-socket.reducer";
+import cart, {CartState} from "./cart.reducer";
 
 export interface IRootState {
     readonly user: UserState;
@@ -51,6 +52,7 @@ export interface IRootState {
     readonly postHomeFeature: PostHomeFeatureState;
     readonly reportProbleme: ReportProblemeState;
     readonly webSocketState: WebSocketState;
+    readonly cart: CartState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -78,7 +80,8 @@ const rootReducer = combineReducers<IRootState>({
     topHomeSlidesImages,
     postHomeFeature,
     reportProbleme,
-    webSocketState
+    webSocketState,
+    cart
 });
 
 export default rootReducer;

@@ -6,7 +6,7 @@ const TIMEOUT = 1 * 60 * 1000;
 axios.defaults.timeout = TIMEOUT;
 axios.defaults.baseURL = process.env.REACT_APP_API_END_POINT;
 
-const setupAxiosInterceptors = (onUnauthenticated: any) => {
+const setupAxiosInterceptors = (onUnauthenticated: Function) => {
     const onRequestSuccess = (config: any) => {
 
         // config.headers.localTest = 'ar';

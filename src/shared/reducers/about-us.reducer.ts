@@ -1,6 +1,6 @@
 import {defaultValue, IAboutUs} from "../model/about-us.model";
-import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
+import {invokeWS} from "../../core/config/api-service";
 
 
 export const ACTION_TYPES = {
@@ -52,6 +52,10 @@ export const getEntity = () => {
     const requestUrl = `${apiUrl}`;
     return {
         type: ACTION_TYPES.FETCH_ABOUTUS,
-        payload: axios.get<IAboutUs>(`${requestUrl}/public/last`),
+        // payload: axios.get<IAboutUs>(`${requestUrl}/public/last`),
+        payload: invokeWS({
+            url: `${requestUrl}/public/last`,
+            method: 'GET',
+        }, {})
     };
 };

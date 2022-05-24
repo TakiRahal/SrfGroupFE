@@ -40,6 +40,7 @@ import { updateEntity as updateComment } from '../../../shared/reducers/comment-
 import { deleteEntity as deleteComment } from '../../../shared/reducers/comment-offer.reducer';
 import { createEntity as reportComment } from '../../../shared/reducers/report-comment-offer.reducer';
 import { createEntity as createEntityReportOffer } from '../../../shared/reducers/report-offer.reducer';
+import { createEntity as addCart } from '../../../shared/reducers/cart.reducer';
 import ShareIcon from '@mui/icons-material/Share';
 
 import './DetailsOffer.scss';
@@ -64,6 +65,7 @@ import CustomShare from "../../../shared/components/custom-share/CustomShare";
 import i18n from "i18next";
 import CartSellDetailsOffer from "./ui-segments/CartSellDetailsOffer";
 import Tooltip from "@mui/material/Tooltip/Tooltip";
+import {ICart} from "../../../shared/model/cart.model";
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -285,8 +287,20 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
         return props.listConnectedUsers.findIndex(item => item.principal.email==email) >=0;
     }
 
+    const addCart = (cart: ICart) => {
+        const entity: ICart = {
+            quantity: cart.quantity,
+            sellOffer: {
+                id: favoriteUserOffer?.offer?.id
+            }
+        }
+        console.log('entity ', entity);
+        props.addCart(entity);
+    }
+
     return (
         <Box>
+
             {
                 loadingEntityFavoriteUserOffer ?
                     <Box sx={{ paddingTop: 10, textAlign: 'center' }}>
@@ -444,7 +458,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         </Box>
                                     ) : null}
 
-                                    <CartSellDetailsOffer />
+                                    <CartSellDetailsOffer offerEntity={favoriteUserOffer?.offer}
+                                                          currentUser={account}
+                                                          isAuthenticated={isAuthenticated}
+                                                          parentCallbackAddCart={addCart}
+                                                          loadingAddCart={props.loadingAddCart}/>
 
                                 </Grid>
 
@@ -471,7 +489,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 }
 
 
-const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer, conversation, webSocketState }: IRootState) => ({
+const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, reportCommentOffer, conversation, webSocketState, cart }: IRootState) => ({
     isAuthenticated: user.isAuthenticated,
     account: user.currentUser,
 
@@ -500,7 +518,9 @@ const mapStateToProps = ({ user, offer, comment, favoriteUser, reportOffer, repo
 
     addSuccessConversation: conversation.addSuccess,
 
-    listConnectedUsers: webSocketState.listConnectedUsers
+    listConnectedUsers: webSocketState.listConnectedUsers,
+
+    loadingAddCart: cart.loadingEntity
 });
 
 const mapDispatchToProps = {
@@ -515,6 +535,7 @@ const mapDispatchToProps = {
     createEntityReportOffer,
     reportComment,
     createConversation,
+    addCart
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

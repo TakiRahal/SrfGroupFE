@@ -1,6 +1,7 @@
 import {IFaq, defaultValue} from "../model/faq.model";
 import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
+import {invokeWS} from "../../core/config/api-service";
 
 
 export const ACTION_TYPES = {
@@ -91,6 +92,9 @@ export const getEntities= (page: number, size: number, sort: string) => {
     const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
     return {
         type: ACTION_TYPES.FETCH_FAQ_LIST,
-        payload: axios.get<IFaq>(`${requestUrl}/public`),
+        payload: invokeWS({
+            url: `${requestUrl}/public`,
+            method: 'GET',
+        }, {})
     };
 };

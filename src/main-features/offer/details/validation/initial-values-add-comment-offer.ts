@@ -20,3 +20,11 @@ export const validationSchemaAddMessageDetailsOffer = Yup.object({
     email: Yup.string().email().required('email_is_required'),
     content: Yup.string().required('Message is required'),
 });
+
+export const initialValuesQuantityOffer = {
+    quantity: 1
+}
+
+export const validationSchemaQuantityOffer = Yup.object({
+    quantity: Yup.number().required('Quantity is required'),
+});

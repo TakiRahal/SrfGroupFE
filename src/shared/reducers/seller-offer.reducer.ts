@@ -118,13 +118,6 @@ export const getEntitiesForSell = (page: number, size: number, sort: string) => 
     };
 };
 
-// export const getEntity  = (id: number) => {
-//     const requestUrl = `${apiUrl}/${id}`;
-//     return {
-//         type: ACTION_TYPES.FETCH_SELLOFFER,
-//         payload: axios.get<ISellOffer>(requestUrl),
-//     };
-// };
 
 export const updateEntity: (entity: ISellOffer) => void = (entity: ISellOffer) => async (dispatch: any) => {
     const result = await dispatch({
@@ -133,14 +126,6 @@ export const updateEntity: (entity: ISellOffer) => void = (entity: ISellOffer) =
     });
     return result;
 };
-
-// export const partialUpdate = (entity: any) => async (dispatch: any) => {
-//     const result = await dispatch({
-//         type: ACTION_TYPES.PARTIAL_UPDATE_SELLOFFER,
-//         payload: axios.patch(`${apiUrl}/${entity.id}`, entity),
-//     });
-//     return result;
-// };
 
 export const deleteEntity = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;

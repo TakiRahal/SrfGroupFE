@@ -6,9 +6,9 @@ services:
     # volumes:
     #   - ~/volumes/jhipster/SrfGroupWebBoBe/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=SrfGroupDB
+      - POSTGRES_DB=d56mlvem6o8lh7
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=azerty
       - POSTGRES_HOST_AUTH_METHOD=trust
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix

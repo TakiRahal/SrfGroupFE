@@ -101,7 +101,19 @@
     "test-with-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",
-    "sonar": "node sonar-project.js"
+    "sonar": "node sonar-project.js",
+    "docker:elasticsearch:up": "docker-compose -f docker/elasticsearch.yml up -d",
+    "docker:elasticsearch:down": "docker-compose -f docker/elasticsearch.yml down -v --remove-orphans",
+    "docker:db:up": "docker-compose -f docker/postgresql.yml up -d",
+    "docker:db:down": "docker-compose -f docker/postgresql.yml down -v --remove-orphans",
+    "docker:kibana:up": "docker-compose -f docker/kibana.yml up -d",
+    "docker:kibana:down": "docker-compose -f docker/kibana.yml down -v --remove-orphans",
+    "docker:sonar:up": "docker-compose -f docker/sonar.yml up -d",
+    "docker:sonar:down": "docker-compose -f docker/sonar.yml down -v --remove-orphans",
+    "docker:logstash:up": "docker-compose -f docker/logstash.yml up -d",
+    "docker:logstash:down": "docker-compose -f docker/logstash.yml down -v --remove-orphans",
+    "docker:react:up": "docker-compose -f react.yml up ",
+    "docker:react:down": "docker-compose -f react.yml down -v --remove-orphans"
   },
   "eslintConfig": {
     "extends": [

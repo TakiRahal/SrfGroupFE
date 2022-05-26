@@ -188,7 +188,8 @@
     "title_dialog_delete_comment": "Delete comment",
     "description_dialog_delete_comment": "Do you want delete this comment !",
     "title_dialog_report_comment": "Report comment",
-    "description_dialog_report_comment": "Do you want report this comment !"
+    "description_dialog_report_comment": "Do you want report this comment !",
+    "offer_contact_direct": "Should contact the seller directly"
   },
   "forgot_password_init": {
     "message_send_mail_success": "Check your emails for details on how to reset your password.",
@@ -234,5 +235,12 @@
     "title_delete_conversation": "Delete conversation",
     "description_delete_conversation": "Are you sur to delete this conversation ?",
     "conversation_delete_succefully": "Conversation delete succfully"
+  },
+  "cart": {
+    "message_add_cart_succefull": "Add succfully",
+    "title_dialog_delete_cart": "Delete this cart",
+    "description_dialog_delete_cart": "Are you sur to delete this cart",
+    "cart_delete_succefully": "Cart delete succfully",
+    "list_not_found": "Cart not found"
   }
 }

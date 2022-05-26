@@ -35,7 +35,7 @@ import Tooltip from "@mui/material/Tooltip/Tooltip";
 import {MaterialUISwitch} from "../../pages/material-ui-switch";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const sections = [
     {
@@ -83,12 +83,12 @@ export default function Header(props: any){
         props.parentCallbackLogout();
     };
 
-    const handlePartAdmin = () => {
-        handleMenuClose();
-        setTimeout(() => {
-            // window.open(ALL_APP_ROUTES.ADMIN.HOME, '_blank');
-        });
-    };
+    // const handlePartAdmin = () => {
+    //     handleMenuClose();
+    //     setTimeout(() => {
+    //         // window.open(ALL_APP_ROUTES.ADMIN.HOME, '_blank');
+    //     });
+    // };
 
     const handleMenuMobile = (event: any) => {
         props.parentCallbackMenuMobile(event);
@@ -170,6 +170,19 @@ export default function Header(props: any){
 
             <MenuItem
                 component={Link}
+                to={ALL_APP_ROUTES.CART.LIST}
+                onClick={() => {
+                    handleMenuClose();
+                }}
+            >
+                <ListItemIcon>
+                    <ShoppingCartIcon fontSize="small" />
+                </ListItemIcon>
+                {t('header.label_cart')}
+            </MenuItem>
+
+            <MenuItem
+                component={Link}
                 to={ALL_APP_ROUTES.CHAT.LIST}
                 onClick={() => {
                     handleMenuClose();
@@ -222,14 +235,14 @@ export default function Header(props: any){
                 Notifications
             </MenuItem>
 
-            {props.isAdmin ? (
-                <MenuItem onClick={handlePartAdmin}>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Part admin
-                </MenuItem>
-            ) : null}
+            {/*{props.isAdmin ? (*/}
+            {/*    <MenuItem onClick={handlePartAdmin}>*/}
+            {/*        <ListItemIcon>*/}
+            {/*            <Settings fontSize="small" />*/}
+            {/*        </ListItemIcon>*/}
+            {/*        Part admin*/}
+            {/*    </MenuItem>*/}
+            {/*) : null}*/}
 
             <MenuItem onClick={logout}>
                 <ListItemIcon>

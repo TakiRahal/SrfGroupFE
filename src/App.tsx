@@ -177,7 +177,7 @@ function App(props: IAppProps) {
             OneSignalProviders();
         }
 
-        // Init Google Analyticd
+        // Init Google Analytics
         // initGoogleAnalytics().then((result: boolean) => {
         //     // console.log('Success init Google Analytics');
         // }, (error: boolean) => {console.log('Error init Google Analytics');})

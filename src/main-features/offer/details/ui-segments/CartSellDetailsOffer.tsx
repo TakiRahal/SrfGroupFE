@@ -31,12 +31,14 @@ import {IUser} from "../../../../shared/model/user.model";
 import TextField from "@mui/material/TextField/TextField";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import {useTranslation} from "react-i18next";
+import {InputQuantity} from "../../../../shared/components/input-quantity/InputQuantity";
 
-const initialValues = initialValuesQuantityOffer;
+// const initialValues = initialValuesQuantityOffer;
 
-export default function CartSellDetailsOffer({offerEntity, currentUser, isAuthenticated, parentCallbackAddCart, loadingAddCart}:
-    {offerEntity: IOffer | undefined, currentUser: IUser, isAuthenticated: boolean, parentCallbackAddCart: Function, loadingAddCart: boolean}) {
+export default function CartSellDetailsOffer({parentCallbackAddCart, loadingAddCart}:
+    {parentCallbackAddCart: Function, loadingAddCart: boolean}) {
     const [value, setValue] = React.useState<string>('1');
+    const [valueQuantity, setValueQuantity] = React.useState<number>(1);
 
     const { t } = useTranslation();
 
@@ -44,28 +46,40 @@ export default function CartSellDetailsOffer({offerEntity, currentUser, isAuthen
         setValue(newValue);
     };
 
-    const formik = useFormik({
-        initialValues,
-        validationSchema: validationSchemaQuantityOffer,
-        onSubmit: values => {
-            if (isAuthenticated) {
-                parentCallbackAddCart(values);
-            }
-        },
-    });
+    // const formik = useFormik({
+    //     initialValues,
+    //     validationSchema: validationSchemaQuantityOffer,
+    //     onSubmit: values => {
+    //         if (isAuthenticated) {
+    //             parentCallbackAddCart(values);
+    //         }
+    //     },
+    // });
+    //
+    // const changeQuantity = (type: string) => {
+    //     if(type==='+' && formik.values.quantity < 100){
+    //         formik.setFieldValue('quantity', formik.values.quantity+1);
+    //     }
+    //     else if( formik.values.quantity > 1 ){
+    //         formik.setFieldValue('quantity', formik.values.quantity-1);
+    //     }
+    // }
 
-    const changeQuantity = (type: string) => {
-        if(type==='+' && formik.values.quantity < 100){
-            formik.setFieldValue('quantity', formik.values.quantity+1);
-        }
-        else if( formik.values.quantity > 1 ){
-            formik.setFieldValue('quantity', formik.values.quantity-1);
-        }
+    const changeQuantity = (data: any) => {
+        console.log('data ', data);
+        setValueQuantity(data);
+    }
+
+    const addNewCart = () => {
+        console.log('valueQuantity ', valueQuantity);
+        parentCallbackAddCart({
+            quantity: valueQuantity
+        });
     }
 
     return (
         <Box sx={{ width: '100%', typography: 'body1', my: 3 }}>
-            <form onSubmit={formik.handleSubmit}>
+            {/*<form onSubmit={formik.handleSubmit}>*/}
                 <TabContext value={value}>
                     <TabPanel value={value}>
                         <Grid container>
@@ -75,28 +89,28 @@ export default function CartSellDetailsOffer({offerEntity, currentUser, isAuthen
                                     En Stock
                                 </Typography>
                                 <Box sx={{my: 2}}>
-                                    <Typography variant="subtitle2" color="text.secondary" display="flex">
-                                        <ShortcutIcon fontSize="small" sx={{mr: 0.9}}/>
-                                        Quantité
-                                    </Typography>
-                                    <Paper
-                                        component="form"
-                                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 150 }} >
-                                        <IconButton sx={{ p: '10px' }} aria-label="menu"  onClick={() => changeQuantity('-')}>
-                                            <RemoveIcon />
-                                        </IconButton>
-                                        <InputBase
-                                            sx={{ ml: 1, flex: 1 }}
-                                            placeholder="1"
-                                            inputProps={{ 'aria-label': '1' }}
-                                            type="number"
-                                            value={formik.values.quantity}
-                                            onChange={formik.handleChange}
-                                        />
-                                        <IconButton sx={{ p: '10px' }} aria-label="directions" onClick={() => changeQuantity('+')}>
-                                            <AddIcon />
-                                        </IconButton>
-                                    </Paper>
+                                    <InputQuantity parentCallChangeQuantity={changeQuantity} />
+                                    {/*<Typography variant="subtitle2" color="text.secondary" display="flex">*/}
+                                    {/*    <ShortcutIcon fontSize="small" sx={{mr: 0.9}}/>*/}
+                                    {/*    Quantité*/}
+                                    {/*</Typography>*/}
+                                    {/*<Paper*/}
+                                    {/*    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 150 }} >*/}
+                                    {/*    <IconButton sx={{ p: '10px' }} aria-label="menu"  onClick={() => changeQuantity('-')}>*/}
+                                    {/*        <RemoveIcon />*/}
+                                    {/*    </IconButton>*/}
+                                    {/*    <InputBase*/}
+                                    {/*        sx={{ ml: 1, flex: 1 }}*/}
+                                    {/*        placeholder="1"*/}
+                                    {/*        inputProps={{ 'aria-label': '1' }}*/}
+                                    {/*        type="number"*/}
+                                    {/*        value={formik.values.quantity}*/}
+                                    {/*        onChange={formik.handleChange}*/}
+                                    {/*    />*/}
+                                    {/*    <IconButton sx={{ p: '10px' }} aria-label="directions" onClick={() => changeQuantity('+')}>*/}
+                                    {/*        <AddIcon />*/}
+                                    {/*    </IconButton>*/}
+                                    {/*</Paper>*/}
                                 </Box>
                             </Grid>
                             <Grid item  xs={12} md={6}>
@@ -140,7 +154,7 @@ export default function CartSellDetailsOffer({offerEntity, currentUser, isAuthen
                             <LoadingButton loading={loadingAddCart} fullWidth
                                            variant="contained"
                                            color="success"
-                                           type="submit">
+                                           onClick={addNewCart}>
                                 {t('common.label_add')}
                             </LoadingButton>
                         </Box>
@@ -153,7 +167,7 @@ export default function CartSellDetailsOffer({offerEntity, currentUser, isAuthen
                         </TabList>
                     </Box>
                 </TabContext>
-            </form>
+            {/*</form>*/}
         </Box>
     );
 }

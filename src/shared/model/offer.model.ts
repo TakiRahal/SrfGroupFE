@@ -20,6 +20,7 @@ export interface IOffer {
     address?: IAddress;
     category?: ICategory;
     typePeriodRent?: string | null;
+    typeContactClient?: string | null;
 }
 
 export const defaultValue: Readonly<IOffer> = {};

@@ -112,7 +112,7 @@ function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                             )}
                         />
                     ) : (
-                        <Box sx={{display: {xs: 'none', md: 'block'}}}>
+                        <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
                             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
                         </Box>
                     )}

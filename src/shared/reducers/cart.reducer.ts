@@ -2,12 +2,14 @@ import {defaultValue, ICart} from "../model/cart.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import axios from "axios";
 import {IOffer} from "../model/offer.model";
+import {invokeWS} from "../../core/config/api-service";
 
 
 export const ACTION_TYPES = {
     FETCH_CART_LIST: 'cart/FETCH_CART_LIST',
     CREATE_CART: 'cart/CREATE_CART',
     UPDATE_CART: 'cart/UPDATE_CART',
+    DELETE_CART: 'cart/DELETE_CART'
 }
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
     addSuccess: false,
     updateSuccess: false,
     deleteSuccess: false,
+    loadingDeleteEntity: false,
     entities: [] as ReadonlyArray<ICart>,
     loadingEntities: false,
     errorMessage: null,
@@ -71,6 +74,25 @@ export default (state: CartState = initialState, action: any): CartState => {
             };
 
 
+        case REQUEST(ACTION_TYPES.DELETE_CART):
+            return {
+                ...state,
+                loadingDeleteEntity: true,
+                deleteSuccess: false
+            };
+        case FAILURE(ACTION_TYPES.DELETE_CART):
+            return {
+                ...state,
+                loadingDeleteEntity: false,
+            };
+        case SUCCESS(ACTION_TYPES.DELETE_CART):
+            return {
+                ...state,
+                loadingDeleteEntity: false,
+                deleteSuccess: true
+            };
+
+
         default:
             return state;
     }
@@ -92,6 +114,24 @@ export const getEntities = (page: number, size: number, queryParams?: string) =>
     const requestUrl = `${apiUrl}/current-user?page=${page}&size=${size}${queryParams}`;
     return {
         type: ACTION_TYPES.FETCH_CART_LIST,
-        payload: axios.get<IOffer>(`${requestUrl}`),
+        // payload: axios.get<IOffer>(`${requestUrl}`),
+        payload: invokeWS({
+            url: `${requestUrl}`,
+            method: 'GET',
+        }, {}),
     };
+};
+
+
+export const deleteEntity: (id: number) => void = (id: number) => async (dispatch: any) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    const result = await dispatch({
+        type: ACTION_TYPES.DELETE_CART,
+        payload: invokeWS({
+            url: `${requestUrl}`,
+            method: 'DELETE',
+            loading: true
+        }, {})
+    });
+    return result;
 };

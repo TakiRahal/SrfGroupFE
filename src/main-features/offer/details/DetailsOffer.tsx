@@ -66,6 +66,8 @@ import i18n from "i18next";
 import CartSellDetailsOffer from "./ui-segments/CartSellDetailsOffer";
 import Tooltip from "@mui/material/Tooltip/Tooltip";
 import {ICart} from "../../../shared/model/cart.model";
+import {OfferTypeContact} from "../../../shared/enums/offer-type-contact.enum";
+import Alert from '@mui/material/Alert';
 
 export interface IDetailsOfferProps extends StateProps, DispatchProps{}
 
@@ -288,14 +290,17 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
     }
 
     const addCart = (cart: ICart) => {
-        const entity: ICart = {
-            quantity: cart.quantity,
-            sellOffer: {
-                id: favoriteUserOffer?.offer?.id
+        if( isAuthenticated){
+            const entity: ICart = {
+                quantity: cart.quantity,
+                sellOffer: {
+                    id: favoriteUserOffer?.offer?.id
+                }
             }
+            console.log('entity ', entity);
+            props.addCart(entity);
         }
-        console.log('entity ', entity);
-        props.addCart(entity);
+
     }
 
     return (
@@ -458,11 +463,11 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                         </Box>
                                     ) : null}
 
-                                    <CartSellDetailsOffer offerEntity={favoriteUserOffer?.offer}
-                                                          currentUser={account}
-                                                          isAuthenticated={isAuthenticated}
-                                                          parentCallbackAddCart={addCart}
-                                                          loadingAddCart={props.loadingAddCart}/>
+                                    {
+                                        favoriteUserOffer?.offer?.typeContactClient !== OfferTypeContact.direct ? <CartSellDetailsOffer parentCallbackAddCart={addCart}
+                                                                                                                   loadingAddCart={props.loadingAddCart}/> :
+                                            <Alert severity="warning">{t('details_offer.offer_contact_direct')}</Alert>
+                                    }
 
                                 </Grid>
 

@@ -11,11 +11,9 @@ import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import Radio from "@mui/material/Radio/Radio";
 import {useTranslation} from "react-i18next";
+import {OfferTypeContact} from "../../../../shared/enums/offer-type-contact.enum";
 
-const TypeContact = {
-    direct: 'ContactDirect',
-    perCommmande: 'PerCommande'
-}
+
 
 export default function OptionsSellAddOffer(props: any) {
     const {formik} = props;
@@ -56,8 +54,8 @@ export default function OptionsSellAddOffer(props: any) {
                             value={formik.values.typeContactClient}
                             onChange={formik.handleChange}
                         >
-                            <FormControlLabel value={TypeContact.direct} control={<Radio/>} label={t('add_offer.direct_type_contact_client').toString()}/>
-                            <FormControlLabel value={TypeContact.perCommmande} control={<Radio/>} label={t('add_offer.per_commande_type_contact_client').toString()}/>
+                            <FormControlLabel value={OfferTypeContact.direct} control={<Radio/>} label={t('add_offer.direct_type_contact_client').toString()}/>
+                            <FormControlLabel value={OfferTypeContact.perCommmande} control={<Radio/>} label={t('add_offer.per_commande_type_contact_client').toString()}/>
                         </RadioGroup>
                     </FormControl>
                 </Grid>

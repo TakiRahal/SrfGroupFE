@@ -1,5 +1,5 @@
 import React from 'react';
-import {getEntities, deleteEntity} from "../../shared/reducers/cart.reducer";
+import {getEntities, deleteEntity, updateEntityByQuantity} from "../../shared/reducers/cart.reducer";
 import {connect} from "react-redux";
 import {IRootState} from "../../shared/reducers";
 import Box from "@mui/material/Box";
@@ -34,7 +34,8 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 
-function ItemCart({cart, t, parentCallbackDeleteCart}: {cart: ICart, t: any, parentCallbackDeleteCart: Function}) {
+function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuantity}:
+                      {cart: ICart, t: any, parentCallbackDeleteCart: Function, parentCallbackUpdateQuantity: Function}) {
 
     const [openDeleteCartModal, setOpenDeleteCartModal] = React.useState(false);
     const [cartDeleteId, setCartDeleteId] = React.useState<number | undefined>(-1);
@@ -47,8 +48,11 @@ function ItemCart({cart, t, parentCallbackDeleteCart}: {cart: ICart, t: any, par
     };
 
     const changeQuantity = (data: any) => {
-        console.log('data ', data);
-        // setValueQuantity(data);
+        const cartUpdate: ICart = {
+            ...cart,
+            quantity: data
+        }
+        parentCallbackUpdateQuantity(cartUpdate);
     }
 
     const handleClickCancelDeleteCartModal = () => {
@@ -162,7 +166,7 @@ function ItemCart({cart, t, parentCallbackDeleteCart}: {cart: ICart, t: any, par
 
                     <Box sx={{my: 2}}>
                         <Box sx={{float: 'left'}}>
-                            <InputQuantity parentCallChangeQuantity={changeQuantity} />
+                            <InputQuantity parentCallChangeQuantity={changeQuantity} defaultValue={cart?.quantity} />
                         </Box>
                         <Button color="error" variant="outlined"
                                 startIcon={<DeleteIcon />}
@@ -201,6 +205,11 @@ export const Cart = (props: ICartProps) => {
         }
     }, [props.deleteSuccess])
 
+    const updateByQuantity = (value: ICart) => {
+        console.log('updateByQuantity ', value);
+        props.updateEntityByQuantity(value);
+    }
+
     return (
         <Container maxWidth="xl">
             <Grid
@@ -227,7 +236,7 @@ export const Cart = (props: ICartProps) => {
                     {
                         props.entities.map((item: ICart, index: number) => (
                             <Box key={`index-${index}`} sx={{my: 2}}>
-                                <ItemCart cart={item} t={t} parentCallbackDeleteCart={deleteCart}/>
+                                <ItemCart cart={item} t={t} parentCallbackDeleteCart={deleteCart} parentCallbackUpdateQuantity={updateByQuantity}/>
                             </Box>
                         ))
                     }
@@ -256,7 +265,8 @@ const mapStateToProps = ({ conversation, user, message, cart }: IRootState) => (
 
 const mapDispatchToProps = {
     getEntities,
-    deleteEntity
+    deleteEntity,
+    updateEntityByQuantity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

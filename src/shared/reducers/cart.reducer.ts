@@ -2,7 +2,7 @@ import {defaultValue, ICart} from "../model/cart.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import axios from "axios";
 import {IOffer} from "../model/offer.model";
-import {invokeWS} from "../../core/config/api-service";
+import {invokeWS, MethodHttp} from "../../core/config/api-service";
 
 
 export const ACTION_TYPES = {
@@ -123,6 +123,10 @@ export const getEntities = (page: number, size: number, queryParams?: string) =>
 };
 
 
+/**
+ *
+ * @param id
+ */
 export const deleteEntity: (id: number) => void = (id: number) => async (dispatch: any) => {
     const requestUrl = `${apiUrl}/${id}`;
     const result = await dispatch({
@@ -132,6 +136,24 @@ export const deleteEntity: (id: number) => void = (id: number) => async (dispatc
             method: 'DELETE',
             loading: true
         }, {})
+    });
+    return result;
+};
+
+
+/**
+ *
+ * @param entity
+ */
+export const updateEntityByQuantity: (entity: ICart) => void = (entity: ICart) => async (dispatch: any) => {
+    const result = await dispatch({
+        type: ACTION_TYPES.CREATE_CART,
+        // payload: axios.post(`${apiUrl}/update-quantity`, entity),
+        payload: invokeWS({
+            url: `${apiUrl}/update-quantity`,
+            method: MethodHttp.put,
+            loading: true
+        }, entity)
     });
     return result;
 };

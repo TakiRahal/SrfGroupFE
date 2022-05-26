@@ -1,5 +1,12 @@
 import axios from 'axios';
 
+export enum MethodHttp {
+    post = 'POST',
+    get = 'GET',
+    put = 'PUT',
+    delete = 'DELETE'
+}
+
 export interface InvokeOptions {
     header?: any;
     pathParams?: any;
@@ -43,7 +50,6 @@ const callWS = (
     invokeOptions?: InvokeOptions
 ) => {
     return new Promise((resolve, reject) => {
-        console.log('begin WS');
         if( endpoint?.loading ){
             document.body.classList.add('loading-indicator');
         }
@@ -56,11 +62,9 @@ const callWS = (
 
         axios.request(invokeParams).then(
             (response: any) => {
-                console.log('end success WS');
                 document.body.classList.remove('loading-indicator');
                 resolve(response);
             }, (error: any) => {
-                console.log('end error WS');
                 document.body.classList.remove('loading-indicator');
                 reject(error);
             });

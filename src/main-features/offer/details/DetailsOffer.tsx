@@ -464,9 +464,14 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                                     ) : null}
 
                                     {
-                                        favoriteUserOffer?.offer?.typeContactClient !== OfferTypeContact.direct ? <CartSellDetailsOffer parentCallbackAddCart={addCart}
-                                                                                                                   loadingAddCart={props.loadingAddCart}/> :
-                                            <Alert severity="warning">{t('details_offer.offer_contact_direct')}</Alert>
+                                        favoriteUserOffer?.offer?.typeContactClient !== OfferTypeContact.direct && favoriteUserOffer.offer?.typeOffer=== TypeOfferEnum.Sell?
+                                            <CartSellDetailsOffer parentCallbackAddCart={addCart}
+                                                                  loadingAddCart={props.loadingAddCart}/> : null
+                                    }
+
+                                    {
+                                        favoriteUserOffer?.offer?.typeContactClient === OfferTypeContact.direct && favoriteUserOffer.offer?.typeOffer=== TypeOfferEnum.Sell?
+                                        <Alert severity="warning">{t('details_offer.offer_contact_direct')}</Alert> : null
                                     }
 
                                 </Grid>

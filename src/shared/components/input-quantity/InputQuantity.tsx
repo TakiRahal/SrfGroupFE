@@ -15,7 +15,7 @@ import {
 
 const initialValues = initialValuesQuantityOffer;
 
-export function InputQuantity({parentCallChangeQuantity}: {parentCallChangeQuantity: Function}) {
+export function InputQuantity({parentCallChangeQuantity, defaultValue}: {parentCallChangeQuantity: Function, defaultValue?:number | null | undefined}) {
 
     const formik = useFormik({
         initialValues,
@@ -24,6 +24,13 @@ export function InputQuantity({parentCallChangeQuantity}: {parentCallChangeQuant
             // parentCallbackAddCart(values)
         },
     });
+
+    React.useEffect(() => {
+        console.log('defaultValue ', defaultValue);
+        if(defaultValue){
+            formik.setFieldValue('quantity', defaultValue);
+        }
+    }, [defaultValue])
 
     const changeQuantity = (event: any, type: string) => {
         event.stopPropagation();

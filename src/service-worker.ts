@@ -77,14 +77,50 @@ registerRoute(
 const RUNTIME_CACHE = 'api-cache';
 self.addEventListener('fetch', async (event: any) => {
 
-    // console.log('event.request ', event.request);
     if ( event.request.url.startsWith('https://srf-group-be.herokuapp.com/api/') &&
-         event.request.method === "GET" ) {
-        const networkResponse = await fetch(event.request);
-        const runtimeCache = await caches.open(RUNTIME_CACHE);
+             event.request.method === "GET" ) {
 
-        runtimeCache.put(event.request.url, networkResponse);
+        event.respondWith(caches.open(RUNTIME_CACHE).then((cache) => {
+            try{
+
+                // Go to the cache first
+                return cache.match(event.request.url).then((cachedResponse) => {
+                    // Return a cached response if we have one
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+
+                    // Otherwise, hit the network
+                    return fetch(event.request).then((fetchedResponse) => {
+                        // Add the network response to the cache for later visits
+                        cache.put(event.request, fetchedResponse.clone());
+
+                        // Return the network response
+                        return fetchedResponse;
+                    });
+                });
+            }catch (e) { }
+
+        }));
+
     }
+
+    // if ( event.request.url.startsWith('https://srf-group-be.herokuapp.com/api/') &&
+    //     event.request.method === "GET" ) {
+    //     const networkResponse = await fetch(event.request);
+    //
+    //     // response needs to be cloned if going to be used more than once
+    //     const clonedResponse = networkResponse.clone();
+    //
+    //     const runtimeCache = await caches.open(RUNTIME_CACHE);
+    //
+    //     runtimeCache.put(event.request.url, networkResponse);
+    //
+    //     console.log('clonedResponse ', clonedResponse);
+    //
+    //     // respond with the cloned network response
+    //     return Promise.resolve(clonedResponse);
+    // }
 });
 
 

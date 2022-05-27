@@ -28,3 +28,9 @@ Deploy the React app:
 - Start sonar server with docker compose script: docker-compose -f sonar.yml up
 - Run script sonar
 - View dashboard Sonar
+
+
+## Docker 
+Run react wth nginx, in the root project run :
+    - Start: docker-compose -f react.yml up
+    - Down : docker-compose -f react.yml down -v --remove-orphans

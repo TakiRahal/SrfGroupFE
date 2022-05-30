@@ -7,6 +7,7 @@ import {AllAppConfig} from "./all-config";
 import {FAILURE, SUCCESS} from "../../shared/reducers/action-type.util";
 import {ACTION_TYPES as WS_ACTIONS, getWebsocketListConnectedUsers} from '../../shared/reducers/web-socket.reducer';
 import {ACTION_TYPES as AUTH_ACTIONS} from '../../shared/reducers/user-reducer';
+import {IUser} from "../../shared/model/user.model";
 
 let stompClient: any = null;
 
@@ -35,12 +36,12 @@ export const sendActivity = (page: string) => {
 };
 
 
-export const sendConnectedNewUser = () => {
+export const sendConnectedNewUser = (currentUser: IUser) => {
     connection?.then(() => {
         stompClient?.send(
             '/topic/user.connectedUser', // destination
             JSON.stringify({
-                userEmail: 'test@taki.com'
+                userEmail: currentUser.email
             }), // body
             {} // header
         );
@@ -78,7 +79,7 @@ export const getStompClient = (): Client => {
     return stompClient;
 }
 
-const connect = () => {
+const connect = (currentUser: IUser) => {
     if (connectedPromise !== null || alreadyConnectedOnce) {
         // the connection is already being established
         return;
@@ -110,7 +111,7 @@ const connect = () => {
         // sendActivity(window.location.pathname);
         alreadyConnectedOnce = true;
 
-        sendConnectedNewUser();
+        sendConnectedNewUser(currentUser);
     });
 };
 
@@ -136,7 +137,7 @@ const unsubscribe = () => {
 export default (store: any) => (next: any) => (action: any) => {
     if (action.type === SUCCESS(WS_ACTIONS.CONNECTED_WEBSOCKET)) {
 
-        connect();
+        connect(store.getState().user.currentUser);
         subscribeConnectedUsers();
         subscribeDisConnectedUsers();
 

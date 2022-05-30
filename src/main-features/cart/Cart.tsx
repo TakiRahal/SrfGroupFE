@@ -1,5 +1,5 @@
 import React from 'react';
-import {getEntities, deleteEntity, updateEntityByQuantity} from "../../shared/reducers/cart.reducer";
+import {getEntities, deleteEntity, updateEntityByQuantity, getDetailsEntity} from "../../shared/reducers/cart.reducer";
 import {connect} from "react-redux";
 import {IRootState} from "../../shared/reducers";
 import Box from "@mui/material/Box";
@@ -8,10 +8,8 @@ import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
 import {Link, useHistory} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
-import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Alert from "@mui/material/Alert/Alert";
 import Container from "@mui/material/Container/Container";
-import {GetCardList} from "../faq/Faq";
 import {useTranslation} from "react-i18next";
 import Card from "@mui/material/Card/Card";
 import CardMedia from "@mui/material/CardMedia/CardMedia";
@@ -33,6 +31,42 @@ import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
+import {List} from "@mui/material";
+import ListSubheader from "@mui/material/ListSubheader";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+
+
+function DetailsCart({nbeCarts, detailsEntity}: {nbeCarts: number, detailsEntity: any}) {
+    return(
+        <List
+            sx={{ width: '100%', bgcolor: 'background.paper' }}
+            subheader={<ListSubheader>Details Panier</ListSubheader>}
+        >
+            <ListItem>
+                <ListItemText id="switch-list-label-wifi" primary={`${nbeCarts} articles`} />
+                <Typography variant="subtitle2" color="text.secondary">198,000 TND</Typography>
+            </ListItem>
+
+            <ListItem>
+                <ListItemText id="switch-list-label-wifi" primary="Livraison" />
+                <Typography variant="subtitle2" color="text.secondary">{detailsEntity.taxDelivery} TND</Typography>
+            </ListItem>
+            <Divider />
+
+            <ListItem>
+                <ListItemText id="switch-list-label-wifi" primary="Total TTC" />
+                <Typography variant="subtitle2" color="text.secondary">{detailsEntity.totalCarts} TND</Typography>
+            </ListItem>
+
+            <ListItem>
+                <Button variant="contained" color="success" fullWidth>Commander</Button>
+            </ListItem>
+
+        </List>
+    )
+}
 
 function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuantity}:
                       {cart: ICart, t: any, parentCallbackDeleteCart: Function, parentCallbackUpdateQuantity: Function}) {
@@ -164,7 +198,7 @@ function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuanti
 
                     </Grid>
 
-                    <Box sx={{my: 2}}>
+                    <Box sx={{my: 1}}>
                         <Box sx={{float: 'left'}}>
                             <InputQuantity parentCallChangeQuantity={changeQuantity} defaultValue={cart?.quantity} />
                         </Box>
@@ -174,6 +208,7 @@ function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuanti
                                 onClick={(event) => handleClickOpenDeleteCartModal(event)}>
                             Delete
                         </Button>
+                        <Box style={{clear: 'both'}}></Box>
                     </Box>
                 </CardContent>
             </Card>
@@ -209,6 +244,16 @@ export const Cart = (props: ICartProps) => {
         console.log('updateByQuantity ', value);
         props.updateEntityByQuantity(value);
     }
+
+    React.useEffect(() => {
+        if( props.entities.length ){
+            props.getDetailsEntity();
+        }
+    }, [props.entities])
+
+    React.useEffect(() => {
+        console.log('props.entityDetails ', props.entityDetails);
+    }, [props.entityDetails])
 
     return (
         <Container maxWidth="xl">
@@ -248,7 +293,9 @@ export const Cart = (props: ICartProps) => {
 
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    Details carts
+                    <Box sx={{my: 2}}>
+                        <DetailsCart nbeCarts={props.entities.length} detailsEntity={props.entityDetails}/>
+                    </Box>
                 </Grid>
             </Grid>
         </Container>
@@ -260,13 +307,16 @@ const mapStateToProps = ({ conversation, user, message, cart }: IRootState) => (
     entities: cart.entities,
     totalItems: cart.totalItems,
     loadingDeleteEntity: cart.loadingDeleteEntity,
-    deleteSuccess: cart.deleteSuccess
+    deleteSuccess: cart.deleteSuccess,
+    updateSuccess: cart.updateSuccess,
+    entityDetails: cart.entityDetails
 })
 
 const mapDispatchToProps = {
     getEntities,
     deleteEntity,
-    updateEntityByQuantity
+    updateEntityByQuantity,
+    getDetailsEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

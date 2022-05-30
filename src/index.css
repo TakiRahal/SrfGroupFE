@@ -10,7 +10,7 @@
 }
 
 .loading-indicator:after {
-    content: 'Loading';
+    content: '...';
     position: fixed;
     width: 100%;
     top: 50%;

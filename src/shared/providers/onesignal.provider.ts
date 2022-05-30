@@ -4,11 +4,11 @@ import {ACTION_TYPES} from "../reducers/user-reducer";
 import reduxStore from "../../core/config/store";
 
 
-export function OneSignalProviders() {
+export async function OneSignalProviders() {
     try {
 
         // Init OneSignal Platform
-        OneSignal.init({
+        await OneSignal.init({
             appId: AllAppConfig.APP_ID_ONESIGNAL
         }).then((result: any) => {
             console.log('OneSignal init succefully');

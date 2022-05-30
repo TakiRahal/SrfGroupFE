@@ -18,13 +18,7 @@ class CustomShare extends React.Component<any, any> {
     }
 
     handleShare(){
-        try {
-            navigator.share(this.state.shareData).then((result) => {
-
-            });
-        } catch(err) {
-            alert('Error shared: ' + err);
-        }
+        navigator.share(this.state.shareData).then((result) => {});
     }
 
     render() {

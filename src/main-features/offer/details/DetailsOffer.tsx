@@ -134,10 +134,10 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     React.useEffect(() => {
         if (favoriteUserOffer && favoriteUserOffer.offer && !loadingEntityFavoriteUserOffer) {
+            setIsFavoriteUser(favoriteUserOffer.myFavoriteUser || false);
             setTimeout(() => {
                 setStartAnimation(true);
-                setIsFavoriteUser(favoriteUserOffer.myFavoriteUser || false);
-            }, 100)
+            }, 300)
         }
     }, [favoriteUserOffer]);
 
@@ -312,7 +312,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                         <CircularProgress color="inherit"  />
                     </Box> : null
             }
-            <Zoom in={startAnimation}>
+            {/*<Zoom in={startAnimation}>*/}
                 <Container maxWidth="xl" className="details-offer-client">
                     <Grid
                         container
@@ -343,105 +343,107 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                             >
                                 <Grid item xs={12} sm={6}>
                                     <SwiperDetailsOffer {...favoriteUserOffer?.offer} />
-                                    <Card sx={{mb: 3}}>
-                                        <CardContent>
-                                            {favoriteUserOffer?.offer?.amount ? (
-                                                <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}  className="red-color">
-                                                    $ {favoriteUserOffer?.offer?.amount} DT
-                                                </Typography>
-                                            ) : null}
-
-                                            <Typography variant="subtitle2" color="text.secondary" display="flex">
-                                                <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
-                                                {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
-                                                    t('common.for_sell')
-                                                ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
-                                                    t('common.for_rent')
-                                                ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
-                                                    t('common.for_find')
+                                    <Zoom in={startAnimation}>
+                                        <Card sx={{mb: 3}}>
+                                            <CardContent>
+                                                {favoriteUserOffer?.offer?.amount ? (
+                                                    <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 600 }}  className="red-color">
+                                                        $ {favoriteUserOffer?.offer?.amount} DT
+                                                    </Typography>
                                                 ) : null}
-                                            </Typography>
 
-                                            {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
-                                                <Box>
-                                                    <Typography color="text.secondary" gutterBottom>
-                                                        {t('common.label_start_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
-                                                    </Typography>
-                                                    <Typography color="text.secondary" gutterBottom display="flex">
-                                                        {t('common.label_end_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
-                                                    </Typography>
-                                                </Box>
-                                            ) : null}
+                                                <Typography variant="subtitle2" color="text.secondary" display="flex">
+                                                    <InfoOutlinedIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                    {favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Sell ? (
+                                                        t('common.for_sell')
+                                                    ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Rent ? (
+                                                        t('common.for_rent')
+                                                    ) : favoriteUserOffer?.offer?.typeOffer === TypeOfferEnum.Find ? (
+                                                        t('common.for_find')
+                                                    ) : null}
+                                                </Typography>
 
-                                            {
-                                                favoriteUserOffer?.offer?.typePeriodRent ? <Typography color="text.secondary" gutterBottom display="flex">
-                                                    {t('common.label_period')}:&nbsp;
-                                                    <strong>{t('common.type_periode_rent_'+favoriteUserOffer?.offer?.typePeriodRent)}&nbsp;</strong>
-                                                </Typography> : null
-                                            }
+                                                {favoriteUserOffer?.offer?.startDate && favoriteUserOffer?.offer?.endDate ? (
+                                                    <Box>
+                                                        <Typography color="text.secondary" gutterBottom>
+                                                            {t('common.label_start_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.startDate} /></strong>
+                                                        </Typography>
+                                                        <Typography color="text.secondary" gutterBottom display="flex">
+                                                            {t('common.label_end_date')}:&nbsp;<strong><ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.endDate} /></strong>
+                                                        </Typography>
+                                                    </Box>
+                                                ) : null}
 
-
-                                            <Typography variant="h5" component="div" sx={{ mt: 2 }}>
-                                                {favoriteUserOffer?.offer?.title}
-                                            </Typography>
-
-                                            <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                                <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
-                                            </Typography>
-                                            {
-                                                favoriteUserOffer?.offer?.address ?
-                                                    <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                                        <AddLocation fontSize="small" sx={{mr: 0.9}}/>
-                                                        {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
+                                                {
+                                                    favoriteUserOffer?.offer?.typePeriodRent ? <Typography color="text.secondary" gutterBottom display="flex">
+                                                        {t('common.label_period')}:&nbsp;
+                                                        <strong>{t('common.type_periode_rent_'+favoriteUserOffer?.offer?.typePeriodRent)}&nbsp;</strong>
                                                     </Typography> : null
-                                            }
+                                                }
 
-                                            {
-                                                favoriteUserOffer?.offer?.category ?
-                                                    <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
-                                                        <EmojiObjectsIcon fontSize="small" sx={{mr: 0.9}}/>
-                                                        {t('details_offer.label_category')} {getNameCategory()}
-                                                    </Typography> : null
-                                            }
 
-                                            <Accordion sx={{mt: '40px !important'}} elevation={0} expanded={expandedDetailsOffer} onChange={handleChangeDetailsOffer}>
-                                                <AccordionSummary
-                                                    expandIcon={<ExpandMoreIcon sx={{backgroundColor: 'yellow', borderRadius: '50%'}}/>}
-                                                    aria-controls="panel1a-content"
-                                                    id="panel1a-header"
-                                                    className="bg-brown">
-                                                    {t('details_offer.label_details_offer')}
-                                                </AccordionSummary>
-                                                <AccordionDetails>
-                                                    <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
-                                                </AccordionDetails>
-                                            </Accordion>
+                                                <Typography variant="h5" component="div" sx={{ mt: 2 }}>
+                                                    {favoriteUserOffer?.offer?.title}
+                                                </Typography>
 
-                                        </CardContent>
-                                        <CardActions disableSpacing>
+                                                <Typography sx={{ fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                    <AccessTimeIcon fontSize="small" sx={{mr: 0.9}}/> <ConvertReactTimeAgo convertDate={favoriteUserOffer?.offer?.dateCreated} />
+                                                </Typography>
+                                                {
+                                                    favoriteUserOffer?.offer?.address ?
+                                                        <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                            <AddLocation fontSize="small" sx={{mr: 0.9}}/>
+                                                            {favoriteUserOffer?.offer?.address?.city}, {favoriteUserOffer?.offer?.address?.country}
+                                                        </Typography> : null
+                                                }
 
-                                            <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
-                                                <Tooltip title={
-                                                    <React.Fragment>
-                                                        {t('common.label_share')}
-                                                    </React.Fragment>
-                                                }>
-                                                    <ShareIcon/>
-                                                </Tooltip>
-                                            </CustomShare>
+                                                {
+                                                    favoriteUserOffer?.offer?.category ?
+                                                        <Typography sx={{ mb: 1.8, fontSize: '0.8rem', mt: 1 }} color="text.secondary" display="flex">
+                                                            <EmojiObjectsIcon fontSize="small" sx={{mr: 0.9}}/>
+                                                            {t('details_offer.label_category')} {getNameCategory()}
+                                                        </Typography> : null
+                                                }
 
-                                            <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
-                                                <Tooltip title={
-                                                    <React.Fragment>
-                                                        {t('common.label_report')}
-                                                    </React.Fragment>
-                                                }>
-                                                    <FlagIcon/>
-                                                </Tooltip>
-                                            </IconButton>
+                                                <Accordion sx={{mt: '40px !important'}} elevation={0} expanded={expandedDetailsOffer} onChange={handleChangeDetailsOffer}>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon sx={{backgroundColor: 'yellow', borderRadius: '50%'}}/>}
+                                                        aria-controls="panel1a-content"
+                                                        id="panel1a-header"
+                                                        className="bg-brown">
+                                                        {t('details_offer.label_details_offer')}
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <div dangerouslySetInnerHTML={{ __html: favoriteUserOffer?.offer?.description || '' }}></div>
+                                                    </AccordionDetails>
+                                                </Accordion>
 
-                                        </CardActions>
-                                    </Card>
+                                            </CardContent>
+                                            <CardActions disableSpacing>
+
+                                                <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
+                                                    <Tooltip title={
+                                                        <React.Fragment>
+                                                            {t('common.label_share')}
+                                                        </React.Fragment>
+                                                    }>
+                                                        <ShareIcon/>
+                                                    </Tooltip>
+                                                </CustomShare>
+
+                                                <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
+                                                    <Tooltip title={
+                                                        <React.Fragment>
+                                                            {t('common.label_report')}
+                                                        </React.Fragment>
+                                                    }>
+                                                        <FlagIcon/>
+                                                    </Tooltip>
+                                                </IconButton>
+
+                                            </CardActions>
+                                        </Card>
+                                    </Zoom>
 
                                     {isAuthenticated ? (
                                         <Box sx={{mb: 3}}>
@@ -492,7 +494,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                     }
 
                 </Container>
-            </Zoom>
+            {/*</Zoom>*/}
             {renderDialogReportOffer()}
         </Box>
     );

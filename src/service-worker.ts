@@ -81,26 +81,22 @@ self.addEventListener('fetch', async (event: any) => {
              event.request.method === "GET" ) {
 
         event.respondWith(caches.open(RUNTIME_CACHE).then((cache) => {
-            try{
+            // Otherwise, hit the network
+            return fetch(event.request).then((fetchedResponse) => {
+                // Add the network response to the cache for later visits
+                cache.put(event.request, fetchedResponse.clone());
+                // Return the network response
+                return fetchedResponse;
+            }, error => {
 
-                // Go to the cache first
+                // Go to the cache
                 return cache.match(event.request.url).then((cachedResponse) => {
                     // Return a cached response if we have one
                     if (cachedResponse) {
                         return cachedResponse;
                     }
-
-                    // Otherwise, hit the network
-                    return fetch(event.request).then((fetchedResponse) => {
-                        // Add the network response to the cache for later visits
-                        cache.put(event.request, fetchedResponse.clone());
-
-                        // Return the network response
-                        return fetchedResponse;
-                    });
                 });
-            }catch (e) { }
-
+            });
         }));
 
     }

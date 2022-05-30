@@ -72,7 +72,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
 
     React.useEffect(() => {
         const values: any = queryString.parse(search);
-        Object.keys(values).map((key) => {
+        Object.keys(values).forEach((key) => {
             if(key==='category.id'){
                 formik.setFieldValue('category', entitiesCategories.find(add => add?.id?.toString() === values[key]?.toString())  || null);
             }

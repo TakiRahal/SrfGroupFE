@@ -198,7 +198,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
 
     const saveEntity = (values: any) => {
         const tempOfferImages: any[] = [];
-        originalListFiles.map((item: any) => {
+        originalListFiles.forEach((item: any) => {
             tempOfferImages.push({
                 path: item?.name,
                 dateCreated: convertDateTimeToServer(new Date()),

@@ -9,7 +9,8 @@ export const ACTION_TYPES = {
     FETCH_CART_LIST: 'cart/FETCH_CART_LIST',
     CREATE_CART: 'cart/CREATE_CART',
     UPDATE_CART: 'cart/UPDATE_CART',
-    DELETE_CART: 'cart/DELETE_CART'
+    DELETE_CART: 'cart/DELETE_CART',
+    FETCH_DETAILS_CART: 'cart/FETCH_DETAILS_CART'
 }
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
     errorMessage: null,
     totalItems: 0,
     totalPages: 0,
+    entityDetails: {}
 }
 
 export type CartState = Readonly<typeof initialState>;
@@ -51,6 +53,40 @@ export default (state: CartState = initialState, action: any): CartState => {
                 loadingEntity: false,
                 entity: action.payload.data,
                 addSuccess: true
+            };
+
+
+        case REQUEST(ACTION_TYPES.UPDATE_CART):
+            return {
+                ...state,
+                updateSuccess: false
+            };
+        case FAILURE(ACTION_TYPES.UPDATE_CART):
+            return {
+                ...state,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.UPDATE_CART):
+            return {
+                ...state,
+                updateSuccess: true,
+                entityDetails: action.payload.data
+            };
+
+
+        case REQUEST(ACTION_TYPES.FETCH_DETAILS_CART):
+            return {
+                ...state,
+            };
+        case FAILURE(ACTION_TYPES.FETCH_DETAILS_CART):
+            return {
+                ...state,
+                errorMessage: action.payload,
+            };
+        case SUCCESS(ACTION_TYPES.FETCH_DETAILS_CART):
+            return {
+                ...state,
+                entityDetails: action.payload.data
             };
 
 
@@ -123,6 +159,18 @@ export const getEntities = (page: number, size: number, queryParams?: string) =>
 };
 
 
+export const getDetailsEntity = () => {
+    return {
+        type: ACTION_TYPES.FETCH_DETAILS_CART,
+        // payload: axios.get<IOffer>(`${requestUrl}`),
+        payload: invokeWS({
+            url: `${apiUrl}/details-cart`,
+            method: 'GET',
+        }, {}),
+    };
+};
+
+
 /**
  *
  * @param id
@@ -147,7 +195,7 @@ export const deleteEntity: (id: number) => void = (id: number) => async (dispatc
  */
 export const updateEntityByQuantity: (entity: ICart) => void = (entity: ICart) => async (dispatch: any) => {
     const result = await dispatch({
-        type: ACTION_TYPES.CREATE_CART,
+        type: ACTION_TYPES.UPDATE_CART,
         // payload: axios.post(`${apiUrl}/update-quantity`, entity),
         payload: invokeWS({
             url: `${apiUrl}/update-quantity`,

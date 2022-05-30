@@ -106,7 +106,7 @@
     "docker:elasticsearch:down": "docker-compose -f docker/elasticsearch.yml down -v --remove-orphans",
     "docker:db:up": "docker-compose -f docker/postgresql.yml up -d",
     "docker:db:down": "docker-compose -f docker/postgresql.yml down -v --remove-orphans",
-    "docker:kibana:up": "docker-compose -f docker/kibana.yml up -d",
+    "docker:kibana:up": "docker-compose -f docker/kibana.yml up",
     "docker:kibana:down": "docker-compose -f docker/kibana.yml down -v --remove-orphans",
     "docker:sonar:up": "docker-compose -f docker/sonar.yml up -d",
     "docker:sonar:down": "docker-compose -f docker/sonar.yml down -v --remove-orphans",

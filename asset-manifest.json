@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.6cb272f8.css",
-    "main.js": "/SrfGroupFE/static/js/main.8a140bb8.js",
+    "main.js": "/SrfGroupFE/static/js/main.da82a3fb.js",
     "static/css/791.13f5c274.chunk.css": "/SrfGroupFE/static/css/791.13f5c274.chunk.css",
     "static/js/791.d23e8635.chunk.js": "/SrfGroupFE/static/js/791.d23e8635.chunk.js",
     "static/js/444.de3a130b.chunk.js": "/SrfGroupFE/static/js/444.de3a130b.chunk.js",
@@ -46,13 +46,13 @@
     "static/js/542.dfea8873.chunk.js": "/SrfGroupFE/static/js/542.dfea8873.chunk.js",
     "static/js/714.a21bec9a.chunk.js": "/SrfGroupFE/static/js/714.a21bec9a.chunk.js",
     "static/js/914.b0dcc7da.chunk.js": "/SrfGroupFE/static/js/914.b0dcc7da.chunk.js",
-    "static/js/13.90cbc95f.chunk.js": "/SrfGroupFE/static/js/13.90cbc95f.chunk.js",
+    "static/js/13.70e6b31d.chunk.js": "/SrfGroupFE/static/js/13.70e6b31d.chunk.js",
     "static/js/275.9158234c.chunk.js": "/SrfGroupFE/static/js/275.9158234c.chunk.js",
     "service-worker.js": "/SrfGroupFE/service-worker.js",
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
     "static/css/main.6cb272f8.css",
-    "static/js/main.8a140bb8.js"
+    "static/js/main.da82a3fb.js"
   ]
 }

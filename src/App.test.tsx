@@ -34,12 +34,12 @@ test('renders App', () => {
             listConnectedUsers: []
         }
     })
-    const component = render(
-        <Provider store={store}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </Provider>);
+    // const component = render(
+    //     <Provider store={store}>
+    //         <BrowserRouter>
+    //             {/*<App />*/}
+    //         </BrowserRouter>
+    //     </Provider>);
 
     const textProject = screen.getAllByText(/SRF/i);
     expect(textProject.length).toBeGreaterThan(0); // Array of  HTMLElement

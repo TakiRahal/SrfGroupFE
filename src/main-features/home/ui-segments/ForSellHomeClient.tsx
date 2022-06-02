@@ -10,12 +10,11 @@ import Box from '@mui/material/Box/Box';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {useHistory} from "react-router";
 import { connect } from 'react-redux';
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesForSell} from "../../../shared/reducers/seller-offer.reducer";
 import {useTranslation} from "react-i18next";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -48,13 +47,13 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -83,13 +82,13 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -112,13 +111,13 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"  alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 }
@@ -143,12 +142,12 @@ export interface IForSellClientProp extends StateProps, DispatchProps {}
 
 export const ForSellHomeClient = (props: IForSellClientProp) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
         }, 300);
     };
 

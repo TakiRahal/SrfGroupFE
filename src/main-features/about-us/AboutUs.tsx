@@ -79,6 +79,7 @@ export const AboutUs = (props: IAboutUsClientProps) => {
                     </Grid> : null
                 }
 
+                loadingEntity = {loadingEntity.toString()}
 
                 <Grid item xs={12}>
                     {aboutUsEntity && aboutUsEntity.contentEn ?

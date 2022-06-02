@@ -1,4 +1,3 @@
-import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import {defaultValue, ITopHomeSlidesImages} from "../model/top-home-slides-images.model";
 import {invokeWS} from "../../core/config/api-service";

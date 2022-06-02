@@ -3,16 +3,11 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {StorageService} from '../../../shared/services/storage.service';
-import Button from "@mui/material/Button/Button";
-import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
 import {connect} from "react-redux";
 import isEmpty from 'lodash/isEmpty';
 import {IRootState} from "../../../shared/reducers";
 import {IPostHomeFeature} from "../../../shared/model/post-home-feature.model";
 import i18n from "i18next";
-
-// const defaultImage = getBaseImageUrl('/assets/images/home/default_medium_home.jpg');
-
 
 export interface IPostHomeFeatureProp extends StateProps, DispatchProps {}
 
@@ -51,13 +46,15 @@ export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
                     <Grid item xs={12} sm={6}>
                         {/*<LazyImage className="img-fluid" src={defaultImage} alt={defaultImage}/>*/}
                         <img
-                            style={{maxWidth: '100%'}}
+                            className="full-img-responsive"
                             src={entityPostHomeFeature.image}
                             alt='bg'
                             onError={(e: any) => {
                                 e.target.onerror = null;
                                 e.target.src = entityPostHomeFeature.image;
                             }}
+                            width="1000"
+                            height="500"
                         />
                     </Grid>
 

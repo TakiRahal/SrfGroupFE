@@ -3,12 +3,12 @@ import Box from '@mui/material/Box/Box';
 import Grid from '@mui/material/Grid/Grid';
 import Card from '@mui/material/Card/Card';
 import CardContent from '@mui/material/CardContent/CardContent';
-import Container from '@mui/material/Container';
 import ListItem from '@mui/material/ListItem/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar/ListItemAvatar';
 import Avatar from '@mui/material/Avatar/Avatar';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
+import {List} from "@mui/material";
 
 interface IService {
     img: string;
@@ -42,22 +42,24 @@ export default function SecondHorizentalListHomeClient() {
 
     return (
         <Box sx={{p: 8, my: 10}}  className="bg-brown">
-            <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {listServices.map((service: IService, index: number) => (
-                    <Grid item xs={12} md={3} key={`service-${index}`}>
-                        <Card sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <CardContent sx={{ flexGrow: 1, minHeight: 130 }}>
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt={service.primaryTitle} src={service.img} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={service.primaryTitle} secondary={service.secondTitle} />
-                                </ListItem>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+            <List>
+                <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    {listServices.map((service: IService, index: number) => (
+                        <Grid item xs={12} md={3} key={`service-${index}`}>
+                            <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <CardContent sx={{ flexGrow: 1, minHeight: 130 }}>
+                                    <ListItem alignItems="flex-start">
+                                        <ListItemAvatar>
+                                            <Avatar alt={service.primaryTitle} src={service.img} />
+                                        </ListItemAvatar>
+                                        <ListItemText primary={service.primaryTitle} secondary={service.secondTitle} />
+                                    </ListItem>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </List>
         </Box>
     );
 }

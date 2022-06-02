@@ -5,7 +5,7 @@ import {IRootState} from "../../../shared/reducers";
 import {connect} from "react-redux";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {useHistory} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import { Parallax, Pagination, Navigation } from "swiper";
 import './TopHomeSlides.scss';
@@ -24,7 +24,7 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
     const [listTopSlidesImage] = React.useState<ITopHomeSlidesImages[]>(StorageService.local.get(AllAppConfig.HOME_TOP_SLIDES_IMAGE))
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         i18n.on('languageChanged', (lang: any) => {
@@ -33,35 +33,10 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
     }, []);
 
     const searchCalback = (values: any) => {
-        history.push({
+        navigate({
             pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
         })
-        /*
-        if(!values.title && !values.typeOffer && !values.category){
-            console.log('isEmpty(values) ', isEmpty(values) );
-            history.push({
-                pathname: ALL_APP_ROUTES.SEARCH,
-            });
-        }
-        else{
-            const searchEntity: any = {};
-            if(values.title){
-                searchEntity.title = values.title;
-            }
-            if(values.typeOffer){
-                searchEntity.typeOffer = values.typeOffer;
-            }
-            if(values.category){
-                searchEntity.category = values.category;
-            }
-
-            history.push({
-                pathname: 'search',
-                search: "?" + new URLSearchParams(searchEntity).toString()
-            })
-        }
-        */
     }
 
     React.useEffect(() => {

@@ -274,6 +274,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
 
                                 <Button
                                     variant="contained"
+                                    aria-label="open drawer"
                                     sx={{
                                         width: 100,
                                         height: {xs: 'auto', md: 100},

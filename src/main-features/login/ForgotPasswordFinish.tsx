@@ -7,7 +7,7 @@ import Slide from "@mui/material/Slide/Slide";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {useTranslation} from "react-i18next";
 import React from "react";
@@ -21,8 +21,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControl from "@mui/material/FormControl/FormControl";
 import InputLabel from "@mui/material/InputLabel/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
-import {useHistory, useParams} from "react-router";
-import Alert from "@mui/material/Alert/Alert";
 import {useQuery} from "../../shared/utils/utils-functions";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -55,7 +53,7 @@ export const ForgotPasswordFinish = (props: IForgotPasswordProps) => {
     }, [query])
 
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         setStartAnimation(true);
@@ -69,7 +67,7 @@ export const ForgotPasswordFinish = (props: IForgotPasswordProps) => {
                 props.handlePasswordResetFinish(keyFinish, values.password.toString());
             }
             else{
-                history.push(ALL_APP_ROUTES.LOGIN);
+                navigate(ALL_APP_ROUTES.LOGIN);
             }
         },
     });
@@ -77,7 +75,7 @@ export const ForgotPasswordFinish = (props: IForgotPasswordProps) => {
     React.useEffect(() => {
         if(props.resetPasswordSuccess){
             formik.resetForm();
-            history.push(ALL_APP_ROUTES.LOGIN);
+            navigate(ALL_APP_ROUTES.LOGIN);
         }
     }, [props.resetPasswordSuccess]);
 

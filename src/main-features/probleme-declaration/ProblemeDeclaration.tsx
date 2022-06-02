@@ -10,7 +10,6 @@ import Button from "@mui/material/Button/Button";
 import {createEntity} from "../../shared/reducers/report-probleme.reducer";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
 
 const initialValuesAddMessage = {
     content: '',

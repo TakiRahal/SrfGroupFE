@@ -26,8 +26,8 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {getStompClient} from "../../../core/config/websocket-middleware";
-import {useHistory} from "react-router";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import {useNavigate} from "react-router-dom";
 
 const initialValues = initialValuesMessage;
 
@@ -38,7 +38,7 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
     const [listCurrentMessages, setListCurrentMessages] = React.useState<IMessage[]>([]);
     const [newMessage, setNewMessage] = React.useState<any>(null);
     const messagesEndRef = React.useRef<any>();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues,
@@ -152,12 +152,12 @@ export function MessageConversation({account, conversation, callbackAddMessage, 
     const redirectProfile = () => {
         if(conversation?.senderUser?.id ===account.id){
             setTimeout(() => {
-                history.push(ALL_APP_ROUTES.PROFILE + '/' + conversation?.receiverUser?.id);
+                navigate(ALL_APP_ROUTES.PROFILE + '/' + conversation?.receiverUser?.id);
             }, 300);
         }
         else{
             setTimeout(() => {
-                history.push(ALL_APP_ROUTES.PROFILE + '/' + conversation?.senderUser?.id);
+                navigate(ALL_APP_ROUTES.PROFILE + '/' + conversation?.senderUser?.id);
             }, 300);
         }
     }

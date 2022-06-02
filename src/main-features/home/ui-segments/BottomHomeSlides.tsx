@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 // import Swiper core and required modules
 import SwiperCore, {EffectCoverflow, Pagination, Navigation, Autoplay} from 'swiper';
 import {connect} from 'react-redux';
-import {RouteComponentProps, useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {StorageService} from "../../../shared/services/storage.service";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
@@ -19,13 +19,13 @@ import './BottomHomeSlides.scss';
 // install Swiper modules
 SwiperCore.use([EffectCoverflow, Pagination, Navigation, Autoplay]);
 
-export interface IBottomHomeSlidesProp extends StateProps, DispatchProps, RouteComponentProps {
+export interface IBottomHomeSlidesProp extends StateProps, DispatchProps {
 }
 
 export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
     const [slideListBottom, setSlideListBottom] = React.useState(StorageService.local.get(AllAppConfig.SlideListBottom));
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {listExistOfferImages, loadingExistOfferImages, getEntitiesExistOfferImages} = props;
 
@@ -47,7 +47,7 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
         }, 300);
     };
 
@@ -77,7 +77,10 @@ export const BottomHomeSlides = (props: IBottomHomeSlidesProp) => {
                 {slideListBottom.map((offer: any, index: number) => (
                     <div key={`${index}-${offer[0]}`}>
                         <SwiperSlide key={`slide-${index}-${offer[0]}`} onClick={() => rediretTo(offer[0])}>
-                            <img src={getImageForOffer(offer[0], offer[1])}/>
+                            <img src={getImageForOffer(offer[0], offer[1])} alt="Image not found"
+                                 className="full-img-responsive"
+                                 width="500"
+                                 height="500"/>
                         </SwiperSlide>
                     </div>
                 ))}

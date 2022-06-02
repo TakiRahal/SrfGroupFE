@@ -1,4 +1,3 @@
-import Container from "@mui/material/Container/Container";
 import Stack from "@mui/material/Stack/Stack";
 import Avatar from "@mui/material/Avatar/Avatar";
 import styled from "@mui/material/styles/styled";
@@ -13,11 +12,6 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
-
-interface ICategory {
-    img: string;
-    title: string;
-}
 
 export default function FirstHorizentalListHomeClient() {
 

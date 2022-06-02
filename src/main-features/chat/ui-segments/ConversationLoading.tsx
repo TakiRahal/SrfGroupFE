@@ -1,5 +1,4 @@
 import React from 'react';
-import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';

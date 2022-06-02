@@ -9,10 +9,6 @@ import ListItemText from "@mui/material/ListItemText/ListItemText";
 import Divider from "@mui/material/Divider/Divider";
 import Card from "@mui/material/Card/Card";
 import CardContent from "@mui/material/CardContent/CardContent";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import Typography from "@mui/material/Typography/Typography";
-import CardActions from "@mui/material/CardActions/CardActions";
-import Button from "@mui/material/Button/Button";
 import ProblemeDeclaration from "../../probleme-declaration/ProblemeDeclaration";
 
 

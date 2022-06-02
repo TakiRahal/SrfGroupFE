@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography/Typography";
 import Grid from "@mui/material/Grid/Grid";
 import Slider from "@mui/material/Slider/Slider";
 import * as React from "react";
-import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 
 function valuetext(value: number) {
     return `${value}°C`;

@@ -35,7 +35,7 @@ axios.create({
 });
 
 export const invokeWS = (endpoint: IEndPoint, requestData: any, options?: InvokeOptions) => {
-    console.log('endpoint ', endpoint);
+
     const invokeOptions = formatOptions(options || {});
 
     // for mock

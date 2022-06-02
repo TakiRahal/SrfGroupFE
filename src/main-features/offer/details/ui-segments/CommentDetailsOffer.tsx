@@ -358,7 +358,7 @@ function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallba
 function UpdateComment({parentCallbackUpdateComment, parentCallbackCancelUpdateComment, defaultValueUpdate, loadingUpdateEntity}:
                            { parentCallbackUpdateComment: any, parentCallbackCancelUpdateComment: any, defaultValueUpdate: any, loadingUpdateEntity: boolean }) {
 
-    const [valueBeforCancelUpdate, setValueBeforCancelUpdate] = React.useState(defaultValueUpdate);
+    const [valueBeforCancelUpdate] = React.useState(defaultValueUpdate);
 
     const { t} = useTranslation();
     const formik = useFormik({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './core/config/dayjs';
 import CssBaseline from "@mui/material/CssBaseline/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -15,8 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './i18n/i18n';
 import {useTranslation} from "react-i18next";
 import {
-    Link, useHistory
-} from "react-router-dom";
+    Link, useLocation,
+    useNavigate
+} from 'react-router-dom';
 import {IRootState} from "./shared/reducers";
 import {connect} from "react-redux";
 import { hot } from 'react-hot-loader';
@@ -72,8 +73,8 @@ import GoogleOneTapLogin from 'react-google-one-tap-login';
 import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import {OneSignalProviders} from "./shared/providers/onesignal.provider";
-import {initGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
+// import {OneSignalProviders} from "./shared/providers/onesignal.provider";
+import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
 import createTheme from "@mui/material/styles/createTheme";
 import {MaterialUISwitch} from "./shared/pages/material-ui-switch";
@@ -87,28 +88,37 @@ import {
 import CookieConsent from "react-cookie-consent";
 
 
-function ScrollToTop() {
-    const history = useHistory();
-    React.useEffect(() => {
-        let prevLocation: any;
-        const unlisten = history.listen((location, action) => {
 
-            if(location.pathname !== prevLocation?.pathname){
+function ScrollToTopRouters() {
+    const { pathname } = useLocation();
 
-                // Add track page Google Analytics
-                trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
-                    // console.log('Success track pages');
-                }, (error: boolean) => {console.log('Error track pages');})
-            }
-            prevLocation = location;
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
-            if (action !== 'POP') {
-                window.scrollTo(0, 0);
-            }
-        });
-        return () => unlisten();
-    }, []);
     return null;
+    // const history = useHistory();
+    // const navigate = useNavigate();
+    // React.useEffect(() => {
+    //     let prevLocation: any;
+    //     const unlisten = navigate.listen((location, action) => {
+    //
+    //         if(location.pathname !== prevLocation?.pathname){
+    //
+    //             // Add track page Google Analytics
+    //             trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
+    //                 // console.log('Success track pages');
+    //             }, (error: boolean) => {console.log('Error track pages');})
+    //         }
+    //         prevLocation = location;
+    //
+    //         if (action !== 'POP') {
+    //             window.scrollTo(0, 0);
+    //         }
+    //     });
+    //     return () => unlisten();
+    // }, []);
+    // return null;
 }
 
 function ScrollTop(props: any) {
@@ -150,7 +160,7 @@ function App(props: IAppProps) {
     const [darkMode, setDarkMode] = React.useState<'light' | 'dark'>('light');
 
     const { t, i18n } = useTranslation();
-    const history = useHistory()
+    const navigate = useNavigate();
 
 
     // const isDark = false;
@@ -174,13 +184,18 @@ function App(props: IAppProps) {
 
         if(process.env.NODE_ENV === 'production'){
             // OneSignal Platform
-            OneSignalProviders();
+            // OneSignalProviders();
         }
 
         // Init Google Analytics
-        // initGoogleAnalytics().then((result: boolean) => {
-        //     // console.log('Success init Google Analytics');
-        // }, (error: boolean) => {console.log('Error init Google Analytics');})
+        // loadScriptGoogleAnalytics().then((resultLoad: boolean) => {
+        //     if(resultLoad){
+        //         initGoogleAnalytics().then((result: boolean) => {
+        //             // console.log('Success init Google Analytics');
+        //         }, (errorInit: boolean) => {console.log('Error init Google Analytics ', errorInit);})
+        //     }
+        // }, (errorLoad: boolean) => {console.log('Error to load script Google Analytics ', errorLoad);})
+
 
         // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));
@@ -208,7 +223,7 @@ function App(props: IAppProps) {
         props.resetConversations();
         props.resetMessages();
         props.logout();
-        history.push(ALL_APP_ROUTES.HOME);
+        navigate(ALL_APP_ROUTES.HOME);
     }
 
     const handleDrawerToggleRight = (isOpen: boolean) => {
@@ -403,7 +418,7 @@ function App(props: IAppProps) {
     const handleLAnguagesMenuOpen = (event: any) => {
         setLanguagesAnchorEl(event.currentTarget);
     };
-    const menuIdLanguages = 'languages-menu';
+    const menuIdLanguages = 'languages-menu-mobile';
     const renderMenuLanguages = (
         <Menu
             anchorEl={languagesAnchorEl}
@@ -448,10 +463,10 @@ function App(props: IAppProps) {
 
     return (
         <>
-            <ScrollToTop />
+            <ScrollToTopRouters />
             <ThemeProvider theme={ThemeApp}>
                 <CssBaseline/>
-                <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
+                <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" autoClose={5000}/>
                 <React.Fragment>
                     <Drawer anchor="left" open={openAnchorDrawer} onClose={() => handleDrawerToggle(false)}>
                         {listMenuMobile()}
@@ -480,6 +495,7 @@ function App(props: IAppProps) {
                         position: 'relative',
                     }} >
                     <AllRoutes {...props} />
+
                     <ScrollTop {...props}>
                         <Fab sx={{ backgroundColor: '#3f3f40', color: '#fff' }} size="small" aria-label="scroll back to top">
                             <KeyboardArrowUpIcon />

@@ -1,5 +1,6 @@
-import {Redirect, Route} from "react-router";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
+import {Navigate} from "react-router-dom";
+import React from "react";
 
 /**
  * Only if LogedIn
@@ -11,21 +12,21 @@ import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
  */
 export function PrivateRoute ({ children, isAuthenticated, path, ...rest }: { children: any, isAuthenticated: boolean, path: string }){
 
-    return (
-        <Route
-            path={path}
-            render={({ location }) => {
-                return isAuthenticated === true ? (
-                    children
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: ALL_APP_ROUTES.HOME,
-                            state: { from: location },
-                        }}
-                    />
-                );
-            }}
-        />
+    return (!isAuthenticated ? <Navigate to={ALL_APP_ROUTES.HOME} replace /> : children
+        // <Route
+        //     path={path}
+        //     render={({ location }) => {
+        //         return isAuthenticated === true ? (
+        //             children
+        //         ) : (
+        //             <Redirect
+        //                 to={{
+        //                     pathname: ALL_APP_ROUTES.HOME,
+        //                     state: { from: location },
+        //                 }}
+        //             />
+        //         );
+        //     }}
+        // />
     );
 }

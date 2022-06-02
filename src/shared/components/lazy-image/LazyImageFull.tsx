@@ -336,9 +336,9 @@ export class LazyImageFull extends React.Component<
           // TODO: reconsider threshold
           threshold={0.01}
           {...observerProps}
-          onChange={inView => this.update(Action.ViewChanged({ inView }))}
+          onChange={(inView: any) => this.update(Action.ViewChanged({ inView }))}
         >
-          {({ ref }) =>
+          {({ ref }: {ref: any}) =>
             children({
               // We know that the state tags and the enum match up, apart
               // from Buffering not being exposed

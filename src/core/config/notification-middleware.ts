@@ -34,7 +34,6 @@ export default () => (next: any) => (action: any) => {
                     }
                 });
                 if (alert) {
-                    const alertParam = alertParams;
                     toast.success(i18n.t(alert));
                 }
             }

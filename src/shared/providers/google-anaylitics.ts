@@ -4,14 +4,38 @@
  */
 import {AllAppConfig} from "../../core/config/all-config";
 
-export function initGoogleAnalytics(): Promise<boolean> {
+export function loadScriptGoogleAnalytics(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
         try {
-            gtag('js', new Date());
-            gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID);
-            resolve(true);
+            const existingScript = document.getElementById('googleAnalytics');
+            if (!existingScript) {
+                const script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T8KR5P5CC4';
+                script.id = 'googleAnalytics';
+                document.body.appendChild(script);
+                script.onload = () => {
+                    resolve(true);
+
+                    window.dataLayer = window.dataLayer || [];
+                    // window.dataLayer.push(arguments);
+
+                };
+            }
+            if (existingScript) resolve(true);;
         }catch (e) {
             reject(false);
+        }
+    })
+}
+
+export function initGoogleAnalytics(): Promise<any> {
+    return new Promise<boolean>((resolve, reject) => {
+        try {
+            window.gtag('js', new Date());
+            window.gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID);
+            resolve(true);
+        }catch (e) {
+            reject(e);
         }
     })
 }

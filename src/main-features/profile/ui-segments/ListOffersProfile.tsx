@@ -15,17 +15,17 @@ import {AllAppConfig} from "../../../core/config/all-config";
 import {useTranslation} from "react-i18next";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {LazyImage} from "../../../shared/components/lazy-image";
 
 export function ListOffersProfile({listOffers, loading}: {listOffers: any, loading: boolean}) {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
         }, 300);
     };
 

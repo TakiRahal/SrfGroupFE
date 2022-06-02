@@ -12,9 +12,8 @@ import Box from "@mui/material/Box/Box";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
-import {useHistory} from "react-router";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
 import {TypeDisplaySearchOffers} from "../../../shared/enums/type-offer.enum";
@@ -31,16 +30,12 @@ import {reset as resetSellerOffer} from "../../../shared/reducers/seller-offer.r
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import Alert from "@mui/material/Alert/Alert";
 import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
-import isEmpty from "lodash/isEmpty";
 import ItemsOffer from '../../../shared/components/item-offer/ItemsOffer';
 import {useTranslation} from "react-i18next";
 import InfiniteScroll from 'react-infinite-scroller';
 import queryString from "query-string";
 import {IOffer} from "../../../shared/model/offer.model";
 
-const isOnLine = (list:any[], email: string): boolean => {
-    return list.findIndex(item => item.principal.email==email) >=0;
-}
 
 export interface IMyOfferProps extends StateProps, DispatchProps {}
 
@@ -50,7 +45,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     const [activePage, setActivePage] = React.useState(-1);
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const { search } = useLocation();
@@ -92,7 +87,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     }, [deleteSuccessOffer])
 
     const handleClickOpenUpdateOffert = (offer: IOffer) => {
-        history.push(`${ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}/${offer.id}/edit`);
+        navigate(`${ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}/${offer.id}/edit`);
     };
 
 
@@ -140,7 +135,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     };
 
     const searchCalback = (values: any) => {
-        history.push({
+        navigate({
             pathname: ALL_APP_ROUTES.OFFER.MY_OFFERS,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
         })

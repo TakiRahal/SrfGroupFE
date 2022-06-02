@@ -5,7 +5,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import fr from 'javascript-time-ago/locale/fr.json';
-import ru from 'javascript-time-ago/locale/ru.json';
 
 // jhipster-needle-i18n-language-dayjs-imports - JHipster will import languages from dayjs here
 import 'dayjs/locale/en';

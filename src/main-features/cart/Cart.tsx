@@ -5,7 +5,7 @@ import {IRootState} from "../../shared/reducers";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
 import Alert from "@mui/material/Alert/Alert";
@@ -14,7 +14,7 @@ import {useTranslation} from "react-i18next";
 import Card from "@mui/material/Card/Card";
 import CardMedia from "@mui/material/CardMedia/CardMedia";
 import {LazyImage} from "../../shared/components/lazy-image";
-import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../shared/utils/utils-functions";
+import {getBaseImageUrl, getImageForOffer} from "../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../core/config/all-config";
 import CardContent from "@mui/material/CardContent/CardContent";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -73,11 +73,11 @@ function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuanti
 
     const [openDeleteCartModal, setOpenDeleteCartModal] = React.useState(false);
     const [cartDeleteId, setCartDeleteId] = React.useState<number | undefined>(-1);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const rediretTo = () => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + cart?.sellOffer?.id);
+            navigate(ALL_APP_ROUTES.DETAILS_OFFER + '/' + cart?.sellOffer?.id);
         }, 300);
     };
 
@@ -146,16 +146,16 @@ function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuanti
                             placeholder={({ ref }) => <div ref={ref} />}
                             loading={() => (
                                 <div>
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>
                                 </div>
                             )}
                             error={() => (
-                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                             )}
                         />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </Box>
                     )}
                 </CardMedia>

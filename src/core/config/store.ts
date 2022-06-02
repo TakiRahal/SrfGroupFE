@@ -4,10 +4,11 @@ import thunkMiddleware from 'redux-thunk';
 import DevTools from './devtools';
 import errorMiddleware from './error-middleware';
 import loggerMiddleware from './logger-middleware';
-import {loadingBarMiddleware} from 'react-redux-loading-bar';
+// import {loadingBarMiddleware} from 'react-redux-loading-bar';
 import reducer, {IRootState} from "../../shared/reducers";
 import notificationMiddleware from './notification-middleware';
 import websocketMiddleware from './websocket-middleware';
+import {StoreEnhancer} from "redux/types/types/store";
 
 
 const defaultMiddlewares = [
@@ -15,11 +16,11 @@ const defaultMiddlewares = [
     errorMiddleware,
     notificationMiddleware,
     promiseMiddleware,
-    loadingBarMiddleware(),
+    // loadingBarMiddleware(),
     loggerMiddleware,
     websocketMiddleware
 ];
-const composedMiddlewares = (middlewares: any) =>
+const composedMiddlewares = (middlewares: any): any  =>
     process.env.NODE_ENV === 'development'
         ? compose(applyMiddleware(...defaultMiddlewares, ...middlewares), DevTools.instrument())
         : compose(applyMiddleware(...defaultMiddlewares, ...middlewares));

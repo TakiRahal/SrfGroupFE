@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {IOffer} from "./offer.model";
 import {IUser} from "./user.model";
 

@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/SendAndArchive';
 import Toolbar from '@mui/material/Toolbar/Toolbar';
 import Grid from '@mui/material/Grid/Grid';
@@ -173,8 +172,16 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                             Apps mobile
                         </Typography>
                         <Typography component="p" align="center">
-                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')} style={{marginRight: '2px'}} width="100" alt='Logo Android'/>
-                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')} style={{marginLeft: '2px'}} width="100"  alt='Logo iOS'/>
+                            <img src={getBaseImageUrl('/assets/images/footer/android.svg')}
+                                 style={{marginRight: '2px'}}
+                                 width="100"
+                                 height="30"
+                                 alt='Logo Android'/>
+                            <img src={getBaseImageUrl('/assets/images/footer/ios.svg')}
+                                 style={{marginLeft: '2px'}}
+                                 width="100"
+                                 height="30"
+                                 alt='Logo iOS'/>
                         </Typography>
                     </Grid>
                 </Grid>

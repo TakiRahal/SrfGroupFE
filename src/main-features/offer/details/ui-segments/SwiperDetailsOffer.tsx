@@ -17,13 +17,6 @@ import "swiper/css/pagination";
 import ImageLightbox from "../../../../shared/pages/image-lightbox";
 import Box from "@mui/material/Box/Box";
 
-interface IImageLightBox {
-    images: string[];
-    thumbs: string[];
-    titles: string[];
-    captions: string[];
-}
-
 // install Swiper modules
 SwiperCore.use([Autoplay, EffectFade, Lazy, Zoom, Navigation, Thumbs]);
 

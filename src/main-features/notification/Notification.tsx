@@ -5,7 +5,7 @@ import Container from "@mui/material/Container/Container";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import LoadingNotification from "./ui-segments/NotificationLoading";
 import ListItem from "@mui/material/ListItem/ListItem";
@@ -38,7 +38,7 @@ export const Notification = (props: INotificationProps) => {
 
     let tmpListNotSee : INotification[] = [];
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const resetAll = () => {
         props.resetNotification();
@@ -86,7 +86,7 @@ export const Notification = (props: INotificationProps) => {
     const redirect = (notification: INotification) => {
         if(notification.module===ModuleNotification.COMMENT_OFFER_NOTIFICATION){
             setTimeout(() => {
-                history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + notification?.offer?.id);
+                navigate(ALL_APP_ROUTES.DETAILS_OFFER + '/' + notification?.offer?.id);
             }, 300);
         }
     }

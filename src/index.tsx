@@ -1,6 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import * as ReactDOM from "react-dom/client";
+import {
+    BrowserRouter as Router,
+} from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import initStore from './core/config/store';
@@ -15,23 +17,21 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import "swiper/css/navigation";
 import './index.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import App from "./App";
+
 
 // Store initialize
 const store = initStore;
 const actions = bindActionCreators({ clearAuthentication}, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
 
-ReactDOM.render(
-  <React.StrictMode>
-        <Provider store={store}>
-            <BrowserRouter>
-                <Route path="" exact component={ App }/>
-            </BrowserRouter>
-        </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const container = document.getElementById('root') as HTMLElement;
+const root = ReactDOM.createRoot(container) ;
+root.render( <Provider store={store}>
+    <Router>
+        <App />
+    </Router>
+</Provider>);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

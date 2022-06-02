@@ -7,13 +7,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Fab from '@mui/material/Fab/Fab';
-import FacebookIcon from '@mui/icons-material/Facebook';
+// import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useFormik } from 'formik';
 import {connect} from 'react-redux';
-import { useHistory } from 'react-router';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput/OutlinedInput';
@@ -32,7 +31,7 @@ import {login, loginFacebook, loginGooglePlus} from "../../shared/reducers/user-
 import {IRootState} from "../../shared/reducers";
 import Container from "@mui/material/Container/Container";
 import {AllAppConfig} from "../../core/config/all-config";
-import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 import './SignIn.scss';
 import {IFacebook, IGooglePlus} from "../../shared/model/user.model";
@@ -48,8 +47,6 @@ export const SignIn = (props: ISignInProps) => {
     const [showPassword, setShowPassword] = React.useState({
         showPassword: false,
     });
-    const history = useHistory();
-
     const { t } = useTranslation();
 
     const { loading, loginSuccess } = props;
@@ -68,11 +65,11 @@ export const SignIn = (props: ISignInProps) => {
         setStartAnimation(true);
     }, []);
 
-    React.useEffect(() => {
-        if (loginSuccess) {
-            history.push(ALL_APP_ROUTES.HOME);
-        }
-    }, [loginSuccess]);
+    // React.useEffect(() => {
+    //     if (loginSuccess) {
+    //         navigate(ALL_APP_ROUTES.HOME);
+    //     }
+    // }, [loginSuccess]);
 
 
     const formik = useFormik({
@@ -83,17 +80,17 @@ export const SignIn = (props: ISignInProps) => {
         },
     });
 
-    const responseFacebook = (response: any) => {
-        if(!response.status){
-            const requestData: IFacebook = {
-                ...response,
-                sourceProvider: SourceProvider.FACEBOOK,
-                idOneSignal: props.oneSignalId,
-                langKey: props.currentLocale
-            };
-            props.loginFacebook(requestData);
-        }
-    };
+    // const responseFacebook = (response: any) => {
+    //     if(!response.status){
+    //         const requestData: IFacebook = {
+    //             ...response,
+    //             sourceProvider: SourceProvider.FACEBOOK,
+    //             idOneSignal: props.oneSignalId,
+    //             langKey: props.currentLocale
+    //         };
+    //         props.loginFacebook(requestData);
+    //     }
+    // };
 
     const responseGoogle = (response: any) => {
         if (!response.error) {

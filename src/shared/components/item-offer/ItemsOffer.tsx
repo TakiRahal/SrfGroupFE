@@ -26,23 +26,23 @@ import {IOffer} from "../../model/offer.model";
 import {ConvertReactTimeAgo} from "../../pages/react-time-ago";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {useTranslation} from "react-i18next";
-import {useHistory} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './ItemsOffer.scss';
 import {LazyImage} from "../lazy-image";
 import {StyledBadge} from "../../pages/styled-badge";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ItemOffer({listOffers, typeDisplay, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
                                     {listOffers: IOffer[], typeDisplay: TypeDisplaySearchOffers, isOnLine: any, forMe?: boolean,
                                         callbackEditOffer?: any, callbackDeleteOffer?: any}) {
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
         }, 300);
     };
 
@@ -108,12 +108,12 @@ function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                                 </div>
                             )}
                             error={() => (
-                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                             )}
                         />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </Box>
                     )}
                 </CardMedia>
@@ -259,11 +259,11 @@ function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         ) : (
-                            <img src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         )}
                     </CardMedia>
                     <CardContent className="card-content">

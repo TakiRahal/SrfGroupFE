@@ -1,7 +1,6 @@
 import {defaultValue, ICart} from "../model/cart.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
 import axios from "axios";
-import {IOffer} from "../model/offer.model";
 import {invokeWS, MethodHttp} from "../../core/config/api-service";
 
 

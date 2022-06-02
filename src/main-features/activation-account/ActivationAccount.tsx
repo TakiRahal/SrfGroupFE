@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {useHistory} from "react-router-dom";
 import {useQuery} from "../../shared/utils/utils-functions";
 import Container from "@mui/material/Container/Container";
 import {activateAction} from "../../shared/reducers/user-reducer";
@@ -11,7 +10,6 @@ export interface IActivateAccountProps extends StateProps, DispatchProps {}
 
 export const ActivationAccount = (props: IActivateAccountProps) => {
     const query = useQuery();
-    // const history = useHistory();
 
     const {activationAccountSuccess} = props;
 

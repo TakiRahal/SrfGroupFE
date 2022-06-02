@@ -1,11 +1,11 @@
 import React from 'react';
 import {initialValuesAddOffer, setDefaultsValues, validationSchemaAddOffer} from "./validation/init-value-add-offer";
-import {useHistory, useParams} from "react-router";
+import { useParams} from "react-router";
 import {connect} from "react-redux";
 import Grid from "@mui/material/Grid/Grid";
 import Container from "@mui/material/Container/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
 import Paper from "@mui/material/Paper/Paper";
@@ -31,7 +31,7 @@ import OptionsFindAddOffer from "./ui-segments/OptionsFindAddOffer";
 import {useFormik} from "formik";
 import {
     convertDateTimeToServer,
-    dataUrlToFile, getBase64,
+    dataUrlToFile,
     getBaseImageUrl,
     getImageForOffer
 } from "../../../shared/utils/utils-functions";
@@ -99,7 +99,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const [indexDeleteImageOffer, setIndexDeleteImageOffer] = React.useState(-1);
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const {
@@ -122,7 +122,7 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             if (isAuthenticated) {
                 saveEntity(values);
             } else {
-                history.push(ALL_APP_ROUTES.LOGIN);
+                navigate(ALL_APP_ROUTES.LOGIN);
             }
         },
     });
@@ -177,19 +177,19 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
             const offerId: number = props.entitySellerOffer?.id || -1;
             upladAllFiles(offerId);
             resetSellerOffer();
-            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
+            navigate(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
         else if (props.addSuccessRentOffer || props.updateSuccessRentOffer) {
             const offerId: number = props.entityRentOffer?.id || -1;
             upladAllFiles(offerId);
             resetRentOffer();
-            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
+            navigate(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
         else if ( props.addSuccessFindOffer || props.updateSuccessFindOffer) {
             const offerId: number = props.entityFindOffer?.id || -1;
             upladAllFiles(offerId);
             resetFindOffer();
-            history.push(ALL_APP_ROUTES.OFFER.MY_OFFERS);
+            navigate(ALL_APP_ROUTES.OFFER.MY_OFFERS);
         }
     }, [props.addSuccessSellerOffer, props.updateSuccessSellerOffer,
         props.addSuccessRentOffer, props.updateSuccessRentOffer ,

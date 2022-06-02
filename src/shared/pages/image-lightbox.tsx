@@ -20,88 +20,88 @@ import "react-image-lightbox/style.css";
 // const thumbs = [image1Thumb, image2Thumb, image3Thumb, image4Thumb];
 
 const images = ['//placekitten.com/1500/500', '//placekitten.com/4000/3000', '//placekitten.com/800/1200', '//placekitten.com/1500/1500'];
-const thumbs = ['//placekitten.com/4000/3000', 'https://source.unsplash.com/random', 'https://source.unsplash.com/random', 'https://source.unsplash.com/random'];
+// const thumbs = ['//placekitten.com/4000/3000', 'https://source.unsplash.com/random', 'https://source.unsplash.com/random', 'https://source.unsplash.com/random'];
 
-const titles = [
-    '',
-    <span>
-    by&nbsp;
-        <a className="creditLink" href="http://flickr.com/photos/titrans/">
-      quatre mains
-    </a>
-        &nbsp; (
-    <a
-        className="creditLink"
-        href="http://creativecommons.org/licenses/by/2.0/"
-        title="Attribution License"
-    >
-      Some rights reserved
-    </a>
-    )
-  </span>,
-    <span>
-    by&nbsp;
-        <a className="creditLink" href="http://flickr.com/photos/lachlanrogers/">
-      latch.r
-    </a>
-        &nbsp; (
-    <a
-        className="creditLink"
-        href="http://creativecommons.org/licenses/by-sa/2.0/"
-        title="Attribution-ShareAlike License"
-    >
-      Some rights reserved
-    </a>
-    )
-  </span>,
-    <span>
-    by&nbsp;
-        <a className="creditLink" href="http://flickr.com/photos/fazen/">
-      fazen
-    </a>
-        &nbsp; (
-    <a
-        className="creditLink"
-        href="http://creativecommons.org/licenses/by/2.0/"
-        title="Attribution License"
-    >
-      Some rights reserved
-    </a>
-    )
-  </span>,
-];
-
-const captions = [
-    'Cat in the snow',
-    '',
-    <p>
-        .. not in the&nbsp;
-        <em>mood</em>
-        &nbsp;for games right now
-        <br />
-        ...
-        <br />
-        ...
-        <br />
-        ...
-        <br />
-        ...
-        <br />
-        ...
-        <br />
-        ...
-        <br />
-        C&#39;mon. Seriously.
-    </p>,
-    '',
-];
-
-interface IImageLightBox {
-    images: string[];
-    thumbs: string[];
-    titles: (string | JSX.Element)[];
-    captions: (string | JSX.Element)[];
-}
+// const titles = [
+//     '',
+//     <span>
+//     by&nbsp;
+//         <a className="creditLink" href="http://flickr.com/photos/titrans/">
+//       quatre mains
+//     </a>
+//         &nbsp; (
+//     <a
+//         className="creditLink"
+//         href="http://creativecommons.org/licenses/by/2.0/"
+//         title="Attribution License"
+//     >
+//       Some rights reserved
+//     </a>
+//     )
+//   </span>,
+//     <span>
+//     by&nbsp;
+//         <a className="creditLink" href="http://flickr.com/photos/lachlanrogers/">
+//       latch.r
+//     </a>
+//         &nbsp; (
+//     <a
+//         className="creditLink"
+//         href="http://creativecommons.org/licenses/by-sa/2.0/"
+//         title="Attribution-ShareAlike License"
+//     >
+//       Some rights reserved
+//     </a>
+//     )
+//   </span>,
+//     <span>
+//     by&nbsp;
+//         <a className="creditLink" href="http://flickr.com/photos/fazen/">
+//       fazen
+//     </a>
+//         &nbsp; (
+//     <a
+//         className="creditLink"
+//         href="http://creativecommons.org/licenses/by/2.0/"
+//         title="Attribution License"
+//     >
+//       Some rights reserved
+//     </a>
+//     )
+//   </span>,
+// ];
+//
+// const captions = [
+//     'Cat in the snow',
+//     '',
+//     <p>
+//         .. not in the&nbsp;
+//         <em>mood</em>
+//         &nbsp;for games right now
+//         <br />
+//         ...
+//         <br />
+//         ...
+//         <br />
+//         ...
+//         <br />
+//         ...
+//         <br />
+//         ...
+//         <br />
+//         ...
+//         <br />
+//         C&#39;mon. Seriously.
+//     </p>,
+//     '',
+// ];
+//
+// interface IImageLightBox {
+//     images: string[];
+//     thumbs: string[];
+//     titles: (string | JSX.Element)[];
+//     captions: (string | JSX.Element)[];
+// }
 
 // let listImagesLightBox: IImageLightBox = {
 //     images: [],

@@ -1,5 +1,4 @@
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {IUser} from "../model/user.model";
 import axios from "axios";
 
 

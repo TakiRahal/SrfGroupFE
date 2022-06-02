@@ -465,17 +465,17 @@ export const loginFacebook: (facebook: IFacebook) => void = (facebook: IFacebook
 };
 
 
-const saveToken: (rememberMe: boolean, result: any, dispatch: any) => void = (result: any, dispatch: any) => async () => {
-    const bearerToken = result.value.headers.authorization;
-    if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
-        StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
-
-        await dispatch(getSession());
-        await dispatch(dispatchSuccessSession());
-        await dispatch(getNumberOfNotificationsNotSee());
-    }
-}
+// const saveToken: (rememberMe: boolean, result: any, dispatch: any) => void = (result: any, dispatch: any) => async () => {
+//     const bearerToken = result.value.headers.authorization;
+//     if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+//         const jwt = bearerToken.slice(7, bearerToken.length);
+//         StorageService.local.set(AllAppConfig.NAME_TOKEN_CURRENT_USER, jwt);
+//
+//         await dispatch(getSession());
+//         await dispatch(dispatchSuccessSession());
+//         await dispatch(getNumberOfNotificationsNotSee());
+//     }
+// }
 
 export const getSession: () => void = () => async (dispatch: any, getState: any) => {
     const result = await dispatch({

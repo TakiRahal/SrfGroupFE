@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import CardHeader from '@mui/material/CardHeader/CardHeader';
 import Avatar from '@mui/material/Avatar/Avatar';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -21,7 +20,7 @@ import {getEntitiesRecentlyAdded} from "../../../shared/reducers/offer.reducer";
 import {connect} from "react-redux";
 import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {IOffer} from "../../../shared/model/offer.model";
 import Box from "@mui/material/Box/Box";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -42,7 +41,10 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
             <Card sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="recipe" src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}>
+                        <Avatar role="img"
+                                aria-label="Image avatar"
+                                src={getUserAvatar(offer.user?.id, offer.user?.imageUrl, offer.user?.sourceRegister)}
+                                alt="image not found">
                             {getFullnameUser(offer.user)?.charAt(0)}
                         </Avatar>
                     }
@@ -66,17 +68,24 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
                                 placeholder={({ ref }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                              className="img-lazy-loading"
+                                              alt="image not found"/>
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" style={{height:200}}/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}
+                                          className="img-lazy-loading"
+                                          style={{height:200}}
+                                          alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{height:200 }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}
+                                  className="img-lazy-loading"
+                                  alt="image not found"/>
                         </CardMedia>
                     )
                 }
@@ -117,21 +126,17 @@ export interface IRecentlyAddedHomeClientProps extends StateProps, DispatchProps
 
 export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) => {
     const [expanded, setExpanded] = React.useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {listOffers, getEntitiesRecentlyAdded} = props;
 
     React.useEffect(() => {
         getEntitiesRecentlyAdded(0, 9, 'id,asc');
     }, []);
-    
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     const rediretTo = (offerId: string) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.DETAILS_OFFER + '/' + offerId);
         }, 300);
     };
 

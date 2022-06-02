@@ -1,8 +1,6 @@
 import axios from "axios";
 import {INotification} from "../model/notification.model";
 import {FAILURE, REQUEST, SUCCESS} from "./action-type.util";
-import {IUser} from "../model/user.model";
-
 
 export const ACTION_TYPES = {
     FETCH_NOTIFICATION_LIST: 'notification/FETCH_NOTIFICATION_LIST',

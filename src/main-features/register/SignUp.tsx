@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useFormik } from 'formik';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
@@ -33,7 +33,6 @@ import Container from "@mui/material/Container/Container";
 import {TransitionModal} from "../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
 import {checkMobileDesktopBrowser} from "../../shared/utils/utils-functions";
-import {useHistory} from "react-router";
 
 const initialValues = initialValuesSignUp;
 
@@ -57,7 +56,7 @@ export const SignUp = (props: ISignUpProps) => {
     const [openDialogRegister, setOpenDialogRegister] = React.useState(false);
 
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         setStartAnimation(true);
@@ -103,7 +102,7 @@ export const SignUp = (props: ISignUpProps) => {
         setOpenDialogRegister(false);
         props.resetRegister();
         formik.resetForm();
-        history.push(ALL_APP_ROUTES.LOGIN);
+        navigate(ALL_APP_ROUTES.LOGIN);
     }
 
     const shwDialogRegister = () => {

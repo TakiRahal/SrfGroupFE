@@ -4,7 +4,7 @@ import {IRootState} from "../../shared/reducers";
 import Box from "@mui/material/Box/Box";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link, useHistory, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import {ALL_APP_ROUTES} from "../../core/config/all-app-routes";
 import {TypeDisplaySearchOffers} from "../../shared/enums/type-offer.enum";
@@ -33,7 +33,7 @@ export const Search = (props: ISearchProps) => {
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [activePage, setActivePage] = React.useState(-1);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { search } = useLocation();
 
     const { t } = useTranslation();
@@ -63,7 +63,7 @@ export const Search = (props: ISearchProps) => {
     }
 
     const searchCalback = (values: any) => {
-        history.push({
+        navigate({
             pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
         })

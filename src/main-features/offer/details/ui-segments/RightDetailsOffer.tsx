@@ -1,5 +1,4 @@
 import React from 'react';
-import red from '@mui/material/colors/red';
 import Grid from '@mui/material/Grid/Grid';
 import Card from '@mui/material/Card/Card';
 import CardContent from '@mui/material/CardContent/CardContent';
@@ -19,7 +18,7 @@ import Box from '@mui/material/Box/Box';
 import TextField from '@mui/material/TextField/TextField';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import PhoneIcon from '@mui/icons-material/Phone';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import DialogActions from '@mui/material/DialogActions/DialogActions';
 import Dialog from '@mui/material/Dialog/Dialog';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
@@ -70,7 +69,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
     const [openAlert, setOpenAlert] = React.useState(false);
     const [contactWithPhone, setContactWithPhone] = React.useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const formik = useFormik({
@@ -133,7 +132,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
 
     const redirectToPorfile = (userId: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.PROFILE + '/' + userId);
+            navigate(ALL_APP_ROUTES.PROFILE + '/' + userId);
         }, 300);
     };
 

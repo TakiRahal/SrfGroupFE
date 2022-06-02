@@ -9,12 +9,12 @@ import {
 import {getEntitywithFavorite} from "../../../shared/reducers/offer.reducer";
 import { reset as resetAllFavoriteOfferUser } from '../../../shared/reducers/offer.reducer';
 import { reset as resetCommentOffer } from '../../../shared/reducers/comment-offer.reducer';
-import {useHistory, useParams} from "react-router";
+import {useParams} from "react-router";
 import Zoom from "@mui/material/Zoom/Zoom";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
 import Breadcrumbs from "@mui/material/Breadcrumbs/Breadcrumbs";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import Typography from "@mui/material/Typography/Typography";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
@@ -81,7 +81,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
 
     const {id} = useParams<{ id: string }>();
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const {
@@ -209,7 +209,7 @@ export const DetailsOffer = (props: IDetailsOfferProps) => {
                 createEntityFavoriteUser(entity);
             }
         } else {
-            history.push(ALL_APP_ROUTES.LOGIN);
+            navigate(ALL_APP_ROUTES.LOGIN);
         }
     };
 

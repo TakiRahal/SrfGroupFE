@@ -14,17 +14,17 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogActions from "@mui/material/DialogActions/DialogActions";
 import Button from "@mui/material/Button/Button";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
-import {useHistory} from "react-router";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
 import Divider from "@mui/material/Divider/Divider";
 import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
 import Typography from "@mui/material/Typography/Typography";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 export default function ListFavoriteUsers({ favorite, parentCallback }: { favorite: IFavoriteUser, parentCallback: Function }) {
     const [openFavoriteModal, setOpenFavoriteModal] = React.useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const { favoriteUser, id } = favorite;
@@ -40,7 +40,7 @@ export default function ListFavoriteUsers({ favorite, parentCallback }: { favori
 
     const redirectToPorfile = (userId: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.PROFILE + '/' + userId);
+            navigate(ALL_APP_ROUTES.PROFILE + '/' + userId);
         }, 300)
     };
 

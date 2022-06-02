@@ -6,7 +6,7 @@ import Card from '@mui/material/Card/Card';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
 import CardContent from '@mui/material/CardContent/CardContent';
 import Typography from '@mui/material/Typography/Typography';
-import {Link, RouteComponentProps, useHistory} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Box from '@mui/material/Box/Box';
 import {IRootState} from "../../../shared/reducers";
@@ -50,7 +50,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
@@ -60,7 +60,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -93,7 +93,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
@@ -103,7 +103,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 ) : null}
@@ -130,7 +130,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                                     </div>
                                 )}
                                 error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                                 )}
                             />
                         </CardMedia>
@@ -140,7 +140,7 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             height: {xs: '100%', sm: 200},
                             backgroundColor: '#0000004f'
                         }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         </CardMedia>
                     )
                 }
@@ -160,13 +160,13 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
     );
 }
 
-export interface IForRentClientProp extends StateProps, DispatchProps, RouteComponentProps {
+export interface IForRentClientProp extends StateProps, DispatchProps {
 }
 
 export const ForRentHomeClient = (props: IForRentClientProp) => {
 
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const {t} = useTranslation();
 
     const {getEntitiesForRent, listRentOffers} = props;
@@ -177,7 +177,7 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {
-            history.push(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
+            navigate(ALL_APP_ROUTES.OFFER.DEAILS_OFFER + '/' + offerId);
         }, 300);
     };
 

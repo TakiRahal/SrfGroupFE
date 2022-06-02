@@ -20,11 +20,10 @@ import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logout from '@mui/icons-material/Logout';
-import Settings from '@mui/icons-material/Settings';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Button from "@mui/material/Button/Button";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import Avatar from "@mui/material/Avatar/Avatar";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
@@ -56,7 +55,7 @@ export default function Header(props: any){
     const [languagesAnchorEl, setLanguagesAnchorEl] = React.useState(null);
     const [anchorElSupport, setAnchorElSupport] = React.useState<HTMLElement | null>(null);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { t, i18n } = useTranslation();
 
@@ -111,7 +110,7 @@ export default function Header(props: any){
     const handleLAnguagesMenuOpen = (event: any) => {
         setLanguagesAnchorEl(event.currentTarget);
     };
-    const menuIdLanguages = 'languages-menu';
+    const menuIdLanguages = 'languages-menu-desktop';
     const renderMenuLanguages = (
         <Menu
             anchorEl={languagesAnchorEl}
@@ -254,7 +253,7 @@ export default function Header(props: any){
     );
 
     const redirectSupport = (url: string) => {
-        history.push(url);
+        navigate(url);
         handlePopoverCloseSupport();
     };
 
@@ -324,12 +323,12 @@ export default function Header(props: any){
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {isAuthenticated ? (
                             <div>
-                                <Button size="small">
+                                <Button size="small" aria-label="Switch">
                                     <FormGroup>
                                         <FormControlLabel
                                             control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
                                             onChange={toggleDarkMode}
-                                            label=""
+                                            label="Dark Mode"
                                         />
                                     </FormGroup>
                                 </Button>
@@ -377,12 +376,12 @@ export default function Header(props: any){
                         ) : (
                             <div>
 
-                                <Button size="small">
+                                <Button size="small" aria-label="Switch">
                                     <FormGroup>
                                         <FormControlLabel
                                             control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
                                             onChange={toggleDarkMode}
-                                            label=""
+                                            label="Dark Mode"
                                         />
                                     </FormGroup>
                                 </Button>

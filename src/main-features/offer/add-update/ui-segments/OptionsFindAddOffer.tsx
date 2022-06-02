@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TypeOfferEnum, TypesFindOffer} from "../../../../shared/enums/type-offer.enum";
+import {TypesFindOffer} from "../../../../shared/enums/type-offer.enum";
 import Grid from "@mui/material/Grid/Grid";
 import FormControl from "@mui/material/FormControl/FormControl";
 import InputLabel from "@mui/material/InputLabel/InputLabel";

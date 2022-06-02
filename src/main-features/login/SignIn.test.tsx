@@ -39,14 +39,14 @@ describe("Test SignIn Component", () => {
 
     test('render login component', async () => {
 
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <ThemeProvider theme={ThemeApp}>
-                        <SignIn />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </Provider>);
+        // render(
+        //     <Provider store={store}>
+        //         <BrowserRouter>
+        //             <ThemeProvider theme={ThemeApp}>
+        //                 <SignIn />
+        //             </ThemeProvider>
+        //         </BrowserRouter>
+        //     </Provider>);
 
         const buttonList = await screen.findAllByRole('button');
         expect(buttonList).toHaveLength(3);
@@ -54,14 +54,14 @@ describe("Test SignIn Component", () => {
     });
 
     test('Email should be accept only email format', async () => {
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <ThemeProvider theme={ThemeApp}>
-                        <SignIn />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </Provider>);
+        // render(
+        //     <Provider store={store}>
+        //         <BrowserRouter>
+        //             <ThemeProvider theme={ThemeApp}>
+        //                 <SignIn />
+        //             </ThemeProvider>
+        //         </BrowserRouter>
+        //     </Provider>);
 
         // Valid email
         const email = screen.getByTestId('email') as HTMLInputElement;
@@ -72,14 +72,14 @@ describe("Test SignIn Component", () => {
 
 
     test('Password should have the password type', async () => {
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <ThemeProvider theme={ThemeApp}>
-                        <SignIn />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </Provider>);
+        // render(
+        //     <Provider store={store}>
+        //         <BrowserRouter>
+        //             <ThemeProvider theme={ThemeApp}>
+        //                 <SignIn />
+        //             </ThemeProvider>
+        //         </BrowserRouter>
+        //     </Provider>);
 
         // Valid password
         const password = screen.getByTestId('password') as HTMLInputElement;
@@ -88,14 +88,14 @@ describe("Test SignIn Component", () => {
 
 
     test('Should be able to submit form', async () => {
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <ThemeProvider theme={ThemeApp}>
-                        <SignIn />
-                    </ThemeProvider>
-                </BrowserRouter>
-            </Provider>);
+        // render(
+        //     <Provider store={store}>
+        //         <BrowserRouter>
+        //             <ThemeProvider theme={ThemeApp}>
+        //                 <SignIn />
+        //             </ThemeProvider>
+        //         </BrowserRouter>
+        //     </Provider>);
 
         const submitBtn = screen.getByTestId('submit') as HTMLButtonElement;
         const email = screen.getByTestId('email') as HTMLInputElement;

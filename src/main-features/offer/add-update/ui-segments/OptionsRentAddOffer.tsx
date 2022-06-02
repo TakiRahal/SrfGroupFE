@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import TextField from '@mui/material/TextField/TextField';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker/DatePicker';

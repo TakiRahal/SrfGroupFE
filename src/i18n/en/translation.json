@@ -219,8 +219,8 @@
     "user":{
       "title_favorite_users": "Favorites users",
       "message_no_favorite_found": "No Favorite user found",
-      "message_add_favorite_user_succefully": "User added succefully",
-      "message_remove_favorite_user": "User removed succefully",
+      "message_add_favorite_user_succefully": "User added successfully",
+      "message_remove_favorite_user": "User removed successfully",
       "title_remove_favrite_user": "DisFavorite user",
       "description_remove_favrite_user": "Remove this user to your favorite list"
     }
@@ -229,18 +229,19 @@
     "report_probleme_added_succefully": "Declaration sent successfully"
   },
   "contact-us": {
-    "messages.success": "Message sent succefully"
+    "messages.success": "Message sent successfully"
   },
   "chat": {
     "title_delete_conversation": "Delete conversation",
     "description_delete_conversation": "Are you sur to delete this conversation ?",
-    "conversation_delete_succefully": "Conversation delete succfully"
+    "conversation_delete_succefully": "Conversation delete successfully"
   },
   "cart": {
-    "message_add_cart_succefull": "Add succfully",
+    "message_add_cart_succefull": "Add successfully",
     "title_dialog_delete_cart": "Delete this cart",
     "description_dialog_delete_cart": "Are you sur to delete this cart",
-    "cart_delete_succefully": "Cart delete succfully",
-    "list_not_found": "Cart not found"
+    "cart_delete_succefully": "Cart delete successfully",
+    "list_not_found": "Cart not found",
+    "cart_added_successfully": "Offer added to cart successfully"
   }
 }

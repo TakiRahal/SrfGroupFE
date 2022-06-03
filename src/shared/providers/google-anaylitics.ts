@@ -15,10 +15,6 @@ export function loadScriptGoogleAnalytics(): Promise<boolean> {
                 document.body.appendChild(script);
                 script.onload = () => {
                     resolve(true);
-
-                    window.dataLayer = window.dataLayer || [];
-                    // window.dataLayer.push(arguments);
-
                 };
             }
             if (existingScript) resolve(true);;

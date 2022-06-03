@@ -99,7 +99,7 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                 </Toolbar>
             </form>
             <div>
-                <Typography variant="h5" align="center" gutterBottom sx={{ pt: 3 }}>
+                <Typography variant="h6" align="center" gutterBottom sx={{ pt: 3 }}>
                     SRF
                 </Typography>
                 <Grid container spacing={4}>

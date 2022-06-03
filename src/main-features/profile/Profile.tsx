@@ -103,10 +103,13 @@ export const Profile = (props: IProfileProps) => {
     }, [profile]);
 
     React.useEffect(() => {
+        console.log('id ', id);
+        /*
         if(id){
             getProfile(Number(id));
             getPublicEntitiesForUser(1, 10, '', Number(id));
         }
+        */
     }, [id]);
 
     const handleClickOpenAddMessageModal = () => {

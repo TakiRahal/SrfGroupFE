@@ -4,7 +4,7 @@ import {ACTION_TYPES} from "../reducers/user-reducer";
 import reduxStore from "../../core/config/store";
 
 
-export async function OneSignalProviders() {
+export async function oneSignalProviders() {
     try {
 
         // Init OneSignal Platform
@@ -26,8 +26,6 @@ export async function OneSignalProviders() {
                     // alert('Please check your setting browser and accept notif');
                 }
             })
-        }, error => {
-
         });
     }
     catch (e) {

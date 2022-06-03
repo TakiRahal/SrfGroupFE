@@ -328,7 +328,7 @@ export default function Header(props: any){
                                         <FormControlLabel
                                             control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
                                             onChange={toggleDarkMode}
-                                            label="Dark Mode"
+                                            label=""
                                         />
                                     </FormGroup>
                                 </Button>
@@ -381,7 +381,7 @@ export default function Header(props: any){
                                         <FormControlLabel
                                             control={<MaterialUISwitch sx={{ m: 0 }} defaultChecked />}
                                             onChange={toggleDarkMode}
-                                            label="Dark Mode"
+                                            label=""
                                         />
                                     </FormGroup>
                                 </Button>

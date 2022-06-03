@@ -15,7 +15,7 @@
     "@testing-library/user-event": "^12.8.3",
     "@types/draft-js": "^0.11.9",
     "@types/draftjs-to-html": "^0.8.1",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.5.1",
     "@types/node": "^12.20.46",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^18.0.5",
@@ -69,7 +69,7 @@
     "styled-components": "^5.3.1",
     "suneditor": "^2.42.0",
     "suneditor-react": "^3.4.0",
-    "swiper": "^8.0.6",
+    "swiper": "^8.2.2",
     "ts-jest": "^28.0.2",
     "typescript": "^4.5.5",
     "typescript-react-facebook-messenger": "0.0.4",
@@ -97,11 +97,12 @@
     "build": "react-scripts build",
     "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
-    "test": "react-scripts test  --transformIgnorePatterns 'node_modules/(?!@mui)/' --verbose",
-    "test-with-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
+    "test-jest": "react-scripts test",
+    "jest-coverage": "jest --coverage ",
+    "test-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",
-    "sonar": "node sonar-project.js",
+    "generate-sonar-rapport": "node sonar-project.js",
     "docker:elasticsearch:up": "docker-compose -f docker/elasticsearch.yml up -d",
     "docker:elasticsearch:down": "docker-compose -f docker/elasticsearch.yml down -v --remove-orphans",
     "docker:db:up": "docker-compose -f docker/postgresql.yml up -d",
@@ -143,5 +144,10 @@
     "jest-watch-typeahead": "^0.6.5",
     "redux-mock-store": "^1.5.4",
     "sonarqube-scanner": "^2.8.1"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@mui)/", "node_modules/(?!swiper)/"
+    ]
   }
 }

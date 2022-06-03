@@ -26,7 +26,6 @@ import {IOffer} from "../../../shared/model/offer.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import {LazyImage} from "../../../shared/components/lazy-image";
 
-
 function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
         <CardActionArea component="a" onClick={() => rediretTo(offer.id)}>

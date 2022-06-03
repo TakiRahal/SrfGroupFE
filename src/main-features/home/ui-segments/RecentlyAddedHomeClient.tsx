@@ -23,6 +23,7 @@ import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useNavigate} from "react-router-dom";
 import {IOffer} from "../../../shared/model/offer.model";
 import Box from "@mui/material/Box/Box";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";

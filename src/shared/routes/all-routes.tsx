@@ -113,6 +113,28 @@ export default function AllRoutes(props: IAppProps){
                 />
 
                 <Route
+                    path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}
+                    element={
+                        <PublicRoute isAuthenticated={props.isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyForgotPassword />
+                            </React.Suspense>
+                        </PublicRoute>
+                    }
+                />
+
+                <Route
+                    path={`${ALL_APP_ROUTES.FORGOT_PASSWORD_FINISH}/:key?`}
+                    element={
+                        <PublicRoute isAuthenticated={props.isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyForgotPasswordFinish />
+                            </React.Suspense>
+                        </PublicRoute>
+                    }
+                />
+
+                <Route
                     path={ALL_APP_ROUTES.SEARCH}
                     element={
                         <React.Suspense fallback={<>...</>}>
@@ -142,11 +164,9 @@ export default function AllRoutes(props: IAppProps){
                 <Route
                     path={ALL_APP_ROUTES.PROFILE + '/:id'}
                     element={
-                        <PublicRoute isAuthenticated={props.isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
-                            <React.Suspense fallback={<>...</>}>
-                                <LazyProfile />
-                            </React.Suspense>
-                        </PublicRoute>
+                        <React.Suspense fallback={<>...</>}>
+                            <LazyProfile />
+                        </React.Suspense>
                     }
                 />
 

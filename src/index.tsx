@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactDOM from "react-dom/client";
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
 } from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -28,9 +28,9 @@ setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthoriz
 const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(container) ;
 root.render( <Provider store={store}>
-    <Router>
+    <BrowserRouter>
         <App />
-    </Router>
+    </BrowserRouter>
 </Provider>);
 
 // If you want your app to work offline and load faster, you can change

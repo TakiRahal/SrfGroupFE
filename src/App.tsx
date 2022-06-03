@@ -73,7 +73,6 @@ import GoogleOneTapLogin from 'react-google-one-tap-login';
 import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-// import {OneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
 import createTheme from "@mui/material/styles/createTheme";
@@ -86,6 +85,8 @@ import {
     getWebsocketListConnectedUsers, removeEmailFromListConnectedUsers
 } from "./shared/reducers/web-socket.reducer";
 import CookieConsent from "react-cookie-consent";
+import {loadScriptFacebook} from "./shared/providers/facebook.provider";
+import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 
 
 
@@ -93,7 +94,7 @@ function ScrollToTopRouters() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window?.scrollTo(0, 0);
     }, [pathname]);
 
     return null;
@@ -184,18 +185,23 @@ function App(props: IAppProps) {
 
         if(process.env.NODE_ENV === 'production'){
             // OneSignal Platform
-            // OneSignalProviders();
+            oneSignalProviders();
         }
 
         // Init Google Analytics
-        // loadScriptGoogleAnalytics().then((resultLoad: boolean) => {
-        //     if(resultLoad){
-        //         initGoogleAnalytics().then((result: boolean) => {
-        //             // console.log('Success init Google Analytics');
-        //         }, (errorInit: boolean) => {console.log('Error init Google Analytics ', errorInit);})
-        //     }
-        // }, (errorLoad: boolean) => {console.log('Error to load script Google Analytics ', errorLoad);})
+        loadScriptGoogleAnalytics().then((resultLoad: boolean) => {
+            if(resultLoad){
+                initGoogleAnalytics().then((result: boolean) => {
+                    console.log('Success init Google Analytics');
+                }, (errorInit: boolean) => {console.log('Error init Google Analytics ', errorInit);})
+            }
+        }, (errorLoad: boolean) => {console.log('Error to load script Google Analytics ', errorLoad);})
 
+
+        // Load Facebook SDK
+        loadScriptFacebook().then((resultLoad: boolean) => {
+            console.log('Success init Google Facebook');
+        }, (errorLoad: boolean) => {console.log('Error to load script Facebook ', errorLoad);})
 
         // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));
@@ -315,7 +321,7 @@ function App(props: IAppProps) {
                         <FormControlLabel
                             control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
                             onChange={toggleDarkMode}
-                            label="Dark Mode"
+                            label=""
                         />
                     </FormGroup>
                 </ListItem>

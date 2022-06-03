@@ -49,7 +49,7 @@ export const SignIn = (props: ISignInProps) => {
     });
     const { t } = useTranslation();
 
-    const { loading, loginSuccess } = props;
+    const { loading } = props;
 
     const handleClickShowPassword = () => {
         setShowPassword({

@@ -79,8 +79,6 @@ export const AboutUs = (props: IAboutUsClientProps) => {
                     </Grid> : null
                 }
 
-                loadingEntity = {loadingEntity.toString()}
-
                 <Grid item xs={12}>
                     {aboutUsEntity && aboutUsEntity.contentEn ?
                         <Box dangerouslySetInnerHTML={{ __html: getContentByLang() }}></Box> :

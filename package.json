@@ -10,8 +10,6 @@
     "@mui/lab": "5.0.0-alpha.49",
     "@mui/material": "^5.4.2",
     "@mui/styled-engine-sc": "^5.4.2",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/draft-js": "^0.11.9",
     "@types/draftjs-to-html": "^0.8.1",
@@ -98,7 +96,7 @@
     "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
     "test-jest": "react-scripts test",
-    "jest-coverage": "jest --coverage ",
+    "jest-coverage": "jest --coverage",
     "test-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",
@@ -135,6 +133,8 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
     "@types/react-infinite-scroller": "^1.2.2",
     "@types/react-router-dom": "5.1.7",
     "@types/styled-components": "^5.1.22",
@@ -146,8 +146,12 @@
     "sonarqube-scanner": "^2.8.1"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+    },
     "transformIgnorePatterns": [
-      "node_modules/(?!@mui)/", "node_modules/(?!swiper)/"
+      "node_modules/(?!@mui)/",
+      "node_modules/(?!swiper)/"
     ]
   }
 }

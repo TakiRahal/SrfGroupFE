@@ -87,6 +87,7 @@ import {
 import CookieConsent from "react-cookie-consent";
 import {loadScriptFacebook} from "./shared/providers/facebook.provider";
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
+import FacebookLogin from 'react-facebook-login';
 
 
 

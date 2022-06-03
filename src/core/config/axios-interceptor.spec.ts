@@ -6,7 +6,7 @@ import setupAxiosInterceptors from './axios-interceptor';
 describe('Axios Interceptor', () => {
   describe('setupAxiosInterceptors', () => {
     const client = axios;
-    const onUnauthenticated: any = null; // sinon.spy();
+    const onUnauthenticated: Function = new Function(); // sinon.spy();
     setupAxiosInterceptors(onUnauthenticated);
 
     it('onRequestSuccess is called on fulfilled request', () => {

@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {Link, useNavigate} from 'react-router-dom';
 import Fab from '@mui/material/Fab/Fab';
-// import FacebookIcon from '@mui/icons-material/Facebook';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useFormik } from 'formik';
 import {connect} from 'react-redux';
@@ -31,7 +31,7 @@ import {login, loginFacebook, loginGooglePlus} from "../../shared/reducers/user-
 import {IRootState} from "../../shared/reducers";
 import Container from "@mui/material/Container/Container";
 import {AllAppConfig} from "../../core/config/all-config";
-// import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 import './SignIn.scss';
 import {IFacebook, IGooglePlus} from "../../shared/model/user.model";
@@ -80,17 +80,17 @@ export const SignIn = (props: ISignInProps) => {
         },
     });
 
-    // const responseFacebook = (response: any) => {
-    //     if(!response.status){
-    //         const requestData: IFacebook = {
-    //             ...response,
-    //             sourceProvider: SourceProvider.FACEBOOK,
-    //             idOneSignal: props.oneSignalId,
-    //             langKey: props.currentLocale
-    //         };
-    //         props.loginFacebook(requestData);
-    //     }
-    // };
+    const responseFacebook = (response: any) => {
+        if(!response.status){
+            const requestData: IFacebook = {
+                ...response,
+                sourceProvider: SourceProvider.FACEBOOK,
+                idOneSignal: props.oneSignalId,
+                langKey: props.currentLocale
+            };
+            props.loginFacebook(requestData);
+        }
+    };
 
     const responseGoogle = (response: any) => {
         if (!response.error) {
@@ -226,18 +226,16 @@ export const SignIn = (props: ISignInProps) => {
                         </Box>
 
                         <Box sx={{ textAlign: 'center', my: 4 }}>
-                            {/*<FacebookLogin*/}
-                            {/*    appId={AllAppConfig.APP_ID_FACEBOOK}*/}
-                            {/*    autoLoad={false}*/}
-                            {/*    fields="name,email,picture"*/}
-                            {/*    textButton=""*/}
-                            {/*    icon={*/}
-                            {/*        <Fab color="primary" aria-label="facebook" sx={{ m: 1 }}>*/}
-                            {/*            <FacebookIcon />*/}
-                            {/*        </Fab>*/}
-                            {/*    }*/}
-                            {/*    callback={responseFacebook}*/}
-                            {/*></FacebookLogin>*/}
+                            <FacebookLogin
+                                appId={AllAppConfig.APP_ID_FACEBOOK}
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                textButton=""
+                                icon={
+                                    <FacebookIcon />
+                                }
+                                callback={responseFacebook}
+                            ></FacebookLogin>
 
                             <GoogleLogin
                                 clientId={AllAppConfig.CLIENT_ID_GOOGLLE}

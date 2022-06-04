@@ -23,67 +23,23 @@ export default function RightSearch() {
                     <ListSubheader component="div" id="nested-list-subheader">
                         Recommandé pour vous
                     </ListSubheader>
+                } >
+                {
+                    [0, 1, 2, 3, 4, 5].map((key) => (
+                        <Box key={key}>
+                            <ListItemButton>
+                                <ListItemAvatar>
+                                    <Avatar
+                                        alt="avatar"
+                                        src="https://source.unsplash.com/random"
+                                    />
+                                </ListItemAvatar>
+                                <ListItemText primary="Sent mail" secondary="September 14, 2016" />
+                            </ListItemButton>
+                            <Divider />
+                        </Box>
+                    ))
                 }
-            >
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar
-                            alt="avatar"
-                            src="https://source.unsplash.com/random"
-                        />
-                    </ListItemAvatar>
-                    <ListItemText primary="Sent mail" secondary="September 14, 2016" />
-                </ListItemButton>
             </List>
 
             <Card sx={{my: 3}}>

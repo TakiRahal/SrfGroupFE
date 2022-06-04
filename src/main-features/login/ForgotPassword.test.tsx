@@ -1,10 +1,7 @@
 import React from 'react';
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
-import SignIn from "./SignIn";
 import createTheme from "@mui/material/styles/createTheme";
 
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -12,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import userReducer from '../../shared/reducers/user-reducer';
 import {combineReducers, createStore} from "redux";
 import localeReducer from '../../shared/reducers/locale.reducer';
+import ForgotPassword from './ForgotPassword';
 
 jest.mock('react-i18next', () => ({
     // this mock makes sure any components using the translate hook can use it without a warning being shown
@@ -55,21 +53,21 @@ const store = createStore(
 //     }
 // });
 
-describe("Test SignIn Component", () => {
+describe("Test ForgotPassword Component", () => {
 
-    test('render login component', async () => {
+    test('render ForgotPassword component', async () => {
 
         render(
             <Provider store={store}>
                 <BrowserRouter>
                     <ThemeProvider theme={ThemeApp}>
-                        <SignIn />
+                        <ForgotPassword />
                     </ThemeProvider>
                 </BrowserRouter>
             </Provider>);
 
-        const buttonList = await screen.findAllByRole('button');
-        expect(buttonList).toHaveLength(3);
+        // const buttonList = await screen.findAllByRole('button');
+        // expect(buttonList).toHaveLength(3);
 
     });
 

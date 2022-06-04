@@ -26,47 +26,16 @@ export default function LoadingSearchOffers({typeDisplay}: {typeDisplay: TypeDis
         <Box sx={{my: 4}}>
             <Grid container spacing={{xs: 2, md: 6}}>
 
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
-
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
-
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
-
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
-
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
-
-                <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
-                      sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12}>
-                    {
-                        typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
-                    }
-                </Grid>
+                {
+                    [0, 1, 2, 3, 4, 5].map((key) => (
+                        <Grid item xs={typeDisplay===TypeDisplaySearchOffers.Grid ? 6 : 12}
+                              sm={typeDisplay===TypeDisplaySearchOffers.Grid ? 4 : 12} key={key}>
+                            {
+                                typeDisplay===TypeDisplaySearchOffers.Grid ? <CardGridLoading /> : <CardListLoading />
+                            }
+                        </Grid>
+                    ))
+                }
 
             </Grid>
 

@@ -25,7 +25,7 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import {getPublicEntitiesForUser} from "../../shared/reducers/offer.reducer";
 import {useFormik} from "formik";
 import {initialValuesAddMessage, validationSchemaAddMessage} from "./validation/init-value-add-message";
-import {createConversation} from "../../shared/reducers/conversation.reducer";
+import {createConversation, reset} from "../../shared/reducers/conversation.reducer";
 import Dialog from "@mui/material/Dialog/Dialog";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
@@ -92,6 +92,7 @@ export const Profile = (props: IProfileProps) => {
         };
         createConversation(entity);
         setOpenAddMessageModal(false);
+        props.reset();
     };
 
     React.useEffect(() => {
@@ -103,13 +104,10 @@ export const Profile = (props: IProfileProps) => {
     }, [profile]);
 
     React.useEffect(() => {
-        console.log('id ', id);
-        /*
         if(id){
             getProfile(Number(id));
             getPublicEntitiesForUser(1, 10, '', Number(id));
         }
-        */
     }, [id]);
 
     const handleClickOpenAddMessageModal = () => {
@@ -390,7 +388,8 @@ const mapStateToProps = ({user, offer, conversation}: IRootState) => ({
 const mapDispatchToProps = {
     getProfile,
     getPublicEntitiesForUser,
-    createConversation
+    createConversation,
+    reset
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

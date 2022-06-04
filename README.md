@@ -25,8 +25,8 @@ Deploy the React app:
     
     
 ## SonarQube
-- Start sonar server with docker compose script: docker-compose -f sonar.yml up
-- Run script sonar
+- Start sonar server with docker compose script: docker-compose -f sonar.yml up: http://localhost:9000/projects
+- Run script: generate-sonar-rapport
 - View dashboard Sonar
 
 

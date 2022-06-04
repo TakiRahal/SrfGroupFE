@@ -83,16 +83,21 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
         },
     });
 
+    const setResetValues = () => {
+        formik.setFieldValue('fullName', getFullnameUser(currentUser));
+        formik.setFieldValue('email', currentUser.email);
+    }
+
     React.useEffect(() => {
         if( !isEmpty(currentUser)) {
-            formik.setFieldValue('fullName', getFullnameUser(currentUser));
-            formik.setFieldValue('email', currentUser.email);
+            setResetValues();
         }
     }, [currentUser])
 
     React.useEffect(() =>{
         if(addSuccessConversation){
-            formik.resetForm({values:{...defaultValues, content:""}})
+            formik.resetForm();
+            setResetValues();
         }
     }, [addSuccessConversation])
 

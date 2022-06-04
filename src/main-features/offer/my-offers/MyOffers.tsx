@@ -43,6 +43,7 @@ export const MyOffers = (props: IMyOfferProps) => {
     const [openDeleteOfferModal, setOpenDeleteOfferModal] = React.useState(false);
     const [deleteOfferId, setDeleteOfferId] = React.useState(-1);
     const [activePage, setActivePage] = React.useState(-1);
+    const [isSearchCalback, setIsSearchCalback] = React.useState<boolean>(false);
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
 
     const navigate = useNavigate();
@@ -71,13 +72,13 @@ export const MyOffers = (props: IMyOfferProps) => {
     }, []);
 
     React.useEffect(() => {
-        // console.log('activePage ', activePage);
-        if(activePage>=0){
+        if(activePage>=0 || isSearchCalback){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);
             getEntitiesForCurrentUser(activePage, AllAppConfig.OFFERS_PER_PAGE, queryParams);
+            setIsSearchCalback(false);
         }
-    }, [activePage]);
+    }, [activePage, isSearchCalback]);
 
     React.useEffect(() => {
         if(deleteSuccessOffer){
@@ -139,8 +140,8 @@ export const MyOffers = (props: IMyOfferProps) => {
             pathname: ALL_APP_ROUTES.OFFER.MY_OFFERS,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
         })
-
-        setActivePage(-1);
+        // setActivePage(-1);
+        setIsSearchCalback(true);
         resetAll();
     }
 
@@ -188,9 +189,12 @@ export const MyOffers = (props: IMyOfferProps) => {
                                 <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} typeDisplayCallback={typeDisplay} listAddress={props.entitiesAddress.slice()}/>
                             </div>
 
-                            <Typography  variant="subtitle2" color="text.secondary">
-                                Total = {totalItemsMyOffers}
-                            </Typography>
+                            {
+                                totalItemsMyOffers > 0 ? <Typography  variant="subtitle2" color="text.secondary">
+                                    Total = {totalItemsMyOffers}
+                                </Typography> : null
+                            }
+
 
                             <InfiniteScroll
                                 pageStart={activePage}

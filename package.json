@@ -151,7 +151,11 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!@mui)/",
-      "node_modules/(?!swiper)/"
+      "node_modules/(?!swiper)/",
+      "node_modules/(?!react-facebook-login)/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ]
   }
 }

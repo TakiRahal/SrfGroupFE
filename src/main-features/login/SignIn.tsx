@@ -226,16 +226,16 @@ export const SignIn = (props: ISignInProps) => {
                         </Box>
 
                         <Box sx={{ textAlign: 'center', my: 4 }}>
-                            <FacebookLogin
-                                appId={AllAppConfig.APP_ID_FACEBOOK}
-                                autoLoad={false}
-                                fields="name,email,picture"
-                                textButton=""
-                                icon={
-                                    <FacebookIcon />
-                                }
-                                callback={responseFacebook}
-                            ></FacebookLogin>
+                            {/*<FacebookLogin*/}
+                            {/*    appId="sqd"*/}
+                            {/*    autoLoad={false}*/}
+                            {/*    fields="name,email,picture"*/}
+                            {/*    textButton=""*/}
+                            {/*    icon={*/}
+                            {/*        <FacebookIcon />*/}
+                            {/*    }*/}
+                            {/*    callback={responseFacebook}*/}
+                            {/*></FacebookLogin>*/}
 
                             <GoogleLogin
                                 clientId={AllAppConfig.CLIENT_ID_GOOGLLE}

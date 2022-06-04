@@ -32,6 +32,7 @@ export const Search = (props: ISearchProps) => {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [activePage, setActivePage] = React.useState(-1);
+    const [isSearchCalback, setIsSearchCalback] = React.useState<boolean>(false);
 
     const navigate = useNavigate();
     const { search } = useLocation();
@@ -51,12 +52,13 @@ export const Search = (props: ISearchProps) => {
     }, []);
 
     React.useEffect(() => {
-        if(activePage>=0){
+        if(activePage>=0 || isSearchCalback){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);
             getEntitiesOffers(activePage, AllAppConfig.OFFERS_PER_PAGE, queryParams);
+            setIsSearchCalback(false);
         }
-    }, [activePage]);
+    }, [activePage, isSearchCalback]);
 
     const loadMore = () => {
         setActivePage(activePage+1);
@@ -66,8 +68,9 @@ export const Search = (props: ISearchProps) => {
         navigate({
             pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
-        })
-        setActivePage(-1);
+        }, { replace: false })
+        // setActivePage(-1);
+        setIsSearchCalback(true);
         resetAll();
     }
 
@@ -76,10 +79,7 @@ export const Search = (props: ISearchProps) => {
     }
 
     const isUserOnline = (email: string) => {
-        // console.log('email ', email);
-        // console.log('props.listConnectedUsers.slice() ', props.listConnectedUsers.slice());
         return isOnLine(props.listConnectedUsers, email);
-        // return props.isOnLine(props.listConnectedUsers.slice(), email);
     }
 
     return (
@@ -127,9 +127,10 @@ export const Search = (props: ISearchProps) => {
                     >
                         <ItemsOffer listOffers={listOffers.slice()} typeDisplay={typeDisplayOffers} isOnLine={(email: string) => isUserOnline(email)}/>
 
-                        { loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : null }
+                        {
+                            loadingListOffers ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : totalItems ===0 ?  <Alert severity="warning">No Offers found</Alert> : null
+                        }
 
-                        {totalItems ===0 && !loadingListOffers ? <Alert severity="warning">No Offers found</Alert> : null}
                     </InfiniteScroll>
 
 

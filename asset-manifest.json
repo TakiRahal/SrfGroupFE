@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.37db7a76.css",
-    "main.js": "/SrfGroupFE/static/js/main.229b3330.js",
+    "main.js": "/SrfGroupFE/static/js/main.2e7c6d13.js",
     "static/css/791.13f5c274.chunk.css": "/SrfGroupFE/static/css/791.13f5c274.chunk.css",
     "static/js/791.fdc98b79.chunk.js": "/SrfGroupFE/static/js/791.fdc98b79.chunk.js",
     "static/js/444.de3a130b.chunk.js": "/SrfGroupFE/static/js/444.de3a130b.chunk.js",
@@ -9,7 +9,7 @@
     "static/js/346.f8e105e0.chunk.js": "/SrfGroupFE/static/js/346.f8e105e0.chunk.js",
     "static/js/458.9b66d36e.chunk.js": "/SrfGroupFE/static/js/458.9b66d36e.chunk.js",
     "static/css/194.f5217eef.chunk.css": "/SrfGroupFE/static/css/194.f5217eef.chunk.css",
-    "static/js/194.e8786111.chunk.js": "/SrfGroupFE/static/js/194.e8786111.chunk.js",
+    "static/js/194.c82ca181.chunk.js": "/SrfGroupFE/static/js/194.c82ca181.chunk.js",
     "static/css/912.ea119431.chunk.css": "/SrfGroupFE/static/css/912.ea119431.chunk.css",
     "static/js/912.77cf8fc9.chunk.js": "/SrfGroupFE/static/js/912.77cf8fc9.chunk.js",
     "static/css/834.547b9121.chunk.css": "/SrfGroupFE/static/css/834.547b9121.chunk.css",
@@ -46,13 +46,13 @@
     "static/js/542.dfea8873.chunk.js": "/SrfGroupFE/static/js/542.dfea8873.chunk.js",
     "static/js/714.a21bec9a.chunk.js": "/SrfGroupFE/static/js/714.a21bec9a.chunk.js",
     "static/js/914.b0dcc7da.chunk.js": "/SrfGroupFE/static/js/914.b0dcc7da.chunk.js",
-    "static/js/13.70e6b31d.chunk.js": "/SrfGroupFE/static/js/13.70e6b31d.chunk.js",
+    "static/js/13.7e53f660.chunk.js": "/SrfGroupFE/static/js/13.7e53f660.chunk.js",
     "static/js/275.58ddc423.chunk.js": "/SrfGroupFE/static/js/275.58ddc423.chunk.js",
     "service-worker.js": "/SrfGroupFE/service-worker.js",
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
     "static/css/main.37db7a76.css",
-    "static/js/main.229b3330.js"
+    "static/js/main.2e7c6d13.js"
   ]
 }

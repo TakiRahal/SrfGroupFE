@@ -1,12 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box/Box';
-import {useTranslation} from "react-i18next";
 import {IAddress} from "../../../shared/model/address.model";
 import {FilterOffer} from "./FilterOffer";
 
-export default function LeftSearchClient({listAddress}: {listAddress: IAddress[]}) {
+export default function LeftSearchClient({listAddress, filterCallback}: {listAddress: IAddress[], filterCallback: Function}) {
 
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     React.useEffect(() => {
         try {
@@ -18,10 +17,15 @@ export default function LeftSearchClient({listAddress}: {listAddress: IAddress[]
         }
     }, []);
 
+    const onChange = (values: any) => {
+        // console.log('values ', values);
+        filterCallback(values);
+    }
+
     return (
         <Box sx={{ width: '100%'}}>
 
-            <FilterOffer listAddress={listAddress}/>
+            <FilterOffer listAddress={listAddress} handelChange={onChange}/>
 
             <Box sx={{mb: 4}}>
                 <div style={{width: '100%'}}>

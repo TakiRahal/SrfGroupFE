@@ -46,6 +46,8 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
     const [openFilterOfferModal, setOpenFilterOfferModal] = React.useState(false);
+    const [valuesSearch, setValuesSearch] = React.useState(null);
+
     const { search } = useLocation();
 
     const { t } = useTranslation();
@@ -111,6 +113,15 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
         setOpenFilterOfferModal(false);
     }
 
+    const handleSearchFilterOfferModal = () => {
+        setOpenFilterOfferModal(false);
+        searchCalback(valuesSearch);
+    }
+
+    const onChange = (values: any) => {
+        setValuesSearch(values);
+    }
+
     const renderDialogFilterOffer = () => {
         return (
             <Dialog
@@ -134,8 +145,8 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             Sound
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleCloseFilterOfferModal}>
-                            save
+                        <Button autoFocus color="inherit" onClick={handleSearchFilterOfferModal}>
+                            {t('common.label_search')}
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -147,7 +158,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                         To subscribe to this website, please enter your email address here. We
                         will send updates occasionally.
                     </DialogContentText>
-                    <FilterOffer listAddress={listAddress}/>
+                    <FilterOffer listAddress={listAddress} handelChange={onChange}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseFilterOfferModal}>

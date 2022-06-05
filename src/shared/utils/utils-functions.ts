@@ -67,15 +67,20 @@ export function useQuery() {
 export function getFullUrlWithParams(values: any) {
     let queryParams = '';
     Object.keys(values).forEach((key) => {
-        if(key==='category' && values[key] && values[key].id){
+        if( key==='category' && values[key] && values[key].id ){
             if(values[key]){
                 queryParams += '&category.id='+ values[key].id;
             }
         }
-        else{
+
+        if( key==='address' && values[key] && values[key].id ) {
             if(values[key]){
-                queryParams += '&'+key+ '='+ values[key];
+                queryParams += '&address.id='+ values[key].id;
             }
+        }
+
+        if( key!=='category' && key!=='address' && values[key]){
+            queryParams += '&'+key+ '='+ values[key];
         }
     });
     return queryParams;

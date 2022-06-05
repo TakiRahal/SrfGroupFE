@@ -65,6 +65,7 @@ export const Search = (props: ISearchProps) => {
     }
 
     const searchCalback = (values: any) => {
+        console.log('values ', values);
         navigate({
             pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
@@ -104,7 +105,7 @@ export const Search = (props: ISearchProps) => {
                 <Grid item xs={12} sm={6} md={1}></Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <LeftSearch listAddress={props.entitiesAddress.slice()}/>
+                    <LeftSearch listAddress={props.entitiesAddress.slice()} filterCallback={searchCalback}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} sx={{pt: {xs: '0 !important', md: '48px !important'}}}>

@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.7d3abe04.css",
-    "main.js": "/SrfGroupFE/static/js/main.e9daee05.js",
-    "static/css/651.3afe7dff.chunk.css": "/SrfGroupFE/static/css/651.3afe7dff.chunk.css",
-    "static/js/651.108bb18b.chunk.js": "/SrfGroupFE/static/js/651.108bb18b.chunk.js",
+    "main.js": "/SrfGroupFE/static/js/main.9e313008.js",
+    "static/css/791.13f5c274.chunk.css": "/SrfGroupFE/static/css/791.13f5c274.chunk.css",
+    "static/js/791.151ded91.chunk.js": "/SrfGroupFE/static/js/791.151ded91.chunk.js",
     "static/js/444.de3a130b.chunk.js": "/SrfGroupFE/static/js/444.de3a130b.chunk.js",
     "static/css/346.31d6cfe0.chunk.css": "/SrfGroupFE/static/css/346.31d6cfe0.chunk.css",
     "static/js/346.f8e105e0.chunk.js": "/SrfGroupFE/static/js/346.f8e105e0.chunk.js",
@@ -54,6 +54,6 @@
   },
   "entrypoints": [
     "static/css/main.7d3abe04.css",
-    "static/js/main.e9daee05.js"
+    "static/js/main.9e313008.js"
   ]
 }

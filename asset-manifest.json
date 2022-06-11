@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/SrfGroupFE/static/css/main.37db7a76.css",
+    "main.css": "/SrfGroupFE/static/css/main.7d3abe04.css",
     "main.js": "/SrfGroupFE/static/js/main.e9daee05.js",
     "static/css/651.3afe7dff.chunk.css": "/SrfGroupFE/static/css/651.3afe7dff.chunk.css",
     "static/js/651.108bb18b.chunk.js": "/SrfGroupFE/static/js/651.108bb18b.chunk.js",
@@ -53,7 +53,7 @@
     "index.html": "/SrfGroupFE/index.html"
   },
   "entrypoints": [
-    "static/css/main.37db7a76.css",
+    "static/css/main.7d3abe04.css",
     "static/js/main.e9daee05.js"
   ]
 }

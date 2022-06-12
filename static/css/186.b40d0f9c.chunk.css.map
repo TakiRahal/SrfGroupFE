@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/186.b40d0f9c.chunk.css","mappings":"AACE,wCACE,gBACA,uBACA","sources":["shared/components/item-offer/ItemsOffer.scss"],"sourcesContent":[".card-item-offer {\r\n  .MuiCardHeader-content {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n  }\r\n}"],"names":[],"sourceRoot":""}

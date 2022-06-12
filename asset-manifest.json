@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SrfGroupFE/static/css/main.7ecf2cf2.css",
-    "main.js": "/SrfGroupFE/static/js/main.34a65e7a.js",
+    "main.js": "/SrfGroupFE/static/js/main.d7464f81.js",
     "static/css/502.eba18c7e.chunk.css": "/SrfGroupFE/static/css/502.eba18c7e.chunk.css",
     "static/js/502.3a397d55.chunk.js": "/SrfGroupFE/static/js/502.3a397d55.chunk.js",
     "static/js/872.46f0cd03.chunk.js": "/SrfGroupFE/static/js/872.46f0cd03.chunk.js",
@@ -52,7 +52,7 @@
     "service-worker.js": "/SrfGroupFE/service-worker.js",
     "index.html": "/SrfGroupFE/index.html",
     "main.7ecf2cf2.css.map": "/SrfGroupFE/static/css/main.7ecf2cf2.css.map",
-    "main.34a65e7a.js.map": "/SrfGroupFE/static/js/main.34a65e7a.js.map",
+    "main.d7464f81.js.map": "/SrfGroupFE/static/js/main.d7464f81.js.map",
     "502.eba18c7e.chunk.css.map": "/SrfGroupFE/static/css/502.eba18c7e.chunk.css.map",
     "502.3a397d55.chunk.js.map": "/SrfGroupFE/static/js/502.3a397d55.chunk.js.map",
     "872.46f0cd03.chunk.js.map": "/SrfGroupFE/static/js/872.46f0cd03.chunk.js.map",
@@ -101,6 +101,6 @@
   },
   "entrypoints": [
     "static/css/main.7ecf2cf2.css",
-    "static/js/main.34a65e7a.js"
+    "static/js/main.d7464f81.js"
   ]
 }

@@ -109,11 +109,14 @@ export const ForgotPassword = (props: IForgotPasswordProps) => {
                                                     id="email"
                                                     name="email"
                                                     type="email"
+                                                    inputProps={{
+                                                        'data-testid': 'email'
+                                                    }}
                                                     label={t('common.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                 />
-                                                <FormHelperText id="component-helper-text">{formik.touched.email && formik.errors.email}</FormHelperText>
+                                                <FormHelperText id="component-helper-text" data-testid="error-msg">{formik.touched.email && formik.errors.email}</FormHelperText>
                                             </FormControl>
                                         </Grid>
                                     </Grid>

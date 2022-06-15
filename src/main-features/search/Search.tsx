@@ -65,7 +65,6 @@ export const Search = (props: ISearchProps) => {
     }
 
     const searchCalback = (values: any) => {
-        console.log('values ', values);
         navigate({
             pathname: ALL_APP_ROUTES.SEARCH,
             search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()

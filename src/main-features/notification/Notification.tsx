@@ -50,12 +50,10 @@ export const Notification = (props: INotificationProps) => {
     }, []);
 
     React.useEffect(() => {
-        console.log('activePage ', activePage);
         if(activePage>=0){
             props.getEntitiesNotification(activePage, AllAppConfig.NOTIFICATIONS_PER_PAGE, '');
         }
     }, [activePage]);
-
 
     React.useEffect(() => {
         if(props.listNotifications && props.listNotifications.length>0){
@@ -79,7 +77,6 @@ export const Notification = (props: INotificationProps) => {
     }, [props.addSuccessIsRead]);
 
     const loadMore = () => {
-        console.log('loadMore');
         setActivePage(activePage+1);
     }
 

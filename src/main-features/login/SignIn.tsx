@@ -146,7 +146,7 @@ export const SignIn = (props: ISignInProps) => {
                             </Typography>
 
                             <Box sx={{ mt: 1, pb: 2 }}>
-                                <form onSubmit={formik.handleSubmit}>
+                                <form onSubmit={formik.handleSubmit} data-testid="login-form">
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)}>

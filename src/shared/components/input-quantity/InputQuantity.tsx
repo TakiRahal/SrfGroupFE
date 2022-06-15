@@ -26,7 +26,6 @@ export function InputQuantity({parentCallChangeQuantity, defaultValue}: {parentC
     });
 
     React.useEffect(() => {
-        console.log('defaultValue ', defaultValue);
         if(defaultValue){
             formik.setFieldValue('quantity', defaultValue);
         }

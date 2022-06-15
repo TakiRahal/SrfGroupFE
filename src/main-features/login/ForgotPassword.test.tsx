@@ -40,24 +40,11 @@ const store = createStore(
     })
 );
 
-// const store: any = mockStore({
-//     user: {
-//         isAuthenticated: false,
-//         nbeNotificationsNotRead: 0,
-//         nbeMessagesNotRead: 0,
-//         oneSignalId: 'azerty',
-//         currentUser: {}
-//     },
-//     locale: {
-//         currentLocale: 'fr'
-//     }
-// });
-
 describe("Test ForgotPassword Component", () => {
 
     test('render ForgotPassword component', async () => {
 
-        render(
+        const component = render(
             <Provider store={store}>
                 <BrowserRouter>
                     <ThemeProvider theme={ThemeApp}>
@@ -66,31 +53,33 @@ describe("Test ForgotPassword Component", () => {
                 </BrowserRouter>
             </Provider>);
 
-        // const buttonList = await screen.findAllByRole('button');
-        // expect(buttonList).toHaveLength(3);
+        const srfTitle = component.getByText("SRF");
+        const srfTitleForgotPassword = component.getAllByText("signin.title_page_forgot_password");
+        expect(srfTitle).toBeTruthy()
+        expect(srfTitleForgotPassword).toBeTruthy();
 
     });
 
-    // test('Email should be accept only email format', async () => {
-    //
-    //     render(
-    //         <Provider store={store}>
-    //             <BrowserRouter>
-    //                 <ThemeProvider theme={ThemeApp}>
-    //                     <SignIn/>
-    //                 </ThemeProvider>
-    //             </BrowserRouter>
-    //         </Provider>);
-    //
-    //     // Valid email
-    //     const email = screen?.getByTestId('email') as HTMLInputElement;
-    //
-    //     // const email = await waitFor(() => screen.getByTestId('email')) as HTMLInputElement;
-    //     userEvent.type(email, "test@test.tn");
-    //     expect(email.value).not.toMatch('test@gmail.com');
-    //
-    //
-    // });
+    test('Email should be accept only email format', async () => {
+
+        render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <ThemeProvider theme={ThemeApp}>
+                        <ForgotPassword/>
+                    </ThemeProvider>
+                </BrowserRouter>
+            </Provider>);
+
+        // Valid email
+        const email = screen?.getByTestId('email') as HTMLInputElement;
+        const errorMessage = screen?.getByTestId('error-msg') as HTMLInputElement;
+        userEvent.type(email, 'test@test.tn');
+        expect(email).toHaveValue('test@test.tn');
+        expect(email.value).not.toMatch('test@gmail.com');
+        expect(errorMessage).toBeInTheDocument();
+
+    });
 
 
     // test('Password should have the password type', async () => {

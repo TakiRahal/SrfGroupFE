@@ -1,6 +1,6 @@
 {
   "name": "srf-group",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://takirahal.github.io/SrfGroupFE",
   "private": true,
   "dependencies": {
@@ -69,7 +69,7 @@
     "suneditor-react": "^3.4.0",
     "swiper": "^8.2.2",
     "ts-jest": "^28.0.2",
-    "typescript": "^4.5.5",
+    "typescript": "^4.7.3",
     "typescript-react-facebook-messenger": "0.0.4",
     "web-vitals": "^0.2.4",
     "webstomp-client": "^1.2.6",
@@ -93,10 +93,10 @@
     "start": "react-scripts start",
     "start:dev": "env-cmd -f ./environments/.dev.env react-scripts start",
     "build": "react-scripts build",
-    "build:prod:windows": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
+    "build:prod:windows": "react-scripts build",
     "build:prod": "env-cmd -f ./environments/.prod.env npm run build:prod:windows",
-    "test-jest": "react-scripts test",
-    "jest-coverage": "jest --coverage",
+    "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage",
     "test-sonar": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "serve:build:prod": "npm run build:prod && serve -s build",
@@ -112,7 +112,8 @@
     "docker:logstash:up": "docker-compose -f docker/logstash.yml up -d",
     "docker:logstash:down": "docker-compose -f docker/logstash.yml down -v --remove-orphans",
     "docker:react:up": "docker-compose -f react.yml up ",
-    "docker:react:down": "docker-compose -f react.yml down -v --remove-orphans"
+    "docker:react:down": "docker-compose -f react.yml down -v --remove-orphans",
+    "clear-jest": "jest --clearCache"
   },
   "eslintConfig": {
     "extends": [
@@ -139,11 +140,13 @@
     "@types/react-router-dom": "5.1.7",
     "@types/styled-components": "^5.1.22",
     "env-cmd": "^10.1.0",
+    "enzyme": "^3.11.0",
     "gh-pages": "^3.2.3",
     "jest-sonar-reporter": "^2.0.0",
     "jest-watch-typeahead": "^0.6.5",
     "redux-mock-store": "^1.5.4",
-    "sonarqube-scanner": "^2.8.1"
+    "sonarqube-scanner": "^2.8.1",
+    "user-agent-data-types": "^0.2.0"
   },
   "jest": {
     "transform": {

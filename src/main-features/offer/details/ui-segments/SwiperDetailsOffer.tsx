@@ -7,7 +7,7 @@ import {Autoplay, EffectFade, Lazy, Navigation, Thumbs, Zoom} from 'swiper';
 import SwiperCore from 'swiper';
 import {IOffer} from "../../../../shared/model/offer.model";
 import {IOfferImages} from "../../../../shared/model/offer-images.model";
-import {getImageForOffer} from "../../../../shared/utils/utils-functions";
+import {getBaseImageUrl, getImageForOffer} from "../../../../shared/utils/utils-functions";
 
 // Import Swiper styles
 import "swiper/css";
@@ -16,6 +16,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import ImageLightbox from "../../../../shared/pages/image-lightbox";
 import Box from "@mui/material/Box/Box";
+import {AllAppConfig} from "../../../../core/config/all-config";
+import {LazyImage} from "../../../../shared/components/lazy-image";
 
 // install Swiper modules
 SwiperCore.use([Autoplay, EffectFade, Lazy, Zoom, Navigation, Thumbs]);
@@ -68,8 +70,23 @@ export default function SwiperDetailsOffer(offerEntity: IOffer) {
                     {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
                         <SwiperSlide key={offerImage.id}>
                             <div className="swiper-zoom-container">
-                                <img src={getImageForOffer(offerEntity.id, offerImage.path)}
-                                     onClick={() => setOpenLightBox(true)} onContextMenu={(e) => e.preventDefault()}/>
+                                {/*<img src={getImageForOffer(offerEntity.id, offerImage.path)}*/}
+                                {/*     onClick={() => setOpenLightBox(true)} onContextMenu={(e) => e.preventDefault()}/>*/}
+
+                                <LazyImage
+                                    src={getImageForOffer(offerEntity.id, offerImage.path)}
+                                    alt="Image swiper"
+                                    actual={({ imageProps }) => <img {...imageProps} className="full-img-responsive" onClick={() => setOpenLightBox(true)} onContextMenu={(e) => e.preventDefault()}/>}
+                                    placeholder={({ ref }) => <div ref={ref} />}
+                                    loading={() => (
+                                        <div>
+                                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                        </div>
+                                    )}
+                                    error={() => (
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"  alt="image not found"/>
+                                    )}
+                                />
                             </div>
                         </SwiperSlide>
                     ))}
@@ -84,7 +101,21 @@ export default function SwiperDetailsOffer(offerEntity: IOffer) {
                 >
                     {offerEntity.offerImages.map((offerImage: IOfferImages, index) => (
                         <SwiperSlide key={offerImage.id}>
-                            <img src={getImageForOffer(offerEntity.id, offerImage.path)}/>
+                            {/*<img src={getImageForOffer(offerEntity.id, offerImage.path)}/>*/}
+                            <LazyImage
+                                src={getImageForOffer(offerEntity.id, offerImage.path)}
+                                alt="Image swiper"
+                                actual={({ imageProps }) => <img {...imageProps} className="full-img-responsive"/>}
+                                placeholder={({ ref }) => <div ref={ref} />}
+                                loading={() => (
+                                    <div>
+                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                    </div>
+                                )}
+                                error={() => (
+                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"  alt="image not found"/>
+                                )}
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>

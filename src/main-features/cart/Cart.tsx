@@ -36,6 +36,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import Skeleton from "@mui/material/Skeleton/Skeleton";
 
 
 function DetailsCart({nbeCarts, detailsEntity}: {nbeCarts: number, detailsEntity: any}) {
@@ -66,6 +67,39 @@ function DetailsCart({nbeCarts, detailsEntity}: {nbeCarts: number, detailsEntity
 
         </List>
     )
+}
+
+function LoadingCarts() {
+    return(
+        <Box>
+            {
+                [0, 1, 2].map((key) => (
+                    <Card sx={{ display: { xs: 'block', sm: 'flex' }, my: 2 }} key={key}>
+                        <CardMedia
+                            sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
+                            <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
+                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
+                            </Box>
+                        </CardMedia>
+                        <CardContent sx={{ flex: 1 }}>
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+
+                                    <Skeleton animation="wave" height={24}/>
+
+                                    <Skeleton animation="wave" height={24}/>
+
+                                    <Skeleton variant="rectangular" width={'100%'} height={'100%'} sx={{my: 3}}/>
+                                </Grid>
+                            </Grid>
+
+                        </CardContent>
+                    </Card>
+                ))
+            }
+        </Box>
+    );
 }
 
 function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuantity}:
@@ -230,7 +264,6 @@ export const Cart = (props: ICartProps) => {
     }, [])
 
     const deleteCart = (cartId: number) => {
-        console.log('cartId ', cartId);
         props.deleteEntity(cartId);
     }
 
@@ -241,7 +274,6 @@ export const Cart = (props: ICartProps) => {
     }, [props.deleteSuccess])
 
     const updateByQuantity = (value: ICart) => {
-        console.log('updateByQuantity ', value);
         props.updateEntityByQuantity(value);
     }
 
@@ -250,10 +282,6 @@ export const Cart = (props: ICartProps) => {
             props.getDetailsEntity();
         }
     }, [props.entities])
-
-    React.useEffect(() => {
-        console.log('props.entityDetails ', props.entityDetails);
-    }, [props.entityDetails])
 
     return (
         <Container maxWidth="xl">
@@ -277,6 +305,10 @@ export const Cart = (props: ICartProps) => {
             <Grid container spacing={4} sx={{ mt: 3 }}>
                 <Grid item xs={12} md={2}></Grid>
                 <Grid item xs={12} md={6}>
+
+                    {
+                        props.loadingEntities ? <LoadingCarts /> : null
+                    }
 
                     {
                         props.entities.map((item: ICart, index: number) => (

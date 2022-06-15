@@ -150,7 +150,7 @@ export const Account = (props: IAccountClientProps) => {
                 ...currentUser,
                 ...props.entityUpdateInfosAccount
             }
-            StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
+            StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(updateCurrentUser));
         }
     }, [props.updateSuccessInfosAccount])
 

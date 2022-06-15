@@ -83,11 +83,12 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
                             />
                         </CardMedia>
                     ) : (
-                        <CardMedia sx={{height:200 }}>
-                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}
-                                  className="img-lazy-loading"
-                                  alt="image not found"/>
-                        </CardMedia>
+                        <CardMedia
+                            component="img"
+                            height="200"
+                            image={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}
+                            alt="image not found"
+                        />
                     )
                 }
 

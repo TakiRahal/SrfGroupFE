@@ -470,7 +470,7 @@ function App(props: IAppProps) {
 
     return (
         <>
-            <ScrollToTopRouters />
+            <ScrollToTopRouters data-testid="scroll-to-top-routers"/>
             <ThemeProvider theme={ThemeApp}>
                 <CssBaseline/>
                 <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" autoClose={5000}/>
@@ -484,7 +484,7 @@ function App(props: IAppProps) {
                         {rightMenuMobile()}
                     </Drawer>
                 </React.Fragment>
-                <div id="back-to-top-anchor"></div>
+                <div id="back-to-top-anchor" data-testid="back-to-top-anchor"></div>
                 <Header isAuthenticated={props.isAuthenticated}
                         currentUser={currentUser}
                         parentCallbackLogout={(event: any) => handleLogout()}

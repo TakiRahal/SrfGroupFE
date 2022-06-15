@@ -130,7 +130,6 @@ export const AddUpdateOffer = (props: IAddUpdateOfferProps) => {
     const {id} = useParams<{ id: string }>();
 
     React.useEffect(() => {
-        console.log('id ', id);
         if(id){ // For update
             getEntityOffer(Number(id) || -1);
         }

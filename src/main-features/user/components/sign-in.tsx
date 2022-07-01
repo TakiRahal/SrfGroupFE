@@ -40,7 +40,7 @@ const initialValues = initialValuesSignIn;
 
 // export interface ISignInProps extends StateProps, DispatchProps {}
 
-export const SignIn = () => {
+export default function SignIn (){
     const [startAnimation, setStartAnimation] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState({
         showPassword: false,

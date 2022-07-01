@@ -19,12 +19,14 @@ import LoadingSearchOffers from "./ui-segments/LoadingSearchOffers";
 import InfiniteScroll from 'react-infinite-scroller';
 import ItemsOffer from "../../../../shared/components/item-offer/ItemsOffer";
 import Alert from "@mui/material/Alert";
+import LeftSearch from "./ui-segments/LeftSearch";
+import RightSearch from "./ui-segments/RightSearch";
 
 const isOnLine = (list:any[], email: string): boolean => {
     return list.findIndex(item => item.principal.email==email) >=0;
 }
 
-export const Search = () => {
+export default function Search () {
 
     const [typeDisplayOffers, setTypeDisplayOffers] = React.useState<TypeDisplaySearchOffers>(TypeDisplaySearchOffers.Grid);
     const [activePage, setActivePage] = React.useState(-1);
@@ -106,7 +108,7 @@ export const Search = () => {
                 <Grid item xs={12} sm={6} md={1}></Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    {/*<LeftSearch listAddress={props.entitiesAddress.slice()} filterCallback={searchCalback}/>*/}
+                    <LeftSearch listAddress={entitiesAddress.slice()} filterCallback={searchCalback}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} sx={{pt: {xs: '0 !important', md: '48px !important'}}}>
@@ -140,7 +142,7 @@ export const Search = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'block' } }}>
-                    {/*<RightSearch />*/}
+                    <RightSearch />
                 </Grid>
             </Grid>
 

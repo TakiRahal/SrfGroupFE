@@ -45,7 +45,7 @@ interface ISignUP {
 
 // export interface ISignUpProps extends StateProps, DispatchProps {}
 
-export const SignUp = () => {
+export default function SignUp() {
     // const [startAnimation, setStartAnimation] = React.useState(false);
     // const [showPassword, setShowPassword] = React.useState({
     //     showPassword: false,

@@ -10,13 +10,10 @@ import Box from '@mui/material/Box';
 import {useSelector} from "react-redux";
 import {allSessionSelector} from "../../main-features/user/store/slice";
 
-const LazyHome = React.lazy(
-    () => import('../../main-features/home/home')
-)
-
-const LazySignUp = React.lazy(() => import('../../main-features/register/SignUp').then(({SignUp}) => ({default: SignUp})))
-const LazySignIn = React.lazy(() => import('../../main-features/user/components/sign-in').then(({SignIn}) => ({default: SignIn})))
-const LazySearch = React.lazy(() => import('../../main-features/offer/components/search/search').then(({Search}) => ({default: Search})))
+const LazyHome = React.lazy(() => import('../../main-features/home/home'));
+const LazySignUp = React.lazy(() => import('../../main-features/register/SignUp'));
+const LazySignIn = React.lazy(() => import('../../main-features/user/components/sign-in'));
+const LazySearch = React.lazy(() => import('../../main-features/offer/components/search/search'));
 
 //
 // const LazySignUp = React.lazy(() =>

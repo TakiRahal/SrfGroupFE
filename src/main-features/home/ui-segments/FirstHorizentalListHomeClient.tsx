@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper/Paper";
 import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
 import Box from "@mui/material/Box/Box";
 import {Translation} from "react-i18next";
+import {FunctionComponent} from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -13,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default function FirstHorizentalListHomeClient() {
+export const FirstHorizentalListHomeClient: FunctionComponent = () => {
 
     const listCategories = [
         {

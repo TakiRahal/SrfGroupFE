@@ -51,10 +51,13 @@ const sagaMiddleware = createSagaMiddleware();
 
 const defaultMiddlewares = [
     sagaMiddleware,
-    logger,
     notificationMiddleware,
     websocketMiddleware
 ]
+
+if(process.env.NODE_ENV === 'development'){
+    defaultMiddlewares.push(logger);
+}
 
 export const store = configureStore({
     reducer: rootReducer,

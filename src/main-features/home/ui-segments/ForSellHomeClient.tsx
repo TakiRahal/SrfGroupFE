@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import Container from '@mui/material/Container/Container';
 import Grid from '@mui/material/Grid/Grid';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
@@ -10,9 +10,6 @@ import Box from '@mui/material/Box/Box';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import { connect } from 'react-redux';
-import {IRootState} from "../../../shared/reducers";
-import {getEntitiesForSell} from "../../../shared/reducers/seller-offer.reducer";
 import {useTranslation} from "react-i18next";
 import {Link, useNavigate} from "react-router-dom";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
@@ -24,7 +21,9 @@ import "swiper/css/effect-cube";
 import './ForSellHome.scss';
 import {IOffer} from "../../../shared/model/offer.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-import {LazyImage} from "../../../shared/components/lazy-image";
+import {LazyImage} from "react-lazy-images";
+import {useDispatch, useSelector} from "react-redux";
+import {allPublicOffersSelector, allSellerOffersSelector, fetchSellerOffer} from '../../offer/store/slice';
 
 function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -38,8 +37,8 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: {imageProps: any}) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -73,8 +72,8 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: {imageProps: any}) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -102,8 +101,8 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: {imageProps: any}) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -137,12 +136,14 @@ function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, r
     );
 }
 
-export interface IForSellClientProp extends StateProps, DispatchProps {}
 
-export const ForSellHomeClient = (props: IForSellClientProp) => {
+export const ForSellHomeClient: FunctionComponent = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const {sellerEntities} = useSelector(allSellerOffersSelector);
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
@@ -150,21 +151,23 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
         }, 300);
     };
 
-    const { listSellOffers, getEntitiesForSell } = props;
-
     React.useEffect(() => {
-        getEntitiesForSell(0, 4, 'id,asc');
+        dispatch(fetchSellerOffer({
+            page: 0,
+            size: 4,
+            queryParams: ''
+        }));
     }, [])
 
     return(
         <Container maxWidth="xl" sx={{my: 20}} className="container-for-sell-home">
             <h3>
                 <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Sell}`}>
-                    {t('common.for_sell')}
+                    {t<string>('common.for_sell')}
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {listSellOffers.map((offer: any, index: number) => (
+                {sellerEntities.map((offer: any, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForSell offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -181,7 +184,7 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {listSellOffers.map((offer: any, index: number) => (
+                    {sellerEntities.map((offer: any, index: number) => (
                         <SwiperSlide  key={`offer-${index}`}>
                             <ItemForSell offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>
@@ -192,15 +195,15 @@ export const ForSellHomeClient = (props: IForSellClientProp) => {
     );
 }
 
-const mapStateToProps = ({sellOffer}: IRootState) => ({
-    listSellOffers: sellOffer.entitiesSellOffers,
-});
-
-const mapDispatchToProps = {
-    getEntitiesForSell,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForSellHomeClient);
+// const mapStateToProps = ({sellOffer}: IRootState) => ({
+//     listSellOffers: sellOffer.entitiesSellOffers,
+// });
+//
+// const mapDispatchToProps = {
+//     getEntitiesForSell,
+// };
+//
+// type StateProps = ReturnType<typeof mapStateToProps>;
+// type DispatchProps = typeof mapDispatchToProps;
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(ForSellHomeClient);

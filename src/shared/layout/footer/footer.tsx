@@ -88,7 +88,7 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                         />
                         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                         <LoadingButton loading={false} variant="text" color="neutral" type="submit">
-                            {t('common.label_subscribe')}
+                            {t<string>('common.label_subscribe')}
                         </LoadingButton>
                     </Paper>
                     {
@@ -141,17 +141,17 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
 
                     <Grid item xs={12} sm={3}>
                         <Typography variant="h6" align="center" gutterBottom>
-                            {t('footer.label_about_us')}
+                            {t<string>('footer.label_about_us')}
                         </Typography>
 
                         <Link to={ALL_APP_ROUTES.SUPPORT.ABOUT_US}>
                             <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                                {t('footer.label_Who_are_we')}
+                                {t<string>('footer.label_Who_are_we')}
                             </Typography>
                         </Link>
 
                         <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-                            {t('footer.label_privacy_policy')}
+                            {t<string>('footer.label_privacy_policy')}
                         </Typography>
                         <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
                             Politique des cookies

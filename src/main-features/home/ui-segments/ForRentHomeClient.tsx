@@ -7,14 +7,13 @@ import CardMedia from '@mui/material/CardMedia/CardMedia';
 import CardContent from '@mui/material/CardContent/CardContent';
 import Typography from '@mui/material/Typography/Typography';
 import {Link, useNavigate} from 'react-router-dom';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import Box from '@mui/material/Box/Box';
 import {IRootState} from "../../../shared/reducers";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {IRentOffer} from "../../../shared/model/rent-offer.model";
 import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
 import {AllAppConfig} from "../../../core/config/all-config";
-import {getEntitiesForRent} from "../../../shared/reducers/rent-offer.reducer";
 import {useTranslation} from "react-i18next";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {IOffer} from "../../../shared/model/offer.model";
@@ -24,7 +23,8 @@ import './ForRentHome.scss';
 
 import {Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-import {LazyImage} from "../../../shared/components/lazy-image";
+import { LazyImage } from 'react-lazy-images';
+import {allRentOffersSelector, fetchRentOffer} from "../../offer/store/slice";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -42,8 +42,8 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -85,8 +85,8 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -122,8 +122,8 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -160,19 +160,23 @@ function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
     );
 }
 
-export interface IForRentClientProp extends StateProps, DispatchProps {
-}
 
-export const ForRentHomeClient = (props: IForRentClientProp) => {
+export const ForRentHomeClient = () => {
 
 
     const navigate = useNavigate();
     const {t} = useTranslation();
+    const dispatch = useDispatch();
 
-    const {getEntitiesForRent, listRentOffers} = props;
+    const {rentEntities} = useSelector(allRentOffersSelector);
+
 
     React.useEffect(() => {
-        getEntitiesForRent(0, 4, 'id,asc');
+        dispatch(fetchRentOffer({
+            page: 0,
+            size: 4,
+            queryParams: ''
+        }));
     }, []);
 
     const rediretTo = (offerId?: number) => {
@@ -185,11 +189,11 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
         <Container maxWidth="xl" className="container-for-rent-home">
             <h3>
                 <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Rent}`}>
-                    {t('common.for_rent')}
+                    {t<string>('common.for_rent')}
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{xs: 1, sm: 2, md: 3}} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {listRentOffers.map((offer: IRentOffer, index: number) => (
+                {rentEntities.map((offer: IRentOffer, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -206,7 +210,7 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {listRentOffers.map((offer: IRentOffer, index: number) => (
+                    {rentEntities.map((offer: IRentOffer, index: number) => (
                         <SwiperSlide key={`offer-${index}`}>
                             <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>
@@ -217,15 +221,15 @@ export const ForRentHomeClient = (props: IForRentClientProp) => {
     );
 };
 
-const mapStateToProps = ({rentOffer}: IRootState) => ({
-    listRentOffers: rentOffer.entitiesRentOffers,
-});
-
-const mapDispatchToProps = {
-    getEntitiesForRent,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForRentHomeClient);
+// const mapStateToProps = ({rentOffer}: IRootState) => ({
+//     listRentOffers: rentOffer.entitiesRentOffers,
+// });
+//
+// const mapDispatchToProps = {
+//     getEntitiesForRent,
+// };
+//
+// type StateProps = ReturnType<typeof mapStateToProps>;
+// type DispatchProps = typeof mapDispatchToProps;
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(ForRentHomeClient);

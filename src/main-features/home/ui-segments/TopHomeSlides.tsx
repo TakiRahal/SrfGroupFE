@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import Box from '@mui/material/Box';
 import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
 import {IRootState} from "../../../shared/reducers";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import { useNavigate} from "react-router-dom";
@@ -13,18 +13,27 @@ import {StorageService} from "../../../shared/services/storage.service";
 import {ITopHomeSlidesImages} from "../../../shared/model/top-home-slides-images.model";
 import i18n from "i18next";
 import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
+import {allSessionSelector} from "../../user/store/slice";
+import {allCategorySelector} from "../../category/store/slice";
+import {allAddressSelector} from "../../address/store/slice";
+import {allTopHomeSlidesImagesSelector} from "../store/slice";
+import {fetchTopHomeSlidesImages} from '../store/slice';
 
 
 // const defaultImage = getBaseImageUrl('/assets/images/home/default_top_home.jpg');
 
-export interface ITopHomeSlidesProp extends StateProps, DispatchProps {}
+// export interface ITopHomeSlidesProp extends StateProps, DispatchProps {}
 
-export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
+export const TopHomeSlides: FunctionComponent = () => {
 
     const [listTopSlidesImage] = React.useState<ITopHomeSlidesImages[]>(StorageService.local.get(AllAppConfig.HOME_TOP_SLIDES_IMAGE))
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
 
     const navigate = useNavigate();
+
+    const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
+    const entitiesAddress = useSelector(allAddressSelector).entities ?? [];
+    const entitiesTopHomeSlidesImages = useSelector(allTopHomeSlidesImagesSelector) ?? [];
 
     React.useEffect(() => {
         i18n.on('languageChanged', (lang: any) => {
@@ -40,10 +49,10 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
     }
 
     React.useEffect(() => {
-        if(props.entitiesTopHomeSlidesImages && props.entitiesTopHomeSlidesImages.length){
-            StorageService.local.set(AllAppConfig.HOME_TOP_SLIDES_IMAGE, props.entitiesTopHomeSlidesImages.slice());
+        if(entitiesTopHomeSlidesImages?.length){
+            StorageService.local.set(AllAppConfig.HOME_TOP_SLIDES_IMAGE, entitiesTopHomeSlidesImages.slice());
         }
-    }, [props.entitiesTopHomeSlidesImages])
+    }, [entitiesTopHomeSlidesImages])
 
     const getBackgroundImage = () => {
         for (let i=0; i<listTopSlidesImage.length; i++){
@@ -114,23 +123,8 @@ export const TopHomeSlides = (props: ITopHomeSlidesProp) => {
                     zIndex: 9
                 }}
             >
-                <SearchAppBar entitiesCategories={props.entitiesCategories.slice()} searchCalback={searchCalback} listAddress={props.entitiesAddress.slice()} hideFilter={true}/>
+                <SearchAppBar entitiesCategories={entitiesCategories?.slice()} searchCalback={searchCalback} listAddress={entitiesAddress?.slice()} hideFilter={true}/>
             </Box>
         </div>
     )
 }
-
-const mapStateToProps = ({category, topHomeSlidesImages, address}: IRootState) => ({
-    entitiesCategories: category.entities,
-    entitiesTopHomeSlidesImages: topHomeSlidesImages.entities,
-
-    entitiesAddress: address.entities
-});
-
-const mapDispatchToProps = {
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopHomeSlides);

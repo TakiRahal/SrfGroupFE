@@ -29,9 +29,9 @@ import {useTranslation} from "react-i18next";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './ItemsOffer.scss';
-import {LazyImage} from "../lazy-image";
 import {StyledBadge} from "../../pages/styled-badge";
 import {useNavigate} from "react-router-dom";
+import {LazyImage} from "react-lazy-images";
 
 
 export default function ItemOffer({listOffers, typeDisplay, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
@@ -100,8 +100,8 @@ function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                         <LazyImage
                             src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                             alt="Buildings with tiled exteriors, lit by the sunset."
-                            actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                            placeholder={({ ref }) => <div ref={ref} />}
+                            actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                            placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                             loading={() => (
                                 <div>
                                     <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -178,11 +178,11 @@ function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                             <Typography variant="subtitle2" color="text.secondary" display="flex">
                                 <CheckIcon fontSize="small" sx={{mr: 0.9}}/>
                                 {offer.typeOffer === TypeOfferEnum.Sell
-                                    ? t('common.for_sell')
+                                    ? t<string>('common.for_sell')
                                     : offer.typeOffer === TypeOfferEnum.Rent
-                                        ? t('common.for_rent')
+                                        ? t<string>('common.for_rent')
                                         : offer.typeOffer === TypeOfferEnum.Find
-                                            ? t('common.for_find')
+                                            ? t<string>('common.for_find')
                                             : null}
                             </Typography>
                         </Grid>
@@ -251,8 +251,8 @@ function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                             <LazyImage
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                 alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
+                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
                                 loading={() => (
                                     <div>
                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
@@ -270,11 +270,11 @@ function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                         <Typography gutterBottom variant="h5" component="div" sx={{fontSize: {xs: '1rem', md: '1.5rem' }}}>
                             <CheckIcon fontSize="small" sx={{mr: 0.9, fontSize: {xs: '0.9rem', md: '1.25rem;' } }}/>
                             {offer.typeOffer === TypeOfferEnum.Sell
-                                ? t('common.for_sell')
+                                ? t<string>('common.for_sell')
                                 : offer.typeOffer === TypeOfferEnum.Rent
-                                    ? t('common.for_rent')
+                                    ? t<string>('common.for_rent')
                                     : offer.typeOffer === TypeOfferEnum.Find
-                                        ? t('common.for_find')
+                                        ? t<string>('common.for_find')
                                         : null}
                         </Typography>
 

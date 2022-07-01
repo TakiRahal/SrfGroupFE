@@ -135,6 +135,9 @@ const unsubscribe = () => {
 };
 
 export default (store: any) => (next: any) => (action: any) => {
+
+    // console.log('action ', action);
+
     if (action.type === SUCCESS(WS_ACTIONS.CONNECTED_WEBSOCKET)) {
 
         connect(store.getState().user.currentUser);

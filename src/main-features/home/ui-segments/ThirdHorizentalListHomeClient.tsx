@@ -39,8 +39,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >01</Avatar>
-                        <h2 className="mt-2">{t('home.steps.title_create_account')}</h2>
-                        <p>{t('home.steps.sub_title_create_account')}</p>
+                        <h2 className="mt-2">{t<string>('home.steps.title_create_account')}</h2>
+                        <p>{t<string>('home.steps.sub_title_create_account')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -55,8 +55,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >02</Avatar>
-                        <h2 className="mt-2">{t('home.steps.title_login')}</h2>
-                        <p>{t('home.steps.sub_title_login')}</p>
+                        <h2 className="mt-2">{t<string>('home.steps.title_login')}</h2>
+                        <p>{t<string>('home.steps.sub_title_login')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -71,8 +71,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >03</Avatar>
-                        <h2 className="mt-2">{t('home.steps.title_participate')}</h2>
-                        <p>{t('home.steps.sub_title_participate')}</p>
+                        <h2 className="mt-2">{t<string>('home.steps.title_participate')}</h2>
+                        <p>{t<string>('home.steps.sub_title_participate')}</p>
                     </Grid>
                     <Grid item xs={12} md={3} className="text-center item-full-slide">
                         <Avatar
@@ -87,8 +87,8 @@ export default function ThirdHorizentalListHomeClient() {
                                 fontSize: '25px'
                             }}
                         >04</Avatar>
-                        <h2 className="mt-2">{t('home.steps.title_win_auction')}</h2>
-                        <p>{t('home.steps.sub_title_win_auction')}</p>
+                        <h2 className="mt-2">{t<string>('home.steps.title_win_auction')}</h2>
+                        <p>{t<string>('home.steps.sub_title_win_auction')}</p>
                     </Grid>
                 </Grid>
 
@@ -117,8 +117,8 @@ export default function ThirdHorizentalListHomeClient() {
                                         fontSize: '25px'
                                     }}
                                 >01</Avatar>
-                                <h2 className="mt-2">{t('home.steps.title_create_account')}</h2>
-                                <p>{t('home.steps.sub_title_create_account')}</p>
+                                <h2 className="mt-2">{t<string>('home.steps.title_create_account')}</h2>
+                                <p>{t<string>('home.steps.sub_title_create_account')}</p>
                             </Grid>
                         </SwiperSlide>
                         <SwiperSlide>
@@ -135,8 +135,8 @@ export default function ThirdHorizentalListHomeClient() {
                                         fontSize: '25px'
                                     }}
                                 >02</Avatar>
-                                <h2 className="mt-2">{t('home.steps.title_login')}</h2>
-                                <p>{t('home.steps.sub_title_login')}</p>
+                                <h2 className="mt-2">{t<string>('home.steps.title_login')}</h2>
+                                <p>{t<string>('home.steps.sub_title_login')}</p>
                             </Grid>
                         </SwiperSlide>
                         <SwiperSlide>
@@ -153,8 +153,8 @@ export default function ThirdHorizentalListHomeClient() {
                                         fontSize: '25px'
                                     }}
                                 >03</Avatar>
-                                <h2 className="mt-2">{t('home.steps.title_participate')}</h2>
-                                <p>{t('home.steps.sub_title_participate')}</p>
+                                <h2 className="mt-2">{t<string>('home.steps.title_participate')}</h2>
+                                <p>{t<string>('home.steps.sub_title_participate')}</p>
                             </Grid>
                         </SwiperSlide>
                         <SwiperSlide>
@@ -171,8 +171,8 @@ export default function ThirdHorizentalListHomeClient() {
                                         fontSize: '25px'
                                     }}
                                 >04</Avatar>
-                                <h2 className="mt-2">{t('home.steps.title_win_auction')}</h2>
-                                <p>{t('home.steps.sub_title_win_auction')}</p>
+                                <h2 className="mt-2">{t<string>('home.steps.title_win_auction')}</h2>
+                                <p>{t<string>('home.steps.sub_title_win_auction')}</p>
                             </Grid>
                         </SwiperSlide>
                     </Swiper>

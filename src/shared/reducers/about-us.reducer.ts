@@ -59,3 +59,6 @@ export const getEntity = () => {
         }, {})
     };
 };
+
+
+export const aboutUsSelector = (state: any) => state.aboutUs;

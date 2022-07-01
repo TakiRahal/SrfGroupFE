@@ -34,7 +34,7 @@ axios.create({
     },
 });
 
-export const invokeWS = (endpoint: IEndPoint, requestData: any, options?: InvokeOptions) => {
+export const invokeWS = (endpoint: IEndPoint, requestData?: any, options?: InvokeOptions) => {
 
     const invokeOptions = formatOptions(options || {});
 

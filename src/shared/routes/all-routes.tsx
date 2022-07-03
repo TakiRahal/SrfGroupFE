@@ -14,6 +14,10 @@ const LazyHome = React.lazy(() => import('../../main-features/home/home'));
 const LazySignUp = React.lazy(() => import('../../main-features/register/SignUp'));
 const LazySignIn = React.lazy(() => import('../../main-features/user/components/sign-in'));
 const LazySearch = React.lazy(() => import('../../main-features/offer/components/search/search'));
+const LazyContactUs = React.lazy(() => import('../../main-features/contact-us/components/contact-us'));
+const LazyFaq = React.lazy(() => import('../../main-features/faq/components/faq'));
+const LazyAboutUs = React.lazy( () => import('../../main-features/aboutus/components/about-us'));
+
 
 //
 // const LazySignUp = React.lazy(() =>
@@ -118,6 +122,28 @@ export default function AllRoutes(){
                        element={
                            <React.Suspense fallback={<>...</>}>
                                <LazySearch />
+                           </React.Suspense>
+                       } />
+
+                <Route path={ALL_APP_ROUTES.SUPPORT.CONTACT_US}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyContactUs />
+                           </React.Suspense>
+                       } />
+
+                <Route path={ALL_APP_ROUTES.SUPPORT.FAQ}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyFaq />
+                           </React.Suspense>
+                       } />
+
+
+                <Route path={ALL_APP_ROUTES.SUPPORT.ABOUT_US}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyAboutUs />
                            </React.Suspense>
                        } />
 

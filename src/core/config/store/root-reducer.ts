@@ -7,6 +7,10 @@ import {offerSlice} from "../../../main-features/offer/store/slice";
 import {contactUsSlice} from "../../../main-features/contact-us/store/slice";
 import {faqSlice} from "../../../main-features/faq/store/slice";
 import {aboutUsSlice} from "../../../main-features/aboutus/store/slice";
+import {notificationSlice} from '../../../main-features/notification/store/slice';
+import {chatSlice} from '../../../main-features/chat/store/slice';
+import {favoriteSlice} from "../../../main-features/favorite/store/slice";
+import {cartSlice} from "../../../main-features/cart/store/slice";
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
@@ -16,7 +20,11 @@ const rootReducer = combineReducers({
     offer: offerSlice.reducer,
     contactus: contactUsSlice.reducer,
     faq: faqSlice.reducer,
-    aboutus: aboutUsSlice.reducer
+    aboutus: aboutUsSlice.reducer,
+    notification: notificationSlice.reducer,
+    chat: chatSlice.reducer,
+    favorite: favoriteSlice.reducer,
+    cart: cartSlice.reducer
 })
 
 export default rootReducer;

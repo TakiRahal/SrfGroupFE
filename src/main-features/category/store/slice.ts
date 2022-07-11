@@ -23,4 +23,5 @@ export const {
 
 //? ********************| LOGIN SELECTORS |*******************/
 export const allCategorySelector = (state: any) => state[CATEGORY_KEY_IN_STORE].category;
+export const entitiesCategory = (state: any) => state[CATEGORY_KEY_IN_STORE].category.entities;
 

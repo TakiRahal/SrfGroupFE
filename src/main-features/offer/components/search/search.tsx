@@ -1,7 +1,13 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {allPublicOffersSelector, fetchPubliOffer, resetPubliOffer} from "../../store/slice";
+import {
+    fetchPublicOffers,
+    entitiesPublicOffer,
+    loadingEntitiesPublicOffer,
+    resetPublicOffers,
+    totalItemsPublicOffer, totalPagesPublicOffer
+} from "../../store/slice";
 import {TypeDisplaySearchOffers} from "../../../../shared/enums/type-offer.enum";
 import {AllAppConfig} from "../../../../core/config/all-config";
 import {getFullUrlWithParams} from "../../../../shared/utils/utils-functions";
@@ -36,12 +42,17 @@ export default function Search () {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const {publicEntities, loadingPublicEntities, totalItems, totalPages} = useSelector(allPublicOffersSelector);
+    const entitiesPublicOfferSelector = useSelector(entitiesPublicOffer) ?? [];
+    const totalItemsPublicOfferSelector = useSelector(totalItemsPublicOffer) ?? -1;
+    const totalPagesPublicOfferSelector = useSelector(totalPagesPublicOffer) ?? 0;
+    const loadingEntitiesPublicOfferSelector = useSelector(loadingEntitiesPublicOffer) ?? false;
+
+    // const {publicEntities, loadingPublicEntities, totalItems, totalPages} = useSelector(allPublicOffersSelector);
     const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
     const entitiesAddress = useSelector(allAddressSelector).entities ?? [];
 
     const resetAll = () => {
-        dispatch(resetPubliOffer({}));
+        dispatch(resetPublicOffers({}));
         setActivePage(0);
     };
 
@@ -54,7 +65,7 @@ export default function Search () {
         if(activePage>=0 || isSearchCalback){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);
-            dispatch(fetchPubliOffer({
+            dispatch(fetchPublicOffers({
                 page: activePage,
                 size: AllAppConfig.OFFERS_PER_PAGE,
                 queryParams: queryParams
@@ -69,12 +80,13 @@ export default function Search () {
     }
 
     const searchCalback = (values: any) => {
-        navigate({
-            pathname: ALL_APP_ROUTES.SEARCH,
-            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
-        }, { replace: false })
-        setIsSearchCalback(true);
-        resetAll();
+        console.log('searchCalback ===');
+        // navigate({
+        //     pathname: ALL_APP_ROUTES.SEARCH,
+        //     search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        // }, { replace: false })
+        // setIsSearchCalback(true);
+        // resetAll();
     }
 
     const typeDisplay = (value: TypeDisplaySearchOffers) => {
@@ -124,15 +136,15 @@ export default function Search () {
                     <InfiniteScroll
                         pageStart={activePage}
                         loadMore={loadMore}
-                        hasMore={totalPages-1 > activePage}
+                        hasMore={totalPagesPublicOfferSelector-1 > activePage}
                         loader={<div className="loader" key={0}></div>}
                         threshold={0}
                         initialLoad={false}
                     >
-                        <ItemsOffer listOffers={publicEntities.slice()} typeDisplay={typeDisplayOffers} isOnLine={(email: string) => isUserOnline(email)}/>
+                        <ItemsOffer listOffers={entitiesPublicOfferSelector.slice()} typeDisplay={typeDisplayOffers} isOnLine={(email: string) => isUserOnline(email)}/>
 
                         {
-                            loadingPublicEntities ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : totalItems ===0 ?  <Alert severity="warning">No Offers found</Alert> : null
+                            loadingEntitiesPublicOfferSelector ? <LoadingSearchOffers typeDisplay={typeDisplayOffers}/> : totalItemsPublicOfferSelector ===0 ?  <Alert severity="warning">No Offers found</Alert> : null
                         }
 
                     </InfiniteScroll>

@@ -23,7 +23,12 @@ import {IOffer} from "../../../shared/model/offer.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import {LazyImage} from "react-lazy-images";
 import {useDispatch, useSelector} from "react-redux";
-import {allPublicOffersSelector, allSellerOffersSelector, fetchSellerOffer} from '../../offer/store/slice';
+import {
+    allPublicOffersSelector,
+    allSellerOffersSelector, entitiesSellerOffer,
+    entitySellerOffer,
+    fetchSellerOffer
+} from '../../offer/store/slice';
 
 function ItemForSell({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -143,7 +148,7 @@ export const ForSellHomeClient: FunctionComponent = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const {sellerEntities} = useSelector(allSellerOffersSelector);
+    const entitiesSellerOfferSelector = useSelector(entitiesSellerOffer) ?? [];
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
@@ -167,7 +172,7 @@ export const ForSellHomeClient: FunctionComponent = () => {
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {sellerEntities.map((offer: any, index: number) => (
+                {entitiesSellerOfferSelector.map((offer: any, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForSell offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -184,7 +189,7 @@ export const ForSellHomeClient: FunctionComponent = () => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {sellerEntities.map((offer: any, index: number) => (
+                    {entitiesSellerOfferSelector.map((offer: any, index: number) => (
                         <SwiperSlide  key={`offer-${index}`}>
                             <ItemForSell offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>

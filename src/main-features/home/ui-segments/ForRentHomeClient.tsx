@@ -24,7 +24,7 @@ import './ForRentHome.scss';
 import {Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import { LazyImage } from 'react-lazy-images';
-import {allRentOffersSelector, fetchRentOffer} from "../../offer/store/slice";
+import {allRentOffersSelector, entitiesRentOffer, entitiesSellerOffer, fetchRentOffer} from "../../offer/store/slice";
 
 function ItemForRentHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
     return (
@@ -168,7 +168,7 @@ export const ForRentHomeClient = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
 
-    const {rentEntities} = useSelector(allRentOffersSelector);
+    const entitiesRentOfferSelector = useSelector(entitiesRentOffer) ?? [];
 
 
     React.useEffect(() => {
@@ -193,7 +193,7 @@ export const ForRentHomeClient = () => {
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{xs: 1, sm: 2, md: 3}} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {rentEntities.map((offer: IRentOffer, index: number) => (
+                {entitiesRentOfferSelector.map((offer: IRentOffer, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -210,7 +210,7 @@ export const ForRentHomeClient = () => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {rentEntities.map((offer: IRentOffer, index: number) => (
+                    {entitiesRentOfferSelector.map((offer: IRentOffer, index: number) => (
                         <SwiperSlide key={`offer-${index}`}>
                             <ItemForRentHome offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>

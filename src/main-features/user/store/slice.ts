@@ -3,6 +3,8 @@ import {initialState} from "./initial.state";
 import loginReducer from './reducers/login.reducer';
 import sessionReducer from './reducers/session.reducer';
 import registerReducer from './reducers/register.reducer';
+import accountReducer from './reducers/account.reducer';
+import profileReducer from './reducers/profile.reducer';
 
 export const USER_KEY_IN_STORE = 'user';
 
@@ -12,7 +14,9 @@ export const userSlice: Slice = createSlice({
     reducers: {
         ...loginReducer,
         ...sessionReducer,
-        ...registerReducer
+        ...registerReducer,
+        ...accountReducer,
+        ...profileReducer
     }
 })
 
@@ -41,7 +45,29 @@ export const {
     //? ********************| REGISTER ACTIONS |*******************/
     registerUser,
     registerUserSuccess,
-    registerUserFailure
+    registerUserFailure,
+
+
+    //? ********************| UPDATE ACCOUNT INFOS ACTIONS |*******************/
+    updateInfosAccount,
+    updateInfosAccountSuccess,
+    updateInfosAccountFailure,
+
+
+    //? ********************| UPDATE ACCOUNT PASSWORD ACTIONS |*******************/
+    updatePasswordAccount,
+    updatePasswordAccountSuccess,
+    updatePasswordAccountFailure,
+
+
+    //? ********************| FETCH ACTIONS |*******************/
+    fetchProfileUser,
+    fetchProfileUserSuccess,
+    fetchProfileUserFailure,
+
+
+    logout
+
 
 } = userSlice.actions;
 
@@ -56,3 +82,17 @@ export const allLocaleSelector = (state: any) => state[USER_KEY_IN_STORE].locale
 
 //? ********************| SESSION SELECTORS |*******************/
 export const allSessionSelector = (state: any) => state[USER_KEY_IN_STORE].session;
+export const loadingSession = (state: any) => state[USER_KEY_IN_STORE].session.loading;
+
+
+//? ********************| ACCOUNT SELECTORS |*******************/
+export const loadingUpdateInfosAccount = (state: any) => state[USER_KEY_IN_STORE].account.loadingUpdateInfos;
+export const updateSuccessInfosAccount = (state: any) => state[USER_KEY_IN_STORE].account.updateSuccessInfos;
+export const loadingPasswordAccount = (state: any) => state[USER_KEY_IN_STORE].account.loadingPassword;
+export const updateSuccessPasswordAccount = (state: any) => state[USER_KEY_IN_STORE].account.updateSuccessPassword;
+export const entityUpdateInfosAccount = (state: any) => state[USER_KEY_IN_STORE].account.entityUpdateInfos;
+
+
+//? ********************| PROFILE SELECTORS |*******************/
+export const loadingProfile = (state: any) => state[USER_KEY_IN_STORE].profile.loading;
+export const entityProfile = (state: any) => state[USER_KEY_IN_STORE].profile.entity;

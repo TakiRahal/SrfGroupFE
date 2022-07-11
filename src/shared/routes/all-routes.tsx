@@ -9,6 +9,7 @@ import {PublicRoute} from "./public-route";
 import Box from '@mui/material/Box';
 import {useSelector} from "react-redux";
 import {allSessionSelector} from "../../main-features/user/store/slice";
+import {PrivateRoute} from "./private-route";
 
 const LazyHome = React.lazy(() => import('../../main-features/home/home'));
 const LazySignUp = React.lazy(() => import('../../main-features/register/SignUp'));
@@ -17,6 +18,15 @@ const LazySearch = React.lazy(() => import('../../main-features/offer/components
 const LazyContactUs = React.lazy(() => import('../../main-features/contact-us/components/contact-us'));
 const LazyFaq = React.lazy(() => import('../../main-features/faq/components/faq'));
 const LazyAboutUs = React.lazy( () => import('../../main-features/aboutus/components/about-us'));
+const LazyAddUpdateOffer = React.lazy( () => import('../../main-features/offer/components/add-update/add-update'));
+const LazyMyOffers = React.lazy( () => import('../../main-features/offer/components/my-offers/my-offers'))
+const LazyDetailsOffer = React.lazy(() => import('../../main-features/offer/components/details-offer/details-offer'))
+const LazyAccount = React.lazy(() => import('../../main-features/user/components/account'))
+const LazyNotification = React.lazy(() => import('../../main-features/notification/components/notification'))
+const LazyChat = React.lazy(() => import('../../main-features/chat/components/chat'))
+const LazyFavoriteUser = React.lazy(() => import('../../main-features/favorite/components/favorite-users/favorite-users'))
+const LazyCart = React.lazy(() => import('../../main-features/cart/components/cart'))
+const LazyProfile = React.lazy(() => import('../../main-features/user/components/profile/profile'))
 
 
 //
@@ -144,6 +154,99 @@ export default function AllRoutes(){
                        element={
                            <React.Suspense fallback={<>...</>}>
                                <LazyAboutUs />
+                           </React.Suspense>
+                       } />
+
+
+                <Route path={ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyAddUpdateOffer />
+                           </React.Suspense>
+                       } />
+
+                <Route
+                    path={ALL_APP_ROUTES.OFFER.MY_OFFERS}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyMyOffers />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route path={ALL_APP_ROUTES.DETAILS_OFFER + '/:id'}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyDetailsOffer />
+                           </React.Suspense>
+                       } />
+
+                <Route
+                    path={ALL_APP_ROUTES.ACCOUNT}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyAccount />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path={ALL_APP_ROUTES.NOTIFICATION.LIST}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyNotification />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path={ALL_APP_ROUTES.CHAT.LIST}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyChat />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path={ALL_APP_ROUTES.FAVORITE.USER}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyFavoriteUser />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path={ALL_APP_ROUTES.CART.LIST}
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyCart />
+                            </React.Suspense>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route path={ALL_APP_ROUTES.PROFILE + '/:id'}
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyProfile />
                            </React.Suspense>
                        } />
 

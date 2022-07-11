@@ -23,7 +23,7 @@ import {Pagination} from "swiper";
 import './ForFindHome.scss';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import { LazyImage } from 'react-lazy-images';
-import {allFindOffersSelector, fetchFindOffer} from "../../offer/store/slice";
+import {allFindOffersSelector, entitiesFindOffer, entitiesRentOffer, fetchFindOffer} from "../../offer/store/slice";
 
 
 function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -144,7 +144,7 @@ export const ForFindHomeClient = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const {findEntities} = useSelector(allFindOffersSelector);
+    const entitiesFindOfferSelector = useSelector(entitiesFindOffer) ?? [];
 
     React.useEffect(() => {
         dispatch(fetchFindOffer({
@@ -168,7 +168,7 @@ export const ForFindHomeClient = () => {
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {findEntities.map((offer: any, index: number) => (
+                {entitiesFindOfferSelector.map((offer: any, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -185,7 +185,7 @@ export const ForFindHomeClient = () => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {findEntities.map((offer: any, index: number) => (
+                    {entitiesFindOfferSelector.map((offer: any, index: number) => (
                         <SwiperSlide key={`offer-${index}`}>
                             <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>

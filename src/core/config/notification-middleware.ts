@@ -9,8 +9,6 @@ const addErrorAlert = (message: string, key?: string, data?: any) => {
 };
 export default () => (next: any) => (action: any) => {
 
-    // console.log('action ', action);
-
     // If not a promise, continue on
     if (!isPromise(action.payload)) {
         return next(action);
@@ -23,7 +21,6 @@ export default () => (next: any) => (action: any) => {
      */
     return next(action)
         .then((response: any) => {
-
             if (action.meta && action.meta.successMessage) {
                 toast.success(i18n.t<string>(action.meta.successMessage));
             } else if (response && response.action && response.action.payload && response.action.payload.headers) {

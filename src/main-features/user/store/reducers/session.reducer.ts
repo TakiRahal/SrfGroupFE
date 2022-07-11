@@ -1,4 +1,5 @@
 import {PayloadAction} from "@reduxjs/toolkit";
+import {initialState} from "../initial.state";
 
 const reducer = {
     sessionUser: (state: any) => {
@@ -35,6 +36,12 @@ const reducer = {
     },
     getNumberOfMessagesNotSeeFailure: (state: any, action: PayloadAction) => {
 
+    },
+
+    // Logout
+    logout: (state: any) => {
+        state.login = initialState.login;
+        state.session = initialState.session;
     },
 }
 

@@ -25,7 +25,6 @@ import {
     getNumberOfMessagesNotSee,
     getNumberOfNotificationsNotSee,
     loginGooglePlusOneTap,
-    logout
 } from "./shared/reducers/user-reducer";
 // import Drawer from "@mui/material/Drawer/Drawer";
 // import ListItem from "@mui/material/ListItem/ListItem";
@@ -88,7 +87,7 @@ import CookieConsent from "react-cookie-consent";
 import {REQUEST} from "./shared/reducers/action-type.util";
 import {getEntitiesAboutUs} from "./shared/store/about-us/action";
 import { aboutUsSelector } from './shared/reducers/about-us.reducer';
-import {allLocaleSelector, allLoginSelector} from './main-features/user/store/slice';
+import {allLocaleSelector, allLoginSelector, logout} from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics} from "./shared/providers/google-anaylitics";
 import {loadScriptFacebook} from "./shared/providers/facebook.provider";
@@ -98,7 +97,7 @@ import {ALL_APP_ROUTES} from "./core/config/all-app-routes";
 import ListItem from "@mui/material/ListItem";
 import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import {getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
+import {getBaseImageUrl, getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -115,6 +114,8 @@ import {registerUser, allSessionSelector} from './main-features/user/store/slice
 import { fetchCategories } from './main-features/category/store/slice';
 import { fetchAddress } from './main-features/address/store/slice';
 import {fetchHomeFeatures, fetchTopHomeSlidesImages } from './main-features/home/store/slice';
+import {entitiesPublicOffer} from "./main-features/offer/store/slice";
+import Drawer from "@mui/material/Drawer";
 
 
 
@@ -178,8 +179,6 @@ function ScrollTop(props: any) {
     );
 }
 
-// export interface IAppProps extends StateProps, DispatchProps {}
-
 export const App = () => {
     const [openAnchorDrawer, setOpenAnchorDrawer] = React.useState(false);
     const [openAnchorDrawerRight, setOpenAnchorDrawerRight] = React.useState(false);
@@ -193,12 +192,6 @@ export const App = () => {
     const dispatch = useDispatch();
     const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead} = useSelector(allSessionSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
-
-
-    React.useEffect(() => {
-        console.log('isAuthenticated ', isAuthenticated);
-    }, [isAuthenticated])
-
 
     // const isDark = false;
     const ThemeApp = createTheme({
@@ -263,15 +256,15 @@ export const App = () => {
     //
     // // Callback From header and menu mobile
     const handleLogout = () => {
-    //     handleDrawerToggleRight(false);
+        handleDrawerToggleRight(false);
     //
     //     props.removeEmailFromListConnectedUsers(props.currentUser.email); // remove user from list
     //     props.resetNotification();
     //     props.resetOffer();
     //     props.resetConversations();
     //     props.resetMessages();
-    //     props.logout();
-    //     navigate(ALL_APP_ROUTES.HOME);
+        dispatch(logout({}));
+        navigate(ALL_APP_ROUTES.HOME);
     }
 
     const handleDrawerToggleRight = (isOpen: boolean) => {
@@ -515,17 +508,17 @@ export const App = () => {
             <ThemeProvider theme={ThemeApp}>
                 <CssBaseline/>
                 <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" autoClose={5000}/>
-                {/*<React.Fragment>*/}
-                {/*    <Drawer anchor="left" open={openAnchorDrawer} onClose={() => handleDrawerToggle(false)}>*/}
-                {/*        {listMenuMobile()}*/}
-                {/*    </Drawer>*/}
-                {/*</React.Fragment>*/}
-                {/*<React.Fragment>*/}
-                {/*    <Drawer anchor="right" open={openAnchorDrawerRight} onClose={() => handleDrawerToggleRight(false)}>*/}
-                {/*        {rightMenuMobile()}*/}
-                {/*    </Drawer>*/}
-                {/*</React.Fragment>*/}
-                {/*<div id="back-to-top-anchor" data-testid="back-to-top-anchor"></div>*/}
+                <React.Fragment>
+                    <Drawer anchor="left" open={openAnchorDrawer} onClose={() => handleDrawerToggle(false)}>
+                        {listMenuMobile()}
+                    </Drawer>
+                </React.Fragment>
+                <React.Fragment>
+                    <Drawer anchor="right" open={openAnchorDrawerRight} onClose={() => handleDrawerToggleRight(false)}>
+                        {rightMenuMobile()}
+                    </Drawer>
+                </React.Fragment>
+                <div id="back-to-top-anchor" data-testid="back-to-top-anchor"></div>
                 <Header isAuthenticated={isAuthenticated}
                         currentUser={currentUser}
                         parentCallbackLogout={(event: any) => handleLogout()}
@@ -543,13 +536,12 @@ export const App = () => {
                         position: 'relative',
                     }} >
                     <AllRoutes/>
-                    {/*<AllRoutes {...props} />*/}
 
-                    {/*<ScrollTop {...props}>*/}
-                    {/*    <Fab sx={{ backgroundColor: '#3f3f40', color: '#fff' }} size="small" aria-label="scroll back to top">*/}
-                    {/*        <KeyboardArrowUpIcon />*/}
-                    {/*    </Fab>*/}
-                    {/*</ScrollTop>*/}
+                    <ScrollTop>
+                        <Fab sx={{ backgroundColor: '#3f3f40', color: '#fff' }} size="small" aria-label="scroll back to top">
+                            <KeyboardArrowUpIcon />
+                        </Fab>
+                    </ScrollTop>
 
                     {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>

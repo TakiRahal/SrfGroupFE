@@ -7,12 +7,12 @@ import loggerMiddleware from './logger-middleware';
 // // import {loadingBarMiddleware} from 'react-redux-loading-bar';
 // import reducer, {IRootState} from "../../shared/reducers";
 // import reducerTest from "./store/root-reducer";
-import notificationMiddleware from './notification-middleware';
+// import notificationMiddleware from './notification-middleware';
 import websocketMiddleware from './websocket-middleware';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './store/root-saga';
 import rootReducer from "./store/root-reducer";
-import counterReducer from '../features/counter/counterSlice';
+// import counterReducer from '../features/counter/counterSlice';
 import logger from 'redux-logger'
 import {configureStore, ThunkAction, Action, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -51,7 +51,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const defaultMiddlewares = [
     sagaMiddleware,
-    notificationMiddleware,
+    // notificationMiddleware,
     websocketMiddleware
 ]
 

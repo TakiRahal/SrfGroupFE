@@ -9,6 +9,10 @@ import offerSaga from "../../../main-features/offer/store/saga";
 import contactUsSaga from "../../../main-features/contact-us/store/saga";
 import faqSaga from "../../../main-features/faq/store/saga";
 import aboutUsSaga from "../../../main-features/aboutus/store/saga";
+import notificationSaga from "../../../main-features/notification/store/saga";
+import chatSaga from "../../../main-features/chat/store/saga";
+import favoriteSaga from "../../../main-features/favorite/store/saga";
+import cartSaga from "../../../main-features/cart/store/saga";
 export default function* rootSaga() {
     yield all([
         fork(userSaga),
@@ -18,6 +22,10 @@ export default function* rootSaga() {
         fork(offerSaga),
         fork(contactUsSaga),
         fork(faqSaga),
-        fork(aboutUsSaga)
+        fork(aboutUsSaga),
+        fork(notificationSaga),
+        fork(chatSaga),
+        fork(favoriteSaga),
+        fork(cartSaga)
     ]);
 }

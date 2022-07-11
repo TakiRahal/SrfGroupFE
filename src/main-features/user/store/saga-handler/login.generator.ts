@@ -117,3 +117,16 @@ export function* registerHandler(
         yield put(registerUserFailure(e));
     }
 }
+
+
+export function* logoutHandler(){
+    if (StorageService.local.get(AllAppConfig.NAME_TOKEN_CURRENT_USER)) {
+        StorageService.local.remove(AllAppConfig.NAME_TOKEN_CURRENT_USER);
+    }
+    if (StorageService.session.get(AllAppConfig.NAME_TOKEN_CURRENT_USER)) {
+        StorageService.session.remove(AllAppConfig.NAME_TOKEN_CURRENT_USER);
+    }
+
+    StorageService.local.remove(AllAppConfig.VALUE_CURRENT_USER);
+    // yield put(logoutSuccess(true));
+}

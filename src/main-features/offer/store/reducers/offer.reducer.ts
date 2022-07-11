@@ -2,23 +2,64 @@ import {PayloadAction} from "@reduxjs/toolkit";
 import {initialState} from "../initial.state";
 
 const reducer = {
-    fetchPubliOffer: (state: any) => {
-        state.publicOffer.loadingPublicEntities = true;
+    fetchPublicOffers: (state: any) => {
+        state.publicOffer.loadingEntities = true;
     },
-    fetchPubliOfferSuccess: (state: any, action: PayloadAction) => {
-        state.publicOffer.loadingPublicEntities = false;
-        state.publicOffer.publicEntities = action.payload;
+    fetchPublicOffersSuccess: (state: any, action: PayloadAction) => {
+        state.publicOffer.loadingEntities = false;
+        state.publicOffer.entities = action.payload;
     },
-    fetchPubliOfferFailure: (state: any, action: PayloadAction) => {
-        state.publicOffer.loadingPublicEntities = false;
+    fetchPublicOffersFailure: (state: any, action: PayloadAction) => {
+        state.publicOffer.loadingEntities = false;
     },
-
-    resetPubliOffer: (state: any) => {
+    resetPublicOffers: (state: any) => {
         return {
             ...state,
             ...initialState.publicOffer
         };
     },
+
+
+    fetchDetailsPublicOffer: (state: any) => {
+        state.publicOffer.loading = true;
+    },
+    fetchDetailsPublicOfferSuccess: (state: any, action: PayloadAction) => {
+        state.publicOffer.loading = false;
+        state.publicOffer.entity = action.payload;
+    },
+    fetchDetailsPublicOfferFailure: (state: any, action: PayloadAction) => {
+        state.publicOffer.loading = false;
+    },
+
+
+    fetchOffersByUser: (state: any) => {
+        state.userOffers.loading = true;
+    },
+    fetchOffersByUserSuccess: (state: any, action: any) => {
+        state.userOffers.loadingEntities = false;
+        state.userOffers.entities = action.payload?.content;
+        state.userOffers.totalItems = action.payload?.totalElements;
+        state.userOffers.totalPages = action.payload?.totalPages;
+    },
+    fetchOffersByUserFailure: (state: any, action: any) => {
+        state.userOffers.loading = false;
+    },
+
+
+    fetchRecentlyOffer: (state: any) => {
+        state.recentlyOffers.loading = true;
+    },
+    fetchRecentlyOfferSuccess: (state: any, action: any) => {
+        state.recentlyOffers.loadingEntities = false;
+        state.recentlyOffers.entities = action.payload?.content;
+        state.recentlyOffers.totalItems = action.payload?.totalElements;
+        state.recentlyOffers.totalPages = action.payload?.totalPages;
+    },
+    fetchRecentlyOfferFailure: (state: any, action: any) => {
+        state.recentlyOffers.loadingEntities = false;
+    },
+
+
 }
 
 export default reducer;

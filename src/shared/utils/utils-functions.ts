@@ -22,7 +22,7 @@ export const getFullnameUser = (user?: IUser | null | undefined) => {
  * @returns {string}
  */
 export const getBaseImageUrl = (path?: string) => {
-    return `${process.env.REACT_APP_BASE_URL_FE +  (process.env?.REACT_APP_PUBLIC_URL || '')}` + path;
+    return `${process.env?.REACT_APP_BASE_URL_FE}` + path;
 }
 
 /**

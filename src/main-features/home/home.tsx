@@ -7,6 +7,9 @@ import SecondHorizentalListHomeClient from './ui-segments/SecondHorizentalListHo
 import {ForFindHomeClient} from "./ui-segments/ForFindHomeClient";
 import ThirdHorizentalListHomeClient from "./ui-segments/ThirdHorizentalListHomeClient";
 import {FirstHorizentalListHomeClient} from "./ui-segments/FirstHorizentalListHomeClient";
+import {RecentlyAddedHomeClient} from "./ui-segments/RecentlyAddedHomeClient";
+import {PostHomeFeature} from "./ui-segments/PostHomeFeature";
+import {BottomHomeSlides} from "./ui-segments/BottomHomeSlides";
 
 export default function Home(){
     return (
@@ -25,11 +28,11 @@ export default function Home(){
 
             <ThirdHorizentalListHomeClient />
 
-            {/*<RecentlyAddedHomeClient />*/}
+            <RecentlyAddedHomeClient />
 
-            {/*<PostHomeFeature />*/}
+            <PostHomeFeature />
 
-            {/*<BottomHomeSlides {...props}/>*/}
+            <BottomHomeSlides />
         </Box>
     );
 }

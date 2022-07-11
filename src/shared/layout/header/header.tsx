@@ -292,7 +292,7 @@ export default function Header(props: any){
                             sx={{ mr: 1, display: { xs: 'none', sm: 'inline-flex;' } }}
                             startIcon={<AddCircleIcon />}
                             component={Link}
-                            to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
+                            to={ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}
                         >
                             {t<string>('header.label_add_offer')}
                         </Button>
@@ -413,7 +413,7 @@ export default function Header(props: any){
                             aria-controls=""
                             aria-haspopup="true"
                             component={Link}
-                            to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
+                            to={ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}
                         >
                             <AddCircleIcon sx={{ width: 30, height: 30 }} />
                         </IconButton>

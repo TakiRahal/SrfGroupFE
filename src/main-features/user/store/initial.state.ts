@@ -23,5 +23,16 @@ export const initialState = {
     },
     locale: {
         currentLocale: 'fr'
+    },
+    account: {
+        loadingPassword: false,
+        updateSuccessPassword: false,
+        entityUpdateInfos: {},
+        loadingUpdateInfos: false,
+        updateSuccessInfos: false,
+    },
+    profile: {
+        loading: false,
+        entity: {},
     }
 };

@@ -25,6 +25,7 @@ export function FilterOffer({listAddress, handelChange}: { listAddress: IAddress
     const [value, setValue] = React.useState<number[]>([20, 50]);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
+        console.log('handleChange ', newValue);
         setValue(newValue as number[]);
     };
 
@@ -38,9 +39,9 @@ export function FilterOffer({listAddress, handelChange}: { listAddress: IAddress
         },
     });
 
-    React.useEffect(() => {
-        handelChange(formik.values);
-    }, [formik.values.address])
+    // React.useEffect(() => {
+    //     handelChange(formik.values);
+    // }, [formik.values.address])
 
     return (
         <Box>

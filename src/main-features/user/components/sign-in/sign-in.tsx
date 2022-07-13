@@ -11,8 +11,9 @@ import {Link, useNavigate} from 'react-router-dom';
 import Fab from '@mui/material/Fab/Fab';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
+import FacebookLogin from 'react-facebook-login';
 import { useFormik } from 'formik';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput/OutlinedInput';
@@ -28,13 +29,15 @@ import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Container from "@mui/material/Container/Container";
 import { GoogleLogin } from 'react-google-login';
 import {useTranslation} from "react-i18next";
-import {allLocaleSelector, allLoginSelector, allSessionSelector} from "../store/slice";
-import {initialValuesSignIn, validationSchemaSignIn} from "../validation/validation-signin";
-import {IFacebook, IGooglePlus} from "../../../shared/model/user.model";
-import {SourceProvider} from "../../../shared/enums/source-provider";
-import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {AllAppConfig} from "../../../core/config/all-config";
-import {loginUser, sessionUser, getNumberOfNotificationsNotSee, getNumberOfMessagesNotSee} from '../store/slice';
+import {allLocaleSelector, allLoginSelector, allSessionSelector, loginWithFacebook, loginWithGoogle} from "../../store/slice";
+import {initialValuesSignIn, validationSchemaSignIn} from "../../validation/validation-signin";
+import {IFacebook, IGooglePlus} from "../../../../shared/model/user.model";
+import {SourceProvider} from "../../../../shared/enums/source-provider";
+import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
+import {AllAppConfig} from "../../../../core/config/all-config";
+import {loginUser, sessionUser, getNumberOfNotificationsNotSee, getNumberOfMessagesNotSee} from '../../store/slice';
+import './sign-in.scss';
+import Stack from "@mui/material/Stack";
 
 const initialValues = initialValuesSignIn;
 
@@ -49,7 +52,7 @@ export default function SignIn (){
     const dispatch = useDispatch();
     const {loading, token} = useSelector(allLoginSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
-    const {isAuthenticated} = useSelector(allSessionSelector);
+    const {isAuthenticated, oneSignalId} = useSelector(allSessionSelector);
 
     const handleClickShowPassword = () => {
         setShowPassword({
@@ -73,11 +76,6 @@ export default function SignIn (){
         }
     }, [token]);
 
-    React.useEffect(() => {
-        console.log('isAuthenticated ', isAuthenticated);
-    }, [isAuthenticated]);
-
-
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaSignIn,
@@ -85,7 +83,7 @@ export default function SignIn (){
             dispatch(loginUser({
                 email: values.email.toString(),
                 password: values.password.toString(),
-                oneSignalId: 'oneSignalId',
+                oneSignalId: oneSignalId,
                 rememberMe: true
             }));
             // props.login(values.email.toString(), values.password.toString(), props.oneSignalId, true);
@@ -97,9 +95,10 @@ export default function SignIn (){
             const requestData: IFacebook = {
                 ...response,
                 sourceProvider: SourceProvider.FACEBOOK,
-                idOneSignal: 'oneSignalId',
-                langKey: 'currentLocale'
+                idOneSignal: oneSignalId,
+                langKey: currentLocale
             };
+            dispatch(loginWithFacebook({...requestData}));
             // loginFacebook(requestData);
         }
     };
@@ -110,8 +109,9 @@ export default function SignIn (){
                 ...response,
                 sourceProvider: SourceProvider.GOOGLE_PLUS,
                 idOneSignal: 'oneSignalId',
-                langKey: 'currentLocale'
+                langKey: currentLocale
             };
+            dispatch(loginWithGoogle({...requestData}));
             // loginGooglePlus(requestData);
         }
     };
@@ -210,7 +210,8 @@ export default function SignIn (){
 
                                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label={t('signin.label_remember_me').toString()} />
 
-                                    <LoadingButton loading={false} fullWidth
+                                    <LoadingButton loading={loading}
+                                                   fullWidth
                                                    variant="contained"
                                                    color="neutral"
                                                    type="submit"
@@ -237,18 +238,17 @@ export default function SignIn (){
                             </Box>
                         </Box>
 
-                        <Box sx={{ textAlign: 'center', my: 4 }}>
-                            {/*<FacebookLogin*/}
-                            {/*    appId="sqd"*/}
-                            {/*    autoLoad={false}*/}
-                            {/*    fields="name,email,picture"*/}
-                            {/*    textButton=""*/}
-                            {/*    icon={*/}
-                            {/*        <FacebookIcon />*/}
-                            {/*    }*/}
-                            {/*    callback={responseFacebook}*/}
-                            {/*></FacebookLogin>*/}
-
+                        <Stack spacing={2} direction="row" sx={{ justifyContent: 'center', my: 4 }}>
+                            <FacebookLogin
+                                appId="sqd"
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                textButton=""
+                                icon={
+                                    <FacebookIcon />
+                                }
+                                callback={responseFacebook}
+                            ></FacebookLogin>
                             <GoogleLogin
                                 clientId={AllAppConfig.CLIENT_ID_GOOGLLE}
                                 onSuccess={responseGoogle}
@@ -266,7 +266,8 @@ export default function SignIn (){
                                     </Fab>
                                 )}
                             ></GoogleLogin>
-                        </Box>
+                        </Stack>
+
                     </Grid>
                     <Grid item xs={4}></Grid>
                 </Grid>

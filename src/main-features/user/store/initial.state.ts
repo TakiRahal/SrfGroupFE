@@ -19,7 +19,9 @@ export const initialState = {
         loading: false,
     },
     register: {
-
+        loading: false,
+        addSuccess: false,
+        errorMessage: null,
     },
     locale: {
         currentLocale: 'fr'
@@ -30,6 +32,9 @@ export const initialState = {
         entityUpdateInfos: {},
         loadingUpdateInfos: false,
         updateSuccessInfos: false,
+        loadingUpdateAvatar: false,
+        updateSuccessAvatar: false,
+        entityUpdateAvatar: {},
     },
     profile: {
         loading: false,

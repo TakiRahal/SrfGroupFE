@@ -62,7 +62,19 @@ export default function Search () {
     }, []);
 
     React.useEffect(() => {
-        if(activePage>=0 || isSearchCalback){
+        if(activePage>=0){
+            const values = queryString.parse(search);
+            let queryParams = getFullUrlWithParams(values);
+            dispatch(fetchPublicOffers({
+                page: activePage,
+                size: AllAppConfig.OFFERS_PER_PAGE,
+                queryParams: queryParams
+            }));
+        }
+    }, [activePage]);
+
+    React.useEffect(() => {
+        if(isSearchCalback){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);
             dispatch(fetchPublicOffers({
@@ -72,7 +84,7 @@ export default function Search () {
             }));
             setIsSearchCalback(false);
         }
-    }, [activePage, isSearchCalback]);
+    }, [isSearchCalback]);
 
 
     const loadMore = () => {
@@ -80,13 +92,12 @@ export default function Search () {
     }
 
     const searchCalback = (values: any) => {
-        console.log('searchCalback ===');
-        // navigate({
-        //     pathname: ALL_APP_ROUTES.SEARCH,
-        //     search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
-        // }, { replace: false })
-        // setIsSearchCalback(true);
-        // resetAll();
+        navigate({
+            pathname: ALL_APP_ROUTES.SEARCH,
+            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        }, { replace: false })
+        setIsSearchCalback(true);
+        resetAll();
     }
 
     const typeDisplay = (value: TypeDisplaySearchOffers) => {

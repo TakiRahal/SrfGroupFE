@@ -39,7 +39,7 @@ export function* addFindOfferHandler(data: any): Generator<any, any, any> {
         }, {
             ...data.payload
         })
-        yield put(addFindOfferSuccess(result?.data?.content));
+        yield put(addFindOfferSuccess(result?.data));
     } catch (e) {
         console.error(e);
         yield put(addFindOfferFailure(e));

@@ -29,31 +29,37 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {useTranslation} from "react-i18next";
 import Select from "@mui/material/Select/Select";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import {dataUrlToFile, getFullnameUser, getUserAvatar} from "../../../shared/utils/utils-functions";
+import {dataUrlToFile, getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
 import {
     allSessionSelector,
+    entityUpdateAvatar,
     entityUpdateInfosAccount,
     loadingPasswordAccount, loadingSession,
+    loadingUpdateAvatar,
     loadingUpdateInfosAccount,
     sessionUser,
+    updateAvatarAccount,
+    updateInfosAccount,
+    updatePasswordAccount,
+    updateSuccessAvatar,
     updateSuccessInfosAccount, updateSuccessPasswordAccount
-} from "../store/slice";
+} from "../../store/slice";
 import {
     initialValuesAccount,
     initialValuesPasswordAccount,
     validationSchemaAccount,
     validationSchemaPasswordAccount
-} from '../validation/validation-account';
-import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
-import {languages, locales} from "../../../shared/reducers/locale.reducer";
-import {StorageService} from "../../../shared/services/storage.service";
-import {AllAppConfig} from "../../../core/config/all-config";
-import {getImageUrl} from "../../../shared/utils/image-url";
-import {loadingEntitiesMyOffers} from "../../offer/store/slice";
-import {SourceProvider} from "../../../shared/enums/source-provider";
-import {allCategorySelector} from "../../category/store/slice";
-import {allAddressSelector} from "../../address/store/slice";
-import {IAddress} from "../../../shared/model/address.model";
+} from '../../validation/validation-account';
+import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
+import {languages, locales} from "../../../../shared/reducers/locale.reducer";
+import {StorageService} from "../../../../shared/services/storage.service";
+import {AllAppConfig} from "../../../../core/config/all-config";
+import {getImageUrl} from "../../../../shared/utils/image-url";
+import {loadingEntitiesMyOffers} from "../../../offer/store/slice";
+import {SourceProvider} from "../../../../shared/enums/source-provider";
+import {allCategorySelector} from "../../../category/store/slice";
+import {allAddressSelector} from "../../../address/store/slice";
+import {IAddress} from "../../../../shared/model/address.model";
 
 
 const initialValues = initialValuesAccount;
@@ -68,6 +74,10 @@ export default function Account (){
     const loadingPasswordAccountSelector = useSelector(loadingPasswordAccount) ?? false;
     const updateSuccessPasswordAccountSelector = useSelector(updateSuccessPasswordAccount) ?? false;
     const entityUpdateInfosAccountSelector = useSelector(entityUpdateInfosAccount) ?? {};
+
+    const loadingUpdateAvatarSelector = useSelector(loadingUpdateAvatar) ?? false;
+    const updateSuccessAvatarSelector = useSelector(updateSuccessAvatar) ?? false;
+    const entityUpdateAvatarSelector = useSelector(entityUpdateAvatar) ?? {};
 
     const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
     const entitiesAddress: IAddress[] = useSelector(allAddressSelector).entities ?? [];
@@ -97,6 +107,7 @@ export default function Account (){
                 ...currentUser,
                 ...values,
             };
+            dispatch(updateInfosAccount({...account}))
             // props.updateInfosUser(account);
         },
     });
@@ -106,6 +117,7 @@ export default function Account (){
         initialValues: initialValuesPassword,
         validationSchema: validationSchemaPasswordAccount,
         onSubmit: values => {
+            dispatch(updatePasswordAccount({...values}))
             // props.updatePasswordUser(values);
         },
     });
@@ -174,9 +186,15 @@ export default function Account (){
         if (imageAvatar) {
             const formData = new FormData();
             formData.append('avatar', imageAvatar);
-            // uploadAvatar(formData);
+            dispatch(updateAvatarAccount({formData}))
         }
     }, [imageAvatar]);
+
+    React.useEffect(() => {
+        if(updateSuccessAvatarSelector){
+            StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(entityUpdateAvatarSelector));
+        }
+    }, [updateSuccessAvatarSelector])
 
     const selectFile = (event: any) => {
         getImageUrl(event.target.files[0], 500)
@@ -202,7 +220,7 @@ export default function Account (){
                             SRF
                         </Link>
                         <Link color="inherit" to={ALL_APP_ROUTES.SEARCH}>
-                            {t<string>('currentUser.title')}
+                            {t<string>('account.title')}
                         </Link>
                         <Typography color="text.primary">{getFullnameUser(currentUser)}</Typography>
                     </Breadcrumbs>
@@ -264,7 +282,7 @@ export default function Account (){
                             <form onSubmit={formik.handleSubmit}>
                                 <Box sx={{ mt: 2 }}>
                                     <h5 className="mb-4">
-                                        {t<string>('currentUser.label_personnel_details')}
+                                        {t<string>('account.label_personnel_details')}
                                         {!showEditInfos ? (
                                             <IconButton
                                                 aria-label="upload picture"
@@ -281,11 +299,11 @@ export default function Account (){
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.email && Boolean(formik.errors.email)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_email')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_email')}</InputLabel>
                                                 <OutlinedInput
                                                     id="email"
                                                     name="email"
-                                                    label={t<string>('currentUser.label_email')}
+                                                    label={t<string>('account.label_email')}
                                                     value={formik.values.email}
                                                     onChange={formik.handleChange}
                                                     disabled
@@ -296,11 +314,11 @@ export default function Account (){
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.langKey && Boolean(formik.errors.langKey)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_languages')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_languages')}</InputLabel>
                                                 <Select
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"
-                                                    label={t<string>('currentUser.label_languages')}
+                                                    label={t<string>('account.label_languages')}
                                                     value={formik.values.langKey}
                                                     onChange={e => {
                                                         formik.setFieldValue('langKey', e.target.value);
@@ -324,11 +342,11 @@ export default function Account (){
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.firstName && Boolean(formik.errors.firstName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_firstname')} *</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_firstname')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="firstName"
                                                     name="firstName"
-                                                    label={t<string>('currentUser.label_firstname')}
+                                                    label={t<string>('account.label_firstname')}
                                                     value={formik.values.firstName}
                                                     onChange={formik.handleChange}
                                                     disabled={!showEditInfos}
@@ -339,11 +357,11 @@ export default function Account (){
 
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.lastName && Boolean(formik.errors.lastName)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_lastname')} *</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_lastname')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="lastName"
                                                     name="lastName"
-                                                    label={t<string>('currentUser.label_lastname')}
+                                                    label={t<string>('account.label_lastname')}
                                                     value={formik.values.lastName}
                                                     onChange={formik.handleChange}
                                                     disabled={!showEditInfos}
@@ -356,11 +374,11 @@ export default function Account (){
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.phone && Boolean(formik.errors.phone)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_phone')} *</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_phone')} *</InputLabel>
                                                 <OutlinedInput
                                                     id="phone"
                                                     name="phone"
-                                                    label={t<string>('currentUser.label_phone')}
+                                                    label={t<string>('account.label_phone')}
                                                     type="tel"
                                                     value={formik.values.phone}
                                                     onChange={formik.handleChange}
@@ -410,7 +428,7 @@ export default function Account (){
                                     <Grid container spacing={2} sx={{mt: 1}}>
                                         <Grid item xs={12} md={6}>
                                             <FormControl fullWidth error={formik.touched.linkProfileFacebook && Boolean(formik.errors.linkProfileFacebook)} size="small">
-                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('currentUser.label_link_profile_facebook')}</InputLabel>
+                                                <InputLabel htmlFor="outlined-adornment-title">{t<string>('account.label_link_profile_facebook')}</InputLabel>
                                                 <OutlinedInput
                                                     id="linkProfileFacebook"
                                                     name="linkProfileFacebook"
@@ -464,7 +482,7 @@ export default function Account (){
                                     <form onSubmit={formikPassword.handleSubmit}>
                                         <Box sx={{ mt: 2 }}>
                                             <h5 className="mb-4">
-                                                {t<string>('currentUser.label_password_details')}
+                                                {t<string>('account.label_password_details')}
                                                 {!showEditPassword ? (
                                                     <IconButton
                                                         aria-label="upload picture"

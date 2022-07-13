@@ -5,6 +5,7 @@ import sessionReducer from './reducers/session.reducer';
 import registerReducer from './reducers/register.reducer';
 import accountReducer from './reducers/account.reducer';
 import profileReducer from './reducers/profile.reducer';
+import localeReducer from './reducers/locale.reducer';
 
 export const USER_KEY_IN_STORE = 'user';
 
@@ -16,7 +17,8 @@ export const userSlice: Slice = createSlice({
         ...sessionReducer,
         ...registerReducer,
         ...accountReducer,
-        ...profileReducer
+        ...profileReducer,
+        ...localeReducer
     }
 })
 
@@ -25,6 +27,25 @@ export const {
     loginUser,
     loginUserSuccess,
     loginUserFailure,
+
+
+    //? ********************| LOGIN VIA FACEBOOK ACTIONS |*******************/
+    loginWithFacebook,
+    loginWithFacebookSuccess,
+    loginWithFacebookFailure,
+
+
+    //? ********************| LOGIN VIA GOOGLE ACTIONS |*******************/
+    loginWithGoogle,
+    loginWithGoogleSuccess,
+    loginWithGoogleFailure,
+
+
+    //? ********************| LOGIN VIA GOOGLE ONE TAP ACTIONS |*******************/
+    loginWithGoogleOneTap,
+    loginWithGoogleOneTapSuccess,
+    loginWithGoogleOneTapFailure,
+
 
     //? ********************| SESSION ACTIONS |*******************/
     sessionUser,
@@ -46,6 +67,7 @@ export const {
     registerUser,
     registerUserSuccess,
     registerUserFailure,
+    resetRegisterUser,
 
 
     //? ********************| UPDATE ACCOUNT INFOS ACTIONS |*******************/
@@ -60,10 +82,20 @@ export const {
     updatePasswordAccountFailure,
 
 
+    //? ********************| UPDATE AVATAR ACCOUNT ACTIONS |*******************/
+    updateAvatarAccount,
+    updateAvatarSuccess,
+    updateAvatarFailure,
+
+
     //? ********************| FETCH ACTIONS |*******************/
     fetchProfileUser,
     fetchProfileUserSuccess,
     fetchProfileUserFailure,
+
+
+    //? ********************| CHANGE LOCALE ACTIONS |*******************/
+    changeLocale,
 
 
     logout
@@ -96,3 +128,15 @@ export const entityUpdateInfosAccount = (state: any) => state[USER_KEY_IN_STORE]
 //? ********************| PROFILE SELECTORS |*******************/
 export const loadingProfile = (state: any) => state[USER_KEY_IN_STORE].profile.loading;
 export const entityProfile = (state: any) => state[USER_KEY_IN_STORE].profile.entity;
+
+
+//? ********************| REGISTER SELECTORS |*******************/
+export const loadingRegister = (state: any) => state[USER_KEY_IN_STORE].register.loading;
+export const addSuccessRegister = (state: any) => state[USER_KEY_IN_STORE].register.addSuccess;
+export const errorMessageRegister = (state: any) => state[USER_KEY_IN_STORE].register.errorMessage;
+
+
+//? ********************| AVATAR SELECTORS |*******************/
+export const loadingUpdateAvatar = (state: any) => state[USER_KEY_IN_STORE].account.loadingUpdateAvatar;
+export const updateSuccessAvatar = (state: any) => state[USER_KEY_IN_STORE].account.updateSuccessAvatar;
+export const entityUpdateAvatar = (state: any) => state[USER_KEY_IN_STORE].account.entityUpdateAvatar;

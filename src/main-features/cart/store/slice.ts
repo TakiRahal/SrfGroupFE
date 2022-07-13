@@ -13,10 +13,35 @@ export const cartSlice: Slice = createSlice({
 })
 
 export const {
-    //? ********************| CART ACTIONS |*******************/
+    //? ********************| FETCH CART ACTIONS |*******************/
     fetchCart,
     fetchCartSuccess,
     fetchCartFailure,
+
+
+    //? ********************| ADD CART ACTIONS |*******************/
+    addCart,
+    addCartSuccess,
+    addCartFailure,
+
+
+    //? ********************| UPDATE BY QUANTITY CART ACTIONS |*******************/
+    updateByQuantityCart,
+    updateByQuantityCartSuccess,
+    updateByQuantityCartFailure,
+
+
+    //? ********************| DETAILS CART ACTIONS |*******************/
+    detailsCart,
+    detailsCartSuccess,
+    detailsCartFailure,
+
+
+    //? ********************| DETAILS CART ACTIONS |*******************/
+    deleteCart,
+    deleteCartSuccess,
+    deleteCartFailure,
+
     resetCart,
 
 

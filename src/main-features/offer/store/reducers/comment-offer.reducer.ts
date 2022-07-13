@@ -28,6 +28,44 @@ const reducer = {
         state.commentsOffer.loading = false;
     },
 
+    updateCommentOffer: (state: any) => {
+        state.commentsOffer.loading = true;
+        state.commentsOffer.updateSuccess = false;
+    },
+    updateCommentOfferSuccess: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+        state.commentsOffer.updateSuccess = true;
+        state.commentsOffer.entity = action.payload;
+    },
+    updateCommentOfferFailure: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+    },
+
+    deleteCommentOffer: (state: any) => {
+        state.commentsOffer.loading = true;
+        state.commentsOffer.deleteSuccess = false;
+    },
+    deleteCommentOfferSuccess: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+        state.commentsOffer.deleteSuccess = true;
+        state.commentsOffer.entity = action.payload;
+    },
+    deleteCommentOfferFailure: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+    },
+
+    reportCommentOffer: (state: any) => {
+        state.commentsOffer.loading = true;
+        state.commentsOffer.reportSuccess = false;
+    },
+    reportCommentOfferSuccess: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+        state.commentsOffer.reportSuccess = true;
+    },
+    reportCommentOfferFailure: (state: any, action: PayloadAction) => {
+        state.commentsOffer.loading = false;
+    },
+
     resetFetchCommentsOffer: (state: any) => {
         return {
             ...state,

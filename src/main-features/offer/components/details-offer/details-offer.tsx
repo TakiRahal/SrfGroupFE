@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {useParams} from "react-router";
 import Zoom from "@mui/material/Zoom/Zoom";
@@ -48,7 +48,7 @@ import {
     totalItemsCommentsOffer,
     addSuccessCommentsOffer,
     deleteSuccessCommentsOffer,
-    fetchCommentsOffer, updateSuccessCommentsOffer, resetFetchCommentsOffer
+    fetchCommentsOffer, updateSuccessCommentsOffer, resetFetchCommentsOffer, updateCommentOffer, deleteCommentOffer, reportCommentOffer, reportOffers
 } from "../../store/slice";
 import {TransitionModal} from "../../../../shared/pages/transition-modal";
 import {IReportOffer} from "../../../../shared/model/report-offer.model";
@@ -61,10 +61,15 @@ import CartSellDetailsOffer from "./ui-segments/cart-sell-details-offer";
 import RightDetailsOffer from "./ui-segments/right-details-offer";
 import {IConversationContent} from "../../../../shared/model/conversation-content";
 import {convertDateTimeToServer} from "../../../../shared/utils/utils-functions";
-import CommentDetailsOffer from '../comments/comment-details-offer';
+import CommentDetailsOffer from './ui-segments/comment-details-offer';
 import {addEventGA, AllModulesEventGA} from "../../../../shared/providers/google-anaylitics";
 import {ICommentOffer} from "../../../../shared/model/comment-offer.model";
 import {AllAppConfig} from "../../../../core/config/all-config";
+import SwiperDetailsOffer from './ui-segments/swiper-details-offer';
+import { addConversation } from '../../../chat/store/slice';
+import { addCart } from '../../../cart/store/slice';
+import CustomShare from '../../../../shared/components/custom-share/CustomShare';
+import {addFavoriteUsers, addSuccessFavoriteUser} from '../../../favorite/store/slice';
 
 
 export default function DetailsOfffer () {
@@ -96,13 +101,14 @@ export default function DetailsOfffer () {
     const updateSuccessCommentsOfferSelector = useSelector(updateSuccessCommentsOffer) ?? [];
     const deleteSuccessCommentsOfferSelector = useSelector(deleteSuccessCommentsOffer) ?? [];
 
+    const addSuccessFavoriteUserSelector = useSelector(addSuccessFavoriteUser) ?? false;
+
     React.useEffect(() => {
         if(id){
             dispatch(fetchDetailsPublicOffer({id}));
             setActiveCommentPage(0);
         }
     }, [])
-
 
     React.useEffect(() => {
         if(activeCommentPage>=0){
@@ -116,7 +122,6 @@ export default function DetailsOfffer () {
             }
         }
     }, [activeCommentPage])
-
 
     React.useEffect(() => {
         if (entityPublicOfferSelector && entityPublicOfferSelector.offer && !loadingPublicOfferSelector) {
@@ -152,6 +157,7 @@ export default function DetailsOfffer () {
             offer: entityPublicOfferSelector?.offer,
             user: {}
         }
+        dispatch(reportOffers({...entity}))
         // props.createEntityReportOffer(entity);
     }
 
@@ -201,7 +207,7 @@ export default function DetailsOfffer () {
         // return props.listConnectedUsers.findIndex(item => item.principal.email==email) >=0;
     }
 
-    const addCart = (cart: ICart) => {
+    const addNewCart = (cart: ICart) => {
         if( isAuthenticated){
             const entity: ICart = {
                 quantity: cart.quantity,
@@ -210,11 +216,11 @@ export default function DetailsOfffer () {
                 }
             }
             console.log('entity ', entity);
+            dispatch(addCart({...entity}));
             // props.addCart(entity);
         }
 
     }
-
 
     const handleCallbackFavorite = (userId: number) => {
         if (isAuthenticated) {
@@ -226,6 +232,7 @@ export default function DetailsOfffer () {
                     },
                     favoriteDate: convertDateTimeToServer(new Date()),
                 };
+                dispatch(addFavoriteUsers({...entity}))
                 // createEntityFavoriteUser(entity);
             }
         } else {
@@ -233,8 +240,14 @@ export default function DetailsOfffer () {
         }
     };
 
+    React.useEffect(() => {
+        if(addSuccessFavoriteUserSelector){
+            setIsFavoriteUser(true);
+        }
+    }, [addSuccessFavoriteUserSelector])
+
     const createConversation = (conversation: IConversationContent) => {
-        // props.createConversation(conversation);
+        dispatch(addConversation({...conversation}));
     }
 
     const parentCallbackLoadMoreComments = () => {
@@ -256,7 +269,6 @@ export default function DetailsOfffer () {
                 user: {},
             };
             dispatch(addCommentOffer({...entity}))
-            // props.addCommentOffer(entity);
 
             // Add event GA
             addEventGA(AllModulesEventGA.EventOffer.AddCommentOffer.eventName,
@@ -266,7 +278,8 @@ export default function DetailsOfffer () {
     }
 
     const handleCallbackDeleteComment = (commentId: number) => {
-        // deleteComment(commentId);
+        console.log('commentId ', commentId);
+        dispatch(deleteCommentOffer({id: commentId}))
     }
 
     const parentCallbackReportComment = (comment: ICommentOffer) => {
@@ -274,7 +287,7 @@ export default function DetailsOfffer () {
             commentOffer: comment,
             user: {}
         }
-        // props.reportComment(entity);
+        dispatch(reportCommentOffer({...entity}))
     }
 
     const parentCallbackUpdateComment = (content: string, commentid: number) => {
@@ -283,6 +296,7 @@ export default function DetailsOfffer () {
             ...commentUpdate,
             content: content
         }
+        dispatch(updateCommentOffer({...commentUpdate}))
         // updateComment(commentUpdate);
 
         // Add event GA
@@ -330,7 +344,7 @@ export default function DetailsOfffer () {
                             }}
                         >
                             <Grid item xs={12} sm={6}>
-                                {/*<SwiperDetailsOffer {...entityPublicOfferSelector?.offer} />*/}
+                                <SwiperDetailsOffer {...entityPublicOfferSelector?.offer} />
                                 <Zoom in={startAnimation}>
                                     <Card sx={{mb: 3}}>
                                         <CardContent>
@@ -409,15 +423,15 @@ export default function DetailsOfffer () {
                                         </CardContent>
                                         <CardActions disableSpacing>
 
-                                            {/*<CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">*/}
-                                            {/*    <Tooltip title={*/}
-                                            {/*        <React.Fragment>*/}
-                                            {/*            {t('common.label_share')}*/}
-                                            {/*        </React.Fragment>*/}
-                                            {/*    }>*/}
-                                            {/*        <ShareIcon/>*/}
-                                            {/*    </Tooltip>*/}
-                                            {/*</CustomShare>*/}
+                                            <CustomShare url="https://github.com/nygardk/react-share/blob/master/demo/Demo.tsx">
+                                                <Tooltip title={
+                                                    <React.Fragment>
+                                                        {t<string>('common.label_share')}
+                                                    </React.Fragment>
+                                                }>
+                                                    <ShareIcon/>
+                                                </Tooltip>
+                                            </CustomShare>
 
                                             <IconButton sx={{marginLeft: 'auto'}} onClick={reportOffer}>
                                                 <Tooltip title={
@@ -455,7 +469,7 @@ export default function DetailsOfffer () {
 
                                 {
                                     entityPublicOfferSelector?.offer?.typeContactClient !== OfferTypeContact.direct && entityPublicOfferSelector.offer?.typeOffer=== TypeOfferEnum.Sell?
-                                        <CartSellDetailsOffer parentCallbackAddCart={addCart}
+                                        <CartSellDetailsOffer parentCallbackAddCart={addNewCart}
                                                               loadingAddCart={false}/> : null
                                 }
 

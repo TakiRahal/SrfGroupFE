@@ -30,7 +30,7 @@ export function* addRentOfferHandler(data: any): Generator<any, any, any> {
         }, {
             ...data.payload
         })
-        yield put(addRentOfferSuccess(result?.data?.content));
+        yield put(addRentOfferSuccess(result?.data));
     } catch (e) {
         console.error(e);
         yield put(addRentOfferFailure(e));

@@ -2,14 +2,20 @@ import {PayloadAction} from "@reduxjs/toolkit";
 
 const reducer = {
     registerUser: (state: any) => {
-        state.login.isLoading = true;
+        state.register.loading = true;
+        state.register.addSuccess = false;
     },
     registerUserSuccess: (state: any, action: PayloadAction) => {
-        state.login.isLoading = false;
-        state.login.isAuthenticated = true;
+        state.register.loading = false;
+        state.register.addSuccess = true;
     },
     registerUserFailure: (state: any, action: PayloadAction) => {
-        state.login.isLoading = false;
+        state.register.loading = false;
+    },
+
+    resetRegisterUser: (state: any) => {
+        state.register.loading = false;
+        state.register.addSuccess = false;
     },
 }
 

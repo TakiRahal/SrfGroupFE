@@ -39,6 +39,18 @@ export const {
     resetDetailsPublicOffer,
 
 
+    //? ********************| UPLOAD FILE OFFER ACTIONS |*******************/
+    uploadFilesOffer,
+    uploadFilesOfferSuccess,
+    uploadFilesOfferFailure,
+
+
+    //? ********************| REPORT OFFER ACTIONS |*******************/
+    reportOffers,
+    reportOffersSuccess,
+    reportOffersFailure,
+
+
     //? ********************| SELLER_OFFER ACTIONS |*******************/
     fetchSellerOffer,
     fetchSellerOfferSuccess,
@@ -95,6 +107,24 @@ export const {
     addCommentOffer,
     addCommentOfferSuccess,
     addCommentOfferFailure,
+
+
+    //? ********************| UPDATE COMMENT OFFER ACTIONS |*******************/
+    updateCommentOffer,
+    updateCommentOfferSuccess,
+    updateCommentOfferFailure,
+
+
+    //? ********************| DELETE COMMENT OFFER ACTIONS |*******************/
+    deleteCommentOffer,
+    deleteCommentOfferSuccess,
+    deleteCommentOfferFailure,
+
+
+    //? ********************| REPORT COMMENT OFFER ACTIONS |*******************/
+    reportCommentOffer,
+    reportCommentOfferSuccess,
+    reportCommentOfferFailure,
 
 
     //? ********************| OFFERS BY USER ACTIONS |*******************/
@@ -176,6 +206,7 @@ export const totalPagesCommentsOffer = (state: any) => state[OFFER_KEY_IN_STORE]
 export const addSuccessCommentsOffer = (state: any) => state[OFFER_KEY_IN_STORE].commentsOffer.addSuccess;
 export const updateSuccessCommentsOffer = (state: any) => state[OFFER_KEY_IN_STORE].commentsOffer.updateSuccess;
 export const deleteSuccessCommentsOffer = (state: any) => state[OFFER_KEY_IN_STORE].commentsOffer.deleteSuccess;
+export const reportSuccessCommentsOffer = (state: any) => state[OFFER_KEY_IN_STORE].commentsOffer.reportSuccess;
 
 
 //? ********************| USER OFFERS SELECTORS |*******************/

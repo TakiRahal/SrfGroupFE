@@ -12,8 +12,8 @@ import {allSessionSelector} from "../../main-features/user/store/slice";
 import {PrivateRoute} from "./private-route";
 
 const LazyHome = React.lazy(() => import('../../main-features/home/home'));
-const LazySignUp = React.lazy(() => import('../../main-features/register/SignUp'));
-const LazySignIn = React.lazy(() => import('../../main-features/user/components/sign-in'));
+const LazySignUp = React.lazy(() => import('../../main-features/user/components/sign-up/sign-up'));
+const LazySignIn = React.lazy(() => import('../../main-features/user/components/sign-in/sign-in'));
 const LazySearch = React.lazy(() => import('../../main-features/offer/components/search/search'));
 const LazyContactUs = React.lazy(() => import('../../main-features/contact-us/components/contact-us'));
 const LazyFaq = React.lazy(() => import('../../main-features/faq/components/faq'));
@@ -21,7 +21,7 @@ const LazyAboutUs = React.lazy( () => import('../../main-features/aboutus/compon
 const LazyAddUpdateOffer = React.lazy( () => import('../../main-features/offer/components/add-update/add-update'));
 const LazyMyOffers = React.lazy( () => import('../../main-features/offer/components/my-offers/my-offers'))
 const LazyDetailsOffer = React.lazy(() => import('../../main-features/offer/components/details-offer/details-offer'))
-const LazyAccount = React.lazy(() => import('../../main-features/user/components/account'))
+const LazyAccount = React.lazy(() => import('../../main-features/user/components/account/account'))
 const LazyNotification = React.lazy(() => import('../../main-features/notification/components/notification'))
 const LazyChat = React.lazy(() => import('../../main-features/chat/components/chat'))
 const LazyFavoriteUser = React.lazy(() => import('../../main-features/favorite/components/favorite-users/favorite-users'))

@@ -135,7 +135,6 @@ const getHeaders = () => {
 }
 
 const showNotification = (success: boolean, result: any) => {
-    console.log('response showNotification ', result.response);
 
     if( success && result?.headers ){
         const headers = result?.headers;
@@ -155,7 +154,7 @@ const showNotification = (success: boolean, result: any) => {
     }
     else if( !success ){
         const response = result?.response;
-        const data = response.data;
+        const data = response?.data;
 
         if(data?.message){
             toast.error(i18n.t<string>(data?.message));

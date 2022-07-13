@@ -12,6 +12,26 @@ const reducer = {
     fetchPublicOffersFailure: (state: any, action: PayloadAction) => {
         state.publicOffer.loadingEntities = false;
     },
+
+    uploadFilesOffer: (state: any) => {
+    },
+    uploadFilesOfferSuccess: (state: any, action: PayloadAction) => {
+    },
+    uploadFilesOfferFailure: (state: any, action: PayloadAction) => {
+    },
+
+    reportOffers: (state: any) => {
+        state.publicOffer.loadingReport = true;
+        state.publicOffer.reportSuccess = false;
+    },
+    reportOffersSuccess: (state: any, action: PayloadAction) => {
+        state.publicOffer.loadingReport = false;
+        state.publicOffer.reportSuccess = true;
+    },
+    reportOffersFailure: (state: any, action: PayloadAction) => {
+        state.publicOffer.loadingReport = false;
+    },
+
     resetPublicOffers: (state: any) => {
         return {
             ...state,

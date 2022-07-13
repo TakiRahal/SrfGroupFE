@@ -14,6 +14,32 @@ const reducer = {
     fetchFavoriteUsersFailure: (state: any, action: PayloadAction) => {
         state.favoriteUser.loadingEntities = false;
     },
+
+    addFavoriteUsers: (state: any) => {
+        state.favoriteUser.loading = true;
+        state.favoriteUser.addSuccess = false;
+    },
+    addFavoriteUsersSuccess: (state: any, action: any) => {
+        state.favoriteUser.loading = false;
+        state.favoriteUser.entity = action.payload;
+        state.favoriteUser.addSuccess = true;
+    },
+    addFavoriteUsersFailure: (state: any, action: PayloadAction) => {
+        state.favoriteUser.loading = false;
+    },
+
+    deleteFavoriteUsers: (state: any) => {
+        state.favoriteUser.loading = true;
+        state.favoriteUser.deleteSuccess = false;
+    },
+    deleteFavoriteUsersSuccess: (state: any, action: any) => {
+        state.favoriteUser.loading = false;
+        state.favoriteUser.deleteSuccess = true;
+    },
+    deleteFavoriteUsersFailure: (state: any, action: PayloadAction) => {
+        state.favoriteUser.loading = false;
+    },
+
     resetFavoriteUsers: (state: any) => {
         return {
             ...state,

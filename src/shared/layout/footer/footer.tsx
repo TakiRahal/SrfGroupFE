@@ -17,6 +17,8 @@ import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
 import {useTranslation} from "react-i18next";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {addNewsLetter, addSuccessNewsLetter, loadingNewsLetter} from "./store/slice";
 
 function Copyright() {
     return (
@@ -38,24 +40,28 @@ function Copyright() {
 
 const initialValues = initialValuesSubscribeNewsLetter;
 
-export default function Footer({sendCallback, addSuccess, loadingEntity}:
-                                {sendCallback: any, addSuccess: boolean, loadingEntity: boolean}){
+export default function Footer(){
 
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const loadingNewsLetterSelector = useSelector(loadingNewsLetter) ?? false;
+    const addSuccessNewsLetterSelector = useSelector(addSuccessNewsLetter) ?? false;
 
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaSubscribeNewsLetter,
         onSubmit: values => {
-            sendCallback(values);
+            dispatch(addNewsLetter({...values}));
+            // sendCallback(values);
         },
     });
 
     React.useEffect(() => {
-        if(addSuccess){
+        if(addSuccessNewsLetterSelector){
             formik.resetForm();
         }
-    }, [addSuccess])
+    }, [addSuccessNewsLetterSelector])
 
     return (
         <Box component="footer" sx={{ bgcolor: 'background.paper' }}>
@@ -87,7 +93,7 @@ export default function Footer({sendCallback, addSuccess, loadingEntity}:
                             error
                         />
                         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                        <LoadingButton loading={false} variant="text" color="neutral" type="submit">
+                        <LoadingButton loading={loadingNewsLetterSelector} variant="text" color="neutral" type="submit">
                             {t<string>('common.label_subscribe')}
                         </LoadingButton>
                     </Paper>

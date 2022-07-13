@@ -13,6 +13,7 @@ import Alert from "@mui/material/Alert/Alert";
 import {useTranslation} from "react-i18next";
 import ListFavoriteUsers from "./ui-segments/ListFavoriteUsers";
 import {
+    deleteFavoriteUsers,
     deleteSuccessFavoriteUser,
     entitiesFavoriteUser,
     fetchFavoriteUsers,
@@ -23,8 +24,6 @@ import {
 } from '../../store/slice';
 
 export default function FavoriteUsers () {
-
-    // const {loadingEntitiesFavoriteUsers, listFavoriteUsers, getEntitiesByUser} = props;
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -38,7 +37,7 @@ export default function FavoriteUsers () {
 
     React.useEffect(() => {
         dispatch(fetchFavoriteUsers({
-            page: 1,
+            page: 0,
             size: 20,
             queryParams: ''
         }));
@@ -57,7 +56,10 @@ export default function FavoriteUsers () {
         }
     }, [deleteSuccessFavoriteUserSelector])
 
-    const deleteFavoriteUsers = (id: number) => {
+    const deleteFavoriteUser = (id: number) => {
+        dispatch(deleteFavoriteUsers({
+          id: id
+        }))
         // props.deleteEntity(id);
     }
 
@@ -90,7 +92,7 @@ export default function FavoriteUsers () {
 
                 {entitiesFavoriteUserSelector && entitiesFavoriteUserSelector.length > 0
                     ? entitiesFavoriteUserSelector.map((favorite: IFavoriteUser, index: number) => (
-                        <ListFavoriteUsers key={favorite.id} favorite={favorite} parentCallback={deleteFavoriteUsers} />
+                        <ListFavoriteUsers key={favorite.id} favorite={favorite} parentCallback={deleteFavoriteUser} />
                     ))
                     : !loadingEntitiesFavoriteUserSelector && (
                     <Grid item xs={12}>

@@ -11,6 +11,8 @@ import {notificationSlice} from '../../../main-features/notification/store/slice
 import {chatSlice} from '../../../main-features/chat/store/slice';
 import {favoriteSlice} from "../../../main-features/favorite/store/slice";
 import {cartSlice} from "../../../main-features/cart/store/slice";
+import {problemeDeclarationSlice} from '../../../main-features/probleme-declaration/store/slice';
+import {newsLetterSlice} from '../../../shared/layout/footer/store/slice';
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
@@ -24,7 +26,9 @@ const rootReducer = combineReducers({
     notification: notificationSlice.reducer,
     chat: chatSlice.reducer,
     favorite: favoriteSlice.reducer,
-    cart: cartSlice.reducer
+    cart: cartSlice.reducer,
+    problemeDeclaration: problemeDeclarationSlice.reducer,
+    newsLetter: newsLetterSlice.reducer
 })
 
 export default rootReducer;

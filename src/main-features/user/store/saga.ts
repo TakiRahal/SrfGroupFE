@@ -1,20 +1,27 @@
 import {all, put, takeEvery} from "redux-saga/effects";
-import {loginUser, sessionUser, getNumberOfNotificationsNotSee,
+import {loginUser, loginWithFacebook, loginWithGoogle, loginWithGoogleOneTap, sessionUser, getNumberOfNotificationsNotSee, updateAvatarAccount,
     registerUser, getNumberOfMessagesNotSee, fetchProfileUser, logout} from "./slice";
 import {
+    fetchProfileUserHandler,
     getNumberOfMessagesNotSeeHandler,
     getNumberOfNotificationsNotSeeHandler,
-    loginCustomerHandler, logoutHandler,
+    loginCustomerHandler,
+    loginWithFacebookHandler, loginWithGoogleHandler, loginWithGoogleOneTapHandler,
+    logoutHandler,
     registerHandler,
-    sessionUserHandler
-} from "./saga-handler/login.generator";
-import {fetchProfileUserHandler} from "./saga-handler/profile.generator";
+    sessionUserHandler,
+    updateAvatarAccountHandler
+} from "./saga-handler/user.generator";
 
 
 export function* userSaga() {
     yield all([
         takeEvery(loginUser, loginCustomerHandler),
+        takeEvery(loginWithFacebook, loginWithFacebookHandler),
+        takeEvery(loginWithGoogle, loginWithGoogleHandler),
+        takeEvery(loginWithGoogleOneTap, loginWithGoogleOneTapHandler),
         takeEvery(sessionUser, sessionUserHandler),
+        takeEvery(updateAvatarAccount, updateAvatarAccountHandler),
         takeEvery(getNumberOfNotificationsNotSee, getNumberOfNotificationsNotSeeHandler),
         takeEvery(getNumberOfMessagesNotSee, getNumberOfMessagesNotSeeHandler),
         takeEvery(registerUser, registerHandler),

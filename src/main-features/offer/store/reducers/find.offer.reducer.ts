@@ -42,10 +42,7 @@ const reducer = {
     },
 
     resetFindOffer: (state: any) => {
-        return {
-            ...state,
-            ...initialState.findOffer
-        };
+        state.findOffer = initialState.findOffer;
     },
 }
 

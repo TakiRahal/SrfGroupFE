@@ -45,6 +45,7 @@ import {ListItemButton} from "@mui/material";
 import {StyledBadge} from "../../../../../shared/pages/styled-badge";
 import CustomShare from '../../../../../shared/components/custom-share/CustomShare';
 import Snackbar from "@mui/material/Snackbar";
+import ProblemeDeclaration from '../../../../probleme-declaration/components/probleme-declaration';
 
 
 
@@ -405,7 +406,7 @@ export default function RightDetailsOffer({offerEntity, parentCallback, currentU
 
             <Grid container item spacing={2} sx={{mt: 1}}>
                 <Grid item xs={12} sm={6}>
-                    {/*<ProblemeDeclaration />*/}
+                    <ProblemeDeclaration />
                 </Grid>
             </Grid>
 

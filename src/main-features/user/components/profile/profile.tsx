@@ -46,6 +46,7 @@ import {allSessionSelector, entityProfile, fetchProfileUser, loadingProfile} fro
 import {createConversation} from "../../../../shared/reducers/conversation.reducer";
 import {ListOffersProfile} from "./ui-segments/ListOffersProfile";
 import {AllAppConfig} from "../../../../core/config/all-config";
+import {addConversation, loadingConversation, loadingEntitiesConversation} from "../../../chat/store/slice";
 
 
 const initialValues = initialValuesAddMessage;
@@ -69,6 +70,8 @@ export default function Profile (){
     const entitiesUserOffersSelector = useSelector(entitiesUserOffers) ?? [];
     const totalItemsUserOffersSelector = useSelector(totalItemsUserOffers) ?? -1;
     const totalPagesUserOffersSelector = useSelector(totalPagesUserOffers) ?? -1;
+
+    const loadingConversationSelector = useSelector(loadingConversation) ?? false;
 
     // const {
     //     loadingProfileSelector,
@@ -105,7 +108,8 @@ export default function Profile (){
                 },
             },
         };
-        createConversation(entity);
+        dispatch(addConversation({...entity}));
+        // createConversation(entity);
         setOpenAddMessageModal(false);
         // props.reset();
     };
@@ -182,12 +186,12 @@ export default function Profile (){
                             </FormControl>
                         </DialogContent>
                         <DialogActions>
-                            {/*<Button onClick={handleClickCancelAddMessageModal} color="neutral">*/}
-                            {/*    {t<string>('common.label_cancel')}*/}
-                            {/*</Button>*/}
-                            {/*<LoadingButton loading={loadingConversation} type="submit" color="success">*/}
-                            {/*    {t<string>('common.label_send')}*/}
-                            {/*</LoadingButton>*/}
+                            <Button onClick={handleClickCancelAddMessageModal} color="neutral">
+                                {t<string>('common.label_cancel')}
+                            </Button>
+                            <LoadingButton loading={loadingConversationSelector} type="submit" color="success">
+                                {t<string>('common.label_send')}
+                            </LoadingButton>
                         </DialogActions>
                     </form>
                 </Dialog>

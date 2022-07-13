@@ -13,6 +13,8 @@ import notificationSaga from "../../../main-features/notification/store/saga";
 import chatSaga from "../../../main-features/chat/store/saga";
 import favoriteSaga from "../../../main-features/favorite/store/saga";
 import cartSaga from "../../../main-features/cart/store/saga";
+import problemeDeclarationSaga from "../../../main-features/probleme-declaration/store/saga";
+import newsLetterSaga from "../../../shared/layout/footer/store/saga";
 export default function* rootSaga() {
     yield all([
         fork(userSaga),
@@ -26,6 +28,8 @@ export default function* rootSaga() {
         fork(notificationSaga),
         fork(chatSaga),
         fork(favoriteSaga),
-        fork(cartSaga)
+        fork(cartSaga),
+        fork(problemeDeclarationSaga),
+        fork(newsLetterSaga)
     ]);
 }

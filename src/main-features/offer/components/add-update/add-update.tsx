@@ -73,7 +73,7 @@ import {
     updateSuccessSellerOffer,
     updateSellerOffer,
     updateRentOffer,
-    loadingPublicOffer, loadingSellerOffer, loadingRentOffer, loadingFindOffer
+    loadingPublicOffer, loadingSellerOffer, loadingRentOffer, loadingFindOffer, resetPublicOffers, updateFindOffer, uploadFilesOffer
 } from "../../store/slice";
 import { CustomSunEditor } from '../../../../shared/components/sun-editor/CustomSunEditor';
 import OptionsCommonAddOffer from './ui-segments/ooptions-common-add-offer';
@@ -138,13 +138,6 @@ export default function AddUpdate () {
     const aaddSuccessFindOfferSelector = useSelector(addSuccessFindOffer) ?? false;
     const updateSuccessFindOfferSelector = useSelector(updateSuccessFindOffer) ?? false;
 
-
-    // const {entity} = useSelector(allPublicOffersSelector);
-    // const addSuccessSeller = useSelector(allSellerOffersSelector).sellerOffer.addSuccess;
-    // const updateSuccessSeller = useSelector(allSellerOffersSelector).sellerOffer.updateSuccess;
-    // const entitySeller = useSelector(allSellerOffersSelector).sellerOffer.entity;
-
-
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddOffer,
@@ -166,6 +159,7 @@ export default function AddUpdate () {
         else{ // For new offer
             formik.resetForm();
             setFileState(defaultValueFiles);
+            dispatch(resetPublicOffers({}))
             // props.resetFetchOffer();
         }
     }, [id])
@@ -202,6 +196,7 @@ export default function AddUpdate () {
     }, [entityPublicOfferSelector]);
 
     React.useEffect(() => {
+        console.log('addSuccessSellerOfferSelector ', addSuccessSellerOfferSelector);
         if (addSuccessSellerOfferSelector || updateSuccessSellerOfferSelector) {
             const offerId: number = entitySellerOfferSelector?.id || -1;
             upladAllFiles(offerId);
@@ -266,7 +261,6 @@ export default function AddUpdate () {
         }
 
         if (!id) {
-            console.log('formik.values.typeOffer ', formik.values.typeOffer);
             if (formik.values.typeOffer === TypeOfferEnum.Sell) {
                 dispatch(addSellerOffer({...entity}));
                 // props.createEntitySellerOffer(entity);
@@ -283,10 +277,10 @@ export default function AddUpdate () {
                 dispatch(updateSellerOffer({...entity}));
                 // props.updateEntitySell(entity);
             } else if (formik.values.typeOffer === TypeOfferEnum.Rent) {
-
+                dispatch(updateRentOffer({...entity}));
                 // props.updateEntityRent(entity);
             } else if (formik.values.typeOffer === TypeOfferEnum.Find) {
-                dispatch(updateRentOffer({...entity}));
+                dispatch(updateFindOffer({...entity}));
                 // props.updateEntityFind(entity);
             }
         }
@@ -299,7 +293,7 @@ export default function AddUpdate () {
             const newOrigSelectedFiles: File[] = [];
 
             Array.from(event.target.files).forEach((file: any) => {
-                getImageUrl(file, 1000)
+                getImageUrl(file, 5000)
                     // getBase64(file)
                     .then((resultBase64: any) => {
                         dataUrlToFile(resultBase64, file.name)
@@ -330,7 +324,9 @@ export default function AddUpdate () {
                 formData.append('files', file, file.name);
                 formData.append('offerId', offerId.toString());
             }
-            // props.uploadFiles(formData);
+            dispatch(uploadFilesOffer({
+                formData
+            }));
         }
     };
 

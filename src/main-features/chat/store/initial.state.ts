@@ -6,6 +6,7 @@ export const initialState = {
         entities: [],
         updateSuccess: false,
         addSuccess: false,
+        deleteSuccess: false,
         errorMessage: null,
         totalItems: 0,
     },

@@ -23,18 +23,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import FlagIcon from '@mui/icons-material/Flag';
 import {useEffect} from 'react';
 import Box from '@mui/material/Box/Box';
-import {defaultValue, ICommentOffer} from "../../../../shared/model/comment-offer.model";
-import {getFullnameUser, getUserAvatar} from "../../../../shared/utils/utils-functions";
-import {IOffer} from "../../../../shared/model/offer.model";
-import {IUser} from "../../../../shared/model/user.model";
-import {TransitionModal} from "../../../../shared/pages/transition-modal";
+import {defaultValue, ICommentOffer} from "../../../../../shared/model/comment-offer.model";
+import {getFullnameUser, getUserAvatar} from "../../../../../shared/utils/utils-functions";
+import {IOffer} from "../../../../../shared/model/offer.model";
+import {IUser} from "../../../../../shared/model/user.model";
+import {TransitionModal} from "../../../../../shared/pages/transition-modal";
 import {useTranslation} from "react-i18next";
-import {ConvertReactTimeAgo} from "../../../../shared/pages/react-time-ago";
+import {ConvertReactTimeAgo} from "../../../../../shared/pages/react-time-ago";
 import {
     initialValuesAddCommentOffer,
     validationSchemaAddCommentOffer
-} from "../details-offer/validation/initial-values-add-comment-offer";
-import ReadMoreText from '../../../../shared/components/read-more-text/ReadMoreText';
+} from "../validation/initial-values-add-comment-offer";
+import ReadMoreText from "../../../../../shared/components/read-more-text/ReadMoreText";
 
 const initialValues = initialValuesAddCommentOffer;
 
@@ -327,31 +327,29 @@ function AddComment({parentCallbackAddComment, loadingAddEntity}: { parentCallba
     });
 
     return (
-        <React.Fragment>
-            <form onSubmit={formik.handleSubmit}>
-                <TextField
-                    id="content"
-                    name="content"
-                    label={t<string>('comment_offer.label_add_comment')}
-                    value={formik.values.content}
-                    onChange={formik.handleChange}
-                    multiline
-                    fullWidth
-                    maxRows={4}
-                />
-                <LoadingButton
-                    loading={loadingAddEntity}
-                    variant="outlined"
-                    size="small"
-                    type="submit"
-                    disabled={!formik.values.content}
-                    sx={{my: 1}}
-                    color="neutral"
-                >
-                    {t<string>('comment_offer.label_comment')}
-                </LoadingButton>
-            </form>
-        </React.Fragment>
+        <form onSubmit={formik.handleSubmit}>
+            <TextField
+                id="content"
+                name="content"
+                label={t<string>('comment_offer.label_add_comment')}
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                multiline
+                fullWidth
+                maxRows={4}
+            />
+            <LoadingButton
+                loading={loadingAddEntity}
+                variant="outlined"
+                size="small"
+                type="submit"
+                disabled={!formik.values.content}
+                sx={{my: 1}}
+                color="neutral"
+            >
+                {t<string>('comment_offer.label_comment')}
+            </LoadingButton>
+        </form>
     );
 }
 

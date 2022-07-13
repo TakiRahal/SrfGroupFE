@@ -14,6 +14,32 @@ const reducer = {
     fetchConversationFailure: (state: any, action: PayloadAction) => {
         state.conversation.loadingEntities = false;
     },
+
+    addConversation: (state: any) => {
+        state.conversation.loading = true;
+        state.conversation.addSuccess = false;
+    },
+    addConversationSuccess: (state: any, action: any) => {
+        state.conversation.loading = false;
+        state.conversation.entity = action.payload;
+        state.conversation.addSuccess = false;
+    },
+    addConversationFailure: (state: any, action: PayloadAction) => {
+        state.conversation.loading = false;
+    },
+
+    deleteConversation: (state: any) => {
+        state.conversation.loading = true;
+        state.conversation.deleteSuccess = false;
+    },
+    deleteConversationSuccess: (state: any, action: any) => {
+        state.conversation.loading = false;
+        state.conversation.deleteSuccess = false;
+    },
+    deleteConversationFailure: (state: any, action: PayloadAction) => {
+        state.conversation.loading = false;
+    },
+
     resetConversation: (state: any) => {
         return {
             ...state,

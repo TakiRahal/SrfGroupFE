@@ -18,32 +18,12 @@ import {
     Link, useLocation,
     useNavigate
 } from 'react-router-dom';
-import {IRootState} from "./shared/reducers";
 import {connect, useDispatch, useSelector} from "react-redux";
-import { hot } from 'react-hot-loader';
-import {
-    getNumberOfMessagesNotSee,
-    getNumberOfNotificationsNotSee,
-    loginGooglePlusOneTap,
-} from "./shared/reducers/user-reducer";
-// import Drawer from "@mui/material/Drawer/Drawer";
-// import ListItem from "@mui/material/ListItem/ListItem";
-// import List from "@mui/material/List/List";
-// import ListItemAvatar from "@mui/material/ListItemAvatar/ListItemAvatar";
-// import Avatar from "@mui/material/Avatar/Avatar";
-// import {getFullnameUser, getUserAvatar} from "./shared/utils/utils-functions";
-// import ListItemText from "@mui/material/ListItemText/ListItemText";
-// import Typography from "@mui/material/Typography/Typography";
-// import Divider from "@mui/material/Divider/Divider";
-// import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import MailIcon from '@mui/icons-material/Mail';
 import Logout from '@mui/icons-material/Logout';
-// import Badge from '@mui/material/Badge/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-// import {AllAppConfig} from "./core/config/all-config";
-// import {ALL_APP_ROUTES} from "./core/config/all-app-routes";
 import LanguageIcon from '@mui/icons-material/Language';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Button from "@mui/material/Button/Button";
@@ -56,38 +36,14 @@ import Collapse from '@mui/material/Collapse';
 import StarBorder from "@mui/icons-material/StarBorder";
 import InfoIcon from '@mui/icons-material/Info';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-// import Menu from '@mui/material/Menu/Menu';
-// import { getEntities as getEntitiesAddresses } from '../src/shared/reducers/address.reducer';
-// import { getPublicEntities as getCategories } from '../src/shared/reducers/category.reducer';
-// import {reset as resetNotification} from '../src/shared/reducers/notification.reducer';
-// import {reset as resetOffer} from '../src/shared/reducers/offer.reducer';
-// import {reset as resetConversations} from '../src/shared/reducers/conversation.reducer';
-// import {reset as resetMessages} from '../src/shared/reducers/message.reducer';
-// import {getEntities as getEntitiesTopHomeSlidesImage} from '../src/shared/reducers/top-home-slides-image';
-// import {getEntity as getEntityPostHomeFeature} from '../src/shared/reducers/post-home-feature.reducer';
-
-// import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
-// import FormGroup from "@mui/material/FormGroup/FormGroup";
-// import GoogleOneTapLogin from 'react-google-one-tap-login';
-// import {StorageService} from "./shared/services/storage.service";
 import {languages, locales, setLocale} from "./shared/reducers/locale.reducer";
-// import MenuItem from "@mui/material/MenuItem/MenuItem";
-// import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
-import {createEntity as createEntityNewsLetter, INewsLetter} from "./shared/reducers/news-letter.reducer";
 import createTheme from "@mui/material/styles/createTheme";
 import {MaterialUISwitch} from "./shared/pages/material-ui-switch";
 import {IGooglePlusOneTap} from "./shared/model/user.model";
 import {SourceProvider} from "./shared/enums/source-provider";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {
-    dispatchSuccessSession,
-    getWebsocketListConnectedUsers, removeEmailFromListConnectedUsers
-} from "./shared/reducers/web-socket.reducer";
 import CookieConsent from "react-cookie-consent";
-import {REQUEST} from "./shared/reducers/action-type.util";
-import {getEntitiesAboutUs} from "./shared/store/about-us/action";
-import { aboutUsSelector } from './shared/reducers/about-us.reducer';
-import {allLocaleSelector, allLoginSelector, logout} from './main-features/user/store/slice';
+import {allLocaleSelector, allLoginSelector, changeLocale, logout} from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics} from "./shared/providers/google-anaylitics";
 import {loadScriptFacebook} from "./shared/providers/facebook.provider";
@@ -105,17 +61,16 @@ import FormGroup from "@mui/material/FormGroup";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
-import {useAppDispatch, useAppSelector} from './core/config/hooks';
-import {selectCount, decrement} from "./core/features/counter/counterSlice";
-// import {loadScriptFacebook} from "./shared/providers/facebook.provider";
-// import {oneSignalProviders} from "./shared/providers/onesignal.provider";
-// import FacebookLogin from 'react-facebook-login';
 import {registerUser, allSessionSelector} from './main-features/user/store/slice';
 import { fetchCategories } from './main-features/category/store/slice';
 import { fetchAddress } from './main-features/address/store/slice';
 import {fetchHomeFeatures, fetchTopHomeSlidesImages } from './main-features/home/store/slice';
-import {entitiesPublicOffer} from "./main-features/offer/store/slice";
 import Drawer from "@mui/material/Drawer";
+import {getNumberOfNotificationsNotSee, getNumberOfMessagesNotSee} from './main-features/user/store/slice';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import {AllAppConfig} from "./core/config/all-config";
+import GoogleOneTapLogin from 'react-google-one-tap-login';
 
 
 
@@ -190,7 +145,7 @@ export const App = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead} = useSelector(allSessionSelector);
+    const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead, oneSignalId} = useSelector(allSessionSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
 
     // const isDark = false;
@@ -232,6 +187,7 @@ export const App = () => {
 
         // Set Default configs
         i18n.changeLanguage(StorageService.session.get('locale', 'fr'));
+        dispatch(changeLocale(StorageService.session.get('locale', 'fr')))
         // props.setLocale(StorageService.session.get('locale', 'fr'));
 
         dispatch(fetchCategories({
@@ -247,11 +203,11 @@ export const App = () => {
         dispatch(fetchTopHomeSlidesImages({}));
         dispatch(fetchHomeFeatures({}));
 
-        // if(isAuthenticated){
-        //     // props.dispatchSuccessSession(); // For WebSocket
-        //     // props.getNumberOfNotificationsNotSee();
-        //     // props.getNumberOfMessagesNotSee();
-        // }
+        if(isAuthenticated){
+            // props.dispatchSuccessSession(); // For WebSocket
+            dispatch(getNumberOfNotificationsNotSee({}));
+            dispatch(getNumberOfMessagesNotSee({}));
+        }
     }, [])
     //
     // // Callback From header and menu mobile
@@ -448,59 +404,58 @@ export const App = () => {
     );
 
 
-    // const handleLocaleChange = (locale: string) => {
-    //     i18n.changeLanguage(locale);
-    //     handleLAnguagesMenuClose();
-    //     props.setLocale(locale);
-    // };
+    const handleLocaleChange = (locale: string) => {
+        i18n.changeLanguage(locale);
+        handleLAnguagesMenuClose();
+        dispatch(changeLocale(locale))
+        // props.setLocale(locale);
+    };
     const handleLAnguagesMenuClose = () => {
         setLanguagesAnchorEl(null);
     };
     const handleLAnguagesMenuOpen = (event: any) => {
         setLanguagesAnchorEl(event.currentTarget);
     };
-    // const menuIdLanguages = 'languages-menu-mobile';
-    // const renderMenuLanguages = (
-    //     <Menu
-    //         anchorEl={languagesAnchorEl}
-    //         anchorOrigin={{
-    //             vertical: 'bottom',
-    //             horizontal: 'left',
-    //         }}
-    //         id={menuIdLanguages}
-    //         keepMounted
-    //         transformOrigin={{
-    //             vertical: 'top',
-    //             horizontal: 'left',
-    //         }}
-    //         open={isLanguagesMenuOpen}
-    //         onClose={handleLAnguagesMenuClose}
-    //     >
-    //         {Object.keys(languages).length > 1
-    //             ? locales.map(locale => (
-    //                 <MenuItem key={locale} onClick={() => handleLocaleChange(locale)}>
-    //                     {languages[locale].name}
-    //                 </MenuItem>
-    //             ))
-    //             : null}
-    //     </Menu>
-    // );
-    //
-    const sendNewsLetter =(newsLetter: INewsLetter) => {
-    //     props.createEntityNewsLetter(newsLetter);
-    }
-    //
-    // const responseGoogle = (response: any) => {
-    //     if (!response.error) {
-    //         const requestData: IGooglePlusOneTap = {
-    //             ...response,
-    //             sourceProvider: SourceProvider.GOOGLE_PLUS,
-    //             idOneSignal: props.oneSignalId,
-    //             langKey: props.currentLocale
-    //         };
-    //         props.loginGooglePlusOneTap(requestData);
-    //     }
-    // };
+    const menuIdLanguages = 'languages-menu-mobile';
+    const renderMenuLanguages = (
+        <Menu
+            anchorEl={languagesAnchorEl}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+            }}
+            id={menuIdLanguages}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            open={isLanguagesMenuOpen}
+            onClose={handleLAnguagesMenuClose}
+        >
+            {Object.keys(languages).length > 1
+                ? locales.map(locale => (
+                    <MenuItem key={locale} onClick={() => handleLocaleChange(locale)}>
+                        {languages[locale].name}
+                    </MenuItem>
+                ))
+                : null}
+        </Menu>
+    );
+
+
+    const responseGoogle = (response: any) => {
+        if (!response.error) {
+            const requestData: IGooglePlusOneTap = {
+                ...response,
+                sourceProvider: SourceProvider.GOOGLE_PLUS,
+                idOneSignal: oneSignalId,
+                langKey: currentLocale
+            };
+            dispatch(getNumberOfNotificationsNotSee({}));
+            // props.loginGooglePlusOneTap(requestData);
+        }
+    };
 
     return (
         <>
@@ -545,14 +500,15 @@ export const App = () => {
 
                     {/*<MessengerCustomerChat pageId={AllAppConfig.PAGE_ID} appId={AllAppConfig.APP_ID_FACEBOOK} />*/}
                 </main>
-                <Footer sendCallback={sendNewsLetter} addSuccess={false} loadingEntity={false}/>
+                <Footer />
 
-                {/*    !props.isAuthenticated ? <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}*/}
-                {/*                                                onSuccess={(response: any) => responseGoogle(response)}*/}
-                {/*                                                googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} /> : null*/}
-                {/*}*/}
+                {
+                    !isAuthenticated ? <GoogleOneTapLogin onError={(error: any) => console.log('error ', error)}
+                                                                onSuccess={(response: any) => responseGoogle(response)}
+                                                                googleAccountConfigs={{ client_id: AllAppConfig.CLIENT_ID_GOOGLLE }} /> : null
+                }
 
-                {/*{renderMenuLanguages}*/}
+                {renderMenuLanguages}
 
                 <CookieConsent
                     location="bottom"

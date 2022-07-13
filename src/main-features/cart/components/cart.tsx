@@ -35,7 +35,9 @@ import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
 import {LazyImage} from "react-lazy-images";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
-import {deleteSuccessCart, entitiesCart, fetchCart, loadingEntitiesCart, totalItemsCart, totalPagesCart } from '../store/slice';
+import {deleteCart, deleteSuccessCart,
+    detailsCart, entitiesCart,
+    entityCart, fetchCart, loadingEntitiesCart, totalItemsCart, totalPagesCart, updateByQuantityCart } from '../store/slice';
 
 
 
@@ -257,6 +259,7 @@ export default function Cart () {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
+    const entityCartSelector = useSelector(entityCart) ?? false;
     const loadingEntitiesCartSelector = useSelector(loadingEntitiesCart) ?? false;
     const entitiesCartSelector = useSelector(entitiesCart) ?? [];
     const totalItemsCartSelector = useSelector(totalItemsCart) ?? -1;
@@ -265,22 +268,22 @@ export default function Cart () {
 
     React.useEffect(() => {
         dispatch(fetchCart({
-            page: 1,
+            page: 0,
             size: 20,
             queryParams: ''
         }));
-
         // props.getEntities(0, 20, '');
     }, [])
 
-    const deleteCart = (cartId: number) => {
+    const deleteDetailsCart = (cartId: number) => {
+        dispatch(deleteCart({id: cartId}))
         // props.deleteEntity(cartId);
     }
 
     React.useEffect(() => {
         if(deleteSuccessCartSelector){
             dispatch(fetchCart({
-                page: 1,
+                page: 0,
                 size: 20,
                 queryParams: ''
             }));
@@ -289,11 +292,13 @@ export default function Cart () {
     }, [deleteSuccessCartSelector])
 
     const updateByQuantity = (value: ICart) => {
+        dispatch(updateByQuantityCart({...value}))
         // props.updateEntityByQuantity(value);
     }
 
     React.useEffect(() => {
         if( entitiesCartSelector.length ){
+            dispatch(detailsCart({}))
             // props.getDetailsEntity();
         }
     }, [entitiesCartSelector])
@@ -328,7 +333,7 @@ export default function Cart () {
                     {
                         entitiesCartSelector.map((item: ICart, index: number) => (
                             <Box key={`index-${index}`} sx={{my: 2}}>
-                                <ItemCart cart={item} t={t} parentCallbackDeleteCart={deleteCart} parentCallbackUpdateQuantity={updateByQuantity}/>
+                                <ItemCart cart={item} t={t} parentCallbackDeleteCart={deleteDetailsCart} parentCallbackUpdateQuantity={updateByQuantity}/>
                             </Box>
                         ))
                     }
@@ -341,7 +346,7 @@ export default function Cart () {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Box sx={{my: 2}}>
-                        {/*<DetailsCart nbeCarts={entitiesCartSelector.length} detailsEntity={props.entityDetails}/>*/}
+                        <DetailsCart nbeCarts={entitiesCartSelector.length} detailsEntity={entityCartSelector}/>
                     </Box>
                 </Grid>
             </Grid>

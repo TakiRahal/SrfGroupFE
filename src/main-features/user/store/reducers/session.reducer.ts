@@ -41,7 +41,15 @@ const reducer = {
     // Logout
     logout: (state: any) => {
         state.login = initialState.login;
-        state.session = initialState.session;
+        state.session = {
+            isAuthenticated: false,
+            token: '',
+            currentUser: {},
+            nbeNotificationsNotRead: 0,
+            nbeMessagesNotRead: 0,
+            oneSignalId: '',
+            loading: false,
+        }
     },
 }
 

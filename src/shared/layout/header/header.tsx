@@ -36,6 +36,8 @@ import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {ListItemText} from "@mui/material";
+import {changeLocale} from "../../../main-features/user/store/slice";
+import {useDispatch} from "react-redux";
 
 const sections = [
     {
@@ -59,6 +61,7 @@ export default function Header(props: any){
     const navigate = useNavigate();
 
     const { t, i18n } = useTranslation();
+    const dispatch = useDispatch();
 
     const { currentUser, isAuthenticated, nbeNotificationsNotSee } = props;
 
@@ -102,7 +105,8 @@ export default function Header(props: any){
         console.log('handleLocaleChange ', locale);
         i18n.changeLanguage(locale);
         handleLAnguagesMenuClose();
-        props.onLocaleChange(locale);
+        dispatch(changeLocale(locale))
+        // props.onLocaleChange(locale);
     };
 
     const handleLAnguagesMenuClose = () => {

@@ -42,10 +42,7 @@ const reducer = {
     },
 
     resetSellerOffer: (state: any) => {
-        return {
-            ...state,
-            ...initialState.sellerOffer
-        };
+        state.sellerOffer = initialState.sellerOffer;
     },
 }
 

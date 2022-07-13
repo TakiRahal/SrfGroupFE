@@ -16,8 +16,8 @@ export default function LeftSearchClient({listAddress, filterCallback}: {listAdd
     }, []);
 
     const onChange = (values: any) => {
-        // console.log('values ', values);
-        filterCallback(values);
+        console.log('onChange values ', values);
+        // filterCallback(values);
     }
 
     return (

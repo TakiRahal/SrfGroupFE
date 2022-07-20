@@ -142,17 +142,17 @@ export const ForFindHomeClient = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const entitiesFindOfferSelector = useSelector(entitiesFindOffer) ?? [];
 
-    React.useEffect(() => {
-        dispatch(fetchFindOffer({
-            page: 0,
-            size: 4,
-            queryParams: ''
-        }));
-    }, [])
+    // React.useEffect(() => {
+    //     dispatch(fetchFindOffer({
+    //         page: 0,
+    //         size: 4,
+    //         queryParams: ''
+    //     }));
+    // }, [])
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {

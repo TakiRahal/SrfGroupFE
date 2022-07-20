@@ -5,9 +5,10 @@ import {Observable} from 'rxjs';
 import {StorageService} from "../../shared/services/storage.service";
 import {AllAppConfig} from "./all-config";
 import {FAILURE, SUCCESS} from "../../shared/reducers/action-type.util";
-import {ACTION_TYPES as WS_ACTIONS, getWebsocketListConnectedUsers} from '../../shared/reducers/web-socket.reducer';
+import {ACTION_TYPES as WS_ACTIONS} from '../../main-features/user/store/reducers/websocket.teducer';
 import {ACTION_TYPES as AUTH_ACTIONS} from '../../shared/reducers/user-reducer';
 import {IUser} from "../../shared/model/user.model";
+import {addNewConnectedUser, fetchListConnectedUsersWS, removeDisconnectedUser } from '../../main-features/user/store/slice';
 
 let stompClient: any = null;
 
@@ -80,6 +81,9 @@ export const getStompClient = (): Client => {
 }
 
 const connect = (currentUser: IUser) => {
+
+    console.log('sendConnectedNewUser ', currentUser);
+
     if (connectedPromise !== null || alreadyConnectedOnce) {
         // the connection is already being established
         return;
@@ -136,18 +140,19 @@ const unsubscribe = () => {
 
 export default (store: any) => (next: any) => (action: any) => {
 
-    // console.log('action ', action);
+    if (action.type === WS_ACTIONS.CONNECTED_WEBSOCKET) {
 
-    if (action.type === SUCCESS(WS_ACTIONS.CONNECTED_WEBSOCKET)) {
-
-        connect(store.getState().user.currentUser);
+        connect(store.getState().user?.session?.currentUser);
         subscribeConnectedUsers();
         subscribeDisConnectedUsers();
 
 
         connection.then((result) => {
             if(result==='success'){
-                store.dispatch(getWebsocketListConnectedUsers());
+
+                console.log('connection success');
+                store.dispatch(fetchListConnectedUsersWS({}));
+                // store.dispatch(getWebsocketListConnectedUsers());
             }
         }, error => {
             console.log('connection error ', error);
@@ -156,16 +161,14 @@ export default (store: any) => (next: any) => (action: any) => {
 
         receive().subscribe(activity => {
             if( activity.nameModule === 'ConnectedUser' ){
-                return store.dispatch({
-                    type: WS_ACTIONS.PUSH_LISTE_CONNECTED_USER,
-                    payload: activity.userEmail,
-                });
+                return store.dispatch(addNewConnectedUser({
+                    email: activity.userEmail
+                }))
             }
             else if( activity.nameModule ==='DisconnectedUser' ){
-                return store.dispatch({
-                    type: WS_ACTIONS.POP_LISTE_CONNECTED_USER,
-                    payload: activity.userEmail,
-                });
+                return store.dispatch(removeDisconnectedUser({
+                    email: activity.userEmail
+                }))
             }
         })
         //

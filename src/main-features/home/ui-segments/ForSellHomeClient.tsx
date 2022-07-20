@@ -146,7 +146,7 @@ export const ForSellHomeClient: FunctionComponent = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const entitiesSellerOfferSelector = useSelector(entitiesSellerOffer) ?? [];
 
@@ -156,13 +156,13 @@ export const ForSellHomeClient: FunctionComponent = () => {
         }, 300);
     };
 
-    React.useEffect(() => {
-        dispatch(fetchSellerOffer({
-            page: 0,
-            size: 4,
-            queryParams: ''
-        }));
-    }, [])
+    // React.useEffect(() => {
+    //     dispatch(fetchSellerOffer({
+    //         page: 0,
+    //         size: 4,
+    //         queryParams: ''
+    //     }));
+    // }, [])
 
     return(
         <Container maxWidth="xl" sx={{my: 20}} className="container-for-sell-home">

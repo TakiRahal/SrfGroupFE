@@ -92,7 +92,8 @@
     "label_update_password": "Update password",
     "label_link_profile_facebook": "Link Profile Facebook",
     "message_update_infos_succefully": "Update infos succefully",
-    "message_update_password_succefully": "Update password succefully"
+    "message_update_password_succefully": "Update password succefully",
+    "message_update_avatar_succefully": "Update avatar succefully"
   },
   "signup": {
     "title-dialog-register": "Register succefully",

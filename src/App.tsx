@@ -43,7 +43,13 @@ import {IGooglePlusOneTap} from "./shared/model/user.model";
 import {SourceProvider} from "./shared/enums/source-provider";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CookieConsent from "react-cookie-consent";
-import {allLocaleSelector, allLoginSelector, changeLocale, logout} from './main-features/user/store/slice';
+import {
+    allLocaleSelector,
+    allLoginSelector,
+    changeLocale,
+    connectedUserWS, listConnectedUsersWebsocket,
+    logout
+} from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 import {loadScriptFacebook} from "./shared/providers/facebook.provider";
@@ -71,6 +77,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {AllAppConfig} from "./core/config/all-config";
 import GoogleOneTapLogin from 'react-google-one-tap-login';
+import {
+    fetchFindOffer,
+    fetchImagesOffer,
+    fetchRecentlyOffer,
+    fetchRentOffer,
+    fetchSellerOffer
+} from "./main-features/offer/store/slice";
+import isEmpty from "lodash/isEmpty";
 
 
 
@@ -147,6 +161,7 @@ export const App = () => {
     const dispatch = useDispatch();
     const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead, oneSignalId} = useSelector(allSessionSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
+    const listConnectedUsersWebsocketSelector = useSelector(listConnectedUsersWebsocket) ?? [];
 
     // const isDark = false;
     const ThemeApp = createTheme({
@@ -163,6 +178,9 @@ export const App = () => {
         setDarkMode(checked ? 'light' : 'dark' );
     };
 
+    React.useEffect(() => {
+        console.log('listConnectedUsersWebsocketSelector ', listConnectedUsersWebsocketSelector);
+    }, [listConnectedUsersWebsocketSelector])
 
     let location = useLocation();
     React.useEffect(() => {
@@ -211,6 +229,30 @@ export const App = () => {
         }));
         dispatch(fetchTopHomeSlidesImages({}));
         dispatch(fetchHomeFeatures({}));
+        dispatch(fetchRecentlyOffer({
+            page: 0,
+            size: 9,
+            queryParams: ''
+        }));
+        dispatch(fetchImagesOffer({
+            page: 0,
+            size: 5
+        }));
+        dispatch(fetchSellerOffer({
+            page: 0,
+            size: 4,
+            queryParams: ''
+        }));
+        dispatch(fetchFindOffer({
+            page: 0,
+            size: 4,
+            queryParams: ''
+        }));
+        dispatch(fetchRentOffer({
+            page: 0,
+            size: 4,
+            queryParams: ''
+        }));
 
         if(isAuthenticated){
             // props.dispatchSuccessSession(); // For WebSocket
@@ -218,6 +260,16 @@ export const App = () => {
             dispatch(getNumberOfMessagesNotSee({}));
         }
     }, [])
+
+
+    // For WS
+    React.useEffect(() => {
+        console.log('currentUser ', currentUser);
+        if( !isEmpty(currentUser) ){
+            dispatch(connectedUserWS({}))
+        }
+    }, [currentUser])
+
     //
     // // Callback From header and menu mobile
     const handleLogout = () => {

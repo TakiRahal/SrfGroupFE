@@ -68,8 +68,8 @@ export default function Profile (){
 
     const loadingEntitiesUserOffersSelector = useSelector(loadingEntitiesUserOffers) ?? false;
     const entitiesUserOffersSelector = useSelector(entitiesUserOffers) ?? [];
-    const totalItemsUserOffersSelector = useSelector(totalItemsUserOffers) ?? -1;
-    const totalPagesUserOffersSelector = useSelector(totalPagesUserOffers) ?? -1;
+    // const totalItemsUserOffersSelector = useSelector(totalItemsUserOffers) ?? -1;
+    // const totalPagesUserOffersSelector = useSelector(totalPagesUserOffers) ?? -1;
 
     const loadingConversationSelector = useSelector(loadingConversation) ?? false;
 
@@ -352,7 +352,10 @@ export default function Profile (){
                                                             primary="Adresse"
                                                             secondary={
                                                                 <React.Fragment>
-                                                                    {'Sousse'}
+                                                                    {
+                                                                        loadingProfileSelector ? <Skeleton animation="wave" height={30} /> :
+                                                                            entityProfileSelector?.address?.city +', '+ entityProfileSelector?.address?.country
+                                                                    }
                                                                 </React.Fragment>
                                                             }
                                                         />

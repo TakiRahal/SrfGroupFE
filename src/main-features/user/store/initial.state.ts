@@ -43,5 +43,8 @@ export const initialState = {
     password: {
         loadingResetInit: false,
         resetInitSuccess: false
+    },
+    websocket: {
+        listConnectedUsers: []
     }
 };

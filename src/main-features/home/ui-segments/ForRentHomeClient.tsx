@@ -166,18 +166,18 @@ export const ForRentHomeClient = () => {
 
     const navigate = useNavigate();
     const {t} = useTranslation();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const entitiesRentOfferSelector = useSelector(entitiesRentOffer) ?? [];
 
 
-    React.useEffect(() => {
-        dispatch(fetchRentOffer({
-            page: 0,
-            size: 4,
-            queryParams: ''
-        }));
-    }, []);
+    // React.useEffect(() => {
+    //     dispatch(fetchRentOffer({
+    //         page: 0,
+    //         size: 4,
+    //         queryParams: ''
+    //     }));
+    // }, []);
 
     const rediretTo = (offerId?: number) => {
         setTimeout(() => {

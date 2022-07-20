@@ -4,11 +4,12 @@ import {initialState} from "../initial.state";
 const reducer = {
     updateInfosAccount: (state: any) => {
         state.account.loadingUpdateInfos = true;
+        state.account.updateSuccessInfos = false;
     },
     updateInfosAccountSuccess: (state: any, action: PayloadAction) => {
         state.account.loadingUpdateInfos = false;
         state.account.updateSuccessInfos = true;
-        state.session.currentUser = action.payload;
+        state.account.entityUpdateInfos = action.payload;
     },
     updateInfosAccountFailure: (state: any, action: PayloadAction) => {
         state.account.loadingUpdateInfos = false;

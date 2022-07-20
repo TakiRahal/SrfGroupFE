@@ -91,7 +91,8 @@
     "label_update_password": "Modifier",
     "label_link_profile_facebook": "Lien Profil Facebook",
     "message_update_infos_succefully": "Mettre à jour les infos avec succès",
-    "message_update_password_succefully": "Mettre à jour le mot de passe avec succès"
+    "message_update_password_succefully": "Mettre à jour le mot de passe avec succès",
+    "message_update_avatar_succefully": "Votre photo de profil a été modifié avec succès"
   },
   "signup": {
     "title-dialog-register": "Inscription avec succès",

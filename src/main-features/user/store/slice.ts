@@ -7,6 +7,7 @@ import accountReducer from './reducers/account.reducer';
 import profileReducer from './reducers/profile.reducer';
 import localeReducer from './reducers/locale.reducer';
 import passwordReducer from './reducers/password.reducer';
+import websocketReducer from './reducers/websocket.teducer';
 
 export const USER_KEY_IN_STORE = 'user';
 
@@ -20,7 +21,8 @@ export const userSlice: Slice = createSlice({
         ...accountReducer,
         ...profileReducer,
         ...localeReducer,
-        ...passwordReducer
+        ...passwordReducer,
+        ...websocketReducer
     }
 })
 
@@ -107,6 +109,15 @@ export const {
     resetPasswordInitSuccess,
     resetPasswordInitFailure,
 
+
+    //? ********************| WEBSOCKET ACTIONS |*******************/
+    connectedUserWS,
+    fetchListConnectedUsersWS,
+    fetchListConnectedUsersWSSuccess,
+    fetchListConnectedUsersWSFailure,
+    addNewConnectedUser,
+    removeDisconnectedUser,
+
     logout
 
 
@@ -154,3 +165,7 @@ export const entityUpdateAvatar = (state: any) => state[USER_KEY_IN_STORE].accou
 //? ********************| PASSWORD SELECTORS |*******************/
 export const loadingResetInitPassword = (state: any) => state[USER_KEY_IN_STORE].password.loadingResetInit;
 export const resetInitSuccessPassword = (state: any) => state[USER_KEY_IN_STORE].password.resetInitSuccess;
+
+
+//? ********************| WEBSOCKET SELECTORS |*******************/
+export const listConnectedUsersWebsocket = (state: any) => state[USER_KEY_IN_STORE].websocket.listConnectedUsers;

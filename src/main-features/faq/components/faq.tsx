@@ -19,6 +19,7 @@ import i18n from "i18next";
 import {allFaqSelector, fetchFaq} from "../../faq/store/slice";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {IFaq} from "../../../shared/model/faq.model";
+import isEmpty from "lodash/isEmpty";
 
 
 export const GetCardList = (props: any) => {
@@ -80,7 +81,9 @@ export default function Faq(){
             setDefaultLanguage(lang);
         });
 
-        dispatch(fetchFaq({}));
+        if(isEmpty(entities)){
+            dispatch(fetchFaq({}));
+        }
     }, []);
 
     return (

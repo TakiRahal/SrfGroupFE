@@ -29,7 +29,7 @@ import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Container from "@mui/material/Container/Container";
 import { GoogleLogin } from 'react-google-login';
 import {useTranslation} from "react-i18next";
-import {allLocaleSelector, allLoginSelector, allSessionSelector, loginWithFacebook, loginWithGoogle} from "../../store/slice";
+import {allLocaleSelector, allLoginSelector, allSessionSelector, connectedUserWS, loginWithFacebook, loginWithGoogle} from "../../store/slice";
 import {initialValuesSignIn, validationSchemaSignIn} from "../../validation/validation-signin";
 import {IFacebook, IGooglePlus} from "../../../../shared/model/user.model";
 import {SourceProvider} from "../../../../shared/enums/source-provider";
@@ -38,6 +38,7 @@ import {AllAppConfig} from "../../../../core/config/all-config";
 import {loginUser, sessionUser, getNumberOfNotificationsNotSee, getNumberOfMessagesNotSee} from '../../store/slice';
 import './sign-in.scss';
 import Stack from "@mui/material/Stack";
+import isEmpty from "lodash/isEmpty";
 
 const initialValues = initialValuesSignIn;
 
@@ -52,7 +53,7 @@ export default function SignIn (){
     const dispatch = useDispatch();
     const {loading, token} = useSelector(allLoginSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
-    const {isAuthenticated, oneSignalId} = useSelector(allSessionSelector);
+    const {currentUser, oneSignalId} = useSelector(allSessionSelector);
 
     const handleClickShowPassword = () => {
         setShowPassword({
@@ -86,7 +87,6 @@ export default function SignIn (){
                 oneSignalId: oneSignalId,
                 rememberMe: true
             }));
-            // props.login(values.email.toString(), values.password.toString(), props.oneSignalId, true);
         },
     });
 

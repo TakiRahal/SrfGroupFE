@@ -4,9 +4,9 @@ const reducer = {
     fetchImagesOffer: (state: any) => {
         state.imagesOffers.loadingEntities = true;
     },
-    fetchImagesOfferSuccess: (state: any, action: PayloadAction) => {
+    fetchImagesOfferSuccess: (state: any, action: any) => {
         state.imagesOffers.loadingEntities = false;
-        state.imagesOffers.entities = action.payload;
+        state.imagesOffers.entities = action.payload.content;
     },
     fetchImagesOfferFailure: (state: any, action: PayloadAction) => {
         state.imagesOffers.loadingEntities = false;

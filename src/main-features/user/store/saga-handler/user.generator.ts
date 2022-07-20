@@ -10,11 +10,10 @@ import {
     loginWithGoogleSuccess, loginWithGoogleOneTapSuccess, loginWithGoogleOneTapFailure,
     sessionUserSuccess, sessionUserFailure,
     getNumberOfNotificationsNotSeeSuccess, getNumberOfNotificationsNotSeeFailure,
-    getNumberOfMessagesNotSeeSuccess, getNumberOfMessagesNotSeeFailure, resetPasswordInitSuccess, resetPasswordInitFailure
+    getNumberOfMessagesNotSeeSuccess, getNumberOfMessagesNotSeeFailure, resetPasswordInitSuccess, resetPasswordInitFailure, updateInfosAccountSuccess, updateInfosAccountFailure
 } from "../slice";
 import {StorageService} from "../../../../shared/services/storage.service";
 import {AllAppConfig} from "../../../../core/config/all-config";
-import {Http} from "@mui/icons-material";
 
 const apiUrl = 'api/user/';
 
@@ -153,10 +152,8 @@ export function* sessionUserHandler(): Generator<any, any, any> {
         if (account) {
             StorageService.local.set(AllAppConfig.VALUE_CURRENT_USER, JSON.stringify(account));
         }
-
         yield put(sessionUserSuccess(result?.data));
     } catch (e) {
-        console.error(e);
         yield put(sessionUserFailure(e));
     }
 }
@@ -246,6 +243,20 @@ export function* resetPasswordInitUserHandler(data: any): Generator<any, any, an
         yield put(resetPasswordInitSuccess(result?.data));
     } catch (e) {
         yield put(resetPasswordInitFailure(e));
+    }
+}
+
+
+export function* updateInfosAccountHandler(data: any): Generator<any, any, any> {
+    try {
+        const requestUrl = `${apiUrl}update-current-user`;
+        const result = yield invokeWS({
+            url: `${requestUrl}`,
+            method: MethodHttp.put,
+        }, {...data.payload})
+        yield put(updateInfosAccountSuccess(result?.data));
+    } catch (e) {
+        yield put(updateInfosAccountFailure(e));
     }
 }
 

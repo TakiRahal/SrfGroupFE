@@ -55,9 +55,7 @@ import {languages, locales} from "../../../../shared/reducers/locale.reducer";
 import {StorageService} from "../../../../shared/services/storage.service";
 import {AllAppConfig} from "../../../../core/config/all-config";
 import {getImageUrl} from "../../../../shared/utils/image-url";
-import {loadingEntitiesMyOffers} from "../../../offer/store/slice";
 import {SourceProvider} from "../../../../shared/enums/source-provider";
-import {allCategorySelector} from "../../../category/store/slice";
 import {allAddressSelector} from "../../../address/store/slice";
 import {IAddress} from "../../../../shared/model/address.model";
 
@@ -67,7 +65,7 @@ const initialValuesPassword = initialValuesPasswordAccount;
 
 export default function Account (){
 
-    const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead} = useSelector(allSessionSelector);
+    const {currentUser} = useSelector(allSessionSelector);
     const loadingSessionSelector = useSelector(loadingSession);
     const loadingUpdateInfosAccountSelector = useSelector(loadingUpdateInfosAccount) ?? false;
     const updateSuccessInfosAccountSelector = useSelector(updateSuccessInfosAccount) ?? false;
@@ -79,7 +77,7 @@ export default function Account (){
     const updateSuccessAvatarSelector = useSelector(updateSuccessAvatar) ?? false;
     const entityUpdateAvatarSelector = useSelector(entityUpdateAvatar) ?? {};
 
-    const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
+    // const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
     const entitiesAddress: IAddress[] = useSelector(allAddressSelector).entities ?? [];
 
     const [fileState, setFileState] = React.useState(getUserAvatar(currentUser.id, currentUser.imageUrl, currentUser.sourceRegister));
@@ -107,8 +105,7 @@ export default function Account (){
                 ...currentUser,
                 ...values,
             };
-            dispatch(updateInfosAccount({...account}))
-            // props.updateInfosUser(account);
+            dispatch(updateInfosAccount({...account}));
         },
     });
 

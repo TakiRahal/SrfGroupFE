@@ -29,21 +29,21 @@ export const BottomHomeSlides: FunctionComponent = () => {
     const [slideListBottom, setSlideListBottom] = React.useState(StorageService.local.get(AllAppConfig.SlideListBottom));
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const loadingEntitiesImagesOffersSelector = useSelector(loadingEntitiesImagesOffers) ?? [];
     const entitiesImagesOffersSelector = useSelector(entitiesImagesOffers) ?? [];
 
     // const {entitiesImagesOffersSelector, loadingEntitiesImagesOffersSelector, getEntitiesExistOfferImages} = props;
 
-    React.useEffect(() => {
-        dispatch(fetchImagesOffer({
-            page: 0,
-            size: 5
-        }));
-
-        // getEntitiesExistOfferImages(0, 5, 'id,asc')
-    }, []);
+    // React.useEffect(() => {
+    //     dispatch(fetchImagesOffer({
+    //         page: 0,
+    //         size: 5
+    //     }));
+    //
+    //     // getEntitiesExistOfferImages(0, 5, 'id,asc')
+    // }, []);
 
     React.useEffect(() => {
         if (entitiesImagesOffersSelector && entitiesImagesOffersSelector.length > 0) {

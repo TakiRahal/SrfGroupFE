@@ -140,7 +140,7 @@ export const RecentlyAddedHomeClient: FunctionComponent = () => {
 // export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) => {
     // const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // const {entitiesRecentlyOffersSelector, getEntitiesRecentlyAdded} = props;
 
@@ -150,14 +150,14 @@ export const RecentlyAddedHomeClient: FunctionComponent = () => {
     // const totalPagesRecentlyOffersSelector = useSelector(totalPagesRecentlyOffers) ?? 0;
 
 
-    React.useEffect(() => {
-        dispatch(fetchRecentlyOffer({
-            page: 0,
-            size: 9,
-            queryParams: ''
-        }));
+    // React.useEffect(() => {
+        // dispatch(fetchRecentlyOffer({
+        //     page: 0,
+        //     size: 9,
+        //     queryParams: ''
+        // }));
         // getEntitiesRecentlyAdded(0, 9, 'id,asc');
-    }, []);
+    // }, []);
 
     const rediretTo = (offerId: string) => {
         setTimeout(() => {

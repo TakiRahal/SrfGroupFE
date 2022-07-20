@@ -42,7 +42,6 @@ export const TopHomeSlides: FunctionComponent = () => {
     }
 
     React.useEffect(() => {
-        console.log('entitiesTopHomeSlidesImagesSelector ', entitiesTopHomeSlidesImagesSelector);
         if(entitiesTopHomeSlidesImagesSelector?.length){
             StorageService.local.set(AllAppConfig.HOME_TOP_SLIDES_IMAGE, entitiesTopHomeSlidesImagesSelector.slice());
         }

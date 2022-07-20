@@ -11,6 +11,7 @@ import i18n from 'i18next';
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useDispatch, useSelector} from "react-redux";
 import {allAboutUsSelector, fetchAboutUs} from "../store/slice";
+import isEmpty from "lodash/isEmpty";
 
 export default function AboutUs(){
 
@@ -24,7 +25,10 @@ export default function AboutUs(){
             setDefaultLanguage(lang);
         });
 
-        dispatch(fetchAboutUs({}));
+        if(isEmpty(entity)){
+            dispatch(fetchAboutUs({}));
+        }
+
         // getEntitiyAboutUs();
     }, []);
 

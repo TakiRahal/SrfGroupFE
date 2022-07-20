@@ -17,6 +17,13 @@ export const {
     fetchMyNotifications,
     fetchMyNotificationsSuccess,
     fetchMyNotificationsFailure,
+
+
+    //? ********************| ADD READ NOTIFICATIONS ACTIONS |*******************/
+    addReadNotifications,
+    addReadNotificationsSuccess,
+    addReadNotificationsFailure,
+
     resetMyNotifications,
 
 
@@ -31,3 +38,4 @@ export const entitiesMyNotifications = (state: any) => state[NOTIFICATION_KEY_IN
 export const totalItemsMyNotifications = (state: any) => state[NOTIFICATION_KEY_IN_STORE].mynotifications.totalItems;
 export const totalPagesMyNotifications = (state: any) => state[NOTIFICATION_KEY_IN_STORE].mynotifications.totalPages;
 export const deleteSuccessMyNotifications = (state: any) => state[NOTIFICATION_KEY_IN_STORE].mynotifications.deleteSuccess;
+export const addIsReadSuccessMyNotifications = (state: any) => state[NOTIFICATION_KEY_IN_STORE].mynotifications.addIsReadSuccess;

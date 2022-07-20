@@ -80,6 +80,7 @@ export default function DetailsOfffer () {
     const [activeCommentPage, setActiveCommentPage] = React.useState(-1);
     const [expandedDetailsOffer, setExpandedDetailsOffer] = React.useState<boolean>(true);
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+    const [listCommentsForOffer, setListCommentsForOffer] = React.useState<any[]>([]);
 
     const {id} = useParams<{ id: string }>();
 
@@ -102,6 +103,10 @@ export default function DetailsOfffer () {
     const deleteSuccessCommentsOfferSelector = useSelector(deleteSuccessCommentsOffer) ?? [];
 
     const addSuccessFavoriteUserSelector = useSelector(addSuccessFavoriteUser) ?? false;
+
+    React.useEffect(() => {
+        setListCommentsForOffer([...listCommentsForOffer, ...entitiesCommentsOfferSelector]);
+    }, [entitiesCommentsOfferSelector])
 
     React.useEffect(() => {
         if(id){
@@ -451,7 +456,7 @@ export default function DetailsOfffer () {
                                     <Box sx={{mb: 3}}>
                                         <CommentDetailsOffer
                                             offerEntity={entityPublicOfferSelector?.offer}
-                                            listCommentsByOffer={entitiesCommentsOfferSelector}
+                                            listCommentsByOffer={listCommentsForOffer}
                                             account={currentUser}
                                             isAuthenticated={isAuthenticated}
                                             loadingListComments={loadingEntitiesCommentsOfferSelector}

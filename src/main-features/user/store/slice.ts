@@ -57,6 +57,8 @@ export const {
     getNumberOfNotificationsNotSee,
     getNumberOfNotificationsNotSeeSuccess,
     getNumberOfNotificationsNotSeeFailure,
+    resetNumberOfNotificationsNotSee,
+
 
     //? ********************| NUMBER_MESSAGES ACTIONS |*******************/
     getNumberOfMessagesNotSee,

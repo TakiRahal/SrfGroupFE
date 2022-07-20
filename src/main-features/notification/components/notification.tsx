@@ -21,6 +21,8 @@ import {INotification} from "../../../shared/model/notification.model";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    addIsReadSuccessMyNotifications,
+    addReadNotifications,
     entitiesMyNotifications,
     fetchMyNotifications,
     loadingEntitiesMyNotifications,
@@ -30,6 +32,7 @@ import {
     totalPagesMyNotifications
 } from '../store/slice';
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
+import { resetNumberOfNotificationsNotSee } from '../../user/store/slice';
 
 export default function Notification (){
     const [activePage, setActivePage] = React.useState(-1);
@@ -44,6 +47,7 @@ export default function Notification (){
     const entitiesMyNotificationsSelector = useSelector(entitiesMyNotifications) ?? [];
     const totalItemsMyNotificationsSelector = useSelector(totalItemsMyNotifications) ?? -1;
     const totalPagesMyNotificationsSelector = useSelector(totalPagesMyNotifications) ?? 0;
+    const addIsReadSuccessMyNotificationsSelector = useSelector(addIsReadSuccessMyNotifications) ?? false;
 
     const resetAll = () => {
         // props.resetNotification();
@@ -76,16 +80,18 @@ export default function Notification (){
                 }
             }
             if(tmpListNotSee.length>0){
+                dispatch(addReadNotifications(tmpListNotSee));
                 // props.setIsReadNotifications(tmpListNotSee);
             }
         }
     }, [entitiesMyNotificationsSelector])
 
-    // React.useEffect(() => {
-    //     if(props.addSuccessIsRead){
-    //         props.resetNbeNotificationsNotRead();
-    //     }
-    // }, [props.addSuccessIsRead]);
+    React.useEffect(() => {
+        if(addIsReadSuccessMyNotificationsSelector){
+            dispatch(resetNumberOfNotificationsNotSee({}))
+            // props.resetNbeNotificationsNotRead();
+        }
+    }, [addIsReadSuccessMyNotificationsSelector]);
 
     const loadMore = () => {
         setActivePage(activePage+1);

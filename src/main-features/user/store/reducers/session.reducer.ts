@@ -26,6 +26,9 @@ const reducer = {
     getNumberOfNotificationsNotSeeFailure: (state: any, action: PayloadAction) => {
 
     },
+    resetNumberOfNotificationsNotSee: (state: any) => {
+        state.session.nbeNotificationsNotRead = 0;
+    },
 
     // Number of messages
     getNumberOfMessagesNotSee: (state: any) => {

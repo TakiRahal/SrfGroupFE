@@ -11,7 +11,6 @@ export function* myOffersHandler(data: any): Generator<any, any, any> {
             url: `${requestUrl}`,
             method: MethodHttp.get,
         })
-        console.log('result?.data?.content ', result?.data?.content);
         yield put(fetchMyOffersSuccess(result?.data));
     } catch (e) {
         console.error(e);

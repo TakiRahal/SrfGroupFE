@@ -18,7 +18,7 @@ import {
     Link, useLocation,
     useNavigate
 } from 'react-router-dom';
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import MailIcon from '@mui/icons-material/Mail';
 import Logout from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -45,7 +45,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CookieConsent from "react-cookie-consent";
 import {allLocaleSelector, allLoginSelector, changeLocale, logout} from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
-import {initGoogleAnalytics, loadScriptGoogleAnalytics} from "./shared/providers/google-anaylitics";
+import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
 import {loadScriptFacebook} from "./shared/providers/facebook.provider";
 import {StorageService} from "./shared/services/storage.service";
 import {List} from "@mui/material";
@@ -162,6 +162,15 @@ export const App = () => {
     const toggleDarkMode = (event: any, checked: boolean) => {
         setDarkMode(checked ? 'light' : 'dark' );
     };
+
+
+    let location = useLocation();
+    React.useEffect(() => {
+        // Add track page Google Analytics
+        trackPagesGA(location.pathname, location.pathname).then((result: boolean) => {
+            // console.log('Success track pages');
+        }, (error: boolean) => {console.log('Error track pages');})
+    }, [location]);
 
     React.useEffect(() => {
 

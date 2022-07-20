@@ -249,7 +249,7 @@ export default function Account (){
                                             marginRight: 'auto',
                                             marginBottom: 2,
                                             mt: 2,
-                                            border: '1px solid #f2f3f7',
+                                            border: '1px solid #cdc5c5',
                                         }}
                                     >{getFullnameUser(currentUser)?.charAt(0)}</Avatar>
                                     {

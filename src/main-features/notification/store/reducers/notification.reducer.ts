@@ -14,11 +14,21 @@ const reducer = {
     fetchMyNotificationsFailure: (state: any, action: PayloadAction) => {
         state.mynotifications.loadingEntities = false;
     },
+
+    addReadNotifications: (state: any) => {
+        state.mynotifications.loading = true;
+        state.mynotifications.addIsReadSuccess = false;
+    },
+    addReadNotificationsSuccess: (state: any, action: any) => {
+        state.mynotifications.loading = false;
+        state.mynotifications.addIsReadSuccess = true;
+    },
+    addReadNotificationsFailure: (state: any, action: PayloadAction) => {
+        state.mynotifications.loading = false;
+    },
+
     resetMyNotifications: (state: any) => {
-        return {
-            ...state,
-            ...initialState.mynotifications
-        };
+        state.mynotifications = initialState.mynotifications;
     },
 }
 

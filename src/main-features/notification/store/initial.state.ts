@@ -5,6 +5,7 @@ export const initialState = {
         loadingEntities: false,
         entities: [],
         updateSuccess: false,
+        addIsReadSuccess: false,
         errorMessage: null,
         totalItems: -1,
         totalPages: 0,

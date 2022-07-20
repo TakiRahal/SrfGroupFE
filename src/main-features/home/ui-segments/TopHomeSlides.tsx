@@ -1,8 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import Box from '@mui/material/Box';
 import {SearchAppBar} from "../../../shared/layout/menus/SearchAppBar";
-import {IRootState} from "../../../shared/reducers";
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AllAppConfig} from "../../../core/config/all-config";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import { useNavigate} from "react-router-dom";
@@ -13,16 +12,10 @@ import {StorageService} from "../../../shared/services/storage.service";
 import {ITopHomeSlidesImages} from "../../../shared/model/top-home-slides-images.model";
 import i18n from "i18next";
 import {getFullUrlWithParams} from "../../../shared/utils/utils-functions";
-import {allSessionSelector} from "../../user/store/slice";
 import {allCategorySelector} from "../../category/store/slice";
 import {allAddressSelector} from "../../address/store/slice";
-import {allTopHomeSlidesImagesSelector} from "../store/slice";
-import {fetchTopHomeSlidesImages} from '../store/slice';
+import {entitiesTopHomeSlidesImages} from "../store/slice";
 
-
-// const defaultImage = getBaseImageUrl('/assets/images/home/default_top_home.jpg');
-
-// export interface ITopHomeSlidesProp extends StateProps, DispatchProps {}
 
 export const TopHomeSlides: FunctionComponent = () => {
 
@@ -33,7 +26,7 @@ export const TopHomeSlides: FunctionComponent = () => {
 
     const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
     const entitiesAddress = useSelector(allAddressSelector).entities ?? [];
-    const entitiesTopHomeSlidesImages = useSelector(allTopHomeSlidesImagesSelector) ?? [];
+    const entitiesTopHomeSlidesImagesSelector = useSelector(entitiesTopHomeSlidesImages) ?? [];
 
     React.useEffect(() => {
         i18n.on('languageChanged', (lang: any) => {
@@ -49,10 +42,11 @@ export const TopHomeSlides: FunctionComponent = () => {
     }
 
     React.useEffect(() => {
-        if(entitiesTopHomeSlidesImages?.length){
-            StorageService.local.set(AllAppConfig.HOME_TOP_SLIDES_IMAGE, entitiesTopHomeSlidesImages.slice());
+        console.log('entitiesTopHomeSlidesImagesSelector ', entitiesTopHomeSlidesImagesSelector);
+        if(entitiesTopHomeSlidesImagesSelector?.length){
+            StorageService.local.set(AllAppConfig.HOME_TOP_SLIDES_IMAGE, entitiesTopHomeSlidesImagesSelector.slice());
         }
-    }, [entitiesTopHomeSlidesImages])
+    }, [entitiesTopHomeSlidesImagesSelector])
 
     const getBackgroundImage = () => {
         for (let i=0; i<listTopSlidesImage.length; i++){

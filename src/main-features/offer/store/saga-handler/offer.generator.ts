@@ -13,7 +13,7 @@ export function* fetchPublicOffersHandler(data: any): Generator<any, any, any> {
             url: `${requestUrl}`,
             method: MethodHttp.get,
         })
-        yield put(fetchPublicOffersSuccess(result?.data?.content));
+        yield put(fetchPublicOffersSuccess(result?.data));
     } catch (e) {
         yield put(fetchPublicOffersFailure(e));
     }

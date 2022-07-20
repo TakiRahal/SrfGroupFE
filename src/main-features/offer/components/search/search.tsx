@@ -160,8 +160,6 @@ export default function Search () {
 
                     </InfiniteScroll>
 
-
-
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={2} sx={{ display: { xs: 'none', md: 'block' } }}>

@@ -6,6 +6,7 @@ import registerReducer from './reducers/register.reducer';
 import accountReducer from './reducers/account.reducer';
 import profileReducer from './reducers/profile.reducer';
 import localeReducer from './reducers/locale.reducer';
+import passwordReducer from './reducers/password.reducer';
 
 export const USER_KEY_IN_STORE = 'user';
 
@@ -18,7 +19,8 @@ export const userSlice: Slice = createSlice({
         ...registerReducer,
         ...accountReducer,
         ...profileReducer,
-        ...localeReducer
+        ...localeReducer,
+        ...passwordReducer
     }
 })
 
@@ -100,6 +102,11 @@ export const {
     changeLocale,
 
 
+    //? ********************| CHANGE PASSWORD ACTIONS |*******************/
+    resetPasswordInit,
+    resetPasswordInitSuccess,
+    resetPasswordInitFailure,
+
     logout
 
 
@@ -142,3 +149,8 @@ export const errorMessageRegister = (state: any) => state[USER_KEY_IN_STORE].reg
 export const loadingUpdateAvatar = (state: any) => state[USER_KEY_IN_STORE].account.loadingUpdateAvatar;
 export const updateSuccessAvatar = (state: any) => state[USER_KEY_IN_STORE].account.updateSuccessAvatar;
 export const entityUpdateAvatar = (state: any) => state[USER_KEY_IN_STORE].account.entityUpdateAvatar;
+
+
+//? ********************| PASSWORD SELECTORS |*******************/
+export const loadingResetInitPassword = (state: any) => state[USER_KEY_IN_STORE].password.loadingResetInit;
+export const resetInitSuccessPassword = (state: any) => state[USER_KEY_IN_STORE].password.resetInitSuccess;

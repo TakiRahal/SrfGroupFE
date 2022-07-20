@@ -3,20 +3,18 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {StorageService} from '../../../shared/services/storage.service';
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import isEmpty from 'lodash/isEmpty';
-import {IRootState} from "../../../shared/reducers";
 import {IPostHomeFeature} from "../../../shared/model/post-home-feature.model";
 import i18n from "i18next";
-
-// export interface IPostHomeFeatureProp extends StateProps, DispatchProps {}
-
+import { entityHomeFeatures } from '../store/slice';
 
 export const PostHomeFeature: FunctionComponent = () => {
-// export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
 
     const [entityPostHomeFeature, setEntityPostHomeFeature] = React.useState<IPostHomeFeature>(StorageService.local.get(AllAppConfig.POST_HOME_FEATURE))
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+
+    const entityHomeFeaturesSelector = useSelector(entityHomeFeatures) ?? {};
 
     React.useEffect(() => {
         i18n.on('languageChanged', (lang: any) => {
@@ -24,12 +22,11 @@ export const PostHomeFeature: FunctionComponent = () => {
         });
     }, []);
 
-    // React.useEffect(() => {
-    //
-    //     if(!isEmpty(props.entity)){
-    //         StorageService.local.set(AllAppConfig.POST_HOME_FEATURE, props.entity);
-    //     }
-    // }, [props.entity]);
+    React.useEffect(() => {
+        if(!isEmpty(entityHomeFeaturesSelector)){
+            StorageService.local.set(AllAppConfig.POST_HOME_FEATURE, entityHomeFeaturesSelector);
+        }
+    }, [entityHomeFeaturesSelector]);
 
     const getDescription = (): string => {
         if( defaultLanguage==='en' ){
@@ -83,16 +80,3 @@ export const PostHomeFeature: FunctionComponent = () => {
         </Container>
     );
 };
-
-//
-// const mapStateToProps = ({postHomeFeature}: IRootState) => ({
-//     entity: postHomeFeature.entity,
-// });
-//
-// const mapDispatchToProps = {
-// };
-//
-// type StateProps = ReturnType<typeof mapStateToProps>;
-// type DispatchProps = typeof mapDispatchToProps;
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(PostHomeFeature);

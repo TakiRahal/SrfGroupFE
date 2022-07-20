@@ -73,19 +73,6 @@ export default function Profile (){
 
     const loadingConversationSelector = useSelector(loadingConversation) ?? false;
 
-    // const {
-    //     loadingProfileSelector,
-    //     profile,
-    //     getProfile,
-    //     currentUser,
-    //     isAuthenticated,
-    //     getPublicEntitiesForUser,
-    //     listOffersForUser,
-    //     loadingEntitiesForUser,
-    //     loadingConversation,
-    //     createConversation
-    // } = props;
-
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddMessage,

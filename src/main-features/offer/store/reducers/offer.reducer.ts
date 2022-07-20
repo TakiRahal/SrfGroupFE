@@ -5,9 +5,11 @@ const reducer = {
     fetchPublicOffers: (state: any) => {
         state.publicOffer.loadingEntities = true;
     },
-    fetchPublicOffersSuccess: (state: any, action: PayloadAction) => {
+    fetchPublicOffersSuccess: (state: any, action: any) => {
         state.publicOffer.loadingEntities = false;
-        state.publicOffer.entities = action.payload;
+        state.publicOffer.entities = action.payload.content;
+        state.publicOffer.totalItems = action.payload?.totalElements;
+        state.publicOffer.totalPages = action.payload?.totalPages;
     },
     fetchPublicOffersFailure: (state: any, action: PayloadAction) => {
         state.publicOffer.loadingEntities = false;

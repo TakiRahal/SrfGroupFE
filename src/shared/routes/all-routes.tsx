@@ -27,6 +27,7 @@ const LazyChat = React.lazy(() => import('../../main-features/chat/components/ch
 const LazyFavoriteUser = React.lazy(() => import('../../main-features/favorite/components/favorite-users/favorite-users'))
 const LazyCart = React.lazy(() => import('../../main-features/cart/components/cart'))
 const LazyProfile = React.lazy(() => import('../../main-features/user/components/profile/profile'))
+const LazyForgotPasswordInit = React.lazy( () => import('../../main-features/user/components/forgot-password/forgot-password-init'))
 
 
 //
@@ -123,6 +124,18 @@ export default function AllRoutes(){
                         <PublicRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.LOGIN}>
                             <React.Suspense fallback={<>...</>}>
                                 <LazySignIn />
+                            </React.Suspense>
+                        </PublicRoute>
+                    }
+                />
+
+
+                <Route
+                    path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}
+                    element={
+                        <PublicRoute isAuthenticated={isAuthenticated}  path={ALL_APP_ROUTES.FORGOT_PASSWORD_INIT}>
+                            <React.Suspense fallback={<>...</>}>
+                                <LazyForgotPasswordInit />
                             </React.Suspense>
                         </PublicRoute>
                     }

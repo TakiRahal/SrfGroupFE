@@ -39,5 +39,9 @@ export const initialState = {
     profile: {
         loading: false,
         entity: {},
+    },
+    password: {
+        loadingResetInit: false,
+        resetInitSuccess: false
     }
 };

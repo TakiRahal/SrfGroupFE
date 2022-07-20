@@ -6,7 +6,7 @@ const reducer = {
     },
     fetchHomeFeaturesSuccess: (state: any, action: PayloadAction) => {
         state.homeFeatures.loading = false;
-        state.homeFeatures.entities = action.payload;
+        state.homeFeatures.entity = action.payload;
     },
     fetchHomeFeaturesFailure: (state: any, action: PayloadAction) => {
         state.homeFeatures.loading = false;

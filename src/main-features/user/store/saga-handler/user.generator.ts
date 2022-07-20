@@ -10,7 +10,7 @@ import {
     loginWithGoogleSuccess, loginWithGoogleOneTapSuccess, loginWithGoogleOneTapFailure,
     sessionUserSuccess, sessionUserFailure,
     getNumberOfNotificationsNotSeeSuccess, getNumberOfNotificationsNotSeeFailure,
-    getNumberOfMessagesNotSeeSuccess, getNumberOfMessagesNotSeeFailure
+    getNumberOfMessagesNotSeeSuccess, getNumberOfMessagesNotSeeFailure, resetPasswordInitSuccess, resetPasswordInitFailure
 } from "../slice";
 import {StorageService} from "../../../../shared/services/storage.service";
 import {AllAppConfig} from "../../../../core/config/all-config";
@@ -231,8 +231,21 @@ export function* fetchProfileUserHandler(data: any): Generator<any, any, any> {
         })
         yield put(fetchProfileUserSuccess(result?.data));
     } catch (e) {
-        console.error(e);
         yield put(fetchProfileUserFailure(e));
+    }
+}
+
+
+export function* resetPasswordInitUserHandler(data: any): Generator<any, any, any> {
+    try {
+        const requestUrl = `${apiUrl}public/forgot-password/init`;
+        const result = yield invokeWS({
+            url: `${requestUrl}`,
+            method: MethodHttp.post,
+        }, {...data.payload})
+        yield put(resetPasswordInitSuccess(result?.data));
+    } catch (e) {
+        yield put(resetPasswordInitFailure(e));
     }
 }
 

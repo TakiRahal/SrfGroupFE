@@ -145,6 +145,12 @@ export const {
     fetchImagesOfferSuccess,
     fetchImagesOfferFailure,
 
+
+    //? ********************| FETCH DESCRIPTION NEW OFFER ACTIONS |*******************/
+    fetchDescriptionNewOffer,
+    fetchDescriptionNewOfferSuccess,
+    fetchDescriptionNewOfferFailure,
+
 } = offerSlice.actions;
 
 //? ********************| PUBLIC OFFER SELECTORS |*******************/
@@ -228,3 +234,8 @@ export const loadingEntitiesImagesOffers = (state: any) => state[OFFER_KEY_IN_ST
 export const entitiesImagesOffers = (state: any) => state[OFFER_KEY_IN_STORE].imagesOffers.entities;
 export const totalItemsImagesOffers = (state: any) => state[OFFER_KEY_IN_STORE].imagesOffers.totalItems;
 export const totalPagesImagesOffers = (state: any) => state[OFFER_KEY_IN_STORE].imagesOffers.totalPages;
+
+
+//? ********************| DESCRIPTION NEW OFFER SELECTORS |*******************/
+export const loadingImagesDescriptionNewOffer = (state: any) => state[OFFER_KEY_IN_STORE].descriptionNewOffer.loading;
+export const entityDescriptionNewOffer = (state: any) => state[OFFER_KEY_IN_STORE].descriptionNewOffer.entity;

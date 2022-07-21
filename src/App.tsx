@@ -262,7 +262,7 @@ export const App = () => {
     }, [])
 
 
-    // For WS
+    // For WS: Refresh + Login
     React.useEffect(() => {
         console.log('currentUser ', currentUser);
         if( !isEmpty(currentUser) ){

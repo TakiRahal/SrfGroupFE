@@ -105,7 +105,9 @@ export default function DetailsOfffer () {
     const addSuccessFavoriteUserSelector = useSelector(addSuccessFavoriteUser) ?? false;
 
     React.useEffect(() => {
-        setListCommentsForOffer([...listCommentsForOffer, ...entitiesCommentsOfferSelector]);
+        if( entitiesCommentsOfferSelector.length ){
+            setListCommentsForOffer([...listCommentsForOffer, ...entitiesCommentsOfferSelector]);
+        }
     }, [entitiesCommentsOfferSelector])
 
     React.useEffect(() => {
@@ -139,6 +141,7 @@ export default function DetailsOfffer () {
 
     React.useEffect(() => {
         if(addSuccessCommentsOfferSelector || updateSuccessCommentsOfferSelector || deleteSuccessCommentsOfferSelector){
+            setListCommentsForOffer([]);
             dispatch(resetFetchCommentsOffer({}));
             dispatch(fetchCommentsOffer({
                 offerId: Number(id),

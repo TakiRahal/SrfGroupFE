@@ -83,5 +83,10 @@ export const initialState = {
         entities: [],
         totalItems: -1,
         totalPages: 0,
+    },
+    descriptionNewOffer: {
+        loading: false,
+        entity: {},
+        errorMessage: null,
     }
 }

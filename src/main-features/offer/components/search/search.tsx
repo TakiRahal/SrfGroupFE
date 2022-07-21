@@ -10,7 +10,7 @@ import {
 } from "../../store/slice";
 import {TypeDisplaySearchOffers} from "../../../../shared/enums/type-offer.enum";
 import {AllAppConfig} from "../../../../core/config/all-config";
-import {getFullUrlWithParams} from "../../../../shared/utils/utils-functions";
+import {getFullUrlWithParams, isOnLine} from "../../../../shared/utils/utils-functions";
 import queryString from 'query-string';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ALL_APP_ROUTES} from "../../../../core/config/all-app-routes";
@@ -27,10 +27,7 @@ import ItemsOffer from "../../../../shared/components/item-offer/ItemsOffer";
 import Alert from "@mui/material/Alert";
 import LeftSearch from "./ui-segments/LeftSearch";
 import RightSearch from "./ui-segments/RightSearch";
-
-const isOnLine = (list:any[], email: string): boolean => {
-    return list.findIndex(item => item.principal.email==email) >=0;
-}
+import {allSessionSelector, listConnectedUsersWebsocket} from "../../../user/store/slice";
 
 export default function Search () {
 
@@ -42,6 +39,8 @@ export default function Search () {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const {isAuthenticated, currentUser} = useSelector(allSessionSelector);
+
     const entitiesPublicOfferSelector = useSelector(entitiesPublicOffer) ?? [];
     const totalItemsPublicOfferSelector = useSelector(totalItemsPublicOffer) ?? -1;
     const totalPagesPublicOfferSelector = useSelector(totalPagesPublicOffer) ?? 0;
@@ -50,6 +49,7 @@ export default function Search () {
     // const {publicEntities, loadingPublicEntities, totalItems, totalPages} = useSelector(allPublicOffersSelector);
     const entitiesCategories = useSelector(allCategorySelector).entities ?? [];
     const entitiesAddress = useSelector(allAddressSelector).entities ?? [];
+    const listConnectedUsersWebsocketSelector = useSelector(listConnectedUsersWebsocket) ?? [];
 
     const resetAll = () => {
         dispatch(resetPublicOffers({}));
@@ -105,8 +105,7 @@ export default function Search () {
     }
 
     const isUserOnline = (email: string) => {
-        // return isOnLine(props.listConnectedUsers, email);
-        return isOnLine([], email);
+        return isOnLine(listConnectedUsersWebsocketSelector.slice(), email, currentUser.email);
     }
 
     return (

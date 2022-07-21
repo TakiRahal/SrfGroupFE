@@ -82,6 +82,17 @@ const reducer = {
     },
 
 
+    fetchDescriptionNewOffer: (state: any) => {
+        state.descriptionNewOffer.loading = true;
+    },
+    fetchDescriptionNewOfferSuccess: (state: any, action: any) => {
+        state.descriptionNewOffer.loading = false;
+        state.descriptionNewOffer.entity = action.payload;
+    },
+    fetchDescriptionNewOfferFailure: (state: any, action: any) => {
+        state.descriptionNewOffer.loading = false;
+    },
+
 }
 
 export default reducer;

@@ -3,9 +3,9 @@ import {PayloadAction} from "@reduxjs/toolkit";
 
 export const ACTION_TYPES = {
     CONNECTED_WEBSOCKET: 'user/connectedUserWS',
+    DISCONNECTED_WEBSOCKET: 'user/logout',
     GET_CURRENT_USER_WS_LIST: 'user/GET_CURRENT_USER_WS_LIST',
     NEW_CONNECTED_USER: 'user/NEW_CONNECTED_USER',
-    DISCONNECTED_USER: 'user/DISCONNECTED_USER',
 }
 
 const reducer = {
@@ -24,11 +24,9 @@ const reducer = {
 
     },
     addNewConnectedUser: (state: any, action: any) => {
-        console.log('addNewConnectedUser ', action);
         state.websocket.listConnectedUsers =  pushListConnectedUser(state.websocket.listConnectedUsers.slice(), action.payload.email)
     },
     removeDisconnectedUser: (state: any, action: any) => {
-        console.log('removeDisconnectedUser ', action);
         state.websocket.listConnectedUsers =  popListConnectedUser(state.websocket.listConnectedUsers.slice(), action.payload.email)
     },
 

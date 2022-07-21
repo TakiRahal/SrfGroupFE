@@ -67,10 +67,7 @@ const reducer = {
     },
 
     resetFetchCommentsOffer: (state: any) => {
-        return {
-            ...state,
-            ...initialState.commentsOffer
-        };
+        state.commentsOffer = initialState.commentsOffer;
     },
 }
 

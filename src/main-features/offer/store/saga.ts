@@ -21,7 +21,8 @@ import {
     fetchOffersByUser,
     fetchRecentlyOffer,
     fetchImagesOffer,
-    deleteCommentOffer
+    deleteCommentOffer,
+    fetchDescriptionNewOffer
 } from "../../offer/store/slice";
 import {
     fetchDetailsPublicOfferHandler,
@@ -44,6 +45,7 @@ import {
 import {fetchImagesOfferHandler} from "./saga-handler/images-offer.generator";
 import { reportCommentOfferHandler } from "./saga-handler/report-comment-offer.generator";
 import {reportOffersHandler} from "./saga-handler/report-offer.generator";
+import {fetchDescriptionNewOfferHandler} from "./saga-handler/description-new-offer.generator";
 
 
 export function* offerSaga() {
@@ -70,6 +72,7 @@ export function* offerSaga() {
         takeEvery(fetchOffersByUser, fetchOffersByUserHandler),
         takeEvery(fetchRecentlyOffer, fetchRecentlyOfferHandler),
         takeEvery(fetchImagesOffer, fetchImagesOfferHandler),
+        takeEvery(fetchDescriptionNewOffer, fetchDescriptionNewOfferHandler),
     ]);
 }
 

@@ -73,7 +73,14 @@ import {
     updateSuccessSellerOffer,
     updateSellerOffer,
     updateRentOffer,
-    loadingPublicOffer, loadingSellerOffer, loadingRentOffer, loadingFindOffer, resetPublicOffers, updateFindOffer, uploadFilesOffer
+    loadingPublicOffer,
+    loadingSellerOffer,
+    loadingRentOffer,
+    loadingFindOffer,
+    resetPublicOffers,
+    updateFindOffer,
+    uploadFilesOffer,
+    loadingImagesDescriptionNewOffer, entityDescriptionNewOffer, fetchDescriptionNewOffer
 } from "../../store/slice";
 import { CustomSunEditor } from '../../../../shared/components/sun-editor/CustomSunEditor';
 import OptionsCommonAddOffer from './ui-segments/ooptions-common-add-offer';
@@ -138,6 +145,9 @@ export default function AddUpdate () {
     const aaddSuccessFindOfferSelector = useSelector(addSuccessFindOffer) ?? false;
     const updateSuccessFindOfferSelector = useSelector(updateSuccessFindOffer) ?? false;
 
+    const loadingImagesDescriptionNewOfferSelector = useSelector(loadingImagesDescriptionNewOffer) ?? false;
+    const entityDescriptionNewOfferSelector = useSelector(entityDescriptionNewOffer) ?? {};
+
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchemaAddOffer,
@@ -173,6 +183,10 @@ export default function AddUpdate () {
         setTimeout(() => {
             setStartAnimation(true);
         }, 300);
+
+        if( isEmpty(entityDescriptionNewOfferSelector) ){
+            dispatch(fetchDescriptionNewOffer({}))
+        }
 
         // props.getPublicEntity();
     }, []);
@@ -385,12 +399,12 @@ export default function AddUpdate () {
 
     const getContentDescriptionAddOffer = () => {
         if( defaultLanguage==='en' ){
-            return entityPublicOfferSelector?.descriptionEn || '';
+            return entityDescriptionNewOfferSelector?.descriptionEn || '';
         }
         else if( defaultLanguage==='fr' ){
-            return entityPublicOfferSelector?.descriptionFr || '';
+            return entityDescriptionNewOfferSelector?.descriptionFr || '';
         }
-        return entityPublicOfferSelector?.descriptionAr || '';
+        return entityDescriptionNewOfferSelector?.descriptionAr || '';
     }
 
 
@@ -519,13 +533,6 @@ export default function AddUpdate () {
                                                             : null}
 
                                                         <ImageListItem>
-                                                            {/*<img*/}
-                                                            {/*    src={`/assets/images/offer/add-offer/img_add_offer.png`}*/}
-                                                            {/*    srcSet={`/assets/images/offer/add-offer/img_add_offer.png`}*/}
-                                                            {/*    alt={'img_add_offer'}*/}
-                                                            {/*    loading="lazy"*/}
-                                                            {/*    style={{borderRadius: 4, border: '1px solid #b7b1b1'}}*/}
-                                                            {/*/>*/}
                                                             <img
                                                                 src={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
                                                                 srcSet={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}
@@ -533,13 +540,6 @@ export default function AddUpdate () {
                                                                 loading="lazy"
                                                                 style={{borderRadius: 4, border: '1px solid #b7b1b1'}}
                                                             />
-                                                            {/*<img*/}
-                                                            {/*    src={window.location.origin + '/assets/images/offer/add-offer/img_add_offer.png'}*/}
-                                                            {/*    srcSet={`${getBaseImageUrl('/assets/images/offer/add-offer/img_add_offer.png')}`}*/}
-                                                            {/*    alt={'img_add_offer'}*/}
-                                                            {/*    loading="lazy"*/}
-                                                            {/*    style={{borderRadius: 4, border: '1px solid #b7b1b1'}}*/}
-                                                            {/*/>*/}
                                                             <input
                                                                 id="offer-addFiles"
                                                                 data-cy="files"
@@ -622,13 +622,13 @@ export default function AddUpdate () {
                         </Paper>
                     </Grid>
 
-                    {/*<Grid item xs={12} sm={6} sx={{p: 2, mt: 6}}>*/}
-                    {/*    {*/}
-                    {/*        props.loadingDescriptionAddOfferEntity ? <Box sx={{ textAlign: 'center' }}>*/}
-                    {/*            <CircularProgress color="inherit"  />*/}
-                    {/*        </Box> : <div dangerouslySetInnerHTML={{ __html: getContentDescriptionAddOffer() }}></div>*/}
-                    {/*    }*/}
-                    {/*</Grid>*/}
+                    <Grid item xs={12} sm={6} sx={{p: 2, mt: 6}}>
+                        {
+                            loadingImagesDescriptionNewOfferSelector ? <Box sx={{ textAlign: 'center' }}>
+                                <CircularProgress color="inherit"  />
+                            </Box> : <div dangerouslySetInnerHTML={{ __html: getContentDescriptionAddOffer() }}></div>
+                        }
+                    </Grid>
                 </Grid>
 
                 <div>{renderDialogDeleteImageOffer()}</div>

@@ -6,7 +6,7 @@ import {TypeDisplaySearchOffers} from "../../../../shared/enums/type-offer.enum"
 import {useDispatch, useSelector} from "react-redux";
 import {
     deleteSuccessMyOffers,
-    entitiesMyOffers, fetchMyOffers,
+    entitiesMyOffers, fetchMyOffers, fetchPublicOffers,
     loadingEntitiesMyOffers, resetMyOffers,
     totalItemsMyOffers,
     totalPagesMyOffers,
@@ -69,7 +69,7 @@ export default function MyOffers () {
     }, []);
 
     React.useEffect(() => {
-        if(activePage>=0 || isSearchCalback){
+        if(activePage>=0){
             const values = queryString.parse(search);
             let queryParams = getFullUrlWithParams(values);
             dispatch(fetchMyOffers({
@@ -79,7 +79,20 @@ export default function MyOffers () {
             }));
             setIsSearchCalback(false);
         }
-    }, [activePage, isSearchCalback]);
+    }, [activePage]);
+
+    React.useEffect(() => {
+        if(isSearchCalback){
+            const values = queryString.parse(search);
+            let queryParams = getFullUrlWithParams(values);
+            dispatch(fetchMyOffers({
+                page: activePage,
+                size: AllAppConfig.OFFERS_PER_PAGE,
+                queryParams: queryParams
+            }));
+            setIsSearchCalback(false);
+        }
+    }, [isSearchCalback]);
 
     React.useEffect(() => {
         if(deleteSuccessMyOffersSelector){
@@ -137,13 +150,13 @@ export default function MyOffers () {
     };
 
     const searchCalback = (values: any) => {
-        // navigate({
-        //     pathname: ALL_APP_ROUTES.OFFER.MY_OFFERS,
-        //     search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
-        // })
-        // // setActivePage(-1);
-        // setIsSearchCalback(true);
-        // resetAll();
+        navigate({
+            pathname: ALL_APP_ROUTES.OFFER.MY_OFFERS,
+            search: "?" + new URLSearchParams(getFullUrlWithParams(values)).toString()
+        })
+        // setActivePage(-1);
+        setIsSearchCalback(true);
+        resetAll();
     }
 
     const loadMore = () => {

@@ -13,6 +13,7 @@ import * as React from "react";
 import {useFormik} from "formik";
 import {initialValuesFilterSearch, validationSchemFilterSearch} from "../validation/initial-values-filter-search";
 import { IAddress } from "../../../../../shared/model/address.model";
+import isEmpty from "lodash/isEmpty";
 
 function valuetext(value: number) {
     return `${value}°C`;
@@ -39,9 +40,11 @@ export function FilterOffer({listAddress, handelChange}: { listAddress: IAddress
         },
     });
 
-    // React.useEffect(() => {
-    //     handelChange(formik.values);
-    // }, [formik.values.address])
+    React.useEffect(() => {
+        if( !isEmpty(formik.values.address) ){
+            handelChange(formik.values);
+        }
+    }, [formik.values.address])
 
     return (
         <Box>

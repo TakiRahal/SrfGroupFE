@@ -178,10 +178,6 @@ export const App = () => {
         setDarkMode(checked ? 'light' : 'dark' );
     };
 
-    React.useEffect(() => {
-        console.log('listConnectedUsersWebsocketSelector ', listConnectedUsersWebsocketSelector);
-    }, [listConnectedUsersWebsocketSelector])
-
     let location = useLocation();
     React.useEffect(() => {
         // Add track page Google Analytics
@@ -264,7 +260,6 @@ export const App = () => {
 
     // For WS: Refresh + Login
     React.useEffect(() => {
-        console.log('currentUser ', currentUser);
         if( !isEmpty(currentUser) ){
             dispatch(connectedUserWS({}))
         }

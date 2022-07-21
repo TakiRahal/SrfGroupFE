@@ -140,7 +140,7 @@ const unsubscribe = () => {
 
 export default (store: any) => (next: any) => (action: any) => {
 
-    console.log('action.type ', action.type);
+    // console.log('action.type ', action.type);
     if (action.type === WS_ACTIONS.CONNECTED_WEBSOCKET) {
 
         connect(store.getState().user?.session?.currentUser);
@@ -151,7 +151,7 @@ export default (store: any) => (next: any) => (action: any) => {
         connection.then((result) => {
             if(result==='success'){
 
-                console.log('connection success');
+                // console.log('connection success');
                 store.dispatch(fetchListConnectedUsersWS({}));
                 // store.dispatch(getWebsocketListConnectedUsers());
             }
@@ -161,15 +161,15 @@ export default (store: any) => (next: any) => (action: any) => {
 
 
         receive().subscribe(activity => {
-            console.log('receive activity ', activity);
+            // console.log('receive activity ', activity);
             if( activity.nameModule === 'ConnectedUser' ){
-                console.log('addNewConnectedUser ', activity.userEmail);
+                // console.log('addNewConnectedUser ', activity.userEmail);
                 return store.dispatch(addNewConnectedUser({
                     email: activity.userEmail
                 }))
             }
             else if( activity.nameModule ==='DisconnectedUser' ){
-                console.log('removeDisconnectedUser ', activity.userEmail);
+                // console.log('removeDisconnectedUser ', activity.userEmail);
                 return store.dispatch(removeDisconnectedUser({
                     email: activity.userEmail
                 }))

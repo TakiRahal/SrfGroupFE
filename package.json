@@ -1,7 +1,6 @@
 {
   "name": "srf-group",
   "version": "0.1.2",
-  "homepage": "https://takirahal.github.io/SrfGroupFE",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",

@@ -14,7 +14,7 @@ import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import {useNavigate} from "react-router-dom";
 import { ALL_APP_ROUTES } from '../../../../../core/config/all-app-routes';
 import { IOffer } from '../../../../../shared/model/offer.model';
-import { LazyImage } from 'react-lazy-images';
+// import { LazyImage } from 'react-lazy-images';
 import {getBaseImageUrl, getImageForOffer} from '../../../../../shared/utils/utils-functions';
 import { AllAppConfig } from '../../../../../core/config/all-config';
 import {LazyLoadImage} from "react-lazy-load-image-component";
@@ -53,6 +53,10 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                                         src={getImageForOffer(offer.id, offer.offerImages[0].path)}
                                                         placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
                                                         placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                                        onError={(e: any) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                                        }}
                                                         className="img-lazy-loading"
                                                     />
 

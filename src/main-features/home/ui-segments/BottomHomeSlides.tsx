@@ -4,19 +4,18 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 
 // import Swiper core and required modules
 import SwiperCore, {EffectCoverflow, Pagination, Navigation, Autoplay} from 'swiper';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {StorageService} from "../../../shared/services/storage.service";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {getBaseImageUrl, getImageForOffer} from "../../../shared/utils/utils-functions";
-import {IRootState} from "../../../shared/reducers";
-import {getEntitiesExistOfferImages} from "../../../shared/reducers/offer-images.reducer";
 import Box from "@mui/material/Box/Box";
 
 import './BottomHomeSlides.scss';
-import {entitiesImagesOffers, entitiesRentOffer, fetchImagesOffer, loadingEntitiesImagesOffers} from "../../offer/store/slice";
-import { LazyImage } from 'react-lazy-images';
+import {entitiesImagesOffers, loadingEntitiesImagesOffers} from "../../offer/store/slice";
+// import { LazyImage } from 'react-lazy-images';
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 // install Swiper modules
 SwiperCore.use([EffectCoverflow, Pagination, Navigation, Autoplay]);
@@ -89,25 +88,33 @@ export const BottomHomeSlides: FunctionComponent = () => {
                 {slideListBottom.map((offer: any, index: number) => (
                     <div key={`${index}-${offer[0]}`}>
                         <SwiperSlide key={`slide-${index}-${offer[0]}`} onClick={() => rediretTo(offer[0])}>
-                            {/*<img src={getImageForOffer(offer[0], offer[1])} alt="Image not found"*/}
-                            {/*     className="full-img-responsive"*/}
-                            {/*     width="500"*/}
-                            {/*     height="500"/>*/}
 
-                            <LazyImage
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer[0], offer[1])}
-                                alt="Image swiper"
-                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="full-img-responsive"/>}
-                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"  alt="image not found"/>
-                                )}
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="img-lazy-loading"
                             />
+
+                            {/*<LazyImage*/}
+                            {/*    src={getImageForOffer(offer[0], offer[1])}*/}
+                            {/*    alt="Image swiper"*/}
+                            {/*    actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="full-img-responsive"/>}*/}
+                            {/*    placeholder={({ ref }: { ref: any }) => <div ref={ref} />}*/}
+                            {/*    loading={() => (*/}
+                            {/*        <div>*/}
+                            {/*            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    error={() => (*/}
+                            {/*        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"  alt="image not found"/>*/}
+                            {/*    )}*/}
+                            {/*/>*/}
 
                         </SwiperSlide>
                     </div>

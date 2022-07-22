@@ -33,11 +33,12 @@ import {AllAppConfig} from "../../../core/config/all-config";
 import {ICart} from "../../../shared/model/cart.model";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {TransitionModal} from "../../../shared/pages/transition-modal";
-import {LazyImage} from "react-lazy-images";
+// import {LazyImage} from "react-lazy-images";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {deleteCart, deleteSuccessCart,
     detailsCart, entitiesCart,
     entityCart, fetchCart, loadingEntitiesCart, totalItemsCart, totalPagesCart, updateByQuantityCart } from '../store/slice';
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 
 
@@ -175,20 +176,33 @@ function ItemCart({cart, t, parentCallbackDeleteCart, parentCallbackUpdateQuanti
                 <CardMedia
                     sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
                     {cart?.sellOffer?.offerImages && cart?.sellOffer?.offerImages.length ? (
-                        <LazyImage
+
+                        <LazyLoadImage
+                            alt="Image offer"
                             src={getImageForOffer(cart?.sellOffer?.id, cart?.sellOffer?.offerImages[0].path)}
-                            alt="Buildings with tiled exteriors, lit by the sunset."
-                            actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
-                            placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
-                            loading={() => (
-                                <div>
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>
-                                </div>
-                            )}
-                            error={() => (
-                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                            )}
+                            placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                            placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                            onError={(e: any) => {
+                                e.target.onerror = null;
+                                e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                            }}
+                            className="img-lazy-loading"
                         />
+
+                        // <LazyImage
+                        //     src={getImageForOffer(cart?.sellOffer?.id, cart?.sellOffer?.offerImages[0].path)}
+                        //     alt="Buildings with tiled exteriors, lit by the sunset."
+                        //     actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                        //     placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
+                        //     loading={() => (
+                        //         <div>
+                        //             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>
+                        //         </div>
+                        //     )}
+                        //     error={() => (
+                        //         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
+                        //     )}
+                        // />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
                             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>

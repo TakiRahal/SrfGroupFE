@@ -31,7 +31,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import './ItemsOffer.scss';
 import {StyledBadge} from "../../pages/styled-badge";
 import {useNavigate} from "react-router-dom";
-import {LazyImage} from "react-lazy-images";
+// import {LazyImage} from "react-lazy-images";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 export default function ItemOffer({listOffers, typeDisplay, isOnLine, forMe, callbackEditOffer, callbackDeleteOffer}:
@@ -97,20 +98,28 @@ function CardList({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                 <CardMedia
                     sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 } }} >
                     {offer.offerImages && offer.offerImages.length ? (
-                        <LazyImage
+                        <LazyLoadImage
+                            alt="Image offer"
                             src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                            alt="Buildings with tiled exteriors, lit by the sunset."
-                            actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
-                            placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
-                            loading={() => (
-                                <div>
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
-                                </div>
-                            )}
-                            error={() => (
-                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                            )}
+                            placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                            placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                            className="img-lazy-loading"
                         />
+
+                        // <LazyImage
+                        //     src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                        //     alt="Buildings with tiled exteriors, lit by the sunset."
+                        //     actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                        //     placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
+                        //     loading={() => (
+                        //         <div>
+                        //             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                        //         </div>
+                        //     )}
+                        //     error={() => (
+                        //         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
+                        //     )}
+                        // />
                     ) : (
                         <Box sx={{display: {xs: 'none', md: 'block'}, height: '100%'}}>
                             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
@@ -248,20 +257,33 @@ function CardGrid({offer, rediretToCallback, isOnLine, forMe, callbackEditOffer,
                 />
                     <CardMedia sx={{ height: {xs: 150, md: 200} }}>
                         {offer.offerImages && offer.offerImages.length ? (
-                            <LazyImage
+
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                                )}
-                            />
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="img-lazy-loading"
+                                />
+
+                            // <LazyImage
+                            //     src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                            //     alt="Buildings with tiled exteriors, lit by the sunset."
+                            //     actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                            //     placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
+                            //     loading={() => (
+                            //         <div>
+                            //             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                            //         </div>
+                            //     )}
+                            //     error={() => (
+                            //         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
+                            //     )}
+                            // />
                         ) : (
                             <img src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
                         )}

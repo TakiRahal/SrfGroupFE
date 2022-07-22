@@ -17,6 +17,7 @@ import { IOffer } from '../../../../../shared/model/offer.model';
 import { LazyImage } from 'react-lazy-images';
 import {getBaseImageUrl, getImageForOffer} from '../../../../../shared/utils/utils-functions';
 import { AllAppConfig } from '../../../../../core/config/all-config';
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 export function ListOffersProfile({listOffers, loading}: {listOffers: any, loading: boolean}) {
 
@@ -46,20 +47,29 @@ export function ListOffersProfile({listOffers, loading}: {listOffers: any, loadi
                                             <CardMedia
                                                 sx={{ height: { xs: '100%', sm: 200 } }} >
                                                 {offer.offerImages && offer.offerImages.length ? (
-                                                    <LazyImage
+
+                                                    <LazyLoadImage
+                                                        alt="Image offer"
                                                         src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                                        alt="Buildings with tiled exteriors, lit by the sunset."
-                                                        actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                                        placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
-                                                        loading={() => (
-                                                            <div>
-                                                                <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
-                                                            </div>
-                                                        )}
-                                                        error={() => (
-                                                            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
-                                                        )}
+                                                        placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                                        placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                                        className="img-lazy-loading"
                                                     />
+
+                                                    // <LazyImage
+                                                    //     src={getImageForOffer(offer.id, offer.offerImages[0].path)}
+                                                    //     alt="Buildings with tiled exteriors, lit by the sunset."
+                                                    //     actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}
+                                                    //     placeholder={({ ref }: { ref: any }) => <div ref={ref} />}
+                                                    //     loading={() => (
+                                                    //         <div>
+                                                    //             <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
+                                                    //         </div>
+                                                    //     )}
+                                                    //     error={() => (
+                                                    //         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>
+                                                    //     )}
+                                                    // />
                                                 ) : (
                                                     <Box sx={{height: '100%',display: {xs: 'none', md: 'block'}}}>
                                                         <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading"/>

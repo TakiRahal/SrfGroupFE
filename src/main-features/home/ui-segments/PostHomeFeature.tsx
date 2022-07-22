@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import {IPostHomeFeature} from "../../../shared/model/post-home-feature.model";
 import i18n from "i18next";
 import { entityHomeFeatures } from '../store/slice';
+import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
 
 export const PostHomeFeature: FunctionComponent = () => {
 
@@ -43,14 +44,14 @@ export const PostHomeFeature: FunctionComponent = () => {
             {
                 !isEmpty(entityPostHomeFeature) ? <Grid container spacing={4}>
                     <Grid item xs={12} sm={6}>
-                        {/*<LazyImage className="img-fluid" src={defaultImage} alt={defaultImage}/>*/}
+
                         <img
                             className="full-img-responsive"
                             src={entityPostHomeFeature.image}
                             alt='bg'
                             onError={(e: any) => {
                                 e.target.onerror = null;
-                                e.target.src = entityPostHomeFeature.image;
+                                e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
                             }}
                             width="1000"
                             height="500"

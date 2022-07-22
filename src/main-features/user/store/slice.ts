@@ -125,6 +125,8 @@ export const {
 
 //? ********************| LOGIN SELECTORS |*******************/
 export const allLoginSelector = (state: any) => state[USER_KEY_IN_STORE].login;
+export const loginWithGoogleOneTapSuccessLogin = (state: any) => state[USER_KEY_IN_STORE].login.loginWithGoogleOneTapSuccess;
+
 // export const allLoginSelector = '';
 
 //? ********************| LOCALE SELECTORS |*******************/

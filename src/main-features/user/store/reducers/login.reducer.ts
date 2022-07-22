@@ -1,5 +1,4 @@
 import {PayloadAction} from "@reduxjs/toolkit";
-import {loginWithGoogleOneTap} from "../slice";
 
 const reducer = {
     loginUser: (state: any) => {
@@ -40,11 +39,12 @@ const reducer = {
 
     loginWithGoogleOneTap: (state: any) => {
         state.login.loading = true;
-        state.login.token = '';
+        state.login.loginWithGoogleOneTapSuccess = false;
     },
     loginWithGoogleOneTapSuccess: (state: any, action: PayloadAction) => {
         state.login.loading = false;
         state.login.token = action.payload;
+        state.login.loginWithGoogleOneTapSuccess = true;
     },
     loginWithGoogleOneTapFailure: (state: any, action: PayloadAction) => {
         state.login.loading = false;

@@ -1,5 +1,6 @@
 import {StorageService} from "../../../shared/services/storage.service";
 import {AllAppConfig} from "../../../core/config/all-config";
+import {loginWithGoogleOneTap} from "./slice";
 
 const CURRENT_USER = StorageService.local.get(AllAppConfig.VALUE_CURRENT_USER) ? JSON.parse(StorageService.local.get(AllAppConfig.VALUE_CURRENT_USER)) : null;
 
@@ -8,6 +9,7 @@ export const initialState = {
     login: {
         token: '',
         loading: false,
+        loginWithGoogleOneTapSuccess: false
     },
     session: {
         isAuthenticated: CURRENT_USER ? true : false,

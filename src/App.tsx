@@ -48,7 +48,7 @@ import {
     loginWithGoogleOneTap,
     changeLocale,
     connectedUserWS, listConnectedUsersWebsocket,
-    logout, allLoginSelector, sessionUser
+    logout, allLoginSelector, sessionUser, loginWithGoogleOneTapSuccessLogin
 } from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
@@ -161,7 +161,7 @@ export const App = () => {
     const dispatch = useDispatch();
     const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead, oneSignalId} = useSelector(allSessionSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
-    const {loading, token} = useSelector(allLoginSelector);
+    const loginWithGoogleOneTapSuccessLoginSelector = useSelector(loginWithGoogleOneTapSuccessLogin);
     const listConnectedUsersWebsocketSelector = useSelector(listConnectedUsersWebsocket) ?? [];
 
     // const isDark = false;
@@ -501,13 +501,13 @@ export const App = () => {
     );
 
     React.useEffect(() => {
-        console.log('token ', token);
-        if (token) {
+        console.log('loginWithGoogleOneTapSuccessLoginSelector ', loginWithGoogleOneTapSuccessLoginSelector);
+        if (loginWithGoogleOneTapSuccessLoginSelector) {
             dispatch(sessionUser({}));
             dispatch(getNumberOfNotificationsNotSee({}));
             dispatch(getNumberOfMessagesNotSee({}));
         }
-    }, [token]);
+    }, [loginWithGoogleOneTapSuccessLoginSelector]);
 
     const responseGoogle = (response: any) => {
         if (!response.error) {

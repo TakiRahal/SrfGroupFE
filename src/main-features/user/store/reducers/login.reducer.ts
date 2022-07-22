@@ -40,6 +40,7 @@ const reducer = {
 
     loginWithGoogleOneTap: (state: any) => {
         state.login.loading = true;
+        state.login.token = '';
     },
     loginWithGoogleOneTapSuccess: (state: any, action: PayloadAction) => {
         state.login.loading = false;

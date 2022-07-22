@@ -45,10 +45,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CookieConsent from "react-cookie-consent";
 import {
     allLocaleSelector,
-    allLoginSelector,
+    loginWithGoogleOneTap,
     changeLocale,
     connectedUserWS, listConnectedUsersWebsocket,
-    logout
+    logout, allLoginSelector, sessionUser
 } from './main-features/user/store/slice';
 import {oneSignalProviders} from "./shared/providers/onesignal.provider";
 import {initGoogleAnalytics, loadScriptGoogleAnalytics, trackPagesGA} from "./shared/providers/google-anaylitics";
@@ -161,6 +161,7 @@ export const App = () => {
     const dispatch = useDispatch();
     const {isAuthenticated, currentUser, nbeMessagesNotRead, nbeNotificationsNotRead, oneSignalId} = useSelector(allSessionSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
+    const {loading, token} = useSelector(allLoginSelector);
     const listConnectedUsersWebsocketSelector = useSelector(listConnectedUsersWebsocket) ?? [];
 
     // const isDark = false;
@@ -499,6 +500,14 @@ export const App = () => {
         </Menu>
     );
 
+    React.useEffect(() => {
+        console.log('token ', token);
+        if (token) {
+            dispatch(sessionUser({}));
+            dispatch(getNumberOfNotificationsNotSee({}));
+            dispatch(getNumberOfMessagesNotSee({}));
+        }
+    }, [token]);
 
     const responseGoogle = (response: any) => {
         if (!response.error) {
@@ -508,7 +517,7 @@ export const App = () => {
                 idOneSignal: oneSignalId,
                 langKey: currentLocale
             };
-            dispatch(getNumberOfNotificationsNotSee({}));
+            dispatch(loginWithGoogleOneTap({...requestData}));
             // props.loginGooglePlusOneTap(requestData);
         }
     };

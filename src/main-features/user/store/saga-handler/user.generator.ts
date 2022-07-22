@@ -118,7 +118,7 @@ export function* loginWithGoogleOneTapHandler(
 ): Generator<any, any, any> {
     try {
         const result = yield invokeWS({
-                url: `${apiUrl}public/signin-google-plus`,
+                url: `${apiUrl}public/signin-google-plus-one-tap`,
                 method: MethodHttp.post,
             },
             {...data?.payload}

@@ -53,7 +53,7 @@ export default function SignIn (){
     const dispatch = useDispatch();
     const {loading, token} = useSelector(allLoginSelector);
     const {currentLocale} = useSelector(allLocaleSelector);
-    const {currentUser, oneSignalId} = useSelector(allSessionSelector);
+    const {oneSignalId} = useSelector(allSessionSelector);
 
     const handleClickShowPassword = () => {
         setShowPassword({

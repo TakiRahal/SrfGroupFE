@@ -38,6 +38,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {ListItemText} from "@mui/material";
 import {changeLocale} from "../../../main-features/user/store/slice";
 import {useDispatch} from "react-redux";
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const sections = [
     {
@@ -497,7 +498,7 @@ export default function Header(props: any){
                             </MenuItem>
                             <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.FAQ)}>
                                 <ListItemIcon>
-                                    <AccountCircle fontSize="small" />
+                                    <QuizIcon fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText>{t<string>('header.link_support.link_faq')}</ListItemText>
                             </MenuItem>

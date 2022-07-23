@@ -82,6 +82,7 @@ export default function SwiperDetailsOffer(offerEntity: IOffer) {
                                         e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
                                     }}
                                     className="img-lazy-loading"
+                                    onClick={() => setOpenLightBox(true)} onContextMenu={(e) => e.preventDefault()}
                                 />
 
                                 {/*<LazyImage*/}

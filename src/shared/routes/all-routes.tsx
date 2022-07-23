@@ -107,6 +107,14 @@ export default function AllRoutes(){
                            </React.Suspense>
                        } />
 
+
+                <Route path='*'
+                       element={
+                           <React.Suspense fallback={<>...</>}>
+                               <LazyHome />
+                           </React.Suspense>
+                       } />
+
                 <Route
                     path={ALL_APP_ROUTES.REGISTER}
                     element={

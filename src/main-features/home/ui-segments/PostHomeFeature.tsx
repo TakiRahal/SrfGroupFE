@@ -1,20 +1,21 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {AllAppConfig} from "../../../core/config/all-config";
 import {StorageService} from '../../../shared/services/storage.service';
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import isEmpty from 'lodash/isEmpty';
-import {IRootState} from "../../../shared/reducers";
 import {IPostHomeFeature} from "../../../shared/model/post-home-feature.model";
 import i18n from "i18next";
+import { entityHomeFeatures } from '../store/slice';
+import {getBaseImageUrl} from "../../../shared/utils/utils-functions";
 
-export interface IPostHomeFeatureProp extends StateProps, DispatchProps {}
-
-export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
+export const PostHomeFeature: FunctionComponent = () => {
 
     const [entityPostHomeFeature, setEntityPostHomeFeature] = React.useState<IPostHomeFeature>(StorageService.local.get(AllAppConfig.POST_HOME_FEATURE))
     const [defaultLanguage, setDefaultLanguage] = React.useState('fr');
+
+    const entityHomeFeaturesSelector = useSelector(entityHomeFeatures) ?? {};
 
     React.useEffect(() => {
         i18n.on('languageChanged', (lang: any) => {
@@ -23,11 +24,10 @@ export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
     }, []);
 
     React.useEffect(() => {
-
-        if(!isEmpty(props.entity)){
-            StorageService.local.set(AllAppConfig.POST_HOME_FEATURE, props.entity);
+        if(!isEmpty(entityHomeFeaturesSelector)){
+            StorageService.local.set(AllAppConfig.POST_HOME_FEATURE, entityHomeFeaturesSelector);
         }
-    }, [props.entity]);
+    }, [entityHomeFeaturesSelector]);
 
     const getDescription = (): string => {
         if( defaultLanguage==='en' ){
@@ -44,14 +44,14 @@ export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
             {
                 !isEmpty(entityPostHomeFeature) ? <Grid container spacing={4}>
                     <Grid item xs={12} sm={6}>
-                        {/*<LazyImage className="img-fluid" src={defaultImage} alt={defaultImage}/>*/}
+
                         <img
                             className="full-img-responsive"
                             src={entityPostHomeFeature.image}
                             alt='bg'
                             onError={(e: any) => {
                                 e.target.onerror = null;
-                                e.target.src = entityPostHomeFeature.image;
+                                e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
                             }}
                             width="1000"
                             height="500"
@@ -81,16 +81,3 @@ export const PostHomeFeature = (props: IPostHomeFeatureProp) => {
         </Container>
     );
 };
-
-
-const mapStateToProps = ({postHomeFeature}: IRootState) => ({
-    entity: postHomeFeature.entity,
-});
-
-const mapDispatchToProps = {
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostHomeFeature);

@@ -30,7 +30,7 @@ import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogActions from "@mui/material/DialogActions/DialogActions";
-import {FilterOffer} from "../../../main-features/search/ui-segments/FilterOffer";
+// import {FilterOffer} from "../../../main-features/search/ui-segments/FilterOffer";
 import {IAddress} from "../../model/address.model";
 import Typography from "@mui/material/Typography/Typography";
 
@@ -146,7 +146,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                             Sound
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSearchFilterOfferModal}>
-                            {t('common.label_search')}
+                            {t<string>('common.label_search')}
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -158,7 +158,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                         To subscribe to this website, please enter your email address here. We
                         will send updates occasionally.
                     </DialogContentText>
-                    <FilterOffer listAddress={listAddress} handelChange={onChange}/>
+                    {/*<FilterOffer listAddress={listAddress} handelChange={onChange}/>*/}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseFilterOfferModal}>
@@ -200,7 +200,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                 <TextField id="title"
                                            name="title"
                                            type="search"
-                                           label={t('common.label_search')}
+                                           label={t<string>('common.label_search')}
                                            variant="standard"
                                            value={formik.values.title}
                                            onChange={formik.handleChange}/>
@@ -222,7 +222,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     renderInput={params => (
                                         <TextField
                                             {...params}
-                                            label={t('common.type_offer')}
+                                            label={t<string>('common.type_offer')}
                                             variant="standard"
                                             inputProps={{
                                                 ...params.inputProps,
@@ -252,7 +252,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     renderInput={params => (
                                         <TextField
                                             {...params}
-                                            label={t('common.label_category')}
+                                            label={t<string>('common.label_category')}
                                             variant="standard"
                                             inputProps={{
                                                 ...params.inputProps,
@@ -313,7 +313,7 @@ export function SearchAppBar({entitiesCategories, searchCalback, typeDisplayCall
                                     color="neutral"
                                     type="submit"
                                 >
-                                    {t('common.label_search')}
+                                    {t<string>('common.label_search')}
                                 </Button>
                             </Box>
                         </Toolbar>

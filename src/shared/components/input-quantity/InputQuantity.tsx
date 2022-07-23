@@ -8,10 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import {useFormik} from "formik";
-import {
-    initialValuesQuantityOffer,
-    validationSchemaQuantityOffer
-} from "../../../main-features/offer/details/validation/initial-values-add-comment-offer";
+import { initialValuesQuantityOffer, validationSchemaQuantityOffer } from "../../../main-features/offer/components/details-offer/validation/initial-values-add-comment-offer";
 
 const initialValues = initialValuesQuantityOffer;
 

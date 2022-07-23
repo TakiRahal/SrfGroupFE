@@ -1,7 +1,7 @@
 import OneSignal from "react-onesignal";
 import {AllAppConfig} from "../../core/config/all-config";
 import {ACTION_TYPES} from "../reducers/user-reducer";
-import reduxStore from "../../core/config/store";
+// import reduxStore from "../../core/config/store";
 
 
 export async function oneSignalProviders() {
@@ -16,10 +16,10 @@ export async function oneSignalProviders() {
             OneSignal.isPushNotificationsEnabled((result: boolean) => {
                 if(result){
                     OneSignal.getUserId((userId: string | null | undefined) => {
-                        reduxStore.dispatch({
-                            type: ACTION_TYPES.ONE_SIGNAL_ID,
-                            payload: userId
-                        })
+                        // reduxStore.dispatch({
+                        //     type: ACTION_TYPES.ONE_SIGNAL_ID,
+                        //     payload: userId
+                        // })
                     })
                 }
                 else{

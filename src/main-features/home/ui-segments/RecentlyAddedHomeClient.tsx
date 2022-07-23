@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -15,9 +15,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from '@mui/material/styles/styled';
 import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
-import {IRootState} from "../../../shared/reducers";
 import {getEntitiesRecentlyAdded} from "../../../shared/reducers/offer.reducer";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getBaseImageUrl, getFullnameUser, getImageForOffer, getUserAvatar} from "../../../shared/utils/utils-functions";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {useNavigate} from "react-router-dom";
@@ -28,11 +27,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
 import {AllAppConfig} from "../../../core/config/all-config";
-import {LazyImage} from "../../../shared/components/lazy-image";
+// import { LazyImage } from 'react-lazy-images';
+import {
+    entitiesRecentlyOffers
+} from "../../offer/store/slice";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 
 function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
-
 
     const getPathImg = (offer: IOffer) => {
         return offer && offer?.offerImages && offer?.offerImages[0] ? offer?.offerImages[0]?.path : '';
@@ -62,25 +64,38 @@ function RecentlyAddedHome({offer, index, rediretTo}: {offer: IOffer, index: num
                 {
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{height:200}}>
-                            <LazyImage
+
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
-                                              className="img-lazy-loading"
-                                              alt="image not found"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}
-                                          className="img-lazy-loading"
-                                          style={{height:200}}
-                                          alt="image not found"/>
-                                )}
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="img-lazy-loading"
                             />
+
+                            {/*<LazyImage*/}
+                            {/*    src={getImageForOffer(offer.id, offer.offerImages[0].path)}*/}
+                            {/*    alt="Buildings with tiled exteriors, lit by the sunset."*/}
+                            {/*    actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}*/}
+                            {/*    placeholder={({ ref }: { ref: any }) => <div ref={ref} />}*/}
+                            {/*    loading={() => (*/}
+                            {/*        <div>*/}
+                            {/*            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}*/}
+                            {/*                  className="img-lazy-loading"*/}
+                            {/*                  alt="image not found"/>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    error={() => (*/}
+                            {/*        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)}*/}
+                            {/*              className="img-lazy-loading"*/}
+                            {/*              style={{height:200}}*/}
+                            {/*              alt="image not found"/>*/}
+                            {/*    )}*/}
+                            {/*/>*/}
                         </CardMedia>
                     ) : (
                         <CardMedia
@@ -124,17 +139,30 @@ const ExpandMore = styled((props: any) => {
     }),
 }));
 
-export interface IRecentlyAddedHomeClientProps extends StateProps, DispatchProps {}
+// export interface IRecentlyAddedHomeClientProps extends StateProps, DispatchProps {}
 
-export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) => {
-    const [expanded, setExpanded] = React.useState(false);
+export const RecentlyAddedHomeClient: FunctionComponent = () => {
+// export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) => {
+    // const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
+    // const dispatch = useDispatch();
 
-    const {listOffers, getEntitiesRecentlyAdded} = props;
+    // const {entitiesRecentlyOffersSelector, getEntitiesRecentlyAdded} = props;
 
-    React.useEffect(() => {
-        getEntitiesRecentlyAdded(0, 9, 'id,asc');
-    }, []);
+    // const loadingEntitiesRecentlyOffersSelector = useSelector(loadingEntitiesRecentlyOffers) ?? false;
+    const entitiesRecentlyOffersSelector = useSelector(entitiesRecentlyOffers) ?? [];
+    // const totalItemsRecentlyOffersSelector = useSelector(totalItemsRecentlyOffers) ?? -1;
+    // const totalPagesRecentlyOffersSelector = useSelector(totalPagesRecentlyOffers) ?? 0;
+
+
+    // React.useEffect(() => {
+        // dispatch(fetchRecentlyOffer({
+        //     page: 0,
+        //     size: 9,
+        //     queryParams: ''
+        // }));
+        // getEntitiesRecentlyAdded(0, 9, 'id,asc');
+    // }, []);
 
     const rediretTo = (offerId: string) => {
         setTimeout(() => {
@@ -148,7 +176,7 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
                 <u>Récemment ajoutés</u>
             </h3>
             <Grid container spacing={4}  sx={{display: {xs: 'none', md: 'flex'}}}>
-                {listOffers.map((offer: any, index: number) => (
+                {entitiesRecentlyOffersSelector.map((offer: any, index: number) => (
                     <Grid item  key={`offer-${index}`} xs={12} sm={6} md={4}>
                         <RecentlyAddedHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -156,7 +184,7 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
             </Grid>
             <Box sx={{display: {md: 'none'}}} className="box-swiper">
                 <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-                    {listOffers.map((offer: any, index: number) => (
+                    {entitiesRecentlyOffersSelector.map((offer: any, index: number) => (
                         <SwiperSlide key={`offer-${index}`}><RecentlyAddedHome offer={offer} index={index} rediretTo={rediretTo}/></SwiperSlide>
                     ))}
                 </Swiper>
@@ -165,15 +193,15 @@ export const RecentlyAddedHomeClient = (props: IRecentlyAddedHomeClientProps) =>
     )
 }
 
-const mapStateToProps = ({ offer }: IRootState) => ({
-    listOffers: offer.entitiesRecentlyAddedOffers,
-});
-
-const mapDispatchToProps = {
-    getEntitiesRecentlyAdded,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecentlyAddedHomeClient);
+// const mapStateToProps = ({ offer }: IRootState) => ({
+//     entitiesRecentlyOffersSelector: offer.entitiesRecentlyAddedOffers,
+// });
+//
+// const mapDispatchToProps = {
+//     getEntitiesRecentlyAdded,
+// };
+//
+// type StateProps = ReturnType<typeof mapStateToProps>;
+// type DispatchProps = typeof mapDispatchToProps;
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(RecentlyAddedHomeClient);

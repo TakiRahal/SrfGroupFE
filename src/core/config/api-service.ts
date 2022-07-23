@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {toast} from "react-toastify";
+import i18n from "i18next";
 
 export enum MethodHttp {
     post = 'POST',
@@ -34,7 +36,7 @@ axios.create({
     },
 });
 
-export const invokeWS = (endpoint: IEndPoint, requestData: any, options?: InvokeOptions) => {
+export const invokeWS = (endpoint: IEndPoint, requestData?: any, options?: InvokeOptions) => {
 
     const invokeOptions = formatOptions(options || {});
 
@@ -63,9 +65,13 @@ const callWS = (
         axios.request(invokeParams).then(
             (response: any) => {
                 document.body.classList.remove('loading-indicator');
+
+                showNotification(true, response);
                 resolve(response);
             }, (error: any) => {
                 document.body.classList.remove('loading-indicator');
+
+                showNotification(false, error);
                 reject(error);
             });
     })
@@ -126,4 +132,33 @@ const getHeaders = () => {
     //     headers.Authorization = this.getAuthToken();
     // }
     return headers;
+}
+
+const showNotification = (success: boolean, result: any) => {
+
+    if( success && result?.headers ){
+        const headers = result?.headers;
+
+        let alert: string | null = null;
+        let alertParams: string | null = null;
+        Object.entries<string>(headers).forEach(([k, v]) => {
+            if (k.toLowerCase().endsWith('app-alert')) {
+                alert = v;
+            } else if (k.toLowerCase().endsWith('app-params')) {
+                alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
+            }
+        });
+        if (alert) {
+            toast.success(i18n.t<string>(alert));
+        }
+    }
+    else if( !success ){
+        const response = result?.response;
+        const data = response?.data;
+
+        if(data?.message){
+            toast.error(i18n.t<string>(data?.message));
+        }
+    }
+
 }

@@ -11,7 +11,6 @@ import {ISellOffer} from "./shared/model/sell-offer.model";
 import {IRentOffer} from "./shared/model/rent-offer.model";
 import {defaultValueOFU} from "./shared/model/offer-favorite-user";
 import {IOffer} from "./shared/model/offer.model";
-import App from "./App";
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -136,7 +135,7 @@ test('renders App', () => {
     const component = render(
         <Provider store={store}>
             <BrowserRouter>
-                <App />
+                {/*<App />*/}
             </BrowserRouter>
         </Provider>);
 

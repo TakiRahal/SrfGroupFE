@@ -4,10 +4,11 @@ import i18n from 'i18next';
 
 const addErrorAlert = (message: string, key?: string, data?: any) => {
     key = key ? key : message;
-    toast.error(i18n.t(key));
+    toast.error(i18n.t<string>(key));
     // toast.error(translate(key, data));
 };
 export default () => (next: any) => (action: any) => {
+
     // If not a promise, continue on
     if (!isPromise(action.payload)) {
         return next(action);
@@ -21,7 +22,7 @@ export default () => (next: any) => (action: any) => {
     return next(action)
         .then((response: any) => {
             if (action.meta && action.meta.successMessage) {
-                toast.success(i18n.t(action.meta.successMessage));
+                toast.success(i18n.t<string>(action.meta.successMessage));
             } else if (response && response.action && response.action.payload && response.action.payload.headers) {
                 const headers = response.action.payload.headers;
                 let alert: string | null = null;
@@ -34,7 +35,7 @@ export default () => (next: any) => (action: any) => {
                     }
                 });
                 if (alert) {
-                    toast.success(i18n.t(alert));
+                    toast.success(i18n.t<string>(alert));
                 }
             }
             return Promise.resolve(response);
@@ -42,7 +43,7 @@ export default () => (next: any) => (action: any) => {
         .catch((error: any) => {
             console.log('catch error ', error);
             if (action.meta && action.meta.errorMessage) {
-                toast.error(i18n.t(action.meta.errorMessage));
+                toast.error(i18n.t<string>(action.meta.errorMessage));
             } else if (error && error.response) {
                 const response = error.response;
                 const data = response.data;
@@ -107,9 +108,9 @@ export default () => (next: any) => (action: any) => {
                 /* eslint-disable no-console */
                 console.log('Authentication Error: Trying to access url api/account with GET.');
             } else if (error && error.message) {
-                toast.error(i18n.t(error.message));
+                toast.error(i18n.t<string>(error.message));
             } else {
-                toast.error(i18n.t('Unknown error!'));
+                toast.error(i18n.t<string>('Unknown error!'));
             }
             return Promise.reject(error);
         });

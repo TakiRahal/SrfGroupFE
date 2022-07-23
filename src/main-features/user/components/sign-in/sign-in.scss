@@ -1,0 +1,15 @@
+//.kep-login-facebook {
+//  padding: 0 !important;
+//  background-color: transparent !important;
+//  border: none !important;
+//}
+
+.kep-login-facebook{
+  &.metro{
+    border-radius: 50% !important;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    padding: 0;
+  }
+}

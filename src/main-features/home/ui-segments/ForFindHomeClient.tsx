@@ -12,7 +12,7 @@ import {AllAppConfig} from "../../../core/config/all-config";
 import {ALL_APP_ROUTES} from "../../../core/config/all-app-routes";
 import {IRootState} from "../../../shared/reducers";
 import {getEntitiesForFind} from "../../../shared/reducers/find-offer.reducer";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {TypeOfferEnum} from "../../../shared/enums/type-offer.enum";
 import {Link, useNavigate} from "react-router-dom";
@@ -22,7 +22,9 @@ import {Pagination} from "swiper";
 
 import './ForFindHome.scss';
 import {ConvertReactTimeAgo} from "../../../shared/pages/react-time-ago";
-import {LazyImage} from "../../../shared/components/lazy-image";
+import { LazyImage } from 'react-lazy-images';
+import {allFindOffersSelector, entitiesFindOffer, entitiesRentOffer, fetchFindOffer} from "../../offer/store/slice";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 
 function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: number, rediretTo: any}){
@@ -34,20 +36,33 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {index % 2 === 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
+
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                                )}
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="full-img-responsive"
                             />
+
+                            {/*<LazyImage*/}
+                            {/*    src={getImageForOffer(offer.id, offer.offerImages[0].path)}*/}
+                            {/*    alt="Buildings with tiled exteriors, lit by the sunset."*/}
+                            {/*    actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}*/}
+                            {/*    placeholder={({ ref }: { ref: any }) => <div ref={ref} />}*/}
+                            {/*    loading={() => (*/}
+                            {/*        <div>*/}
+                            {/*            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    error={() => (*/}
+                            {/*        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>*/}
+                            {/*    )}*/}
+                            {/*/>*/}
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
@@ -69,20 +84,33 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {index % 2 !== 0 ? (
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
+
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                                )}
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="full-img-responsive"
                             />
+
+                            {/*<LazyImage*/}
+                            {/*    src={getImageForOffer(offer.id, offer.offerImages[0].path)}*/}
+                            {/*    alt="Buildings with tiled exteriors, lit by the sunset."*/}
+                            {/*    actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}*/}
+                            {/*    placeholder={({ ref }: { ref: any }) => <div ref={ref} />}*/}
+                            {/*    loading={() => (*/}
+                            {/*        <div>*/}
+                            {/*            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading" alt="image not found"/>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    error={() => (*/}
+                            {/*        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>*/}
+                            {/*    )}*/}
+                            {/*/>*/}
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
@@ -98,20 +126,33 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
                 {
                     offer.offerImages && offer.offerImages.length ? (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
-                            <LazyImage
+
+                            <LazyLoadImage
+                                alt="Image offer"
                                 src={getImageForOffer(offer.id, offer.offerImages[0].path)}
-                                alt="Buildings with tiled exteriors, lit by the sunset."
-                                actual={({ imageProps }) => <img {...imageProps} className="img-lazy-loading"/>}
-                                placeholder={({ ref }) => <div ref={ref} />}
-                                loading={() => (
-                                    <div>
-                                        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>
-                                    </div>
-                                )}
-                                error={() => (
-                                    <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>
-                                )}
+                                placeholder={<img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>}
+                                placeholderSrc={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)}
+                                onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE);
+                                }}
+                                className="img-lazy-loading"
                             />
+
+                            {/*<LazyImage*/}
+                            {/*    src={getImageForOffer(offer.id, offer.offerImages[0].path)}*/}
+                            {/*    alt="Buildings with tiled exteriors, lit by the sunset."*/}
+                            {/*    actual={({ imageProps }: { imageProps: any }) => <img {...imageProps} className="img-lazy-loading"/>}*/}
+                            {/*    placeholder={({ ref }: { ref: any }) => <div ref={ref} />}*/}
+                            {/*    loading={() => (*/}
+                            {/*        <div>*/}
+                            {/*            <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE_LOADING)} className="img-lazy-loading"/>*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    error={() => (*/}
+                            {/*        <img  src={getBaseImageUrl(AllAppConfig.DEFAULT_LAZY_IMAGE)} className="img-lazy-loading" alt="image not found"/>*/}
+                            {/*    )}*/}
+                            {/*/>*/}
                         </CardMedia>
                     ) : (
                         <CardMedia sx={{ width: { xs: '100%', sm: 250 }, height: { xs: '100%', sm: 200 }, backgroundColor: '#0000004f' }}>
@@ -135,18 +176,23 @@ function ItemForFindHome({offer, index, rediretTo}: {offer: IOffer, index: numbe
     );
 }
 
-export interface IForFindClientProp extends StateProps, DispatchProps {}
+// export interface IForFindClientProp extends StateProps, DispatchProps {}
 
-export const ForFindHomeClient = (props: IForFindClientProp) => {
+export const ForFindHomeClient = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
+    // const dispatch = useDispatch();
 
-    const { listFindOffers, getEntitiesForFind } = props;
+    const entitiesFindOfferSelector = useSelector(entitiesFindOffer) ?? [];
 
-    React.useEffect(() => {
-        getEntitiesForFind(0, 4, 'id,asc');
-    }, [])
+    // React.useEffect(() => {
+    //     dispatch(fetchFindOffer({
+    //         page: 0,
+    //         size: 4,
+    //         queryParams: ''
+    //     }));
+    // }, [])
 
     const rediretTo = (offerId: number) => {
         setTimeout(() => {
@@ -158,11 +204,11 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
         <Container maxWidth="xl" className="container-for-find-home">
             <h3>
                 <Link to={`${ALL_APP_ROUTES.OFFER.LIST}?typeOffer=${TypeOfferEnum.Find}`}>
-                    {t('common.for_find')}
+                    {t<string>('common.for_find')}
                 </Link>
             </h3>
             <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{display: {xs: 'none', md: 'flex'}}}>
-                {listFindOffers.map((offer: any, index: number) => (
+                {entitiesFindOfferSelector.map((offer: any, index: number) => (
                     <Grid item xs={12} md={6} key={`offer-${index}`}>
                         <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
                     </Grid>
@@ -179,7 +225,7 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
                     modules={[Pagination]}
                     className="mySwiper"
                 >
-                    {listFindOffers.map((offer: any, index: number) => (
+                    {entitiesFindOfferSelector.map((offer: any, index: number) => (
                         <SwiperSlide key={`offer-${index}`}>
                             <ItemForFindHome offer={offer} index={index} rediretTo={rediretTo}/>
                         </SwiperSlide>
@@ -189,16 +235,3 @@ export const ForFindHomeClient = (props: IForFindClientProp) => {
         </Container>
     );
 }
-
-const mapStateToProps = ({ findOffer }: IRootState) => ({
-    listFindOffers: findOffer.entitiesFindOffers,
-});
-
-const mapDispatchToProps = {
-    getEntitiesForFind,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForFindHomeClient);

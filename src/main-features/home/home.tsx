@@ -1,32 +1,30 @@
 import * as React from 'react';
 import Box from "@mui/material/Box/Box";
-import ForSellHomeClient from "./ui-segments/ForSellHomeClient";
-import FirstHorizentalListHomeClient from "./ui-segments/FirstHorizentalListHomeClient";
-import SecondHorizentalListHomeClient from "./ui-segments/SecondHorizentalListHomeClient";
+import {TopHomeSlides} from "./ui-segments/TopHomeSlides";
+import {ForSellHomeClient} from "./ui-segments/ForSellHomeClient";
+import {ForRentHomeClient} from "./ui-segments/ForRentHomeClient";
+import SecondHorizentalListHomeClient from './ui-segments/SecondHorizentalListHomeClient';
+import {ForFindHomeClient} from "./ui-segments/ForFindHomeClient";
 import ThirdHorizentalListHomeClient from "./ui-segments/ThirdHorizentalListHomeClient";
-import RecentlyAddedHomeClient from "./ui-segments/RecentlyAddedHomeClient";
-import ForRentHomeClient from "./ui-segments/ForRentHomeClient";
-import ForFindHomeClient from "./ui-segments/ForFindHomeClient";
-import BottomHomeSlides from "./ui-segments/BottomHomeSlides";
-import './home.scss';
-import TopHomeSlides from "./ui-segments/TopHomeSlides";
-import PostHomeFeature from "./ui-segments/PostHomeFeature";
+import {FirstHorizentalListHomeClient} from "./ui-segments/FirstHorizentalListHomeClient";
+import {RecentlyAddedHomeClient} from "./ui-segments/RecentlyAddedHomeClient";
+import {PostHomeFeature} from "./ui-segments/PostHomeFeature";
+import {BottomHomeSlides} from "./ui-segments/BottomHomeSlides";
 
-export default function Home(props: any){
+export default function Home(){
     return (
         <Box>
-
             <TopHomeSlides />
 
-            <ForSellHomeClient {...props} />
+            <ForSellHomeClient />
 
             <FirstHorizentalListHomeClient />
 
-            <ForRentHomeClient {...props} />
+            <ForRentHomeClient />
 
             <SecondHorizentalListHomeClient />
 
-            <ForFindHomeClient {...props} />
+            <ForFindHomeClient />
 
             <ThirdHorizentalListHomeClient />
 
@@ -34,7 +32,7 @@ export default function Home(props: any){
 
             <PostHomeFeature />
 
-            <BottomHomeSlides {...props}/>
+            <BottomHomeSlides />
         </Box>
     );
 }

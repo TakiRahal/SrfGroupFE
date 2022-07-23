@@ -92,7 +92,8 @@
     "label_update_password": "Update password",
     "label_link_profile_facebook": "Link Profile Facebook",
     "message_update_infos_succefully": "Update infos succefully",
-    "message_update_password_succefully": "Update password succefully"
+    "message_update_password_succefully": "Update password succefully",
+    "message_update_avatar_succefully": "Update avatar succefully"
   },
   "signup": {
     "title-dialog-register": "Register succefully",
@@ -151,7 +152,9 @@
     "label_type_contact_client": "Contact type",
     "direct_type_contact_client": "The customer must contact me directly",
     "per_commande_type_contact_client": "The customer can place an order",
-    "message_update_offer_succefull": "L offre update succefully"
+    "message_update_offer_succefull": "L offre update succefully",
+    "title_min_length": "Min 5 char",
+    "title_max_length": "Max 200 char"
   },
   "news_letter": {
     "added_success": "Thanks for your subscription"
@@ -213,7 +216,8 @@
     "subject_is_required": "Subject is required",
     "message_is_required": "Message is required",
     "recaptcha_is_required": "Recaptcha is required",
-    "label_at_your_service": "At your service"
+    "label_at_your_service": "At your service",
+    "message_add_successfully": "Message sent successfully"
   },
   "favorite": {
     "user":{

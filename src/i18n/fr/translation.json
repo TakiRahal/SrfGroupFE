@@ -91,7 +91,8 @@
     "label_update_password": "Modifier",
     "label_link_profile_facebook": "Lien Profil Facebook",
     "message_update_infos_succefully": "Mettre à jour les infos avec succès",
-    "message_update_password_succefully": "Mettre à jour le mot de passe avec succès"
+    "message_update_password_succefully": "Mettre à jour le mot de passe avec succès",
+    "message_update_avatar_succefully": "Votre photo de profil a été modifié avec succès"
   },
   "signup": {
     "title-dialog-register": "Inscription avec succès",
@@ -150,7 +151,9 @@
     "label_type_contact_client": "Type de contact",
     "direct_type_contact_client": "Le client doit me contacter directement",
     "per_commande_type_contact_client": "Le client peut passer une commande",
-    "message_update_offer_succefull": "L offre a été mise a joure avec succès"
+    "message_update_offer_succefull": "L offre a été mise a joure avec succès",
+    "title_min_length": "Min 5 caractères",
+    "title_max_length": "Max 200 caractères"
   },
   "news_letter": {
     "added_success": "Merci pour votre abonnement"
@@ -213,7 +216,8 @@
     "subject_is_required": "Objet obligatoire",
     "message_is_required": "Message obligatoire",
     "recaptcha_is_required": "Recaptcha obligatoire",
-    "label_at_your_service": "À votre écoute"
+    "label_at_your_service": "À votre écoute",
+    "message_add_successfully": "Votre message a été envoyé avec succèes"
   },
   "favorite": {
     "user":{

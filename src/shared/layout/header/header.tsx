@@ -35,6 +35,10 @@ import {MaterialUISwitch} from "../../pages/material-ui-switch";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {ListItemText} from "@mui/material";
+import {changeLocale} from "../../../main-features/user/store/slice";
+import {useDispatch} from "react-redux";
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const sections = [
     {
@@ -58,6 +62,7 @@ export default function Header(props: any){
     const navigate = useNavigate();
 
     const { t, i18n } = useTranslation();
+    const dispatch = useDispatch();
 
     const { currentUser, isAuthenticated, nbeNotificationsNotSee } = props;
 
@@ -101,7 +106,8 @@ export default function Header(props: any){
         console.log('handleLocaleChange ', locale);
         i18n.changeLanguage(locale);
         handleLAnguagesMenuClose();
-        props.onLocaleChange(locale);
+        dispatch(changeLocale(locale))
+        // props.onLocaleChange(locale);
     };
 
     const handleLAnguagesMenuClose = () => {
@@ -164,7 +170,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <AccountCircle fontSize="small" />
                 </ListItemIcon>
-                {t('header.label_account')}
+                <ListItemText>{t<string>('header.label_account')}</ListItemText>
             </MenuItem>
 
             <MenuItem
@@ -177,7 +183,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <ShoppingCartIcon fontSize="small" />
                 </ListItemIcon>
-                {t('header.label_cart')}
+                <ListItemText>{t<string>('header.label_cart')}</ListItemText>
             </MenuItem>
 
             <MenuItem
@@ -191,7 +197,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <MailIcon fontSize="small" />
                 </ListItemIcon>
-                Chat
+                <ListItemText>Chat</ListItemText>
             </MenuItem>
 
             <MenuItem
@@ -204,7 +210,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <PostAddIcon fontSize="small" />
                 </ListItemIcon>
-                {t('header.label_my_offers')}
+                <ListItemText>{t<string>('header.label_my_offers')}</ListItemText>
             </MenuItem>
 
             <MenuItem
@@ -217,7 +223,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <FavoriteIcon fontSize="small" />
                 </ListItemIcon>
-                {t('header.lable_favorties_users')}
+                <ListItemText>{t<string>('header.lable_favorties_users')}</ListItemText>
             </MenuItem>
 
             <MenuItem
@@ -247,7 +253,7 @@ export default function Header(props: any){
                 <ListItemIcon>
                     <Logout fontSize="small" />
                 </ListItemIcon>
-                {t('header.logout')}
+                <ListItemText>{t<string>('header.logout')}</ListItemText>
             </MenuItem>
         </Menu>
     );
@@ -283,7 +289,7 @@ export default function Header(props: any){
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="transparent">
                 <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#8080801f' }}>
-                    <Tooltip title={t('header.label_add_offer') || ''}>
+                    <Tooltip title={t<string>('header.label_add_offer') || ''}>
                         <Button
                             variant="outlined"
                             color="neutral"
@@ -291,9 +297,9 @@ export default function Header(props: any){
                             sx={{ mr: 1, display: { xs: 'none', sm: 'inline-flex;' } }}
                             startIcon={<AddCircleIcon />}
                             component={Link}
-                            to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
+                            to={ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}
                         >
-                            {t('header.label_add_offer')}
+                            {t<string>('header.label_add_offer')}
                         </Button>
                     </Tooltip>
                     <IconButton
@@ -397,7 +403,7 @@ export default function Header(props: any){
                                 </Link>
                                 <Link to={ALL_APP_ROUTES.REGISTER} style={{textDecoration: 'none'}}>
                                     <Button variant="outlined" size="small" color="neutral" sx={{ ml: 1 }}>
-                                        {t('header.signup')}
+                                        {t<string>('header.signup')}
                                     </Button>
                                 </Link>
                             </div>
@@ -412,7 +418,7 @@ export default function Header(props: any){
                             aria-controls=""
                             aria-haspopup="true"
                             component={Link}
-                            to={ALL_APP_ROUTES.ADD_UPDATE_OFFER}
+                            to={ALL_APP_ROUTES.OFFER.ADD_UPDATE_OFFER}
                         >
                             <AddCircleIcon sx={{ width: 30, height: 30 }} />
                         </IconButton>
@@ -469,7 +475,7 @@ export default function Header(props: any){
                             onClick={handlePopoverOpenSupport}
                             aria-owns={anchorElSupport ? 'simple-menu' : undefined} >
                             <ExpandMoreIcon sx={{ marginRight: 1 }}/>
-                            {t('header.link_support.link_label_support')}
+                            {t<string>('header.link_support.link_label_support')}
                         </Link>
                         <Menu
                             id="simple-menu"
@@ -482,19 +488,19 @@ export default function Header(props: any){
                                 <ListItemIcon>
                                     <MarkunreadIcon fontSize="small" />
                                 </ListItemIcon>
-                                {t('header.link_support.link_contact_us')}
+                                <ListItemText>{t<string>('header.link_support.link_contact_us')}</ListItemText>
                             </MenuItem>
                             <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.ABOUT_US)}>
                                 <ListItemIcon>
                                     <InfoIcon fontSize="small" />
                                 </ListItemIcon>
-                                {t('header.link_support.link_about')}
+                                <ListItemText>{t<string>('header.link_support.link_about')}</ListItemText>
                             </MenuItem>
                             <MenuItem onClick={event => redirectSupport(ALL_APP_ROUTES.SUPPORT.FAQ)}>
                                 <ListItemIcon>
-                                    <AccountCircle fontSize="small" />
+                                    <QuizIcon fontSize="small" />
                                 </ListItemIcon>
-                                {t('header.link_support.link_faq')}
+                                <ListItemText>{t<string>('header.link_support.link_faq')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </div>

@@ -27,8 +27,8 @@ export function loadScriptGoogleAnalytics(): Promise<boolean> {
 export function initGoogleAnalytics(): Promise<any> {
     return new Promise<boolean>((resolve, reject) => {
         try {
-            window.gtag('js', new Date());
-            window.gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID);
+            // window.gtag('js', new Date());
+            // window.gtag('config', AllAppConfig.GOOGLE_ANALYTICS_MEASUREMENT_ID);
             resolve(true);
         }catch (e) {
             reject(e);

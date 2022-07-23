@@ -5,7 +5,7 @@
  *
  * Optionally resize to a smaller maximum width - to improve performance for larger image thumbnails.
  */
-export async function getImageUrl(file: File, maxWidth: number|undefined) {
+export async function getImageUrl(file: File, maxWidth?: number|undefined) {
     return readOrientation(file).then(orientation => applyRotation(file, orientation || 1, maxWidth || 999999));
 }
 

@@ -5,8 +5,8 @@ import {
 } from "react-router-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import initStore from './core/config/store';
-import {Provider} from "react-redux";
+import  {store} from './core/config/store';
+import { Provider } from 'react-redux';
 import setupAxiosInterceptors from "./core/config/axios-interceptor";
 import {bindActionCreators} from "redux";
 import {clearAuthentication} from "./shared/reducers/user-reducer";
@@ -17,13 +17,13 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import "swiper/css/navigation";
 import './index.css';
-import App from "./App";
+import {App} from "./App";
 
 
 // Store initialize
-const store = initStore;
-const actions = bindActionCreators({ clearAuthentication}, store.dispatch);
-setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
+// const store = initStore;
+// const actions = bindActionCreators({ clearAuthentication}, store.dispatch);
+setupAxiosInterceptors(() => console.log);
 
 const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(container) ;
